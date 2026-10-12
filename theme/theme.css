@@ -1,0 +1,141 @@
+/*
+ * Theme — the ONLY place raw color values may be written.
+ * Components must reference these via Tailwind tokens (bg-primary, text-secondary, ...)
+ * or CSS variables (var(--gradient-hero)).
+ */
+
+:root {
+  /* Surfaces */
+  --background: #ffffff;
+  --surface: #ffffff;
+  --surface-muted: #f8fafc;
+  --surface-subtle: #f1f5f9;
+  --border: #e2e8f0;
+  --border-subtle: #f1f5f9;
+
+  /* Text */
+  --foreground: #111827;
+  --muted: #4b5563;
+  --muted-light: #6b7280;
+  --on-dark: #ffffff;
+  --on-primary: #ffffff;
+
+  /* Brand — FedEx-inspired royal purple & courier trust */
+  --primary: #4d148c;
+  --primary-dark: #370a66;
+  --primary-light: #6a22b8;
+  --primary-soft: #f3ebfc;
+
+  /* Brand — deep midnight violet navigation / dark accents */
+  --secondary: #1e1b2e;
+  --secondary-dark: #12101c;
+  --secondary-light: #2e2a42;
+
+  /* Highlight — energetic courier accent */
+  --accent: #ff6200;
+  --accent-light: #ff8533;
+
+  /* Authorized Carriers */
+  --carrier-fedex: #4d148c;
+  --carrier-fedex-light: #f3ebfc;
+  --carrier-ups: #351c15;
+  --carrier-ups-gold: #ffb500;
+  --carrier-ups-light: #fff8e1;
+  --carrier-dhl: #d40511;
+  --carrier-dhl-yellow: #ffcc00;
+  --carrier-dhl-light: #fffde7;
+  --carrier-usps: #333366;
+  --carrier-usps-light: #e8eaf6;
+
+  /* Reference 2 Solutions badge colors */
+  --badge-orange: #ea580c;
+  --badge-orange-light: #ffedd5;
+  --badge-teal: #00828f;
+  --badge-teal-light: #e0f2f1;
+  --badge-green: #15803d;
+  --badge-green-light: #dcfce7;
+  --badge-cyan: #0284c7;
+  --badge-cyan-light: #e0f2fe;
+
+  /* States / third-party */
+  --success: #19a974;
+  --whatsapp: #25d366;
+
+  /* Gradients */
+  --gradient-hero: linear-gradient(
+    180deg,
+    #ffffff 0%,
+    #f8fafc 100%
+  );
+  --gradient-brand: linear-gradient(
+    135deg,
+    var(--primary-light) 0%,
+    var(--primary) 55%,
+    var(--primary-dark) 100%
+  );
+  --gradient-text: linear-gradient(
+    90deg,
+    var(--primary),
+    var(--accent)
+  );
+  --gradient-dark-fade: linear-gradient(
+    90deg,
+    var(--secondary-dark) 0%,
+    transparent 100%
+  );
+
+  /* Shadows */
+  --shadow-card: 0 4px 20px -4px rgba(17, 24, 39, 0.08);
+  --shadow-card-hover: 0 12px 32px -8px rgba(17, 24, 39, 0.14);
+  --shadow-glow: 0 0 0 4px rgba(77, 20, 140, 0.15);
+  --shadow-float: 0 16px 36px -10px rgba(17, 24, 39, 0.16);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
+  --color-surface-subtle: var(--surface-subtle);
+  --color-border: var(--border);
+  --color-border-subtle: var(--border-subtle);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-muted-light: var(--muted-light);
+  --color-on-dark: var(--on-dark);
+  --color-on-primary: var(--on-primary);
+  --color-primary: var(--primary);
+  --color-primary-dark: var(--primary-dark);
+  --color-primary-light: var(--primary-light);
+  --color-primary-soft: var(--primary-soft);
+  --color-secondary: var(--secondary);
+  --color-secondary-dark: var(--secondary-dark);
+  --color-secondary-light: var(--secondary-light);
+  --color-accent: var(--accent);
+  --color-accent-light: var(--accent-light);
+  --color-success: var(--success);
+  --color-whatsapp: var(--whatsapp);
+
+  --color-carrier-fedex: var(--carrier-fedex);
+  --color-carrier-fedex-light: var(--carrier-fedex-light);
+  --color-carrier-ups: var(--carrier-ups);
+  --color-carrier-ups-gold: var(--carrier-ups-gold);
+  --color-carrier-ups-light: var(--carrier-ups-light);
+  --color-carrier-dhl: var(--carrier-dhl);
+  --color-carrier-dhl-yellow: var(--carrier-dhl-yellow);
+  --color-carrier-dhl-light: var(--carrier-dhl-light);
+  --color-carrier-usps: var(--carrier-usps);
+  --color-carrier-usps-light: var(--carrier-usps-light);
+
+  --color-badge-orange: var(--badge-orange);
+  --color-badge-orange-light: var(--badge-orange-light);
+  --color-badge-teal: var(--badge-teal);
+  --color-badge-teal-light: var(--badge-teal-light);
+  --color-badge-green: var(--badge-green);
+  --color-badge-green-light: var(--badge-green-light);
+  --color-badge-cyan: var(--badge-cyan);
+  --color-badge-cyan-light: var(--badge-cyan-light);
+
+  --font-sans: var(--font-geist-sans);
+  --font-display: var(--font-outfit);
+  --font-mono: var(--font-geist-mono);
+}

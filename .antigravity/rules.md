@@ -1,0 +1,8 @@
+- Next.js 15 App Router
+- TypeScript only
+- Tailwind CSS
+- Server Components by default
+- Client Components only when needed
+- Sanity CMS for content
+- Use async server actions
+- Use absolute imports (@/)

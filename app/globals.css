@@ -1,0 +1,223 @@
+@import "tailwindcss";
+@import "../theme/theme.css";
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+.container {
+  @apply px-4 lg:px-36 mx-auto;
+}
+
+/* Hero entrance animations (CSS-only, no JS hydration required) */
+@keyframes hero-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes hero-image-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.hero-stagger .hero-animate-item {
+  animation: hero-fade-up 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.hero-stagger .hero-animate-item:nth-child(1) {
+  animation-delay: 0.05s;
+}
+
+.hero-stagger .hero-animate-item:nth-child(2) {
+  animation-delay: 0.17s;
+}
+
+.hero-stagger .hero-animate-item:nth-child(3) {
+  animation-delay: 0.29s;
+}
+
+.hero-stagger .hero-animate-item:nth-child(4) {
+  animation-delay: 0.41s;
+}
+
+.hero-image-animate {
+  animation: hero-image-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.about-hero-stagger .about-hero-animate-item {
+  animation: hero-fade-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.about-hero-stagger .about-hero-animate-item:nth-child(1) {
+  animation-delay: 0.08s;
+}
+
+.about-hero-stagger .about-hero-animate-item:nth-child(2) {
+  animation-delay: 0.16s;
+}
+
+.about-hero-stagger .about-hero-animate-item:nth-child(3) {
+  animation-delay: 0.24s;
+}
+
+/* Lightweight scroll reveal (replaces framer-motion on homepage sections) */
+.reveal-css {
+  opacity: 0;
+  transition:
+    opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.reveal-css-up {
+  transform: translateY(28px);
+}
+
+.reveal-css-down {
+  transform: translateY(-28px);
+}
+
+.reveal-css-left {
+  transform: translateX(28px);
+}
+
+.reveal-css-right {
+  transform: translateX(-28px);
+}
+
+.reveal-css-none {
+  transform: none;
+}
+
+.reveal-css.reveal-css-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---------- Parcel & Office home animations (CSS-only) ---------- */
+@keyframes float-y {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-14px); }
+}
+
+@keyframes float-y-slow {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(10px) rotate(2deg); }
+}
+
+@keyframes marquee-x {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes pulse-ring {
+  0% { transform: scale(0.8); opacity: 0.7; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+
+@keyframes route-dash {
+  to { stroke-dashoffset: -40; }
+}
+
+@keyframes shine-sweep {
+  0% { transform: translateX(-120%) skewX(-20deg); }
+  100% { transform: translateX(260%) skewX(-20deg); }
+}
+
+@keyframes blob-drift {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(30px, -24px) scale(1.12); }
+}
+
+.animate-float-y { animation: float-y 6s ease-in-out infinite; }
+.animate-float-y-slow { animation: float-y-slow 8s ease-in-out infinite; }
+.animate-marquee { animation: marquee-x 28s linear infinite; }
+.animate-pulse-ring { animation: pulse-ring 2s ease-out infinite; }
+.animate-route-dash { animation: route-dash 1.4s linear infinite; }
+.animate-blob { animation: blob-drift 14s ease-in-out infinite; }
+
+.marquee-track:hover .animate-marquee { animation-play-state: paused; }
+
+.text-gradient {
+  background: var(--gradient-text);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.bg-gradient-hero { background: var(--gradient-hero); }
+.bg-gradient-brand { background: var(--gradient-brand); }
+
+.btn-shine { position: relative; overflow: hidden; }
+.btn-shine::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: 40%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in srgb, var(--on-dark) 35%, transparent),
+    transparent
+  );
+  transform: translateX(-120%) skewX(-20deg);
+}
+.btn-shine:hover::after { animation: shine-sweep 0.9s ease; }
+
+.hero-image-mask {
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, var(--secondary-dark) 28%);
+  mask-image: linear-gradient(to right, transparent 0%, var(--secondary-dark) 28%);
+}
+
+.section-anchor { scroll-margin-top: 7rem; }
+
+@media (max-width: 1023px) {
+  .hero-image-mask {
+    -webkit-mask-image: linear-gradient(to top, transparent 0%, var(--secondary-dark) 30%);
+    mask-image: linear-gradient(to top, transparent 0%, var(--secondary-dark) 30%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-stagger .hero-animate-item,
+  .hero-image-animate,
+  .about-hero-stagger .about-hero-animate-item {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+
+  .reveal-css {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .animate-float-y,
+  .animate-float-y-slow,
+  .animate-marquee,
+  .animate-pulse-ring,
+  .animate-route-dash,
+  .animate-blob {
+    animation: none;
+  }
+
+  html { scroll-behavior: auto; }
+}
