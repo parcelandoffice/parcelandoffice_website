@@ -8,6 +8,8 @@ import Link from "next/link";
 export type HeroSlide = {
   image: string;
   badge?: string;
+  title?: string;
+  subtitle?: string;
   ctaLabel?: string;
   ctaUrl?: string;
 };
@@ -16,21 +18,32 @@ const HERO_SLIDES: HeroSlide[] = [
   {
     image: "/images/slider2.jpg",
     badge: "UPS Authorized Shipping Outlet",
-    ctaLabel: "Explore UPS Services",
+    title: "Get 3 Months Free* Mailboxes",
+    subtitle: "Choose secure mail and package deliveries at your neighborhood The UPS Store® location. Get started today.",
+    ctaLabel: "GET OFFER*",
     ctaUrl: "/#services",
   },
   {
     image: "/images/slider3.jpg",
-    badge: "DHL Express International Courier"
+    badge: "DHL Express International Courier",
+    title: "Fast International Shipping",
+    subtitle: "Reliable worldwide express courier and document delivery across 220+ countries and territories.",
+    ctaLabel: "SHIP WORLDWIDE",
+    ctaUrl: "/#services",
   },
   {
     image: "/images/slider4.jpg",
   },
   {
     image: "/images/slider5.jpg",
+    badge: "Professional Printing & Copying",
+    title: "Print & Marketing Materials",
+    subtitle: "High-resolution color printing, flyers, brochures, and custom business stationery.",
+    ctaLabel: "EXPLORE SERVICES",
+    ctaUrl: "/#services",
   },
   {
-    image: "/images/slider6.jpg"
+    image: "/images/slider6.jpg",
   },
 ];
 
@@ -77,7 +90,7 @@ export default function ParcelHero() {
                 {/* Background Image */}
                 <Image
                   src={slide.image}
-                  alt={slide.badge || `Slide ${index + 1}`}
+                  alt={slide.title || slide.badge || `Slide ${index + 1}`}
                   fill
                   priority={index === 0}
                   sizes="(min-width: 1280px) 1200px, 100vw"
@@ -94,16 +107,35 @@ export default function ParcelHero() {
                   </div>
                 )}
 
-                {/* Bottom Left: Optional CTA */}
-                {slide.ctaLabel && slide.ctaUrl && (
-                  <div className="absolute bottom-6 left-6 sm:bottom-10 sm:left-10 z-10">
-                    <Link
-                      href={slide.ctaUrl}
-                      className="inline-flex items-center gap-2 bg-primary px-6 py-3.5 sm:px-8 sm:py-4 text-xs sm:text-sm font-bold text-on-primary transition-all duration-200 hover:bg-primary-dark shadow-[var(--shadow-card)]"
-                    >
-                      <span>{slide.ctaLabel}</span>
-                      <ArrowRight className="h-4 w-4" aria-hidden="true" />
-                    </Link>
+                {/* Bottom Left: Title, Subtitle & CTA Overlay Card (Optional, preserves >80% image visibility) */}
+                {/* Bottom Left: Title, Subtitle & CTA Overlay Card (Themed, preserves >80% image visibility) */}
+                {(slide.title || slide.subtitle || (slide.ctaLabel && slide.ctaUrl)) && (
+                  <div className="absolute bottom-6 left-5 sm:bottom-8 sm:left-8 lg:bottom-10 lg:left-10 z-10 max-w-[85%] sm:max-w-md lg:max-w-[440px] pointer-events-auto">
+                    <div className="rounded-2xl border border-border/80 border-l-4 border-l-accent bg-surface/95 backdrop-blur-md p-5 sm:p-6 lg:p-7 shadow-[var(--shadow-card-hover)]">
+                      {slide.title && (
+                        <h2 className="font-display text-xl sm:text-2xl lg:text-[28px] font-extrabold text-primary-dark tracking-tight leading-tight">
+                          {slide.title}
+                        </h2>
+                      )}
+
+                      {slide.subtitle && (
+                        <p className="mt-2.5 text-xs sm:text-sm text-muted font-medium leading-relaxed">
+                          {slide.subtitle}
+                        </p>
+                      )}
+
+                      {slide.ctaLabel && slide.ctaUrl && (
+                        <div className="mt-4 sm:mt-5">
+                          <Link
+                            href={slide.ctaUrl}
+                            className="group inline-flex items-center gap-2 rounded-full bg-primary px-6 py-2.5 sm:px-7 sm:py-3 text-xs sm:text-sm font-bold uppercase tracking-wider text-white shadow-xs transition-all duration-200 hover:bg-accent hover:text-primary-dark hover:shadow-md"
+                          >
+                            <span>{slide.ctaLabel}</span>
+                            <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden="true" />
+                          </Link>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 )}
               </div>
@@ -123,10 +155,11 @@ export default function ParcelHero() {
                 aria-selected={index === activeSlide}
                 aria-label={`Slide ${index + 1}`}
                 onClick={() => setActiveSlide(index)}
-                className={`transition-all duration-300 rounded-full ${index === activeSlide
-                  ? "w-8 h-2.5 bg-primary ring-2 ring-surface shadow-md"
-                  : "w-2.5 h-2.5 bg-surface/90 hover:bg-surface ring-1 ring-foreground/20 shadow-xs"
-                  }`}
+                className={`transition-all duration-300 rounded-full ${
+                  index === activeSlide
+                    ? "w-8 h-2.5 bg-accent ring-2 ring-surface shadow-md"
+                    : "w-2.5 h-2.5 bg-surface/90 hover:bg-surface ring-1 ring-foreground/20 shadow-xs"
+                }`}
               />
             ))}
           </div>

@@ -1,8 +1,7 @@
-import { Clock, Mail, MapPin, Phone, Printer } from "lucide-react";
+import { Mail, MapPin, Phone, Printer } from "lucide-react";
 import Link from "next/link";
 import { Logo } from "@components/common/logo";
 import FooterQuickLinks from "@components/navigation/footer-quick-links";
-import StoreHours from "@components/common/store-hours";
 import { BUSINESS, SITE_NAME } from "@/lib/site-data";
 
 export default function Footer() {
@@ -73,10 +72,22 @@ export default function Footer() {
 
           <div>
             <h2 className="flex items-center gap-2 text-sm font-bold tracking-widest text-accent uppercase">
-              <Clock className="h-4 w-4" aria-hidden="true" />
-              Store Hours
+              <MapPin className="h-4 w-4" aria-hidden="true" />
+              Store Location
             </h2>
-            <StoreHours variant="dark" className="mt-5" />
+            <div className="mt-5 overflow-hidden rounded-xl border border-on-dark/15 shadow-sm">
+              <iframe
+                title="Parcel & Office Solutions Google Map"
+                src="https://maps.google.com/maps?q=8777+Piney+Orchard+Pkwy+Ste+B,+Odenton,+MD+21113&t=&z=15&ie=UTF8&iwloc=&output=embed"
+                width="100%"
+                height="180"
+                style={{ border: 0 }}
+                allowFullScreen={false}
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                className="w-full h-44 rounded-xl"
+              />
+            </div>
           </div>
         </div>
 
