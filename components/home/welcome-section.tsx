@@ -60,17 +60,17 @@ export default function WelcomeSection() {
 
       <RevealCss direction="left">
         <ul className="grid grid-cols-2 gap-4 sm:gap-5">
-          {HOME_STATS.map((stat, index) => (
+          {HOME_STATS.map((stat) => (
             <li
               key={stat.label}
-              className="relative overflow-hidden rounded-2xl border border-border bg-surface p-6 shadow-[var(--shadow-card)] transition-all duration-200 hover:border-primary/40 hover:shadow-[var(--shadow-card-hover)] sm:p-8"
+              className="group relative overflow-hidden rounded-2xl border border-border bg-surface p-6 shadow-[var(--shadow-card)] transition-all duration-200 hover:border-accent/40 hover:shadow-[var(--shadow-card-hover)] sm:p-8"
             >
-              <span className="block h-1 w-10 rounded-full bg-primary mb-4" />
+              <span className="block h-1 w-10 rounded-full bg-primary mb-4 transition-colors duration-200 group-hover:bg-accent" />
               <AnimatedCounter
                 end={stat.value}
                 suffix={stat.suffix}
                 duration={1400}
-                className="font-display text-4xl font-extrabold text-foreground sm:text-5xl"
+                className="font-display text-4xl font-extrabold text-foreground sm:text-5xl transition-colors duration-200 group-hover:text-accent"
               />
               <p className="mt-2 text-sm leading-snug text-muted">
                 {stat.label}

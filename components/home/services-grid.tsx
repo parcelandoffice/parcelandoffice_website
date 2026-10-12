@@ -51,10 +51,10 @@ export default function ServicesGrid() {
               >
                 <Link
                   href={getServiceHref(service.slug)}
-                  className="group relative flex h-full flex-col items-center justify-between overflow-hidden rounded-2xl border border-border bg-surface p-5 text-center shadow-[var(--shadow-card)] transition-all duration-200 hover:border-primary/50 hover:shadow-[var(--shadow-card-hover)]"
+                  className="group relative flex h-full flex-col items-center justify-between overflow-hidden rounded-2xl border border-border bg-surface p-5 text-center shadow-[var(--shadow-card)] transition-all duration-200 hover:border-accent/50 hover:shadow-[var(--shadow-card-hover)]"
                 >
                   {/* Circular Icon Container */}
-                  <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary-soft text-primary transition-colors duration-200 group-hover:bg-primary group-hover:text-on-primary sm:h-18 sm:w-18">
+                  <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary-soft text-primary transition-colors duration-200 group-hover:bg-accent group-hover:text-white sm:h-18 sm:w-18">
                     <Icon
                       className="h-7 w-7 transition-transform duration-200 group-hover:scale-105 sm:h-8 sm:w-8"
                       strokeWidth={1.75}
@@ -74,7 +74,7 @@ export default function ServicesGrid() {
 
                   {/* Arrow Indicator */}
                   <div className="mt-3 flex items-center justify-center">
-                    <span className="flex h-6 w-6 items-center justify-center rounded-full bg-surface-muted text-muted transition-colors duration-200 group-hover:bg-primary group-hover:text-on-primary">
+                    <span className="flex h-6 w-6 items-center justify-center rounded-full bg-surface-muted text-muted transition-colors duration-200 group-hover:bg-accent group-hover:text-white">
                       <ArrowUpRight
                         className="h-3 w-3"
                         aria-hidden="true"

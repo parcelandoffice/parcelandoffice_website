@@ -3,6 +3,7 @@
 import { ArrowRight, Search } from "lucide-react";
 import { useId, useState, type FormEvent } from "react";
 import { TRACKING_CARRIERS } from "@/lib/site-data";
+import { CarrierLogo } from "@components/common/carrier-logos";
 
 type Carrier = (typeof TRACKING_CARRIERS)[number]["id"];
 
@@ -38,10 +39,11 @@ export default function TrackingForm({
 
   return (
     <form onSubmit={onSubmit} noValidate>
+      {/* Carrier Selection with Authentic Logos and Theme Primary & Highlight colors */}
       <div
         role="radiogroup"
         aria-label="Select carrier"
-        className="flex flex-wrap gap-2"
+        className="flex flex-wrap gap-2.5"
       >
         {TRACKING_CARRIERS.map((item) => {
           const active = item.id === carrier;
@@ -52,20 +54,26 @@ export default function TrackingForm({
               role="radio"
               aria-checked={active}
               onClick={() => setCarrier(item.id)}
-              className={`rounded-full border px-4 py-1.5 text-xs font-bold tracking-wide transition-all duration-200 ${
+              className={`group inline-flex items-center gap-2 rounded-xl border px-3.5 py-2 text-xs font-extrabold tracking-wide transition-all duration-200 cursor-pointer ${
                 active
-                  ? "border-primary bg-primary text-on-primary shadow-xs"
-                  : "border-border bg-surface text-muted hover:border-primary hover:text-primary"
+                  ? "border-primary bg-primary text-white shadow-sm ring-2 ring-accent"
+                  : "border-border bg-surface text-foreground hover:border-primary/50 hover:bg-surface-muted hover:text-primary"
               }`}
             >
-              {item.label}
+              <div className="flex h-5 items-center justify-center rounded bg-white px-1.5 shadow-2xs">
+                <CarrierLogo carrier={item.id} className="h-3.5 max-w-[48px] w-auto object-contain" />
+              </div>
+              <span>{item.label}</span>
+              {active && (
+                <span className="h-1.5 w-1.5 rounded-full bg-accent" aria-hidden="true" />
+              )}
             </button>
           );
         })}
       </div>
 
       <div
-        className="mt-3 flex flex-col gap-2 rounded-2xl border border-border bg-surface p-1.5 shadow-[var(--shadow-card)] focus-within:border-primary sm:flex-row"
+        className="mt-3.5 flex flex-col gap-2 rounded-2xl border border-border bg-surface p-1.5 shadow-[var(--shadow-card)] focus-within:border-accent focus-within:ring-2 focus-within:ring-accent/25 sm:flex-row transition-all"
       >
         <label htmlFor={inputId} className="sr-only">
           Tracking number
@@ -87,10 +95,10 @@ export default function TrackingForm({
         </div>
         <button
           type="submit"
-          className="inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-primary px-7 text-sm font-bold text-on-primary transition-all duration-200 hover:bg-primary-dark active:scale-95 shadow-xs"
+          className="inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-accent hover:bg-accent-dark px-7 text-sm font-extrabold text-primary-dark transition-all duration-200 hover:shadow-md active:scale-95 shadow-xs shadow-accent/25 cursor-pointer"
         >
-          Track Package
-          <ArrowRight className="h-4 w-4" aria-hidden="true" />
+          <span>Track Package</span>
+          <ArrowRight className="h-4 w-4 text-primary-dark" aria-hidden="true" />
         </button>
       </div>
 

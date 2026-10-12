@@ -1,10 +1,16 @@
 import {
   BookOpen,
   Briefcase,
+  Building2,
   Camera,
+  Code,
   Copy,
-  Fingerprint,
+  CreditCard,
   FileText,
+  Fingerprint,
+  Gift,
+  Globe,
+  Heart,
   Inbox,
   Lightbulb,
   Mail,
@@ -14,8 +20,11 @@ import {
   Printer,
   ScanLine,
   Scissors,
+  Share2,
   ShoppingBag,
   Stamp,
+  Target,
+  TrendingUp,
   Truck,
   type LucideIcon,
 } from "lucide-react";
@@ -127,6 +136,73 @@ export const PRODUCT_MENU: { title: string; links: { label: string; href: string
   },
 ];
 
+export type ServiceMenuItem = {
+  label: string;
+  href: string;
+  slug: string;
+  icon: LucideIcon;
+};
+
+export type ServiceMenuCategory = {
+  title: string;
+  items: ServiceMenuItem[];
+};
+
+/** Categorized services matching the menu specification */
+export const SERVICES_MENU_CATEGORIES: ServiceMenuCategory[] = [
+  {
+    title: "Shipping & Mailing",
+    items: [
+      { label: "DHL Shipping", href: "/#services", slug: "dhl-shipping", icon: Package },
+      { label: "FedEx Shipping", href: "/#services", slug: "fedex-shipping", icon: Plane },
+      { label: "UPS Shipping", href: "/#services", slug: "ups-shipping", icon: Truck },
+      { label: "US Postal Service", href: "/#services", slug: "us-postal-service", icon: Mail },
+    ],
+  },
+  {
+    title: "Packing",
+    items: [
+      { label: "Professional Packing", href: "/#services", slug: "professional-packing", icon: PackageOpen },
+      { label: "Packaging Supplies", href: "/#services", slug: "packaging-supplies", icon: ShoppingBag },
+    ],
+  },
+  {
+    title: "Printing & Document Services",
+    items: [
+      { label: "Print & Document Services", href: "/#services", slug: "print-document-services", icon: Printer },
+      { label: "Business Cards", href: "/#services", slug: "business-cards", icon: CreditCard },
+      { label: "Copying Services", href: "/#services", slug: "copying-services", icon: Copy },
+      { label: "Flyers & Brochures", href: "/#services", slug: "flyers-brochures", icon: FileText },
+      { label: "Document Scanning", href: "/#services", slug: "document-scanning", icon: ScanLine },
+      { label: "Document Shredding", href: "/#services", slug: "document-shredding", icon: Scissors },
+      { label: "Fax Services", href: "/#services", slug: "fax-services", icon: FileText },
+    ],
+  },
+  {
+    title: "Business & Personal Services",
+    items: [
+      { label: "Digital Fingerprinting", href: "/#services", slug: "digital-fingerprinting", icon: Fingerprint },
+      { label: "Notary Public", href: "/#services", slug: "notary-public", icon: Stamp },
+      { label: "Passport Photos", href: "/#services", slug: "passport-photos", icon: Camera },
+      { label: "Gift Wrapping", href: "/#services", slug: "gift-wrapping", icon: Gift },
+      { label: "Greeting Cards", href: "/#services", slug: "greeting-cards", icon: Heart },
+    ],
+  },
+];
+
+export const DIGITAL_MARKETING_MENU = [
+  { label: "Social Media Marketing", href: "/digital-marketing#social-media", icon: Share2, description: "Boost brand presence & audience engagement" },
+  { label: "Lead Generation", href: "/digital-marketing#lead-gen", icon: Target, description: "Capture verified leads and customer inquiries" },
+  { label: "Google Ads & PPC", href: "/digital-marketing#google-ads", icon: TrendingUp, description: "High-ROI targeted search & display campaigns" },
+  { label: "SEO, AEO & GEO", href: "/digital-marketing#seo", icon: Globe, description: "Search, Answer & Generative Engine Optimization" },
+  { label: "Web Development", href: "/digital-marketing#web-dev", icon: Code, description: "Custom, responsive & high-converting websites" },
+];
+
+export const ABOUT_US_MENU = [
+  { label: "About Us", href: "/about-us", icon: Building2, description: "Our story, mission & trusted team in Odenton, MD" },
+  { label: "Our Blogs", href: "/blog", icon: BookOpen, description: "Shipping guides, office tips & small business insights" },
+];
+
 /**
  * Top navigation. The Blogs/Insights link is intentionally hidden for now —
  * flip `hidden` to false to bring it back (header + footer both read this list).
@@ -162,6 +238,7 @@ export const NEXT_PICKUPS: CarrierPickup[] = [
     ],
   },
   { carrier: "USPS", slots: [{ label: "Postal", time: "4:00 PM" }] },
+  { carrier: "Delhivery", slots: [{ label: "Ground", time: "4:30 PM" }] },
 ];
 
 export const TRACKING_CARRIERS = [
@@ -169,6 +246,7 @@ export const TRACKING_CARRIERS = [
   { id: "ups", label: "UPS", url: "https://www.ups.com/track?tracknum=" },
   { id: "dhl", label: "DHL", url: "https://www.dhl.com/us-en/home/tracking/tracking-express.html?submit=1&tracking-id=" },
   { id: "usps", label: "USPS", url: "https://tools.usps.com/go/TrackConfirmAction?tLabels=" },
+  { id: "delhivery", label: "Delhivery", url: "https://www.delhivery.com/tracking" },
 ] as const;
 
 export const HOME_STATS = [

@@ -5,35 +5,41 @@
  */
 
 :root {
-  /* Surfaces */
+  /* Surfaces — Pure White & Cool Light Neutrals */
   --background: #ffffff;
   --surface: #ffffff;
-  --surface-muted: #f8fafc;
-  --surface-subtle: #f1f5f9;
-  --border: #e2e8f0;
-  --border-subtle: #f1f5f9;
+  --surface-muted: #f4f7fb;
+  --surface-subtle: #e9eff6;
+  --border: #dbe4ee;
+  --border-subtle: #edf2f7;
 
-  /* Text */
-  --foreground: #111827;
-  --muted: #4b5563;
-  --muted-light: #6b7280;
+  /* Text — Deep High-Contrast Navy/Slate */
+  --foreground: #0b192c;
+  --muted: #475569;
+  --muted-light: #64748b;
   --on-dark: #ffffff;
   --on-primary: #ffffff;
 
-  /* Brand — FedEx-inspired royal purple & courier trust */
-  --primary: #4d148c;
-  --primary-dark: #370a66;
-  --primary-light: #6a22b8;
-  --primary-soft: #f3ebfc;
+  /* Primary Brand — Deep Authoritative Navy Blue */
+  --primary: #0f2d59;
+  --primary-dark: #081a33;
+  --primary-light: #1b4582;
+  --primary-soft: #eaf1fa;
 
-  /* Brand — deep midnight violet navigation / dark accents */
-  --secondary: #1e1b2e;
-  --secondary-dark: #12101c;
-  --secondary-light: #2e2a42;
+  /* Secondary — Midnight Dark Navy for footers & contrast containers */
+  --secondary: #0a1f3d;
+  --secondary-dark: #061326;
+  --secondary-light: #153866;
 
-  /* Highlight — energetic courier accent */
-  --accent: #ff6200;
-  --accent-light: #ff8533;
+  /* Eye-Catchy Highlight / Accent — Vibrant Amber Gold for high visual attraction */
+  --accent: #ff8c00;
+  --accent-light: #ffa733;
+  --accent-soft: #fff4e5;
+  --accent-dark: #e67600;
+
+  /* Highlight Aliases */
+  --highlight: #ff8c00;
+  --highlight-soft: #fff4e5;
 
   /* Authorized Carriers */
   --carrier-fedex: #4d148c;
@@ -44,10 +50,10 @@
   --carrier-dhl: #d40511;
   --carrier-dhl-yellow: #ffcc00;
   --carrier-dhl-light: #fffde7;
-  --carrier-usps: #333366;
+  --carrier-usps: #002b66;
   --carrier-usps-light: #e8eaf6;
 
-  /* Reference 2 Solutions badge colors */
+  /* Solutions badge colors */
   --badge-orange: #ea580c;
   --badge-orange-light: #ffedd5;
   --badge-teal: #00828f;
@@ -58,14 +64,14 @@
   --badge-cyan-light: #e0f2fe;
 
   /* States / third-party */
-  --success: #19a974;
+  --success: #10b981;
   --whatsapp: #25d366;
 
   /* Gradients */
   --gradient-hero: linear-gradient(
     180deg,
     #ffffff 0%,
-    #f8fafc 100%
+    #f4f7fb 100%
   );
   --gradient-brand: linear-gradient(
     135deg,
@@ -85,10 +91,10 @@
   );
 
   /* Shadows */
-  --shadow-card: 0 4px 20px -4px rgba(17, 24, 39, 0.08);
-  --shadow-card-hover: 0 12px 32px -8px rgba(17, 24, 39, 0.14);
-  --shadow-glow: 0 0 0 4px rgba(77, 20, 140, 0.15);
-  --shadow-float: 0 16px 36px -10px rgba(17, 24, 39, 0.16);
+  --shadow-card: 0 4px 20px -4px rgba(15, 45, 89, 0.08);
+  --shadow-card-hover: 0 12px 32px -8px rgba(15, 45, 89, 0.16);
+  --shadow-glow: 0 0 0 4px rgba(255, 140, 0, 0.25);
+  --shadow-float: 0 16px 36px -10px rgba(15, 45, 89, 0.18);
 }
 
 @theme inline {
@@ -112,6 +118,10 @@
   --color-secondary-light: var(--secondary-light);
   --color-accent: var(--accent);
   --color-accent-light: var(--accent-light);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-dark: var(--accent-dark);
+  --color-highlight: var(--highlight);
+  --color-highlight-soft: var(--highlight-soft);
   --color-success: var(--success);
   --color-whatsapp: var(--whatsapp);
 

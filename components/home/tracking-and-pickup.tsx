@@ -11,6 +11,7 @@ import {
 import Link from "next/link";
 import TrackingForm from "@components/common/tracking-form";
 import { NEXT_PICKUPS, TRACKING_CARRIERS } from "@/lib/site-data";
+import { CarrierLogo } from "@components/common/carrier-logos";
 
 export default function TrackingAndPickup() {
   return (
@@ -22,12 +23,13 @@ export default function TrackingAndPickup() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="mb-8">
-          <span className="text-xs font-bold uppercase tracking-widest text-primary">
+          <span className="inline-flex items-center gap-1.5 text-xs font-black uppercase tracking-widest text-accent">
+            <span className="h-1.5 w-1.5 rounded-full bg-accent" />
             Carrier Operations &amp; Logistics
           </span>
           <h2
             id="tracking-and-pickup-heading"
-            className="font-display mt-1 text-2xl font-black uppercase tracking-tight text-foreground sm:text-3xl"
+            className="font-display mt-1 text-2xl font-black uppercase tracking-tight text-primary-dark sm:text-3xl"
           >
             Live Tracking &amp; Daily Pick-Up Cutoffs
           </h2>
@@ -44,11 +46,11 @@ export default function TrackingAndPickup() {
               {/* Header */}
               <div className="flex items-center justify-between border-b border-border pb-4">
                 <div className="flex items-center gap-2.5">
-                  <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary-soft text-primary">
+                  <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary-soft text-primary shadow-2xs">
                     <PackageCheck className="h-5 w-5" aria-hidden="true" />
                   </span>
                   <div>
-                    <h3 className="font-display text-base font-extrabold text-foreground">
+                    <h3 className="font-display text-base font-extrabold text-primary-dark">
                       Live Multi-Carrier Tracking
                     </h3>
                     <p className="text-xs text-muted">
@@ -57,7 +59,7 @@ export default function TrackingAndPickup() {
                   </div>
                 </div>
 
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-success/10 px-3 py-1 text-xs font-bold text-success">
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-success/10 px-3 py-1 text-xs font-bold text-success border border-success/20">
                   <span className="h-2 w-2 rounded-full bg-success animate-pulse" />
                   Live Gateway
                 </span>
@@ -74,21 +76,22 @@ export default function TrackingAndPickup() {
               </div>
             </div>
 
-            {/* Carrier Direct Quick Links */}
+            {/* Carrier Direct Quick Links with Authentic Logos */}
             <div className="mt-8 border-t border-border pt-4">
               <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-muted">
-                <span className="font-semibold text-foreground">Official Carrier Portals:</span>
-                <div className="flex flex-wrap items-center gap-3">
+                <span className="font-bold text-foreground">Official Carrier Portals:</span>
+                <div className="flex flex-wrap items-center gap-2">
                   {TRACKING_CARRIERS.map((c) => (
                     <a
                       key={c.id}
                       href={c.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 font-bold text-primary hover:underline"
+                      className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-surface px-2.5 py-1 text-xs font-bold text-primary transition-all duration-200 hover:border-accent hover:bg-accent-soft hover:text-accent-dark shadow-2xs"
                     >
-                      {c.label}
-                      <ExternalLink className="h-3 w-3" aria-hidden="true" />
+                      <CarrierLogo carrier={c.id} className="h-3.5 max-w-[42px] w-auto object-contain" />
+                      <span>{c.label}</span>
+                      <ExternalLink className="h-3 w-3 text-muted-light" aria-hidden="true" />
                     </a>
                   ))}
                 </div>
@@ -99,14 +102,14 @@ export default function TrackingAndPickup() {
           {/* Right Column: Today's Pick-Up Cutoffs Board (5 cols) */}
           <div className="flex flex-col justify-between rounded-2xl border border-border bg-surface p-6 sm:p-8 shadow-[var(--shadow-card)] lg:col-span-5">
             <div>
-              {/* Header */}
+              {/* Header with Theme Highlight */}
               <div className="flex items-center justify-between border-b border-border pb-4">
                 <div className="flex items-center gap-2.5">
-                  <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-badge-teal-light text-badge-teal">
-                    <Clock className="h-5 w-5" aria-hidden="true" />
+                  <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-accent-soft text-accent-dark shadow-2xs">
+                    <Clock className="h-5 w-5 text-accent-dark" aria-hidden="true" />
                   </span>
                   <div>
-                    <h3 className="font-display text-base font-extrabold text-foreground">
+                    <h3 className="font-display text-base font-extrabold text-primary-dark">
                       Today&apos;s Pick-Up Cutoffs
                     </h3>
                     <p className="text-xs text-muted">
@@ -115,55 +118,68 @@ export default function TrackingAndPickup() {
                   </div>
                 </div>
 
-                <span className="inline-flex items-center gap-1 rounded-full bg-primary-soft px-2.5 py-1 text-xs font-bold text-primary">
+                <span className="inline-flex items-center gap-1 rounded-full bg-primary-soft px-2.5 py-1 text-xs font-bold text-primary border border-primary/20">
                   <ShieldCheck className="h-3.5 w-3.5" />
                   Scheduled
                 </span>
               </div>
 
-              {/* Carrier Schedule List */}
-              <div className="mt-4 divide-y divide-border space-y-3">
+              {/* Carrier Schedule List with Delivery Partner Logos */}
+              <div className="mt-4 divide-y divide-border space-y-3.5">
                 {NEXT_PICKUPS.map((pickup) => (
-                  <div key={pickup.carrier} className="pt-3 first:pt-0">
+                  <div key={pickup.carrier} className="pt-3.5 first:pt-0">
                     <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <span className="font-display text-base font-extrabold text-foreground">
-                          {pickup.carrier}
-                        </span>
-                        {pickup.carrier === "FedEx" && (
-                          <span className="rounded bg-carrier-fedex-light px-2 py-0.5 text-[10px] font-bold text-carrier-fedex">
-                            ShipCenter
+                      <div className="flex items-center gap-2.5">
+                        {/* Delivery Partner Logo Badge */}
+                        <div className="flex h-8 w-20 sm:w-22 items-center justify-center rounded-lg border border-border bg-surface px-1.5 shadow-2xs shrink-0">
+                          <CarrierLogo carrier={pickup.carrier} className="h-4.5 max-w-full w-auto object-contain" />
+                        </div>
+                        <div className="flex items-center gap-1.5 flex-wrap">
+                          <span className="font-display text-sm font-extrabold text-primary-dark">
+                            {pickup.carrier}
                           </span>
-                        )}
-                        {pickup.carrier === "UPS" && (
-                          <span className="rounded bg-carrier-ups-light px-2 py-0.5 text-[10px] font-bold text-carrier-ups">
-                            Outlet
-                          </span>
-                        )}
-                        {pickup.carrier === "DHL" && (
-                          <span className="rounded bg-carrier-dhl-light px-2 py-0.5 text-[10px] font-bold text-carrier-dhl">
-                            Express
-                          </span>
-                        )}
-                        {pickup.carrier === "USPS" && (
-                          <span className="rounded bg-carrier-usps-light px-2 py-0.5 text-[10px] font-bold text-carrier-usps">
-                            Postal
-                          </span>
-                        )}
+                          {pickup.carrier === "FedEx" && (
+                            <span className="rounded bg-carrier-fedex-light px-2 py-0.5 text-[10px] font-bold text-carrier-fedex border border-carrier-fedex/20">
+                              ShipCenter
+                            </span>
+                          )}
+                          {pickup.carrier === "UPS" && (
+                            <span className="rounded bg-carrier-ups-light px-2 py-0.5 text-[10px] font-bold text-carrier-ups border border-carrier-ups/20">
+                              Outlet
+                            </span>
+                          )}
+                          {pickup.carrier === "DHL" && (
+                            <span className="rounded bg-carrier-dhl-light px-2 py-0.5 text-[10px] font-bold text-carrier-dhl border border-carrier-dhl/20">
+                              Express
+                            </span>
+                          )}
+                          {pickup.carrier === "USPS" && (
+                            <span className="rounded bg-carrier-usps-light px-2 py-0.5 text-[10px] font-bold text-carrier-usps border border-carrier-usps/20">
+                              Postal
+                            </span>
+                          )}
+                          {pickup.carrier === "Delhivery" && (
+                            <span className="rounded bg-accent-soft px-2 py-0.5 text-[10px] font-bold text-accent-dark border border-accent/20">
+                              Partner
+                            </span>
+                          )}
+                        </div>
                       </div>
-                      <span className="h-2 w-2 rounded-full bg-success" />
+                      <span className="h-2 w-2 rounded-full bg-success ring-2 ring-success/20 animate-pulse" />
                     </div>
 
-                    <div className="mt-2 grid grid-cols-2 gap-2">
+                    {/* Pickup Cutoff Slots Styled with Theme Primary and Highlight Colors */}
+                    <div className="mt-2.5 grid grid-cols-2 gap-2">
                       {pickup.slots.map((slot) => (
                         <div
                           key={slot.label}
-                          className="rounded-lg border border-border bg-surface-muted/60 p-2 text-center"
+                          className="group/slot rounded-xl border border-border/80 bg-surface-muted/50 p-2 sm:p-2.5 text-center transition-all duration-200 hover:border-accent hover:bg-accent-soft/30 hover:shadow-2xs"
                         >
-                          <span className="block text-[11px] font-medium text-muted">
+                          <span className="flex items-center justify-center gap-1 text-[11px] font-semibold text-muted">
+                            <span className="h-1.5 w-1.5 rounded-full bg-accent" />
                             {slot.label}
                           </span>
-                          <strong className="block text-sm font-bold text-primary">
+                          <strong className="mt-0.5 block font-display text-sm sm:text-base font-extrabold text-primary-dark">
                             {slot.time}
                           </strong>
                         </div>
@@ -178,10 +194,10 @@ export default function TrackingAndPickup() {
             <div className="mt-6 border-t border-border pt-3.5 text-center">
               <Link
                 href="/contact-us"
-                className="inline-flex items-center gap-1.5 text-xs font-bold text-primary transition-colors hover:text-primary-dark"
+                className="inline-flex items-center gap-1.5 text-xs font-bold text-primary transition-colors hover:text-accent"
               >
                 Special or freight pickup requirements? Contact us
-                <ChevronRight className="h-3.5 w-3.5" />
+                <ChevronRight className="h-3.5 w-3.5 text-accent" />
               </Link>
             </div>
           </div>
