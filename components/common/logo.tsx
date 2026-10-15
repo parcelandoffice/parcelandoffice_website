@@ -1,15 +1,17 @@
-import { Package } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { SITE_NAME, SITE_TAGLINE } from "@/lib/site-data";
 
 export function Logo({
   className = "",
   variant = "dark",
+  logoSrc = "/images/logo.jpg",
   onNavigate,
 }: {
   className?: string;
   /** "dark" = text for light backgrounds, "light" = text for dark backgrounds */
   variant?: "dark" | "light";
+  logoSrc?: string;
   onNavigate?: () => void;
 }) {
   const isLight = variant === "light";
@@ -21,8 +23,19 @@ export function Logo({
       aria-label={`${SITE_NAME} — home`}
       className={`group inline-flex shrink-0 items-center gap-3 ${className}`}
     >
-      <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary text-accent shadow-xs border border-primary-light transition-transform duration-300 group-hover:-rotate-6 group-hover:scale-105 sm:h-12 sm:w-12">
-        <Package className="h-6 w-6 text-accent" strokeWidth={2.2} aria-hidden="true" />
+      <span
+        className={`relative flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-xl shadow-xs transition-transform duration-300 group-hover:-rotate-3 group-hover:scale-105 sm:h-12 sm:w-12 bg-white ${
+          isLight ? "border border-white/20" : "border border-border"
+        }`}
+      >
+        <Image
+          src={logoSrc}
+          alt={`${SITE_NAME} logo`}
+          width={48}
+          height={48}
+          className="h-full w-full object-contain p-1"
+          priority
+        />
       </span>
       <span className="flex flex-col leading-tight">
         <span

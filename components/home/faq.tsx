@@ -95,7 +95,7 @@ export default function Faq({
                     {index + 1}. {faq.question}
                   </span>
                   <span
-                    className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary/5 text-primary transition-transform duration-200 ${
+                    className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary/5 text-primary transition-transform duration-500 ease-in-out ${
                       isOpen ? "rotate-45" : ""
                     }`}
                   >
@@ -117,11 +117,9 @@ export default function Faq({
                   id={answerId}
                   role="region"
                   aria-labelledby={`faq-question-${index}`}
-                  className={`grid transition-[grid-template-rows,opacity] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${
-                    isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
-                  }`}
+                  className={`faq-accordion-grid ${isOpen ? "open" : ""}`}
                 >
-                  <div className="overflow-hidden">
+                  <div className="faq-accordion-inner">
                     <p className="pb-5 pr-12 leading-relaxed text-muted">
                       {faq.answer}
                     </p>

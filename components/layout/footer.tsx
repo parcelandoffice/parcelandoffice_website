@@ -55,10 +55,6 @@ export default function Footer() {
                 </a>
               </li>
               <li className="flex gap-3">
-                <Printer className="h-5 w-5 shrink-0 text-primary-light" aria-hidden="true" />
-                <span>{BUSINESS.fax}</span>
-              </li>
-              <li className="flex gap-3">
                 <Mail className="h-5 w-5 shrink-0 text-primary-light" aria-hidden="true" />
                 <a
                   href={`mailto:${BUSINESS.email}`}

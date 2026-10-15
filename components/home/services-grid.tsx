@@ -1,9 +1,86 @@
-import { ArrowRight, ArrowUpRight } from "lucide-react";
+import {
+  ArrowRight,
+  ArrowUpRight,
+  Plane,
+  Truck,
+  Package,
+  Mail,
+  RotateCcw,
+  Printer,
+  FileText,
+  Scissors,
+  Inbox,
+  Fingerprint,
+  ScanLine,
+  PackageOpen,
+  ShoppingBag,
+  Box,
+  Camera,
+  Stamp,
+  Copy,
+  type LucideIcon,
+} from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import RevealCss from "@components/ui/reveal-css";
 import { SERVICES, getServiceHref } from "@/lib/site-data";
+import { getImageUrl } from "@/lib/helpers";
+import type { HomePageData, SanityService } from "@/lib/types";
 
-export default function ServicesGrid() {
+const SERVICE_ICON_MAP: Record<string, LucideIcon> = {
+  plane: Plane,
+  truck: Truck,
+  package: Package,
+  mail: Mail,
+  "rotate-ccw": RotateCcw,
+  printer: Printer,
+  "file-text": FileText,
+  scissors: Scissors,
+  inbox: Inbox,
+  fingerprint: Fingerprint,
+  "scan-line": ScanLine,
+  "package-open": PackageOpen,
+  "shopping-bag": ShoppingBag,
+  box: Box,
+  camera: Camera,
+  stamp: Stamp,
+  copy: Copy,
+};
+
+type ServicesGridProps = {
+  data?: HomePageData | null;
+  servicesList?: SanityService[];
+};
+
+export default function ServicesGrid({ data, servicesList }: ServicesGridProps) {
+  const title = data?.servicesTitle || "Featured Products & Services";
+  const ctaText = data?.servicesCtaText || "Inquire About Custom Services";
+  const ctaUrl = data?.servicesCtaUrl || "/contact-us";
+
+  const rawServices =
+    (data?.featuredServicesList && data.featuredServicesList.length > 0)
+      ? data.featuredServicesList
+      : (servicesList && servicesList.length > 0)
+      ? servicesList
+      : null;
+
+  const displayServices = rawServices
+    ? rawServices.map((s) => ({
+        slug: typeof s.slug === "string" ? s.slug : s.slug?.current || "service",
+        label: s.title,
+        description: s.shortDescription || "",
+        icon: (s.iconName && SERVICE_ICON_MAP[s.iconName]) || Package,
+        customIconUrl: s.customIcon ? getImageUrl(s.customIcon) : null,
+        href: s.customUrl || getServiceHref(typeof s.slug === "string" ? s.slug : s.slug?.current || "service"),
+      }))
+    : SERVICES.map((s) => ({
+        slug: s.slug,
+        label: s.label,
+        description: s.description,
+        icon: s.icon,
+        customIconUrl: null,
+        href: getServiceHref(s.slug),
+      }));
   return (
     <section
       id="services"
@@ -17,49 +94,57 @@ export default function ServicesGrid() {
             <div className="flex items-center gap-3">
               <span className="h-8 w-1.5 rounded-full bg-primary" />
               <div>
-                <span className="block text-xs font-bold uppercase tracking-widest text-primary">
-                  All-in-One Center
-                </span>
+
                 <h2
                   id="services-heading"
                   className="font-display text-2xl font-black uppercase tracking-tight text-foreground sm:text-3xl"
                 >
-                  Featured Products &amp; Services
+                  {title}
                 </h2>
               </div>
             </div>
 
             <Link
-              href="/contact-us"
+              href={ctaUrl}
               className="inline-flex items-center gap-1.5 text-xs font-bold text-primary transition-colors hover:text-primary-dark"
             >
-              Inquire About Custom Services
+              {ctaText}
               <ArrowRight className="h-3.5 w-3.5" />
             </Link>
           </div>
         </RevealCss>
 
-        {/* 15 Circular Service Badges Grid */}
+        {/* Circular Service Badges Grid */}
         <ul className="mt-10 grid grid-cols-2 gap-4 sm:gap-6 md:grid-cols-3 lg:grid-cols-5">
-          {SERVICES.map((service, index) => {
+          {displayServices.map((service, index) => {
             const Icon = service.icon;
             return (
               <RevealCss
                 as="li"
-                key={service.slug}
+                key={service.slug + index}
                 delay={(index % 5) * 0.04}
               >
                 <Link
-                  href={getServiceHref(service.slug)}
+                  href={service.href}
                   className="group relative flex h-full flex-col items-center justify-between overflow-hidden rounded-2xl border border-border bg-surface p-5 text-center shadow-[var(--shadow-card)] transition-all duration-200 hover:border-accent/50 hover:shadow-[var(--shadow-card-hover)]"
                 >
                   {/* Circular Icon Container */}
-                  <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary-soft text-primary transition-colors duration-200 group-hover:bg-accent group-hover:text-white sm:h-18 sm:w-18">
-                    <Icon
-                      className="h-7 w-7 transition-transform duration-200 group-hover:scale-105 sm:h-8 sm:w-8"
-                      strokeWidth={1.75}
-                      aria-hidden="true"
-                    />
+                  <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary-soft text-primary transition-colors duration-200 group-hover:bg-accent group-hover:text-white sm:h-18 sm:w-18 overflow-hidden">
+                    {service.customIconUrl ? (
+                      <Image
+                        src={service.customIconUrl}
+                        alt={service.label}
+                        width={32}
+                        height={32}
+                        className="h-8 w-8 object-contain transition-transform duration-200 group-hover:scale-105"
+                      />
+                    ) : (
+                      <Icon
+                        className="h-7 w-7 transition-transform duration-200 group-hover:scale-105 sm:h-8 sm:w-8"
+                        strokeWidth={1.75}
+                        aria-hidden="true"
+                      />
+                    )}
                   </div>
 
                   {/* Content */}

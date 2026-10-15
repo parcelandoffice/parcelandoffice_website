@@ -1,0 +1,564 @@
+export type ServiceDetail = {
+  slug: string;
+  carrierType?: "fedex" | "ups" | "dhl" | "usps" | "office";
+  category: "Shipping & Mailing" | "Packing" | "Printing & Document Services" | "Business & Personal Services";
+  title: string;
+  headline: string;
+  subheadline: string;
+  eyebrow: string;
+  heroImage: string;
+  heroBadge: string;
+  introParagraphs: string[];
+  keyHighlights: {
+    title: string;
+    description: string;
+    icon: string;
+  }[];
+  servicesOfferedTitle: string;
+  servicesOfferedSubtitle: string;
+  servicesList: {
+    name: string;
+    badge: string;
+    description: string;
+    speed: string;
+    featured?: boolean;
+  }[];
+  shippableItemsTitle: string;
+  shippableItemsSubtitle: string;
+  shippableCategories: {
+    categoryName: string;
+    icon: string;
+    items: string[];
+  }[];
+  packingCommitment: {
+    title: string;
+    quote: string;
+    body: string;
+    features: string[];
+  };
+  todayCutoff: {
+    expressTime?: string;
+    groundTime?: string;
+    notice: string;
+  };
+  faqs: {
+    question: string;
+    answer: string;
+  }[];
+};
+
+export const SERVICES_DETAILS: Record<string, ServiceDetail> = {
+  "fedex-shipping": {
+    slug: "fedex-shipping",
+    carrierType: "fedex",
+    category: "Shipping & Mailing",
+    title: "FedEx Shipping in Odenton, MD",
+    headline: "FedEx Shipping in Odenton, MD",
+    subheadline:
+      "Your One Stop Shop For FedEx Express®, FedEx Ground® and International Shipping Solutions",
+    eyebrow: "Officially Recognized FedEx Authorized ShipCenter®",
+    heroImage: "/images/fedex-hero.jpg",
+    heroBadge: "FedEx Authorized ShipCenter®",
+    introParagraphs: [
+      "For fast, reliable service at competitive rates, FedEx delivers! Parcel & Office Solutions is an officially recognized FedEx Authorized ShipCenter and as such provides convenient access to FedEx Ground®, FedEx Express® and FedEx International products and service.",
+      "As one of the world's most-recognized brands, FedEx delivers your shipments to almost any address in the US and to millions of addresses in over 200 countries worldwide.",
+      "Parcel & Office Solutions schedules daily FedEx pick-ups so you can be certain your shipments receive the fast and efficient service you've come to expect from the FedEx brand.",
+    ],
+    keyHighlights: [
+      {
+        title: "Daily Scheduled Pickups",
+        description: "Express departs at 6:00 PM • Ground departs at 4:00 PM Monday through Friday.",
+        icon: "truck",
+      },
+      {
+        title: "Free Drop-Off Scanning",
+        description: "Bring your pre-labeled FedEx returns or drop-offs and receive an official scan receipt.",
+        icon: "barcode",
+      },
+      {
+        title: "Global Reach (220+ Countries)",
+        description: "Worldwide express document and parcel delivery with customs paperwork assistance.",
+        icon: "globe",
+      },
+      {
+        title: "Expert Packing On-Site",
+        description: "Over 30 box sizes, bubble wrap, and custom packaging tailored for FedEx transit.",
+        icon: "package",
+      },
+    ],
+    servicesOfferedTitle: "Parcel & Office Solutions Offers The Following FedEx Services:",
+    servicesOfferedSubtitle:
+      "Whether you need guaranteed morning delivery or cost-effective ground transit, we have the exact FedEx service for your schedule.",
+    servicesList: [
+      {
+        name: "FedEx Priority Overnight®",
+        badge: "Next Morning",
+        description: "Next-business-day delivery by 10:30 a.m. to most US addresses, noon or 5 p.m. in remote areas.",
+        speed: "Next Business Morning (10:30 AM)",
+        featured: true,
+      },
+      {
+        name: "FedEx Standard Overnight®",
+        badge: "Next Afternoon",
+        description: "Next-business-day delivery by 3:00 p.m. to businesses, 8:00 p.m. to residences.",
+        speed: "Next Business Day (3:00 PM)",
+      },
+      {
+        name: "FedEx 2 Day®",
+        badge: "Popular Value",
+        description: "Dependable 2-business-day delivery by 4:30 p.m. to businesses and 8:00 p.m. to residences throughout the US.",
+        speed: "2 Business Days",
+        featured: true,
+      },
+      {
+        name: "FedEx Express Saver®",
+        badge: "Economy Express",
+        description: "Delivery by 4:30 p.m. on the 3rd business day to most business addresses, 8:00 p.m. to residences.",
+        speed: "3 Business Days",
+      },
+      {
+        name: "FedEx Ground®",
+        badge: "Best Value",
+        description: "Cost-effective, day-definite delivery in 1–5 business days to every business address in the 50 states.",
+        speed: "1–5 Business Days",
+        featured: true,
+      },
+      {
+        name: "FedEx Ground-Home Delivery®",
+        badge: "Residential 7 Days",
+        description: "Convenient residential delivery 7 days a week, including Saturday and Sunday, with direct tracking alerts.",
+        speed: "1–5 Days (Home)",
+      },
+      {
+        name: "FedEx Priority International®",
+        badge: "Global Express",
+        description: "Time-definite delivery in 1–3 business days to more than 220 countries and territories with door-to-door customs clearance.",
+        speed: "1–3 Days Worldwide",
+        featured: true,
+      },
+      {
+        name: "FedEx Priority Puerto Rico®",
+        badge: "Island Express",
+        description: "Fast expedited parcel and document delivery to Puerto Rico with morning arrival windows.",
+        speed: "1–2 Business Days",
+      },
+      {
+        name: "FedEx Economy Puerto Rico®",
+        badge: "Island Economy",
+        description: "Economical, dependable delivery service for non-urgent shipments and larger cartons heading to Puerto Rico.",
+        speed: "3–4 Business Days",
+      },
+      {
+        name: "FedEx Priority Canada®",
+        badge: "Canada Express",
+        description: "Expedited next-day or 2-day delivery across Canadian metropolitan and business centers.",
+        speed: "1–2 Days Canada",
+      },
+      {
+        name: "FedEx Ground Canada®",
+        badge: "Canada Ground",
+        description: "Cost-effective day-definite delivery across all Canadian provinces with seamless cross-border processing.",
+        speed: "2–7 Days Canada",
+      },
+    ],
+    shippableItemsTitle: "When It Comes To Shipping via FedEx In Odenton, MD, We Are Your Go-To Source...",
+    shippableItemsSubtitle:
+      "From delicate technology to irreplaceable family heirlooms, our certified packing experts safeguard your shipment every mile of the way.",
+    shippableCategories: [
+      {
+        categoryName: "Computers & Technology",
+        icon: "laptop",
+        items: ["PC and laptop computers", "Medical devices & sensors", "Electronics & microchips", "Video consoles & gaming rigs"],
+      },
+      {
+        categoryName: "Important Documents & Media",
+        icon: "file-text",
+        items: ["Urgent legal documents", "Contracts & notarized forms", "Architectural plans", "Passport & visa papers"],
+      },
+      {
+        categoryName: "Auto Parts & Hardware",
+        icon: "wrench",
+        items: ["Auto parts & engine gear", "Office equipment & supplies", "Commercial product samples", "Industrial mechanical tools"],
+      },
+      {
+        categoryName: "Fine Art & Antiques",
+        icon: "palette",
+        items: ["Framed artwork & paintings", "Fragile & delicate items", "Antiques & vintage decor", "Sculptures & pottery"],
+      },
+      {
+        categoryName: "Jewelry & Valuables",
+        icon: "gem",
+        items: ["Precious jewelry & watches", "High-value heirlooms", "Delicate collectibles", "Designer goods & accessories"],
+      },
+      {
+        categoryName: "Gifts & Celebrations",
+        icon: "gift",
+        items: ["Birthday presents & toys", "Graduation gifts & diplomas", "Clothing & household goods", "Care packages & seasonal items"],
+      },
+    ],
+    packingCommitment: {
+      title: "Packaging and Shipping Experts — It's Handled!",
+      quote: "Don't forget, here at Parcel & Office Solutions we are packaging and shipping experts—bring us your delicate, valuable, time-sensitive and sentimental items.",
+      body: "We have shipping boxes for virtually anything, and we'll pack it with TLC to make sure it arrives in perfect condition. We stock heavy-duty corrugated cartons, antistatic cushioning, bubble packaging, and custom-fit materials designed to withstand airline cargo and overland transit.",
+      features: [
+        "Certified carrier-grade packing guidelines",
+        "Over 30 standard & specialized box sizes in stock",
+        "Custom box re-sizing for unusual items",
+        "Declared value & parcel protection documentation",
+      ],
+    },
+    todayCutoff: {
+      expressTime: "6:00 PM",
+      groundTime: "4:00 PM",
+      notice: "Packages brought in before today's cutoff are guaranteed to depart on tonight's FedEx route.",
+    },
+    faqs: [
+      {
+        question: "What are today's FedEx pickup cutoffs at your Odenton store?",
+        answer:
+          "Our daily FedEx Express cutoff is 6:00 PM and FedEx Ground is 4:00 PM Monday through Friday. Bring your package before these times to ensure same-day departure.",
+      },
+      {
+        question: "Can I drop off pre-labeled FedEx packages at Parcel & Office Solutions?",
+        answer:
+          "Yes! We are an authorized drop-off location. Bring your pre-paid FedEx Express or Ground packages and we will scan them in and provide you with an official physical receipt for tracking.",
+      },
+      {
+        question: "Do you supply FedEx boxes and packaging materials?",
+        answer:
+          "Yes! We stock official FedEx Express envelopes, paks, and boxes (free with FedEx Express shipments) as well as dozens of sturdy brown shipping boxes and packing materials for FedEx Ground and fragile items.",
+      },
+      {
+        question: "Can you help me package fragile or high-value items?",
+        answer:
+          "Absolutely. Our staff are professionally trained in protective packaging for electronics, glassware, framed art, musical instruments, and gifts.",
+      },
+    ],
+  },
+
+  "ups-shipping": {
+    slug: "ups-shipping",
+    carrierType: "ups",
+    category: "Shipping & Mailing",
+    title: "UPS Shipping in Odenton, MD",
+    headline: "UPS Authorized Shipping Outlet in Odenton, MD",
+    subheadline: "Complete UPS Air, Ground, and International Shipping Services Under One Roof",
+    eyebrow: "Authorized UPS Shipping Outlet (ASO)",
+    heroImage: "/images/slider2.jpg",
+    heroBadge: "UPS Authorized Shipping Outlet",
+    introParagraphs: [
+      "Parcel & Office Solutions is your neighborhood UPS Authorized Shipping Outlet in Odenton, MD. Whether you need overnight delivery across the United States or reliable ground delivery for commercial packages, we have you covered.",
+      "Drop off your UPS returns, ship outbound parcels, or let our staff professionally pack your fragile items for guaranteed transit safe arrival.",
+    ],
+    keyHighlights: [
+      {
+        title: "Daily UPS Pickup",
+        description: "Air departs at 5:30 PM • Ground departs at 5:00 PM Monday through Friday.",
+        icon: "truck",
+      },
+      {
+        title: "UPS Drop-Off Station",
+        description: "Free drop-off with printed receipt for all pre-labeled UPS packages and Amazon returns.",
+        icon: "barcode",
+      },
+      {
+        title: "UPS Next Day Air® & Ground",
+        description: "Full suite of reliable domestic express and ground services.",
+        icon: "clock",
+      },
+      {
+        title: "Professional Packaging",
+        description: "Certified materials designed to meet all UPS carrier guidelines.",
+        icon: "package",
+      },
+    ],
+    servicesOfferedTitle: "UPS Shipping Solutions Available In-Store:",
+    servicesOfferedSubtitle: "Select the ideal speed and pricing for your domestic and global shipments.",
+    servicesList: [
+      {
+        name: "UPS Next Day Air®",
+        badge: "Next Morning",
+        description: "Guaranteed next-business-day delivery by 10:30 a.m. or 12:00 noon depending on destination.",
+        speed: "Next Business Morning",
+        featured: true,
+      },
+      {
+        name: "UPS 2nd Day Air®",
+        badge: "2-Day Delivery",
+        description: "Guaranteed 2-business-day delivery throughout the 50 US states and Puerto Rico.",
+        speed: "2 Business Days",
+        featured: true,
+      },
+      {
+        name: "UPS 3 Day Select®",
+        badge: "3-Day Value",
+        description: "Guaranteed delivery by the end of the third business day throughout the contiguous 48 states.",
+        speed: "3 Business Days",
+      },
+      {
+        name: "UPS Ground®",
+        badge: "Economical",
+        description: "Day-definite ground delivery in 1–5 business days to businesses and homes.",
+        speed: "1–5 Business Days",
+        featured: true,
+      },
+      {
+        name: "UPS Worldwide Express®",
+        badge: "International",
+        description: "Guaranteed delivery in 1–3 business days to over 140 countries and territories.",
+        speed: "1–3 Days Worldwide",
+      },
+    ],
+    shippableItemsTitle: "Ship With Confidence via UPS at Parcel & Office Solutions",
+    shippableItemsSubtitle: "Bring in your everyday packages, e-commerce sales, business documents, and fragile shipments.",
+    shippableCategories: [
+      {
+        categoryName: "Electronics & Tech",
+        icon: "laptop",
+        items: ["Laptops & PC monitors", "Smartphones & tablets", "Audio equipment", "Office technology"],
+      },
+      {
+        categoryName: "E-Commerce & Merchandise",
+        icon: "shopping-bag",
+        items: ["Online retail returns", "Apparel & shoes", "Customer product shipments", "Trade samples"],
+      },
+      {
+        categoryName: "Fragile & Gifts",
+        icon: "gift",
+        items: ["Holiday gifts & toys", "Glassware & ceramics", "Family keepsakes", "Kitchenware"],
+      },
+    ],
+    packingCommitment: {
+      title: "We Box It, Cushion It, and Ship It Right",
+      quote: "Quality packing supplies make all the difference in delivering your goods safely.",
+      body: "Our staff will inspect, cushion, and box your items according to strict UPS standards. Rest easy knowing your items are packed to withstand bumps and drops.",
+      features: [
+        "UPS Authorized Shipping Outlet counter scans",
+        "Convenient drop-off for Amazon and retail returns",
+        "Direct package tracking & signature options",
+      ],
+    },
+    todayCutoff: {
+      expressTime: "5:30 PM",
+      groundTime: "5:00 PM",
+      notice: "Daily UPS air and ground pickups arrive promptly every weekday evening.",
+    },
+    faqs: [
+      {
+        question: "Can I drop off pre-paid UPS packages here?",
+        answer: "Yes! We accept all pre-labeled UPS packages and drop-offs at no charge, providing you with a scan receipt.",
+      },
+      {
+        question: "What are your daily UPS pickup times?",
+        answer: "UPS Air pickups are at 5:30 PM and UPS Ground pickups are at 5:00 PM, Monday through Friday.",
+      },
+    ],
+  },
+
+  "dhl-shipping": {
+    slug: "dhl-shipping",
+    carrierType: "dhl",
+    category: "Shipping & Mailing",
+    title: "DHL Express Shipping in Odenton, MD",
+    headline: "DHL Express International Courier in Odenton, MD",
+    subheadline: "Fast, Reliable Worldwide Courier and Document Delivery Across 220+ Countries",
+    eyebrow: "Authorized DHL Express ServicePoint",
+    heroImage: "/images/slider3.jpg",
+    heroBadge: "DHL Authorized ServicePoint",
+    introParagraphs: [
+      "Need to send urgent documents or packages abroad? Parcel & Office Solutions is an official DHL Express ServicePoint in Odenton, MD.",
+      "DHL Express connects you to over 220 countries and territories with rapid customs clearance and end-to-end milestone tracking.",
+    ],
+    keyHighlights: [
+      {
+        title: "Daily DHL Pickup",
+        description: "Express departures scheduled daily at 5:30 PM.",
+        icon: "plane",
+      },
+      {
+        title: "Customs Paperwork Assistance",
+        description: "We help you prepare commercial invoices, harmonized tariff codes, and declaration forms.",
+        icon: "file-text",
+      },
+      {
+        title: "220+ Countries & Territories",
+        description: "The global market leader in international express courier services.",
+        icon: "globe",
+      },
+      {
+        title: "Door-to-Door Tracking",
+        description: "Real-time updates as your shipment travels international customs checkpoints.",
+        icon: "barcode",
+      },
+    ],
+    servicesOfferedTitle: "DHL International Courier Services In-Store:",
+    servicesOfferedSubtitle: "Fast international delivery backed by DHL's worldwide logistics network.",
+    servicesList: [
+      {
+        name: "DHL Express Worldwide",
+        badge: "Top Global",
+        description: "Time-critical delivery by the end of the next possible business day worldwide.",
+        speed: "1–3 Business Days",
+        featured: true,
+      },
+      {
+        name: "DHL Express 12:00",
+        badge: "Midday Arrival",
+        description: "Guaranteed delivery before 12:00 noon to major international trade centers.",
+        speed: "Next Business Day Midday",
+      },
+      {
+        name: "DHL Express Envelope",
+        badge: "Documents",
+        description: "Fast, secure door-to-door transit for urgent legal, financial, and personal paperwork.",
+        speed: "1–2 Days Worldwide",
+        featured: true,
+      },
+    ],
+    shippableItemsTitle: "International Items Commonly Shipped via DHL",
+    shippableItemsSubtitle: "Ensure smooth customs clearance with our expert guidance and packing.",
+    shippableCategories: [
+      {
+        categoryName: "International Documents",
+        icon: "file-text",
+        items: ["Passports & immigration papers", "University applications & transcripts", "Legal contracts & deeds", "Financial agreements"],
+      },
+      {
+        categoryName: "Commercial Cargo & Goods",
+        icon: "package",
+        items: ["Business inventory & samples", "Apparel & textiles", "Electronics & spare parts", "Gifts to overseas family"],
+      },
+    ],
+    packingCommitment: {
+      title: "Global Transit Requires High-Grade Protection",
+      quote: "International flights and customs inspections demand secure, verified packaging.",
+      body: "We provide reinforced cartons and proper sealing to protect your items on international routes.",
+      features: [
+        "Free official DHL Express envelopes and packaging",
+        "Expert export declaration guidance",
+        "Direct tracking and proof-of-delivery receipts",
+      ],
+    },
+    todayCutoff: {
+      expressTime: "5:30 PM",
+      notice: "DHL Express departs Odenton daily at 5:30 PM Monday through Friday.",
+    },
+    faqs: [
+      {
+        question: "Do you help with international customs paperwork?",
+        answer: "Yes! We help you fill out commercial invoices, describe contents accurately, and ensure customs compliance.",
+      },
+      {
+        question: "When is the daily DHL pickup cutoff?",
+        answer: "DHL pickups occur at 5:30 PM Monday through Friday.",
+      },
+    ],
+  },
+};
+
+/**
+ * Fallback generator for other services in site-data.ts
+ */
+export function getServiceDetail(slug: string): ServiceDetail {
+  if (SERVICES_DETAILS[slug]) {
+    return SERVICES_DETAILS[slug];
+  }
+
+  // Graceful generic generator for any other slug
+  const titleFormatted = slug
+    .split("-")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+
+  return {
+    slug,
+    carrierType: "office",
+    category: "Business & Personal Services",
+    title: `${titleFormatted} in Odenton, MD`,
+    headline: `${titleFormatted} in Odenton, MD`,
+    subheadline: `Professional, Reliable ${titleFormatted} at Parcel & Office Solutions`,
+    eyebrow: "Trusted Neighborhood Business & Shipping Center",
+    heroImage: "/images/courier-associate-packing.jpg",
+    heroBadge: "Odenton Premier Center",
+    introParagraphs: [
+      `At Parcel & Office Solutions in Odenton, MD, we offer complete and professional ${titleFormatted} tailored to individuals and local businesses alike.`,
+      "Our trained team is dedicated to saving you time and money with attentive, five-star customer care right beside Food Lion Supermarket on Piney Orchard Parkway.",
+    ],
+    keyHighlights: [
+      {
+        title: "Fast Turnaround",
+        description: "Quick in-and-out service with minimal wait times.",
+        icon: "clock",
+      },
+      {
+        title: "Experienced Team",
+        description: "Professional staff ready to assist with all your questions and requirements.",
+        icon: "shield-check",
+      },
+      {
+        title: "Competitive Pricing",
+        description: "Affordable rates with transparent pricing for all services.",
+        icon: "tag",
+      },
+      {
+        title: "One-Stop Convenience",
+        description: "Combine shipping, printing, scanning, and business needs under one roof.",
+        icon: "layers",
+      },
+    ],
+    servicesOfferedTitle: `Our ${titleFormatted} Capabilities:`,
+    servicesOfferedSubtitle: `Everything you need to get the job done right in Odenton, MD.`,
+    servicesList: [
+      {
+        name: `Standard ${titleFormatted}`,
+        badge: "In-Store",
+        description: `High-quality, reliable ${titleFormatted.toLowerCase()} customized for your personal or commercial requirements.`,
+        speed: "Same-Day / While You Wait",
+        featured: true,
+      },
+      {
+        name: `Bulk & Commercial Solutions`,
+        badge: "Business",
+        description: `Discounted volume rates and custom account options for local businesses and contractors.`,
+        speed: "Tailored Turnaround",
+      },
+    ],
+    shippableItemsTitle: `Common Uses for ${titleFormatted}`,
+    shippableItemsSubtitle: `Serving residents, entrepreneurs, families, and organizations in Odenton and Anne Arundel County.`,
+    shippableCategories: [
+      {
+        categoryName: "Personal & Family",
+        icon: "heart",
+        items: ["Personal records", "Family projects", "Special occasions", "Urgent paperwork"],
+      },
+      {
+        categoryName: "Small Business & Corporate",
+        icon: "briefcase",
+        items: ["Client deliverables", "Marketing materials", "Official records", "Daily operations"],
+      },
+    ],
+    packingCommitment: {
+      title: "Quality You Can Count On",
+      quote: "We take care of the details so you can focus on what matters most.",
+      body: "Whether it is copying, notarizing, mailing, or packaging, we handle your items with top-tier care and precision.",
+      features: [
+        "Convenient location beside Food Lion Supermarket",
+        "Ample free parking right in front of the store",
+        "Friendly, neighborhood customer service",
+      ],
+    },
+    todayCutoff: {
+      notice: "Open Monday to Friday 9:30 AM – 6:30 PM, Saturday 10:00 AM – 3:30 PM.",
+    },
+    faqs: [
+      {
+        question: `How quickly can I get ${titleFormatted.toLowerCase()} done?`,
+        answer: "Most services are completed while you wait or within the same business day. Feel free to call us at (410) 519-3131 to confirm timelines.",
+      },
+      {
+        question: "Do I need an appointment?",
+        answer: "No appointment needed! Walk-ins are always welcome during our normal business hours.",
+      },
+    ],
+  };
+}

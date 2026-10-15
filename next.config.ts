@@ -8,6 +8,16 @@ const nextConfig: NextConfig = {
   redirects: async () => {
     return [
       {
+        source: "/Products-Services/Shipping/FedEx-Shipping",
+        destination: "/services/fedex-shipping",
+        permanent: true,
+      },
+      {
+        source: "/products-services/shipping/fedex-shipping",
+        destination: "/services/fedex-shipping",
+        permanent: true,
+      },
+      {
         source: "/:path*",
         has: [
           {
