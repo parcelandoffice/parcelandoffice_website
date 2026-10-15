@@ -5,8 +5,10 @@ import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
+import { getImageUrl } from "@/lib/helpers";
+
 export type HeroSlide = {
-  image: string;
+  image?: any;
   badge?: string;
   title?: string;
   subtitle?: string;
@@ -47,24 +49,35 @@ const HERO_SLIDES: HeroSlide[] = [
   },
 ];
 
-export default function ParcelHero() {
+export default function ParcelHero({ slides }: { slides?: HeroSlide[] }) {
+  const heroSlides = slides && slides.length > 0
+    ? slides.map((s) => ({
+        image: typeof s.image === "string" ? s.image : s.image ? getImageUrl(s.image) : "/images/slider2.jpg",
+        badge: s.badge,
+        title: s.title,
+        subtitle: s.subtitle,
+        ctaLabel: s.ctaLabel,
+        ctaUrl: s.ctaUrl,
+      }))
+    : HERO_SLIDES;
+
   const [activeSlide, setActiveSlide] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
 
   useEffect(() => {
     if (isPaused) return;
     const interval = setInterval(() => {
-      setActiveSlide((prev) => (prev + 1) % HERO_SLIDES.length);
+      setActiveSlide((prev) => (prev + 1) % heroSlides.length);
     }, 6000);
     return () => clearInterval(interval);
-  }, [isPaused]);
+  }, [isPaused, heroSlides.length]);
 
   const prevSlide = () => {
-    setActiveSlide((prev) => (prev - 1 + HERO_SLIDES.length) % HERO_SLIDES.length);
+    setActiveSlide((prev) => (prev - 1 + heroSlides.length) % heroSlides.length);
   };
 
   const nextSlide = () => {
-    setActiveSlide((prev) => (prev + 1) % HERO_SLIDES.length);
+    setActiveSlide((prev) => (prev + 1) % heroSlides.length);
   };
 
   return (

@@ -79,8 +79,110 @@ export type HomeTestimonial = {
   name: string;
 };
 
-export type HomePageData = {
+export type HeroSlideData = {
+  _key?: string;
+  image?: SanityImageSource;
+  badge?: string;
+  title?: string;
+  subtitle?: string;
+  ctaLabel?: string;
+  ctaUrl?: string;
+};
+
+export type PickupSlotData = {
+  label: string;
+  time: string;
+};
+
+export type PickupCutoffData = {
+  _key?: string;
+  carrierName: string;
+  carrierBadge?: string;
+  slots?: PickupSlotData[];
+};
+
+export type WelcomeHighlightData = {
+  _key?: string;
+  text: string;
+  icon?: string;
+};
+
+export type WelcomeStatData = {
+  _key?: string;
+  value: number;
+  suffix?: string;
+  label: string;
+};
+
+export type ProcessStepData = {
+  _key?: string;
+  stepNumber: number;
+  title: string;
+  text: string;
+  icon?: string;
+};
+
+export type SanityService = {
   _id: string;
+  title: string;
+  slug?: { current: string };
+  shortDescription?: string;
+  iconName?: string;
+  customIcon?: SanityImageSource;
+  category?: string;
+  orderRank?: number;
+  isFeatured?: boolean;
+  badge?: string;
+  customUrl?: string;
+};
+
+export type HomePageData = {
+  _id?: string;
+  // Hero Slider
+  heroSlides?: HeroSlideData[];
+
+  // Tracking & Cutoffs
+  trackingEyebrow?: string;
+  trackingTitle?: string;
+  trackingDescription?: string;
+  trackingCardTitle?: string;
+  trackingCardSubtitle?: string;
+  trackingCardBadge?: string;
+  trackingCardDescription?: string;
+  trackingInputPlaceholder?: string;
+  trackingButtonText?: string;
+  cutoffsCardTitle?: string;
+  cutoffsCardSubtitle?: string;
+  cutoffsCardBadge?: string;
+  pickupCutoffs?: PickupCutoffData[];
+  cutoffsFooterText?: string;
+  cutoffsFooterUrl?: string;
+
+  // Welcome & Story
+  welcomeEyebrow?: string;
+  welcomeTitle?: string;
+  welcomeParagraphs?: string[];
+  welcomeHighlights?: WelcomeHighlightData[];
+  welcomeStats?: WelcomeStatData[];
+
+  // Featured Services
+  servicesTitle?: string;
+  servicesCtaText?: string;
+  servicesCtaUrl?: string;
+  featuredServicesList?: SanityService[];
+
+  // 3-Step Process
+  processEyebrow?: string;
+  processTitle?: string;
+  processDescription?: string;
+  processSteps?: ProcessStepData[];
+
+  // SEO
+  metaTitle?: string;
+  metaDescription?: string;
+  ogImage?: SanityImageSource;
+
+  // Legacy fields
   heroTitle?: string;
   heroHighlightText?: string;
   heroSubtitle?: string;

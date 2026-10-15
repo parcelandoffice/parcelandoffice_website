@@ -4,6 +4,8 @@ import RevealCss from "@components/ui/reveal-css";
 import SectionHeading from "@components/ui/section-heading";
 import { HOME_STATS } from "@/lib/site-data";
 
+import type { HomePageData } from "@/lib/types";
+
 const HIGHLIGHTS = [
   { icon: Boxes, text: "Pack & ship (almost) anything, anywhere in the world" },
   { icon: Zap, text: "Right product, right price — in a single, quick visit" },
@@ -11,7 +13,41 @@ const HIGHLIGHTS = [
   { icon: BadgeCheck, text: "Print, copy, scan, notarize & more under one roof" },
 ];
 
-export default function WelcomeSection() {
+const ICON_MAP: Record<string, any> = {
+  boxes: Boxes,
+  zap: Zap,
+  "shield-check": ShieldCheck,
+  "badge-check": BadgeCheck,
+};
+
+export default function WelcomeSection({ data }: { data?: HomePageData | null }) {
+  const eyebrow = data?.welcomeEyebrow || "About Us";
+  const title = data?.welcomeTitle || "Parcel & Office Solutions — it's handled!";
+  const paragraphs =
+    data?.welcomeParagraphs && data.welcomeParagraphs.length > 0
+      ? data.welcomeParagraphs
+      : [
+          "Located at 8777 Piney Orchard Pkwy Ste B beside Food Lion Supermarket, Odenton MD, we are the go-to resource for packing, shipping, printing and business service needs of the residents and businesses of Odenton. Our team of dedicated, professionally trained experts understands the meaning of super-star customer care — we focus on saving you time and money by ensuring you get the right products and services at the right price.",
+          "We can pack and ship almost anything to almost anywhere in the world. In addition to our pack-and-ship services, we are also Odenton's premier copy, print and document services center. Your one-stop shop for dozens of business products and services — so you can do what you're good at while we take care of the \"other stuff\" you need to succeed.",
+        ];
+
+  const highlights =
+    data?.welcomeHighlights && data.welcomeHighlights.length > 0
+      ? data.welcomeHighlights.map((h) => ({
+          icon: (h.icon && ICON_MAP[h.icon]) || Boxes,
+          text: h.text,
+        }))
+      : HIGHLIGHTS;
+
+  const stats =
+    data?.welcomeStats && data.welcomeStats.length > 0
+      ? data.welcomeStats.map((s) => ({
+          value: s.value,
+          suffix: s.suffix || "",
+          label: s.label,
+        }))
+      : HOME_STATS;
+
   return (
     <section
       aria-labelledby="welcome-heading"
@@ -22,29 +58,17 @@ export default function WelcomeSection() {
           markAs="h2"
           id="welcome-heading"
           align="left"
-          eyebrow="Welcome"
-          title="Parcel & Office Solutions — it's handled!"
+          eyebrow={eyebrow}
+          title={title}
         />
-        <p className="mt-5 leading-relaxed text-muted">
-          Located at 8777 Piney Orchard Pkwy Ste B beside Food Lion Supermarket,
-          Odenton MD, we are the go-to resource for packing, shipping, printing
-          and business service needs of the residents and businesses of
-          Odenton. Our team of dedicated, professionally trained experts
-          understands the meaning of super-star customer care — we focus on
-          saving you time and money by ensuring you get the right products and
-          services at the right price.
-        </p>
-        <p className="mt-4 leading-relaxed text-muted">
-          We can pack and ship almost anything to almost anywhere in the world.
-          In addition to our pack-and-ship services, we are also Odenton&apos;s
-          premier copy, print and document services center. Your one-stop shop
-          for dozens of business products and services — so you can do what
-          you&apos;re good at while we take care of the &ldquo;other stuff&rdquo;
-          you need to succeed.
-        </p>
+        {paragraphs.map((p, idx) => (
+          <p key={idx} className="mt-4 first:mt-5 leading-relaxed text-muted">
+            {p}
+          </p>
+        ))}
 
         <ul className="mt-7 grid gap-3 sm:grid-cols-2">
-          {HIGHLIGHTS.map(({ icon: Icon, text }) => (
+          {highlights.map(({ icon: Icon, text }) => (
             <li
               key={text}
               className="flex items-start gap-3 rounded-xl border border-border bg-surface p-3.5 text-sm font-medium text-secondary transition-all duration-300 hover:border-primary/40 hover:shadow-[var(--shadow-card)]"
@@ -60,7 +84,7 @@ export default function WelcomeSection() {
 
       <RevealCss direction="left">
         <ul className="grid grid-cols-2 gap-4 sm:gap-5">
-          {HOME_STATS.map((stat) => (
+          {stats.map((stat) => (
             <li
               key={stat.label}
               className="group relative overflow-hidden rounded-2xl border border-border bg-surface p-6 shadow-[var(--shadow-card)] transition-all duration-200 hover:border-accent/40 hover:shadow-[var(--shadow-card-hover)] sm:p-8"

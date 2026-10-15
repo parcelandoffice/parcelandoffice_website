@@ -35,7 +35,14 @@ const localBusinessJsonLd = {
   })),
 };
 
-export default function Home() {
+import { getHomePageData, getServices } from "@/lib/apis";
+
+export default async function Home() {
+  const [homeData, services] = await Promise.all([
+    getHomePageData().catch(() => null),
+    getServices().catch(() => []),
+  ]);
+
   return (
     <>
       <script
@@ -43,19 +50,19 @@ export default function Home() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessJsonLd) }}
       />
       {/* 1. Container-width sliding banners below navigation */}
-      <ParcelHero />
+      <ParcelHero slides={homeData?.heroSlides} />
 
       {/* 2. Live multi-carrier tracking & Today's pickups with proper alignment */}
-      <TrackingAndPickup />
+      <TrackingAndPickup data={homeData} />
 
       {/* 3. Welcome & Story */}
-      <WelcomeSection />
+      <WelcomeSection data={homeData} />
 
       {/* 4. Products & Services Directory */}
-      <ServicesGrid />
+      <ServicesGrid data={homeData} servicesList={services} />
 
       {/* 5. 3-Step Process */}
-      <HowItWorks />
+      <HowItWorks data={homeData} />
     </>
   );
 }

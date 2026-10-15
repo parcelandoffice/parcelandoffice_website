@@ -13,7 +13,71 @@ import TrackingForm from "@components/common/tracking-form";
 import { NEXT_PICKUPS, TRACKING_CARRIERS } from "@/lib/site-data";
 import { CarrierLogo } from "@components/common/carrier-logos";
 
-export default function TrackingAndPickup() {
+type TrackingAndPickupProps = {
+  data?: {
+    trackingEyebrow?: string;
+    trackingTitle?: string;
+    trackingDescription?: string;
+    trackingCardTitle?: string;
+    trackingCardSubtitle?: string;
+    trackingCardBadge?: string;
+    trackingCardDescription?: string;
+    cutoffsCardTitle?: string;
+    cutoffsCardSubtitle?: string;
+    cutoffsCardBadge?: string;
+    pickupCutoffs?: Array<{
+      carrierName: string;
+      carrierBadge?: string;
+      slots?: Array<{ label: string; time: string }>;
+    }>;
+    cutoffsFooterText?: string;
+    cutoffsFooterUrl?: string;
+  } | null;
+};
+
+export default function TrackingAndPickup({ data }: TrackingAndPickupProps) {
+  const eyebrow = data?.trackingEyebrow || "Carrier Operations & Logistics";
+  const title = data?.trackingTitle || "Live Tracking & Daily Pick-Up Cutoffs";
+  const description =
+    data?.trackingDescription ||
+    "Track packages in real time across four major global carriers or drop off before today's cutoff time for guaranteed same-day transit.";
+
+  const trackingCardTitle = data?.trackingCardTitle || "Live Multi-Carrier Tracking";
+  const trackingCardSubtitle = data?.trackingCardSubtitle || "FedEx • UPS • DHL Express • USPS";
+  const trackingCardBadge = data?.trackingCardBadge || "Live Gateway";
+  const trackingCardDescription =
+    data?.trackingCardDescription ||
+    "Select your carrier and enter the tracking number below to get official, up-to-date tracking milestones, transit history, and delivery confirmations.";
+
+  const cutoffsCardTitle = data?.cutoffsCardTitle || "Today's Pick-Up Cutoffs";
+  const cutoffsCardSubtitle = data?.cutoffsCardSubtitle || "Odenton Store Daily Schedule";
+  const cutoffsCardBadge = data?.cutoffsCardBadge || "Scheduled";
+
+  const pickups =
+    data?.pickupCutoffs && data.pickupCutoffs.length > 0
+      ? data.pickupCutoffs.map((p) => ({
+          carrier: p.carrierName,
+          badge: p.carrierBadge,
+          slots: p.slots || [],
+        }))
+      : NEXT_PICKUPS.map((p) => ({
+          carrier: p.carrier,
+          badge:
+            p.carrier === "FedEx"
+              ? "ShipCenter"
+              : p.carrier === "UPS"
+              ? "Outlet"
+              : p.carrier === "DHL"
+              ? "Express"
+              : p.carrier === "USPS"
+              ? "Postal"
+              : "Partner",
+          slots: p.slots,
+        }));
+
+  const footerText = data?.cutoffsFooterText || "Special or freight pickup requirements? Contact us";
+  const footerUrl = data?.cutoffsFooterUrl || "/contact-us";
+
   return (
     <section
       id="tracking"
@@ -25,17 +89,15 @@ export default function TrackingAndPickup() {
         <div className="mb-8">
           <span className="inline-flex items-center gap-1.5 text-xs font-black uppercase tracking-widest text-accent">
             <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-            Carrier Operations &amp; Logistics
+            {eyebrow}
           </span>
           <h2
             id="tracking-and-pickup-heading"
             className="font-display mt-1 text-2xl font-black uppercase tracking-tight text-primary-dark sm:text-3xl"
           >
-            Live Tracking &amp; Daily Pick-Up Cutoffs
+            {title}
           </h2>
-          <p className="mt-2 text-sm text-muted max-w-2xl">
-            Track packages in real time across four major global carriers or drop off before today&apos;s cutoff time for guaranteed same-day transit.
-          </p>
+          <p className="mt-2 text-sm text-muted max-w-2xl">{description}</p>
         </div>
 
         {/* 2-Column Harmonious Grid */}
@@ -51,23 +113,23 @@ export default function TrackingAndPickup() {
                   </span>
                   <div>
                     <h3 className="font-display text-base font-extrabold text-primary-dark">
-                      Live Multi-Carrier Tracking
+                      {trackingCardTitle}
                     </h3>
                     <p className="text-xs text-muted">
-                      FedEx &bull; UPS &bull; DHL Express &bull; USPS
+                      {trackingCardSubtitle}
                     </p>
                   </div>
                 </div>
 
                 <span className="inline-flex items-center gap-1.5 rounded-full bg-success/10 px-3 py-1 text-xs font-bold text-success border border-success/20">
                   <span className="h-2 w-2 rounded-full bg-success animate-pulse" />
-                  Live Gateway
+                  {trackingCardBadge}
                 </span>
               </div>
 
               {/* Description */}
               <p className="mt-5 text-sm leading-relaxed text-muted">
-                Select your carrier and enter the tracking number below to get official, up-to-date tracking milestones, transit history, and delivery confirmations.
+                {trackingCardDescription}
               </p>
 
               {/* Tracking Form Component */}
@@ -110,23 +172,23 @@ export default function TrackingAndPickup() {
                   </span>
                   <div>
                     <h3 className="font-display text-base font-extrabold text-primary-dark">
-                      Today&apos;s Pick-Up Cutoffs
+                      {cutoffsCardTitle}
                     </h3>
                     <p className="text-xs text-muted">
-                      Odenton Store Daily Schedule
+                      {cutoffsCardSubtitle}
                     </p>
                   </div>
                 </div>
 
                 <span className="inline-flex items-center gap-1 rounded-full bg-primary-soft px-2.5 py-1 text-xs font-bold text-primary border border-primary/20">
                   <ShieldCheck className="h-3.5 w-3.5" />
-                  Scheduled
+                  {cutoffsCardBadge}
                 </span>
               </div>
 
               {/* Carrier Schedule List with Delivery Partner Logos */}
-              <div className="mt-4 divide-y divide-border space-y-3.5">
-                {NEXT_PICKUPS.map((pickup) => (
+              <div className="mt-4 space-y-3.5">
+                {pickups.map((pickup) => (
                   <div key={pickup.carrier} className="pt-3.5 first:pt-0">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2.5">
@@ -138,30 +200,38 @@ export default function TrackingAndPickup() {
                           <span className="font-display text-sm font-extrabold text-primary-dark">
                             {pickup.carrier}
                           </span>
-                          {pickup.carrier === "FedEx" && (
-                            <span className="rounded bg-carrier-fedex-light px-2 py-0.5 text-[10px] font-bold text-carrier-fedex border border-carrier-fedex/20">
-                              ShipCenter
-                            </span>
-                          )}
-                          {pickup.carrier === "UPS" && (
-                            <span className="rounded bg-carrier-ups-light px-2 py-0.5 text-[10px] font-bold text-carrier-ups border border-carrier-ups/20">
-                              Outlet
-                            </span>
-                          )}
-                          {pickup.carrier === "DHL" && (
-                            <span className="rounded bg-carrier-dhl-light px-2 py-0.5 text-[10px] font-bold text-carrier-dhl border border-carrier-dhl/20">
-                              Express
-                            </span>
-                          )}
-                          {pickup.carrier === "USPS" && (
-                            <span className="rounded bg-carrier-usps-light px-2 py-0.5 text-[10px] font-bold text-carrier-usps border border-carrier-usps/20">
-                              Postal
-                            </span>
-                          )}
-                          {pickup.carrier === "Delhivery" && (
+                          {pickup.badge ? (
                             <span className="rounded bg-accent-soft px-2 py-0.5 text-[10px] font-bold text-accent-dark border border-accent/20">
-                              Partner
+                              {pickup.badge}
                             </span>
+                          ) : (
+                            <>
+                              {pickup.carrier === "FedEx" && (
+                                <span className="rounded bg-carrier-fedex-light px-2 py-0.5 text-[10px] font-bold text-carrier-fedex border border-carrier-fedex/20">
+                                  ShipCenter
+                                </span>
+                              )}
+                              {pickup.carrier === "UPS" && (
+                                <span className="rounded bg-carrier-ups-light px-2 py-0.5 text-[10px] font-bold text-carrier-ups border border-carrier-ups/20">
+                                  Outlet
+                                </span>
+                              )}
+                              {pickup.carrier === "DHL" && (
+                                <span className="rounded bg-carrier-dhl-light px-2 py-0.5 text-[10px] font-bold text-carrier-dhl border border-carrier-dhl/20">
+                                  Express
+                                </span>
+                              )}
+                              {pickup.carrier === "USPS" && (
+                                <span className="rounded bg-carrier-usps-light px-2 py-0.5 text-[10px] font-bold text-carrier-usps border border-carrier-usps/20">
+                                  Postal
+                                </span>
+                              )}
+                              {pickup.carrier === "Delhivery" && (
+                                <span className="rounded bg-accent-soft px-2 py-0.5 text-[10px] font-bold text-accent-dark border border-accent/20">
+                                  Partner
+                                </span>
+                              )}
+                            </>
                           )}
                         </div>
                       </div>
@@ -193,10 +263,10 @@ export default function TrackingAndPickup() {
             {/* Footer Action */}
             <div className="mt-6 border-t border-border pt-3.5 text-center">
               <Link
-                href="/contact-us"
+                href={footerUrl}
                 className="inline-flex items-center gap-1.5 text-xs font-bold text-primary transition-colors hover:text-accent"
               >
-                Special or freight pickup requirements? Contact us
+                {footerText}
                 <ChevronRight className="h-3.5 w-3.5 text-accent" />
               </Link>
             </div>

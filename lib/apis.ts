@@ -358,6 +358,82 @@ export async function getHomePageData(): Promise<HomePageData | null> {
   return fetchFromSanity(`
     *[_type == "homePage"][0]{
       _id,
+      heroSlides[]{
+        _key,
+        image,
+        badge,
+        title,
+        subtitle,
+        ctaLabel,
+        ctaUrl
+      },
+      trackingEyebrow,
+      trackingTitle,
+      trackingDescription,
+      trackingCardTitle,
+      trackingCardSubtitle,
+      trackingCardBadge,
+      trackingCardDescription,
+      trackingInputPlaceholder,
+      trackingButtonText,
+      cutoffsCardTitle,
+      cutoffsCardSubtitle,
+      cutoffsCardBadge,
+      pickupCutoffs[]{
+        _key,
+        carrierName,
+        carrierBadge,
+        slots[]{
+          label,
+          time
+        }
+      },
+      cutoffsFooterText,
+      cutoffsFooterUrl,
+      welcomeEyebrow,
+      welcomeTitle,
+      welcomeParagraphs,
+      welcomeHighlights[]{
+        _key,
+        text,
+        icon
+      },
+      welcomeStats[]{
+        _key,
+        value,
+        suffix,
+        label
+      },
+      servicesTitle,
+      servicesCtaText,
+      servicesCtaUrl,
+      featuredServicesList[]->{
+        _id,
+        title,
+        slug,
+        shortDescription,
+        iconName,
+        customIcon,
+        category,
+        orderRank,
+        isFeatured,
+        badge,
+        customUrl
+      },
+      processEyebrow,
+      processTitle,
+      processDescription,
+      processSteps[]{
+        _key,
+        stepNumber,
+        title,
+        text,
+        icon
+      },
+      metaTitle,
+      metaDescription,
+      ogImage,
+      // Legacy fields
       heroTitle,
       heroHighlightText,
       heroSubtitle,
@@ -409,6 +485,48 @@ export async function getHomePageData(): Promise<HomePageData | null> {
         question,
         answer
       }
+    }
+  `);
+}
+
+export async function getServices(): Promise<any[]> {
+  return fetchFromSanity(`
+    *[_type == "service" && (isFeatured == true || !defined(isFeatured))] | order(orderRank asc, _createdAt asc) {
+      _id,
+      title,
+      slug,
+      shortDescription,
+      iconName,
+      customIcon,
+      category,
+      orderRank,
+      isFeatured,
+      badge,
+      customUrl
+    }
+  `);
+}
+
+export async function getSiteSettings(): Promise<any | null> {
+  return fetchFromSanity(`
+    *[_type == "siteSettings"][0]{
+      _id,
+      siteName,
+      siteTagline,
+      logo,
+      logoInverted,
+      phone,
+      fax,
+      email,
+      addressLines,
+      googleMapsUrl,
+      googleMapsEmbedUrl,
+      storeHours,
+      announcementText,
+      announcementButtonText,
+      announcementButtonUrl,
+      footerDescription,
+      copyrightText
     }
   `);
 }

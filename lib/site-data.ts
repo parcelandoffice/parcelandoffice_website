@@ -89,8 +89,8 @@ export const SERVICES: ServiceItem[] = [
 ];
 
 /** Single place to change when dedicated service pages go live. */
-export function getServiceHref(_slug: string): string {
-  return "/#services";
+export function getServiceHref(slug: string): string {
+  return `/services/${slug}`;
 }
 
 const bySlug = (slug: string) =>
@@ -153,39 +153,39 @@ export const SERVICES_MENU_CATEGORIES: ServiceMenuCategory[] = [
   {
     title: "Shipping & Mailing",
     items: [
-      { label: "DHL Shipping", href: "/#services", slug: "dhl-shipping", icon: Package },
-      { label: "FedEx Shipping", href: "/#services", slug: "fedex-shipping", icon: Plane },
-      { label: "UPS Shipping", href: "/#services", slug: "ups-shipping", icon: Truck },
-      { label: "US Postal Service", href: "/#services", slug: "us-postal-service", icon: Mail },
+      { label: "DHL Shipping", href: getServiceHref("dhl-shipping"), slug: "dhl-shipping", icon: Package },
+      { label: "FedEx Shipping", href: getServiceHref("fedex-shipping"), slug: "fedex-shipping", icon: Plane },
+      { label: "UPS Shipping", href: getServiceHref("ups-shipping"), slug: "ups-shipping", icon: Truck },
+      { label: "US Postal Service", href: getServiceHref("us-postal-service"), slug: "us-postal-service", icon: Mail },
     ],
   },
   {
     title: "Packing",
     items: [
-      { label: "Professional Packing", href: "/#services", slug: "professional-packing", icon: PackageOpen },
-      { label: "Packaging Supplies", href: "/#services", slug: "packaging-supplies", icon: ShoppingBag },
+      { label: "Professional Packing", href: getServiceHref("professional-packing"), slug: "professional-packing", icon: PackageOpen },
+      { label: "Packaging Supplies", href: getServiceHref("packaging-supplies"), slug: "packaging-supplies", icon: ShoppingBag },
     ],
   },
   {
     title: "Printing & Document Services",
     items: [
-      { label: "Print & Document Services", href: "/#services", slug: "print-document-services", icon: Printer },
-      { label: "Business Cards", href: "/#services", slug: "business-cards", icon: CreditCard },
-      { label: "Copying Services", href: "/#services", slug: "copying-services", icon: Copy },
-      { label: "Flyers & Brochures", href: "/#services", slug: "flyers-brochures", icon: FileText },
-      { label: "Document Scanning", href: "/#services", slug: "document-scanning", icon: ScanLine },
-      { label: "Document Shredding", href: "/#services", slug: "document-shredding", icon: Scissors },
-      { label: "Fax Services", href: "/#services", slug: "fax-services", icon: FileText },
+      { label: "Print & Document Services", href: getServiceHref("print-document-services"), slug: "print-document-services", icon: Printer },
+      { label: "Business Cards", href: getServiceHref("business-cards"), slug: "business-cards", icon: CreditCard },
+      { label: "Copying Services", href: getServiceHref("copying-services"), slug: "copying-services", icon: Copy },
+      { label: "Flyers & Brochures", href: getServiceHref("flyers-brochures"), slug: "flyers-brochures", icon: FileText },
+      { label: "Document Scanning", href: getServiceHref("document-scanning"), slug: "document-scanning", icon: ScanLine },
+      { label: "Document Shredding", href: getServiceHref("document-shredding"), slug: "document-shredding", icon: Scissors },
+      { label: "Fax Services", href: getServiceHref("fax-services"), slug: "fax-services", icon: FileText },
     ],
   },
   {
     title: "Business & Personal Services",
     items: [
-      { label: "Digital Fingerprinting", href: "/#services", slug: "digital-fingerprinting", icon: Fingerprint },
-      { label: "Notary Public", href: "/#services", slug: "notary-public", icon: Stamp },
-      { label: "Passport Photos", href: "/#services", slug: "passport-photos", icon: Camera },
-      { label: "Gift Wrapping", href: "/#services", slug: "gift-wrapping", icon: Gift },
-      { label: "Greeting Cards", href: "/#services", slug: "greeting-cards", icon: Heart },
+      { label: "Digital Fingerprinting", href: getServiceHref("digital-fingerprinting"), slug: "digital-fingerprinting", icon: Fingerprint },
+      { label: "Notary Public", href: getServiceHref("notary-public"), slug: "notary-public", icon: Stamp },
+      { label: "Passport Photos", href: getServiceHref("passport-photos"), slug: "passport-photos", icon: Camera },
+      { label: "Gift Wrapping", href: getServiceHref("gift-wrapping"), slug: "gift-wrapping", icon: Gift },
+      { label: "Greeting Cards", href: getServiceHref("greeting-cards"), slug: "greeting-cards", icon: Heart },
     ],
   },
 ];

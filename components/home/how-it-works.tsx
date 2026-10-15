@@ -1,11 +1,36 @@
-import { PackageOpen, Send, Radar } from "lucide-react";
+import { PackageOpen, Send, Radar, type LucideIcon } from "lucide-react";
 import RevealCss from "@components/ui/reveal-css";
 import SectionHeading from "@components/ui/section-heading";
 import { HOW_IT_WORKS } from "@/lib/site-data";
+import type { HomePageData } from "@/lib/types";
 
-const ICONS = [PackageOpen, Send, Radar];
+const DEFAULT_ICONS = [PackageOpen, Send, Radar];
 
-export default function HowItWorks() {
+const STEP_ICON_MAP: Record<string, LucideIcon> = {
+  "package-open": PackageOpen,
+  send: Send,
+  radar: Radar,
+};
+
+export default function HowItWorks({ data }: { data?: HomePageData | null }) {
+  const eyebrow = data?.processEyebrow || "Simple 3-Step Process";
+  const title = data?.processTitle || "Pack. Ship. Track.";
+  const description =
+    data?.processDescription || "Walk in with your items, walk out with complete peace of mind.";
+
+  const steps =
+    data?.processSteps && data.processSteps.length > 0
+      ? data.processSteps.map((s, idx) => ({
+          title: s.title,
+          text: s.text,
+          icon: (s.icon && STEP_ICON_MAP[s.icon]) || DEFAULT_ICONS[idx % DEFAULT_ICONS.length],
+        }))
+      : HOW_IT_WORKS.map((s, idx) => ({
+          title: s.title,
+          text: s.text,
+          icon: DEFAULT_ICONS[idx % DEFAULT_ICONS.length],
+        }));
+
   return (
     <section
       aria-labelledby="how-heading"
@@ -16,9 +41,9 @@ export default function HowItWorks() {
           <SectionHeading
             markAs="h2"
             id="how-heading"
-            eyebrow="Simple 3-Step Process"
-            title="Pack. Ship. Track."
-            description="Walk in with your items, walk out with complete peace of mind."
+            eyebrow={eyebrow}
+            title={title}
+            description={description}
           />
         </RevealCss>
 
@@ -29,8 +54,8 @@ export default function HowItWorks() {
             className="absolute top-10 left-[18%] hidden h-0.5 w-[64%] border-t-2 border-dashed border-border md:block"
           />
 
-          {HOW_IT_WORKS.map((step, index) => {
-            const Icon = ICONS[index];
+          {steps.map((step, index) => {
+            const Icon = step.icon;
             return (
               <RevealCss as="li" key={step.title} delay={index * 0.1}>
                 <div className="relative flex flex-col items-center text-center p-6 rounded-2xl border border-border bg-surface-muted/50 hover:bg-surface-muted transition-colors">
