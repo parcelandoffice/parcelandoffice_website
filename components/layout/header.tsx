@@ -99,7 +99,7 @@ export default function Header() {
           className={`border-b border-border bg-surface transition-shadow duration-200 ${scrolled ? "shadow-[var(--shadow-card)]" : ""
             }`}
         >
-          <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
+          <div className="mx-auto flex max-w-7xl items-center justify-between gap-2 sm:gap-4 px-3 sm:px-6 lg:px-8 py-2.5 sm:py-3">
             <Logo onNavigate={closeAll} />
 
             {/* Right side Menu & Track Your Parcel CTA */}
@@ -386,10 +386,12 @@ export default function Header() {
               <Link
                 href="/#tracking"
                 onClick={scrollToTracking}
-                className="inline-flex items-center gap-2 rounded-full border border-accent/25 bg-accent px-4 py-2 text-xs font-bold text-on-dark transition-all duration-200 hover:bg-accent-dark shadow-xs shrink-0"
+                aria-label="Track Your Parcel"
+                className="inline-flex items-center gap-1.5 sm:gap-2 rounded-full border border-accent/25 bg-accent px-2.5 py-1.5 sm:px-4 sm:py-2 text-xs font-bold text-on-dark transition-all duration-200 hover:bg-accent-dark shadow-xs shrink-0"
               >
                 <Search className="h-3.5 w-3.5 text-white" aria-hidden="true" />
-                <span>Track Your Parcel</span>
+                <span className="hidden sm:inline">Track Your Parcel</span>
+                <span className="hidden min-[360px]:inline sm:hidden text-[11px]">Track</span>
               </Link>
 
               {/* Mobile hamburger toggle */}

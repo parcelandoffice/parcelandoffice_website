@@ -1,6 +1,12 @@
 @import "tailwindcss";
 @import "../theme/theme.css";
 
+html,
+body {
+  max-width: 100%;
+  overflow-x: clip;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
@@ -104,6 +110,13 @@ html {
 
 .reveal-css-none {
   transform: none;
+}
+
+@media (max-width: 640px) {
+  .reveal-css-left,
+  .reveal-css-right {
+    transform: translateY(20px);
+  }
 }
 
 .reveal-css.reveal-css-visible {
