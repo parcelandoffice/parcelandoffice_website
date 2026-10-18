@@ -21,10 +21,10 @@ export function Logo({
       href="/"
       onClick={onNavigate}
       aria-label={`${SITE_NAME} — home`}
-      className={`group inline-flex shrink-0 items-center gap-3 ${className}`}
+      className={`group inline-flex shrink min-w-0 items-center gap-2 sm:gap-3 ${className}`}
     >
       <span
-        className={`relative flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-xl shadow-xs transition-transform duration-300 group-hover:-rotate-3 group-hover:scale-105 sm:h-12 sm:w-12 bg-white ${
+        className={`relative flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-xl shadow-xs transition-transform duration-300 group-hover:-rotate-3 group-hover:scale-105 sm:h-12 sm:w-12 bg-white ${
           isLight ? "border border-white/20" : "border border-border"
         }`}
       >
@@ -37,16 +37,16 @@ export function Logo({
           priority
         />
       </span>
-      <span className="flex flex-col leading-tight">
+      <span className="flex flex-col leading-tight min-w-0">
         <span
-          className={`font-display text-base font-extrabold tracking-wide uppercase sm:text-lg ${
+          className={`font-display text-sm font-extrabold tracking-wide uppercase sm:text-base lg:text-lg truncate ${
             isLight ? "text-on-dark" : "text-primary"
           }`}
         >
           Parcel &amp; Office
           <span className="text-accent"> Solutions</span>
         </span>
-        <span className="hidden text-[11px] font-semibold tracking-wider text-muted uppercase min-[400px]:block">
+        <span className="hidden text-[11px] font-semibold tracking-wider text-muted uppercase md:block">
           {SITE_TAGLINE}
         </span>
       </span>

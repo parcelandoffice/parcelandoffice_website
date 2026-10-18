@@ -283,7 +283,7 @@ export default function ContactCta({
           </div>
 
           {activeRecaptchaSiteKey ? (
-            <div className="flex justify-center sm:justify-start">
+            <div className="flex justify-center sm:justify-start max-w-full overflow-hidden">
               <ReCAPTCHAWidget
                 key={recaptchaResetKey}
                 sitekey={activeRecaptchaSiteKey}

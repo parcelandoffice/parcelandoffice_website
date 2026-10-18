@@ -83,7 +83,7 @@ export default function ParcelHero({ slides }: { slides?: HeroSlide[] }) {
   return (
     <section
       aria-label="Hero Slides"
-      className="relative bg-surface "
+      className="relative bg-surface overflow-hidden"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
