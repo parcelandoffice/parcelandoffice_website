@@ -6,8 +6,15 @@ import type { Metadata } from "next";
 export async function generateMetadata(): Promise<Metadata> {
   const metadata = await getPageMetadata("contact").catch(() => null);
 
+  const titleStr =
+    typeof metadata?.title === "string"
+      ? metadata.title
+      : metadata?.title && "default" in metadata.title
+      ? metadata.title.default
+      : "";
+
   // If the fetched metadata still has old defaults or is missing, use brand-accurate metadata
-  if (!metadata?.title || metadata.title.includes("RP Law")) {
+  if (!metadata || !titleStr || titleStr.includes("RP Law")) {
     return {
       title: `Contact Us | ${SITE_NAME} - Odenton, MD`,
       description: `Get in touch with ${SITE_NAME} in Odenton, MD. FedEx, UPS, DHL & USPS shipping, faxing, notary public, professional packing, and printing. Phone: ${BUSINESS.phone}, Fax: ${BUSINESS.fax}.`,
