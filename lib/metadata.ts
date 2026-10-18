@@ -29,9 +29,9 @@ const DEFAULT_PAGE_METADATA: Record<PageSeoKey, Metadata> = {
       "RP Law Firm provides expert legal counsel in corporate law, litigation, labor & employment, NRI services, and real estate.",
   },
   blog: {
-    title: "Blog | RP Law Firm",
+    title: "Blog & Shipping Insights | Parcel and Office",
     description:
-      "Read legal insights, updates, and expert commentary from RP Law Firm on corporate law, litigation, and more.",
+      "Read the latest tips on courier drop-offs, sustainable packaging, private mailbox rentals, and small business fulfillment from Parcel and Office.",
   },
   about: {
     title: "About Us | RP Law Firm",
