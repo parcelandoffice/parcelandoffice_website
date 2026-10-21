@@ -17,7 +17,7 @@ const PAGE_SEO_FIELD_MAP: Record<
 
 const PAGE_CANONICAL_PATHS: Record<PageSeoKey, string> = {
   home: "/",
-  about: "/about",
+  about: "/about-us",
   blog: "/blog",
   contact: "/contact-us",
 };
@@ -34,14 +34,14 @@ const DEFAULT_PAGE_METADATA: Record<PageSeoKey, Metadata> = {
       "Read legal insights, updates, and expert commentary from RP Law Firm on corporate law, litigation, and more.",
   },
   about: {
-    title: "About Us | RP Law Firm",
+    title: "About Us | Parcel & Office Solutions | Odenton, MD",
     description:
-      "Learn about RP Law Firm — our mission, vision, values, and the team behind our trusted legal services.",
+      "Learn about Parcel & Office Solutions in Odenton, MD — our story, mission, multi-carrier shipping services, and dedicated team.",
   },
   contact: {
-    title: "Contact Us | RP Law Firm",
+    title: "Contact Us | Parcel & Office Solutions | Odenton, MD",
     description:
-      "Get in touch with RP Law Firm for expert legal counsel. Reach us by phone, email, or our contact form.",
+      "Get in touch with Parcel & Office Solutions in Odenton, MD for shipping, packing, printing, notary, and mailbox rental services.",
   },
 };
 
