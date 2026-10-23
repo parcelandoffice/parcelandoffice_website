@@ -191,11 +191,11 @@ export const SERVICES_MENU_CATEGORIES: ServiceMenuCategory[] = [
 ];
 
 export const DIGITAL_MARKETING_MENU = [
-  { label: "Social Media Marketing", href: "/digital-marketing#social-media", icon: Share2, description: "Boost brand presence & audience engagement" },
-  { label: "Lead Generation", href: "/digital-marketing#lead-gen", icon: Target, description: "Capture verified leads and customer inquiries" },
-  { label: "Google Ads & PPC", href: "/digital-marketing#google-ads", icon: TrendingUp, description: "High-ROI targeted search & display campaigns" },
-  { label: "SEO, AEO & GEO", href: "/digital-marketing#seo", icon: Globe, description: "Search, Answer & Generative Engine Optimization" },
-  { label: "Web Development", href: "/digital-marketing#web-dev", icon: Code, description: "Custom, responsive & high-converting websites" },
+  { label: "Social Media Marketing", href: "/digital-marketing-services/social-media-marketing", icon: Share2, description: "Boost brand presence & audience engagement" },
+  { label: "Lead Generation", href: "/digital-marketing-services/lead-generation", icon: Target, description: "Capture verified leads and customer inquiries" },
+  { label: "Google Ads & PPC", href: "/digital-marketing-services/google-ads-ppc", icon: TrendingUp, description: "High-ROI targeted search & display campaigns" },
+  { label: "SEO, AEO & GEO", href: "/digital-marketing-services/seo-aeo-geo", icon: Globe, description: "Search, Answer & Generative Engine Optimization" },
+  { label: "Web Development", href: "/digital-marketing-services/web-development", icon: Code, description: "Custom, responsive & high-converting websites" },
 ];
 
 export const ABOUT_US_MENU = [
