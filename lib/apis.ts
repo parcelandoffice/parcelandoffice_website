@@ -181,52 +181,102 @@ export function mapSanityPostToBlog(post: SanityPost): Blog {
   };
 }
 
+import {
+  getStaticBlogs,
+  getStaticBlogBySlug,
+  mapStaticBlogToSanityPost,
+  STATIC_BLOGS,
+} from "./static-blogs";
+
 type PostsQueryOptions = {
   limit?: number;
   offset?: number;
+  category?: string;
 };
 
 export async function getPosts({
   limit = DEFAULT_LIMIT,
   offset = DEFAULT_OFFSET,
+  category,
 }: PostsQueryOptions = {}): Promise<Blog[]> {
-  const posts: SanityPost[] = await fetchFromSanity(postsQuery, {
-    limit,
-    offset,
-  });
+  try {
+    const posts: SanityPost[] = await fetchFromSanity(postsQuery, {
+      limit,
+      offset,
+    });
 
-  return posts.map(mapSanityPostToBlog);
+    if (posts && posts.length > 0) {
+      return posts.map(mapSanityPostToBlog);
+    }
+  } catch (error) {
+    console.warn("Sanity getPosts returned error, falling back to static blogs:", error);
+  }
+
+  const { blogs } = getStaticBlogs({ category, limit, offset });
+  return blogs;
 }
 
-export async function getTotalPostsCount(categoryId?: string): Promise<number> {
-  if (categoryId) {
-    return fetchFromSanity<number>(
-      `count(*[_type == "post" && $categoryId in categories[]._ref])`,
-      { categoryId }
-    );
+export async function getTotalPostsCount(categoryId?: string, categoryName?: string): Promise<number> {
+  try {
+    if (categoryId) {
+      const count = await fetchFromSanity<number>(
+        `count(*[_type == "post" && $categoryId in categories[]._ref])`,
+        { categoryId }
+      );
+      if (count > 0) return count;
+    } else {
+      const count = await fetchFromSanity<number>(`count(*[_type == "post"])`);
+      if (count > 0) return count;
+    }
+  } catch (error) {
+    console.warn("Sanity getTotalPostsCount error, falling back to static blogs:", error);
   }
-  return fetchFromSanity<number>(`count(*[_type == "post"])`);
+
+  const { total } = getStaticBlogs({ category: categoryName });
+  return total;
 }
 
 export async function getAllPostSlugs(): Promise<
   Array<{ slug: string; publishedAt?: string; _updatedAt?: string }>
 > {
-  return fetchFromSanity(allPostSlugsQuery);
+  try {
+    const slugs = await fetchFromSanity<
+      Array<{ slug: string; publishedAt?: string; _updatedAt?: string }>
+    >(allPostSlugsQuery);
+    if (slugs && slugs.length > 0) return slugs;
+  } catch (error) {
+    // fallback
+  }
+
+  return STATIC_BLOGS.map((b) => ({
+    slug: b.slug,
+    publishedAt: b.publishedAt,
+    _updatedAt: b.publishedAt,
+  }));
 }
 
 export async function getPostBySlug(
   slug: string
 ): Promise<SanityPost | null> {
-  const post: SanityPost | null = await fetchFromSanity(
-    postBySlugQuery,
-    { slug }
-  );
+  try {
+    const post: SanityPost | null = await fetchFromSanity(
+      postBySlugQuery,
+      { slug }
+    );
 
-  if (!post) {
-    return null;
+    if (post) {
+      return post;
+    }
+  } catch (error) {
+    console.warn("Sanity getPostBySlug error, falling back to static blogs:", error);
   }
 
-  return post;
+  const staticItem = getStaticBlogBySlug(slug);
+  if (staticItem) {
+    return mapStaticBlogToSanityPost(staticItem);
+  }
+
+  return null;
 }
 
 export async function getPostsByCategory({
@@ -295,12 +345,20 @@ export async function getRelatedPostsByCategory(
   categoryId: string,
   postId: string
 ): Promise<Blog[]> {
-  const posts: SanityPost[] = await fetchFromSanity(
-    relatedPostsByCategoryQuery,
-    { categoryId, postId }
-  );
+  try {
+    const posts: SanityPost[] = await fetchFromSanity(
+      relatedPostsByCategoryQuery,
+      { categoryId, postId }
+    );
 
-  return posts.map(mapSanityPostToBlog);
+    if (posts && posts.length > 0) {
+      return posts.map(mapSanityPostToBlog);
+    }
+  } catch (error) {
+    // fallback
+  }
+
+  return STATIC_BLOGS.filter((b) => b.id !== postId).slice(0, 3);
 }
 
 export async function getPageSeoData(): Promise<PageSeoData | null> {
