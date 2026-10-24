@@ -4,6 +4,8 @@ const nextConfig: NextConfig = {
   env: {
     NEXT_PUBLIC_GOOGLE_RECAPTCHA_SITE_KEY:
       process.env.GOOGLE_RECAPTCHA_SITE_KEY,
+    NEXT_PUBLIC_SANITY_PROJECT_ID: process.env.SANITY_PROJECT_ID,
+    NEXT_PUBLIC_SANITY_DATASET: process.env.SANITY_DATASET,
   },
   redirects: async () => {
     return [
