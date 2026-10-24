@@ -5,7 +5,7 @@ export type { PortableTextBlock };
 export interface TocHeading {
     id: string;
     text: string;
-    level: 2 | 3;
+    level: 1 | 2 | 3;
 }
 
 export function slugifyHeading(text: string): string {
@@ -20,9 +20,11 @@ export function extractTocHeadings(blocks: PortableTextBlock[]): TocHeading[] {
     const headings: TocHeading[] = [];
     const slugCounts = new Map<string, number>();
 
+    if (!blocks || !Array.isArray(blocks)) return headings;
+
     for (const block of blocks) {
         if (block._type !== "block") continue;
-        if (block.style !== "h2") continue;
+        if (block.style !== "h1" && block.style !== "h2" && block.style !== "h3") continue;
 
         const text =
             block.children
@@ -39,7 +41,7 @@ export function extractTocHeadings(blocks: PortableTextBlock[]): TocHeading[] {
         headings.push({
             id,
             text,
-            level: block.style === "h2" ? 2 : 3,
+            level: block.style === "h1" ? 1 : block.style === "h2" ? 2 : 3,
         });
     }
 
@@ -52,9 +54,11 @@ export function buildHeadingIdMap(
     const map = new Map<string, string>();
     const slugCounts = new Map<string, number>();
 
+    if (!blocks || !Array.isArray(blocks)) return map;
+
     for (const block of blocks) {
         if (block._type !== "block") continue;
-        if (block.style !== "h2" && block.style !== "h3") continue;
+        if (block.style !== "h1" && block.style !== "h2" && block.style !== "h3") continue;
 
         const text =
             block.children

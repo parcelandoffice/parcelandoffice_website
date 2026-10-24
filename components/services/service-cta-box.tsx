@@ -23,7 +23,7 @@ export default function ServiceCtaBox({ service }: { service: ServiceDetail }) {
         </div>
 
         {/* Primary Call Button */}
-        <div className="flex flex-col sm:flex-row md:flex-col gap-3 shrink-0">
+        {/* <div className="flex flex-col sm:flex-row md:flex-col gap-3 shrink-0">
           <a
             href="tel:+14105193131"
             className="group inline-flex items-center justify-center gap-2 rounded-full bg-primary px-6 py-3 text-xs sm:text-sm font-bold uppercase tracking-wider text-white shadow-xs transition-all duration-200 hover:bg-primary-dark hover:shadow-md cursor-pointer"
@@ -39,7 +39,7 @@ export default function ServiceCtaBox({ service }: { service: ServiceDetail }) {
             <MessageSquare className="h-4 w-4 text-primary" />
             <span>Send Us a Message</span>
           </Link>
-        </div>
+        </div> */}
       </div>
 
       {/* Secondary Quick Links Row */}

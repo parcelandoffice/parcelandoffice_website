@@ -11,10 +11,10 @@ export default function BlogArticleCta() {
         className="absolute inset-0 opacity-[0.06] [background-image:linear-gradient(to_right,white_1px,transparent_1px),linear-gradient(to_bottom,white_1px,transparent_1px)] [background-size:48px_48px]"
       />
       {/* Ambient Glow */}
-      <div
+      {/* <div
         aria-hidden="true"
         className="pointer-events-none absolute left-1/2 top-1/2 h-80 w-80 -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent/15 blur-3xl"
-      />
+      /> */}
 
       <div className="relative z-10 mx-auto max-w-4xl px-6 text-center sm:px-10">
         <p className="mb-4 inline-flex items-center gap-2 rounded-full bg-accent/20 px-4 py-1.5 text-xs font-bold uppercase tracking-[0.2em] text-accent">

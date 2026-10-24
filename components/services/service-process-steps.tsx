@@ -89,11 +89,6 @@ export default function ServiceProcessSteps({
           Fast, transparent, and hassle-free shipping from our Odenton counter beside Food Lion.
         </p>
 
-        {/* Hover Hint Badge */}
-        <div className="mt-3.5 inline-flex items-center gap-1.5 rounded-full border border-border/80 bg-surface px-3 py-1 text-xs font-semibold text-muted shadow-2xs">
-          <HelpCircle className="h-3.5 w-3.5 text-accent" />
-          <span>Hover step for details</span>
-        </div>
       </div>
 
       {/* Linked 4-Step Interactive Stepper */}

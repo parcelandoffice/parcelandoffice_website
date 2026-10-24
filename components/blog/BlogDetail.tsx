@@ -2,13 +2,13 @@
 
 import { formatDate, getImageUrl } from "@/lib/helpers";
 import { Blog, SanityPost } from "@/lib/types";
-import { getStaticBlogBySlug, getAdjacentBlogs } from "@/lib/static-blogs";
+import { getStaticBlogBySlug } from "@/lib/static-blogs";
 import BlogArticleCta from "@components/blog/BlogArticleCta";
 import RelatedBlogs from "@components/blog/RelatedBlogs";
-import TableOfContents from "@components/blog/TableOfContents";
+import TableOfContents, { STATIC_TOC_ITEMS } from "@components/blog/TableOfContents";
 import ArticleBody from "@components/blog/ArticleBody";
 import AuthorInformation from "@components/blog/AuthorInformation";
-import ArticleNavigation from "@components/blog/ArticleNavigation";
+import { extractTocHeadings } from "@/lib/portable-text";
 import { SanityImageSource } from "@sanity/image-url";
 import {
   Calendar,
@@ -16,9 +16,7 @@ import {
   Clock,
   Home,
   Share2,
-  Copy,
   Check,
-  User,
   Sparkles,
 } from "lucide-react";
 import Image from "next/image";
@@ -35,15 +33,10 @@ interface BlogDetailProps {
 export default function BlogDetail({
   blogDetail,
   relatedBlogs = [],
-  prevBlog: propPrevBlog,
-  nextBlog: propNextBlog,
 }: BlogDetailProps) {
   const [copied, setCopied] = useState(false);
 
-  const staticItem = getStaticBlogBySlug(blogDetail.slug);
-  const adjacent = getAdjacentBlogs(blogDetail.slug);
-  const prevBlog = propPrevBlog ?? adjacent.prevBlog;
-  const nextBlog = propNextBlog ?? adjacent.nextBlog;
+  const staticItem = getStaticBlogBySlug(blogDetail?.slug);
 
   const headerImageUrl = blogDetail?.mainImage
     ? getImageUrl(blogDetail.mainImage as SanityImageSource)
@@ -51,11 +44,20 @@ export default function BlogDetail({
 
   const readTime = staticItem?.readTime || "5 min read";
   const categoryName =
-    blogDetail.categories?.[0]?.title || staticItem?.category || "Shipping & Logistics";
+    blogDetail?.categories?.[0]?.title || staticItem?.category || "Shipping & Logistics";
   const authorName =
-    staticItem?.authorName || blogDetail.author?.name || "David Miller";
+    blogDetail?.author?.name || staticItem?.authorName || "David Miller";
   const authorRole =
-    staticItem?.authorRole || "Logistics Specialist";
+    blogDetail?.author?.additionalInfo || staticItem?.authorRole || "Logistics Specialist";
+
+  let authorAvatar = "";
+  if (blogDetail?.author?.image) {
+    try {
+      authorAvatar = getImageUrl(blogDetail.author.image as SanityImageSource);
+    } catch {
+      authorAvatar = "";
+    }
+  }
 
   const handleCopyLink = () => {
     if (typeof window !== "undefined") {
@@ -65,22 +67,20 @@ export default function BlogDetail({
     }
   };
 
+  const tocHeadings = blogDetail?.body ? extractTocHeadings(blogDetail.body) : [];
+
   return (
     <article className="min-h-screen bg-background">
       {/* ===================== HERO SECTION ===================== */}
-      <section className="relative overflow-hidden bg-primary-dark pt-8 pb-16 lg:pb-20">
+      <section className="relative overflow-hidden bg-primary-dark pt-8 pb-12 lg:pb-16">
         {/* Subtle grid background */}
         <div
           aria-hidden="true"
           className="absolute inset-0 opacity-[0.06] [background-image:linear-gradient(to_right,white_1px,transparent_1px),linear-gradient(to_bottom,white_1px,transparent_1px)] [background-size:40px_40px]"
         />
-        {/* Warm accent glow */}
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute -top-24 right-1/4 h-96 w-96 rounded-full bg-accent/15 blur-3xl"
-        />
 
-        <div className="container relative z-10 mx-auto max-w-6xl">
+        {/* Large container matching home page (max-w-7xl) */}
+        <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           {/* Breadcrumb Navigation */}
           <nav
             aria-label="Breadcrumb"
@@ -110,119 +110,130 @@ export default function BlogDetail({
             </span>
           </nav>
 
-          {/* Article Header Content */}
-          <div className="max-w-4xl">
-            {/* Category Pill & Read Time */}
-            <div className="mb-4 flex flex-wrap items-center gap-3">
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-accent px-3 py-1 text-xs font-bold uppercase tracking-wider text-white shadow-xs">
-                <Sparkles className="h-3 w-3" />
-                {categoryName}
-              </span>
+          {/* Article Header Grid: Balanced columns with prominent image and well-proportioned title */}
+          <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-12 lg:gap-10 xl:gap-14">
+            {/* Left Column: Text & Meta */}
+            <div className="lg:col-span-7 xl:col-span-6">
+              {/* Category Pill, Read Time & Published Date */}
+              <div className="mb-4 flex flex-wrap items-center gap-3">
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-accent px-3 py-1 text-xs font-bold uppercase tracking-wider text-white shadow-xs">
+                  <Sparkles className="h-3 w-3" />
+                  {categoryName}
+                </span>
 
-              <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-white/75">
-                <Clock className="h-3.5 w-3.5 text-accent" aria-hidden="true" />
-                {readTime}
-              </span>
+                <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-white/75">
+                  <Clock className="h-3.5 w-3.5 text-accent" aria-hidden="true" />
+                  {readTime}
+                </span>
 
-              <span className="text-white/30">•</span>
+                <span className="text-white/30">•</span>
 
-              <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-white/75">
-                <Calendar className="h-3.5 w-3.5 text-accent" aria-hidden="true" />
-                <time dateTime={blogDetail.publishedAt}>
-                  {formatDate(blogDetail.publishedAt)}
-                </time>
-              </span>
-            </div>
-
-            {/* Article Main Title */}
-            <h1 className="font-display text-2xl font-extrabold leading-[1.15] tracking-tight text-white sm:text-4xl lg:text-5xl">
-              {blogDetail.title}
-            </h1>
-
-            {/* Subtitle / Short Description */}
-            {blogDetail.short_description && (
-              <p className="mt-5 max-w-3xl text-base leading-relaxed text-white/80 sm:text-lg lg:text-xl">
-                {blogDetail.short_description}
-              </p>
-            )}
-
-            {/* Author Quick Attribution Bar */}
-            <div className="mt-8 flex flex-wrap items-center justify-between gap-4 border-t border-white/10 pt-6">
-              <div className="flex items-center gap-3.5">
-                <div className="flex h-11 w-11 items-center justify-center rounded-full bg-accent/20 text-accent ring-2 ring-accent/40 font-bold text-sm">
-                  {authorName
-                    .split(" ")
-                    .map((n) => n[0])
-                    .join("")}
-                </div>
-                <div>
-                  <div className="text-sm font-bold text-white">
-                    {authorName}
-                  </div>
-                  <div className="text-xs text-white/60">
-                    {authorRole} • Parcel &amp; Office
-                  </div>
-                </div>
+                <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-white/75">
+                  <Calendar className="h-3.5 w-3.5 text-accent" aria-hidden="true" />
+                  <time dateTime={blogDetail?.publishedAt}>
+                    {blogDetail?.publishedAt ? formatDate(blogDetail.publishedAt) : ""}
+                  </time>
+                </span>
               </div>
 
-              {/* Quick Share Link */}
-              <button
-                type="button"
-                onClick={handleCopyLink}
-                className="inline-flex items-center gap-1.5 rounded-xl border border-white/15 bg-white/5 px-3.5 py-2 text-xs font-bold text-white backdrop-blur-xs transition-colors hover:bg-white/15"
-              >
-                {copied ? (
-                  <>
-                    <Check className="h-3.5 w-3.5 text-accent" />
-                    <span className="text-accent">Copied to Clipboard!</span>
-                  </>
-                ) : (
-                  <>
-                    <Share2 className="h-3.5 w-3.5 text-accent" />
-                    <span>Share Article</span>
-                  </>
-                )}
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
+              {/* Article Main Title (refined text size for optimal visual balance) */}
+              <h1 className="font-display text-xl font-extrabold leading-snug tracking-tight text-white sm:text-2xl sm:leading-tight lg:text-3xl lg:leading-snug xl:text-[34px]">
+                {blogDetail?.title}
+              </h1>
 
-      {/* ===================== FEATURED IMAGE BANNER ===================== */}
-      <section className="relative z-20 -mt-10 px-4 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-5xl">
-          <div className="relative aspect-[16/9] w-full overflow-hidden rounded-3xl border-4 border-surface bg-surface shadow-[var(--shadow-float)] sm:aspect-[21/9]">
-            <Image
-              src={headerImageUrl}
-              alt={blogDetail.mainImage?.alt || blogDetail.title}
-              fill
-              priority
-              className="object-cover object-center"
-              sizes="(max-width: 1200px) 100vw, 1100px"
-            />
+              {/* Subtitle / Short Description */}
+              {blogDetail?.short_description && (
+                <p className="mt-4 text-sm leading-relaxed text-white/80 sm:text-base lg:text-lg">
+                  {blogDetail.short_description}
+                </p>
+              )}
+
+              {/* Author Quick Attribution Bar & Share Button */}
+              <div className="mt-8 flex flex-wrap items-center justify-between gap-4 border-t border-white/10 pt-5">
+                <div className="flex items-center gap-3">
+                  {authorAvatar ? (
+                    <div className="relative h-11 w-11 overflow-hidden rounded-full ring-2 ring-accent/40">
+                      <Image
+                        src={authorAvatar}
+                        alt={authorName}
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
+                  ) : (
+                    <div className="flex h-11 w-11 items-center justify-center rounded-full bg-accent/20 text-accent ring-2 ring-accent/40 font-bold text-sm">
+                      {authorName
+                        .split(" ")
+                        .map((n) => n[0])
+                        .join("")}
+                    </div>
+                  )}
+                  <div>
+                    <div className="text-sm font-bold text-white">
+                      {authorName}
+                    </div>
+                    <div className="text-xs text-white/60">
+                      {authorRole} • Parcel &amp; Office
+                    </div>
+                  </div>
+                </div>
+
+                {/* Quick Share Link */}
+                <button
+                  type="button"
+                  onClick={handleCopyLink}
+                  className="inline-flex items-center gap-1.5 rounded-xl border border-white/15 bg-white/5 px-3.5 py-2 text-xs font-bold text-white backdrop-blur-xs transition-colors hover:bg-white/15 cursor-pointer"
+                >
+                  {copied ? (
+                    <>
+                      <Check className="h-3.5 w-3.5 text-accent" />
+                      <span className="text-accent">Copied to Clipboard!</span>
+                    </>
+                  ) : (
+                    <>
+                      <Share2 className="h-3.5 w-3.5 text-accent" />
+                      <span>Share Article</span>
+                    </>
+                  )}
+                </button>
+              </div>
+            </div>
+
+            {/* Right Column: Increased Height & Width Primary Image */}
+            <div className="lg:col-span-5 xl:col-span-6">
+              <div className="relative aspect-[16/10] sm:aspect-[16/10] lg:aspect-[4/3] xl:aspect-[16/10] w-full min-h-[260px] sm:min-h-[340px] lg:min-h-[380px] xl:min-h-[420px] overflow-hidden rounded-2xl sm:rounded-3xl border border-white/15 bg-white/5 shadow-2xl">
+                <Image
+                  src={headerImageUrl}
+                  alt={blogDetail?.mainImage?.alt || blogDetail?.title || "Blog cover"}
+                  fill
+                  priority
+                  className="object-cover object-center transition-transform duration-500 hover:scale-105"
+                  sizes="(max-width: 1024px) 100vw, 620px"
+                />
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
       {/* ===================== ARTICLE BODY & TABLE OF CONTENTS ===================== */}
-      <section className="py-14 sm:py-20">
-        <div className="container mx-auto max-w-6xl">
+      <section className="py-12 sm:py-16">
+        {/* Large container matching home page (max-w-7xl) */}
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <TableOfContents
+            headings={STATIC_TOC_ITEMS}
             readTime={readTime}
-            articleTitle={blogDetail.title}
+            articleTitle={blogDetail?.title}
           >
-            {/* Structured Article Body with 6 TOC Anchors */}
+            {/* Structured Article Body rendered via PortableText */}
             <ArticleBody blogDetail={blogDetail} staticItem={staticItem} />
 
             {/* Author Information Section */}
             <AuthorInformation
-              author={blogDetail.author}
+              author={blogDetail?.author}
               authorName={authorName}
               authorRole={authorRole}
             />
-
-            {/* Previous & Next Article Navigation */}
-            <ArticleNavigation prevBlog={prevBlog} nextBlog={nextBlog} />
           </TableOfContents>
         </div>
       </section>

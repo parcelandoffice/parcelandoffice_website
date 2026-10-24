@@ -117,14 +117,6 @@ export default function ServiceWhyChoose({ service }: { service: ServiceDetail }
         ))}
       </div>
 
-      {/* Service Notice */}
-      <div className="mt-8 flex items-start gap-3 rounded-2xl border border-border/80 bg-surface-muted/60 p-4 text-xs text-muted">
-        <ShieldAlert className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
-        <p className="leading-relaxed">
-          <strong className="font-semibold text-primary-dark">Service Notice:</strong>{" "}
-          Avoid promising guaranteed delivery dates, the lowest rates, or specific insurance coverage unless these claims have been verified. Final delivery schedules, rates, and coverage depend on carrier acceptance, destination country customs, and chosen service speed.
-        </p>
-      </div>
     </section>
   );
 }
