@@ -190,12 +190,17 @@ export const SERVICES_MENU_CATEGORIES: ServiceMenuCategory[] = [
   },
 ];
 
+export function getDigitalMarketingHref(slug: string): string {
+  const clean = slug.replace(/-usa$/, "");
+  return `/${clean}-usa`;
+}
+
 export const DIGITAL_MARKETING_MENU = [
-  { label: "Social Media Marketing", href: "/digital-marketing#social-media", icon: Share2, description: "Boost brand presence & audience engagement" },
-  { label: "Lead Generation", href: "/digital-marketing#lead-gen", icon: Target, description: "Capture verified leads and customer inquiries" },
-  { label: "Google Ads & PPC", href: "/digital-marketing#google-ads", icon: TrendingUp, description: "High-ROI targeted search & display campaigns" },
-  { label: "SEO, AEO & GEO", href: "/digital-marketing#seo", icon: Globe, description: "Search, Answer & Generative Engine Optimization" },
-  { label: "Web Development", href: "/digital-marketing#web-dev", icon: Code, description: "Custom, responsive & high-converting websites" },
+  { label: "Social Media Marketing", href: "/social-media-marketing-usa", slug: "social-media-marketing", icon: Share2, description: "Boost brand presence & audience engagement" },
+  { label: "Lead Generation", href: "/lead-generation-usa", slug: "lead-generation", icon: Target, description: "Capture verified leads and customer inquiries" },
+  { label: "Google Ads & PPC", href: "/google-ads-ppc-usa", slug: "google-ads-ppc", icon: TrendingUp, description: "High-ROI targeted search & display campaigns" },
+  { label: "SEO, AEO & GEO", href: "/seo-aeo-geo-usa", slug: "seo-aeo-geo", icon: Globe, description: "Search, Answer & Generative Engine Optimization" },
+  { label: "Web Development", href: "/web-development-usa", slug: "web-development", icon: Code, description: "Custom, responsive & high-converting websites" },
 ];
 
 export const ABOUT_US_MENU = [

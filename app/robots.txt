@@ -1,4 +1,4 @@
 User-agent: *
-Allow: /
+Disallow: /
 
-Sitemap: https://rplawfirm.in/sitemap.xml
+Sitemap: https://parcelandoffice.com/sitemap.xml
