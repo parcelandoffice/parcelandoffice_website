@@ -545,9 +545,6 @@ function mapSanityToDigitalMarketingService(
       stats: (doc.heroStats && doc.heroStats.length > 0)
         ? doc.heroStats
         : (baseFallback?.hero.stats || []),
-      keyBadges: (doc.heroKeyBadges && doc.heroKeyBadges.length > 0)
-        ? doc.heroKeyBadges
-        : (baseFallback?.hero.keyBadges || []),
     },
     overview: {
       eyebrow: doc.overviewEyebrow || baseFallback?.overview.eyebrow || "Service Overview",

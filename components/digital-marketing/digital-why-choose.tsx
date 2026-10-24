@@ -26,11 +26,12 @@ export default function DigitalWhyChoose({ service }: DigitalWhyChooseProps) {
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:items-center">
           {/* Left Column: Heading & Value Proposition Banner (5 Cols) */}
           <div className="lg:col-span-5">
-            <span className="inline-block text-xs font-black uppercase tracking-wider text-accent">
-              {whyChooseUs.eyebrow}
-            </span>
+            <div className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3.5 py-1 text-xs font-black uppercase tracking-wider text-accent shadow-2xs">
+              <span className="h-1.5 w-1.5 rounded-full bg-accent" />
+              <span>{whyChooseUs.eyebrow}</span>
+            </div>
 
-            <h2 className="font-display mt-2.5 text-3xl font-black tracking-tight text-primary-dark sm:text-4xl lg:text-[40px] lg:leading-[1.15]">
+            <h2 className="font-display mt-3 text-3xl font-black tracking-tight text-primary-dark sm:text-4xl lg:text-[40px] lg:leading-[1.15]">
               {whyChooseUs.heading}
             </h2>
 
@@ -64,11 +65,11 @@ export default function DigitalWhyChoose({ service }: DigitalWhyChooseProps) {
 
             <div className="mt-8">
               <Link
-                href="/contact-us?service=social-media-marketing"
-                className="inline-flex items-center gap-2 rounded-xl bg-accent px-6 py-3.5 text-sm font-bold text-white shadow-md shadow-accent/25 transition-all hover:bg-accent-dark hover:shadow-lg hover:shadow-accent/30 active:scale-[0.98]"
+                href={`/contact-us?service=${service.slug}`}
+                className="group inline-flex items-center justify-center gap-2.5 rounded-full bg-primary px-7 py-3.5 text-xs sm:text-sm font-extrabold uppercase tracking-wider text-white shadow-xs transition-all duration-200 hover:bg-primary-dark hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
               >
                 <span>Request a Custom Proposal</span>
-                <ArrowRight className="h-4 w-4" />
+                <ArrowRight className="h-4 w-4 text-accent transition-transform duration-200 group-hover:translate-x-1" />
               </Link>
             </div>
           </div>

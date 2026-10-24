@@ -14,8 +14,8 @@ export interface DigitalMarketingSolutionItem {
   id: string;
   title: string;
   description: string;
-  icon: "strategy" | "content" | "target" | "analytics" | "campaign" | "code";
-  highlights: string[];
+  icon: "strategy" | "content" | "target" | "analytics" | "campaign" | "code" | "social" | "brand" | string;
+  highlights?: string[];
 }
 
 export interface DigitalMarketingProcessStep {
@@ -71,7 +71,6 @@ export interface DigitalMarketingServiceData {
     secondaryCtaHref: string;
     heroImage: string;
     stats: DigitalMarketingStat[];
-    keyBadges: string[];
   };
   overview: {
     eyebrow: string;
@@ -140,11 +139,6 @@ export const DIGITAL_MARKETING_SERVICES: Record<string, DigitalMarketingServiceD
         { value: "240%+", label: "Reach & Visibility Growth", subtext: "Across targeted audiences" },
         { value: "100%", label: "Tailored Brand Strategy", subtext: "Aligned with your goals" },
       ],
-      keyBadges: [
-        "Brand Awareness Growth",
-        "Targeted Campaign Strategy",
-        "Data-Driven ROI",
-      ],
     },
     overview: {
       eyebrow: "Service Overview",
@@ -189,12 +183,6 @@ export const DIGITAL_MARKETING_SERVICES: Record<string, DigitalMarketingServiceD
           description:
             "Develop a clear social media strategy, maintain active profiles and publish content aligned with your business goals.",
           icon: "strategy",
-          highlights: [
-            "Comprehensive competitor & audience market research",
-            "Consistent multi-platform profile optimization & branding",
-            "Proactive community engagement & comment moderation",
-            "Monthly analytics reporting, insights & strategy calibration",
-          ],
         },
         {
           id: "content-creation",
@@ -202,12 +190,34 @@ export const DIGITAL_MARKETING_SERVICES: Record<string, DigitalMarketingServiceD
           description:
             "Create engaging graphics, promotional posts and informative content that communicate your brand's value and connect with your audience.",
           icon: "content",
-          highlights: [
-            "Custom-branded graphic design & eye-catching promotional banners",
-            "Persuasive copywriting that drives comments, saves, and shares",
-            "Short-form video, story, and carousel post creative assets",
-            "Pre-scheduled publishing calendars for consistent brand presence",
-          ],
+        },
+        {
+          id: "facebook-instagram",
+          title: "Facebook & Instagram Marketing",
+          description:
+            "Strengthen your presence on Facebook and Instagram through platform-specific content, audience engagement and promotional campaigns.",
+          icon: "social",
+        },
+        {
+          id: "social-advertising",
+          title: "Social Media Advertising",
+          description:
+            "Reach relevant audiences through paid campaigns designed to support brand awareness, website traffic and lead generation.",
+          icon: "campaign",
+        },
+        {
+          id: "brand-awareness",
+          title: "Brand Awareness & Engagement",
+          description:
+            "Build brand recognition, encourage audience interaction and maintain a consistent brand identity across social media channels.",
+          icon: "brand",
+        },
+        {
+          id: "performance-tracking",
+          title: "Performance Tracking & Reporting",
+          description:
+            "Monitor reach, engagement, clicks and campaign performance to identify opportunities for improvement.",
+          icon: "analytics",
         },
       ],
     },
@@ -311,9 +321,24 @@ export const DIGITAL_MARKETING_SERVICES: Record<string, DigitalMarketingServiceD
       eyebrow: "Client Testimonials",
       heading: "What Our Clients Say",
       description: "Build trust with authentic feedback from businesses we've worked with.",
-      // Set approved: false until genuine social media-specific testimonials are collected,
-      // per instructions: "If social media-specific testimonials are unavailable, omit this section until suitable feedback is collected."
-      items: [],
+      items: [
+        {
+          quote:
+            "[Insert a verified client testimonial about social media strategy, content quality or communication.]",
+          clientName: "Client Name",
+          company: "Company",
+          approved: true,
+          rating: 5,
+        },
+        {
+          quote:
+            "[Insert a verified client testimonial about campaign management, engagement or business impact.]",
+          clientName: "Client Name",
+          company: "Company",
+          approved: true,
+          rating: 5,
+        },
+      ],
     },
     faqs: {
       eyebrow: "Frequently Asked Questions",
@@ -382,7 +407,6 @@ export const DIGITAL_MARKETING_SERVICES: Record<string, DigitalMarketingServiceD
         { value: "45%+", label: "Lower Cost Per Acquisition", subtext: "Optimized funnels" },
         { value: "24/7", label: "Automated Lead Capture", subtext: "Direct to your inbox" },
       ],
-      keyBadges: ["High-Intent Leads", "Custom Funnel Optimization", "Verified Inquiries"],
     },
     overview: {
       eyebrow: "Service Overview",
@@ -441,7 +465,6 @@ export const DIGITAL_MARKETING_SERVICES: Record<string, DigitalMarketingServiceD
         { value: "-35%", label: "Wasted Spend Eliminated", subtext: "Negative keyword filtering" },
         { value: "#1", label: "Top-of-Page Placement", subtext: "Local search queries" },
       ],
-      keyBadges: ["Google Certified", "Search & Display Ads", "Local Services Ads"],
     },
     overview: {
       eyebrow: "Service Overview",
@@ -500,7 +523,6 @@ export const DIGITAL_MARKETING_SERVICES: Record<string, DigitalMarketingServiceD
         { value: "#1", label: "Local Map Pack Rankings", subtext: "High-value local terms" },
         { value: "AI Ready", label: "Perplexity & ChatGPT Ready", subtext: "Generative citations" },
       ],
-      keyBadges: ["Local SEO", "Answer Engine AEO", "Generative AI GEO"],
     },
     overview: {
       eyebrow: "Service Overview",
@@ -559,7 +581,6 @@ export const DIGITAL_MARKETING_SERVICES: Record<string, DigitalMarketingServiceD
         { value: "100%", label: "Mobile-First Responsive", subtext: "Optimized for all screens" },
         { value: "+180%", label: "Conversion Rate Increase", subtext: "Intuitive user flows" },
       ],
-      keyBadges: ["Mobile-First Design", "Blazing Performance", "Conversion-Focused"],
     },
     overview: {
       eyebrow: "Service Overview",
