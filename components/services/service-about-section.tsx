@@ -46,7 +46,7 @@ export default function ServiceAboutSection({
   return (
     <section
       aria-labelledby="about-service-heading"
-      className="relative pt-1 sm:pt-2"
+      className="mt-12 sm:mt-16 relative"
     >
       {/* Subtle ambient decorative glow */}
       <div
@@ -55,22 +55,25 @@ export default function ServiceAboutSection({
       />
 
       <div className="relative">
-        {/* Section Label Badge */}
-        <div className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3.5 py-1 text-xs font-black uppercase tracking-wider text-accent shadow-2xs">
-          <Sparkles className="h-3.5 w-3.5 text-accent-dark" aria-hidden="true" />
-          <span>{aboutLabel}</span>
+        {/* Section Header */}
+        <div className="mx-auto max-w-3xl text-center">
+          {/* Section Label Badge */}
+          <div className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3.5 py-1 text-xs font-black uppercase tracking-wider text-accent shadow-2xs">
+            <Sparkles className="h-3.5 w-3.5 text-accent-dark" aria-hidden="true" />
+            <span>{aboutLabel}</span>
+          </div>
+
+          {/* Section Heading (H2) */}
+          <h2
+            id="about-service-heading"
+            className="font-display mt-3 text-2xl font-black tracking-tight text-primary-dark sm:text-3xl lg:text-4xl"
+          >
+            {aboutTitle}
+          </h2>
         </div>
 
-        {/* Section Heading (H2) */}
-        <h2
-          id="about-service-heading"
-          className="font-display mt-3 text-2xl font-black tracking-tight text-primary-dark sm:text-3xl lg:text-4xl"
-        >
-          {aboutTitle}
-        </h2>
-
         {/* Intro Story Paragraphs */}
-        <div className="mt-4 space-y-3.5 text-sm sm:text-base leading-relaxed text-muted font-normal max-w-4xl">
+        <div className="mt-5 space-y-3.5 text-sm sm:text-base leading-relaxed text-muted font-normal max-w-4xl mx-auto text-center">
           {service.introParagraphs.map((para, i) => (
             <p key={i}>{para}</p>
           ))}

@@ -40,7 +40,7 @@ export default function DigitalOverview({ service }: DigitalOverviewProps) {
   };
 
   return (
-    <section id="overview" className="bg-surface py-12 sm:py-16 lg:py-20">
+    <section id="overview" className="bg-surface py-12 sm:py-12 lg:py-10">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Top Header Card */}
         <div className="rounded-3xl border border-border bg-gradient-to-br from-surface via-surface-muted/30 to-surface-muted p-6 sm:p-10 lg:p-12 shadow-[var(--shadow-card)]">

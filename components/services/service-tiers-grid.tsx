@@ -15,15 +15,15 @@ export default function ServiceTiersGrid({ service }: { service: ServiceDetail }
       className="mt-8 sm:mt-12 relative"
     >
       {/* Header */}
-      <div className="flex flex-col gap-2 max-w-3xl">
-        <div className="inline-flex items-center gap-2 self-start rounded-full border border-border bg-surface px-3.5 py-1 text-xs font-black uppercase tracking-wider text-accent shadow-2xs">
+      <div className="mx-auto max-w-3xl text-center">
+        <div className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3.5 py-1 text-xs font-black uppercase tracking-wider text-accent shadow-2xs">
           <Zap className="h-3.5 w-3.5 text-accent-dark" aria-hidden="true" />
           <span>{sectionLabel}</span>
         </div>
 
         <h2
           id="service-tiers-heading"
-          className="font-display mt-2 text-2xl font-black tracking-tight text-primary-dark sm:text-3xl lg:text-4xl"
+          className="font-display mt-3 text-2xl font-black tracking-tight text-primary-dark sm:text-3xl lg:text-4xl"
         >
           {service.servicesOfferedTitle}
         </h2>

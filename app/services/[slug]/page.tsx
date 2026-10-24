@@ -8,7 +8,6 @@ import ServiceFaq from "@components/services/service-faq";
 import ServiceHero from "@components/services/service-hero";
 import ServiceProcessSteps from "@components/services/service-process-steps";
 import ServiceRequirementsSection from "@components/services/service-requirements";
-import ServiceSidebar from "@components/services/service-sidebar";
 import ServiceTiersGrid from "@components/services/service-tiers-grid";
 import ServiceWhyChoose from "@components/services/service-why-choose";
 import ShippableItemsGrid from "@components/services/shippable-items-grid";
@@ -101,60 +100,54 @@ export default async function ServiceDetailPage({ params }: Props) {
       {/* 1. Hero Showcase Section */}
       <ServiceHero service={service} />
 
-      {/* 2. Main 2-Column Responsive Body */}
+      {/* 2. Main Full-Width Content Container */}
       <div className="bg-surface py-10 sm:py-14 lg:py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col lg:flex-row items-start gap-8 lg:gap-12">
-            {/* Left Column: Interactive Store Services Directory Sidebar */}
-            <ServiceSidebar currentSlug={slug} />
+          <main className="w-full min-w-0">
+            {/* 1. Daily Shipping Cutoff Times and Tracking (Set at Top) */}
+            <ServiceCutoffTracking service={service} />
 
-            {/* Right Column: In-Depth Service Content */}
-            <main className="w-full flex-1 min-w-0">
-              {/* 2. About Our Service Section */}
-              <ServiceAboutSection service={service} />
+            {/* 2. About Our Service Section */}
+            <ServiceAboutSection service={service} />
 
-              {/* Service Tiers Grid (e.g. 11 FedEx Tiers) */}
-              <ServiceTiersGrid service={service} />
+            {/* 3. Service Tiers Grid (e.g. 11 FedEx Tiers) */}
+            <ServiceTiersGrid service={service} />
 
-              {/* Categorized Shippable Items (What We Pack & Ship) */}
-              <ShippableItemsGrid service={service} />
+            {/* 4. Categorized Shippable Items (What We Pack & Ship) */}
+            <ShippableItemsGrid service={service} />
 
-              {/* 5. International Shipping Destinations */}
-              <ServiceDestinationsSection service={service} />
+            {/* 5. International Shipping Destinations */}
+            <ServiceDestinationsSection service={service} />
 
-              {/* 6. Shipping Options and Requirements */}
-              <ServiceRequirementsSection service={service} />
+            {/* 6. Shipping Options and Requirements */}
+            <ServiceRequirementsSection service={service} />
 
-              {/* 7. How Our Shipping Process Works */}
-              <ServiceProcessSteps service={service} />
+            {/* 7. How Our Shipping Process Works */}
+            <ServiceProcessSteps service={service} />
 
-              {/* 8. Shipping Cutoff Times and Tracking */}
-              <ServiceCutoffTracking service={service} />
+            {/* 8. Why Choose Parcel & Office Solutions */}
+            <ServiceWhyChoose service={service} />
 
-              {/* 9. Why Choose Parcel & Office Solutions */}
-              <ServiceWhyChoose service={service} />
+            {/* 9. Customer Assistance and Final CTA */}
+            <ServiceCustomerAssistance service={service} />
 
-              {/* 10. Customer Assistance and Final CTA */}
-              <ServiceCustomerAssistance service={service} />
+            {/* 10. Frequently Asked Questions */}
+            <ServiceFaq service={service} />
 
-              {/* Frequently Asked Questions */}
-              <ServiceFaq service={service} />
-
-              {/* Bottom Quick Navigation back to Services Grid */}
-              <div className="mt-14 sm:mt-20 border-t border-border/60 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
-                <span className="font-semibold text-muted">
-                  Looking for other shipping options? Compare FedEx with UPS, DHL &amp; USPS:
-                </span>
-                <Link
-                  href="/#services"
-                  className="inline-flex shrink-0 items-center gap-1.5 font-bold text-primary hover:text-accent transition-colors"
-                >
-                  <span>Explore All Services Grid</span>
-                  <ArrowRight className="h-3.5 w-3.5" />
-                </Link>
-              </div>
-            </main>
-          </div>
+            {/* Bottom Quick Navigation back to Services Grid */}
+            <div className="mt-14 sm:mt-20 border-t border-border/60 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
+              <span className="font-semibold text-muted">
+                Looking for other shipping options? Compare FedEx with UPS, DHL &amp; USPS:
+              </span>
+              <Link
+                href="/#services"
+                className="inline-flex shrink-0 items-center gap-1.5 font-bold text-primary hover:text-accent transition-colors"
+              >
+                <span>Explore All Services Grid</span>
+                <ArrowRight className="h-3.5 w-3.5" />
+              </Link>
+            </div>
+          </main>
         </div>
       </div>
     </>

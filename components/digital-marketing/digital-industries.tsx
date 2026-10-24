@@ -7,7 +7,6 @@ import {
   UtensilsCrossed,
   Cpu,
   Layers,
-  ArrowUpRight,
 } from "lucide-react";
 import type { DigitalMarketingServiceData } from "@/lib/digital-marketing-data";
 
@@ -43,11 +42,12 @@ export default function DigitalIndustries({ service }: DigitalIndustriesProps) {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="mx-auto max-w-3xl text-center">
-          <span className="inline-block text-xs font-black uppercase tracking-wider text-accent">
-            {industries.eyebrow}
-          </span>
+          <div className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3.5 py-1 text-xs font-black uppercase tracking-wider text-accent shadow-2xs">
+            <span className="h-1.5 w-1.5 rounded-full bg-accent" />
+            <span>{industries.eyebrow}</span>
+          </div>
 
-          <h2 className="font-display mt-2.5 text-3xl font-black tracking-tight text-primary-dark sm:text-4xl">
+          <h2 className="font-display mt-3 text-3xl font-black tracking-tight text-primary-dark sm:text-4xl">
             {industries.heading}
           </h2>
 
@@ -56,48 +56,23 @@ export default function DigitalIndustries({ service }: DigitalIndustriesProps) {
           </p>
         </div>
 
-        {/* 6 Industry Cards Grid */}
-        <div className="mt-12 sm:mt-16 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {/* Compact Industry Cards Grid - Icon & Name Only */}
+        <div className="mt-10 sm:mt-12 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 sm:gap-5">
           {industries.items.map((item, idx) => {
             const IconComponent = getIndustryIcon(item.icon);
 
             return (
               <div
                 key={idx}
-                className="group relative flex flex-col justify-between rounded-3xl border border-border/80 bg-surface p-7 shadow-[var(--shadow-card)] transition-all duration-300 hover:-translate-y-1 hover:border-accent/40 hover:shadow-[var(--shadow-card-hover)]"
+                className="group flex flex-col items-center justify-center text-center rounded-2xl border border-border bg-surface p-5 sm:p-6 shadow-[var(--shadow-card)] transition-all duration-300 hover:-translate-y-1 hover:border-accent/40 hover:shadow-[var(--shadow-card-hover)]"
               >
-                <div>
-                  {/* Top Icon & Tag */}
-                  <div className="flex items-center justify-between">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary-soft text-primary transition-colors duration-200 group-hover:bg-primary group-hover:text-accent">
-                      <IconComponent className="h-6 w-6" aria-hidden="true" />
-                    </div>
-
-                    <span className="text-[11px] font-black uppercase tracking-wider text-muted-light group-hover:text-accent transition-colors">
-                      Industry 0{idx + 1}
-                    </span>
-                  </div>
-
-                  {/* Industry Title */}
-                  <h3 className="font-display mt-5 text-xl font-extrabold text-primary-dark group-hover:text-primary transition-colors">
-                    {item.title}
-                  </h3>
-
-                  {/* Industry Description */}
-                  <p className="mt-2.5 text-sm text-muted leading-relaxed">
-                    {item.description}
-                  </p>
+                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary-soft text-primary transition-all duration-300 group-hover:bg-primary group-hover:text-accent group-hover:scale-105">
+                  <IconComponent className="h-7 w-7" aria-hidden="true" />
                 </div>
 
-                {/* Bottom Card Footer */}
-                <div className="mt-6 pt-4 border-t border-border/60 flex items-center justify-between">
-                  <span className="text-xs font-semibold text-primary">
-                    Tailored Content &amp; Ads
-                  </span>
-                  <span className="flex h-6 w-6 items-center justify-center rounded-full bg-surface-muted text-muted group-hover:bg-accent-soft group-hover:text-accent-dark transition-colors">
-                    <ArrowUpRight className="h-3.5 w-3.5" />
-                  </span>
-                </div>
+                <h3 className="font-display mt-3.5 text-sm sm:text-base font-bold text-primary-dark group-hover:text-primary transition-colors leading-snug">
+                  {item.title}
+                </h3>
               </div>
             );
           })}
