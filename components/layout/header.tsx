@@ -54,7 +54,7 @@ export default function Header() {
   const todayHours = useTodayHours();
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
+    const onScroll = () => setScrolled(window.scrollY > 4);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -66,6 +66,21 @@ export default function Header() {
       document.body.style.overflow = "";
     };
   }, [mobileOpen]);
+
+  const isHomeActive = pathname === "/";
+  const isServicesActive = pathname.startsWith("/services") || pathname === "/#services";
+  const isDigitalActive =
+    pathname.startsWith("/digital-marketing") ||
+    pathname.endsWith("-usa") ||
+    DIGITAL_MARKETING_MENU.some((item) => item.href === pathname);
+  const isAboutActive = pathname.startsWith("/about-us") || pathname.startsWith("/blog");
+  const isContactActive = pathname === "/contact-us";
+
+  useEffect(() => {
+    if (isServicesActive) setMobileServicesOpen(true);
+    if (isDigitalActive) setMobileDigitalOpen(true);
+    if (isAboutActive) setMobileAboutOpen(true);
+  }, [isServicesActive, isDigitalActive, isAboutActive]);
 
   const closeAll = () => {
     setMobileOpen(false);
@@ -85,22 +100,16 @@ export default function Header() {
     closeAll();
   };
 
-  const isHomeActive = pathname === "/";
-  const isServicesActive = pathname.startsWith("/services") || pathname === "/#services";
-  const isDigitalActive =
-    pathname.startsWith("/digital-marketing") ||
-    pathname.endsWith("-usa") ||
-    DIGITAL_MARKETING_MENU.some((item) => item.href === pathname);
-  const isAboutActive = pathname.startsWith("/about-us") || pathname.startsWith("/blog");
-  const isContactActive = pathname === "/contact-us";
-
   return (
     <>
       <header className="sticky top-0 z-40 bg-surface">
         {/* Row 1: Brand Logo on Left, 2 CTAs on Right */}
         <div
-          className={`border-b border-border bg-surface transition-shadow duration-200 ${scrolled ? "shadow-[var(--shadow-card)]" : ""
-            }`}
+          className={`border-b bg-surface transition-all duration-200 ${
+            scrolled || mobileOpen
+              ? "border-border/80 shadow-[var(--shadow-card)]"
+              : "border-transparent"
+          }`}
         >
           <div className="mx-auto flex max-w-7xl items-center justify-between gap-2 sm:gap-4 px-3 sm:px-6 lg:px-8 py-2.5 sm:py-3">
             <Logo onNavigate={closeAll} />
@@ -116,10 +125,11 @@ export default function Header() {
                 <Link
                   href="/"
                   onClick={closeAll}
-                  className={`inline-flex items-center rounded-lg px-3 py-2 text-sm font-semibold transition-all duration-200 ${isHomeActive
-                    ? "bg-primary-soft text-primary font-bold shadow-2xs"
-                    : "text-foreground/80 hover:bg-surface-muted hover:text-primary"
-                    }`}
+                  className={`inline-flex items-center rounded-lg px-3 py-2 text-sm font-semibold transition-all duration-200 ${
+                    isHomeActive
+                      ? "bg-primary text-white font-bold shadow-xs"
+                      : "text-foreground/80 hover:bg-surface-muted hover:text-primary"
+                  }`}
                 >
                   <span>Home</span>
                 </Link>
@@ -141,19 +151,23 @@ export default function Header() {
                     aria-haspopup="true"
                     aria-controls="services-mega-menu"
                     onClick={() => setServicesMenuOpen((prev) => !prev)}
-                    className={`inline-flex items-center gap-1 rounded-lg px-3 py-2 text-sm font-semibold transition-all duration-200 cursor-pointer ${isServicesActive
-                      ? "bg-primary-soft text-primary font-bold shadow-2xs"
-                      : servicesMenuOpen
-                        ? "bg-surface-muted text-primary font-bold"
-                        : "text-foreground/80 hover:bg-surface-muted hover:text-primary"
-                      }`}
+                    className={`inline-flex items-center gap-1 rounded-lg px-3 py-2 text-sm font-semibold transition-all duration-200 cursor-pointer ${
+                      isServicesActive
+                        ? "bg-primary text-white font-bold shadow-xs"
+                        : servicesMenuOpen
+                          ? "bg-surface-muted text-primary font-bold"
+                          : "text-foreground/80 hover:bg-surface-muted hover:text-primary"
+                    }`}
                   >
                     <span>Services</span>
                     <ChevronDown
-                      className={`h-4 w-4 transition-transform duration-200 ${servicesMenuOpen
-                        ? "rotate-180 text-accent"
-                        : "text-muted"
-                        }`}
+                      className={`h-4 w-4 transition-transform duration-200 ${
+                        servicesMenuOpen
+                          ? "rotate-180 text-accent"
+                          : isServicesActive
+                            ? "text-accent"
+                            : "text-muted"
+                      }`}
                       aria-hidden="true"
                     />
                   </button>
@@ -201,20 +215,40 @@ export default function Header() {
                             <div className="flex flex-col gap-1">
                               {category.items.map((item) => {
                                 const Icon = item.icon;
+                                const isItemActive = pathname === item.href;
                                 return (
                                   <Link
                                     key={item.label}
                                     href={item.href}
                                     onClick={closeAll}
                                     tabIndex={servicesMenuOpen ? 0 : -1}
-                                    className="group flex items-center gap-2 rounded-lg p-1.5 text-xs font-semibold text-foreground transition-all duration-150 hover:bg-primary-soft hover:text-primary"
+                                    className={`group flex items-center justify-between gap-2 rounded-lg p-1.5 text-xs font-semibold transition-all duration-150 ${
+                                      isItemActive
+                                        ? "bg-primary text-white font-bold shadow-xs"
+                                        : "text-foreground hover:bg-primary-soft hover:text-primary"
+                                    }`}
                                   >
-                                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded bg-primary-soft text-primary transition-colors group-hover:bg-primary group-hover:text-accent">
-                                      <Icon className="h-3.5 w-3.5" aria-hidden="true" />
-                                    </span>
-                                    <span className="leading-tight group-hover:text-primary transition-colors">
-                                      {item.label}
-                                    </span>
+                                    <div className="flex items-center gap-2 min-w-0">
+                                      <span
+                                        className={`flex h-6 w-6 shrink-0 items-center justify-center rounded transition-colors ${
+                                          isItemActive
+                                            ? "bg-white/20 text-white"
+                                            : "bg-primary-soft text-primary group-hover:bg-primary group-hover:text-accent"
+                                        }`}
+                                      >
+                                        <Icon className="h-3.5 w-3.5" aria-hidden="true" />
+                                      </span>
+                                      <span
+                                        className={`leading-tight truncate ${
+                                          isItemActive ? "text-white font-bold" : "group-hover:text-primary transition-colors"
+                                        }`}
+                                      >
+                                        {item.label}
+                                      </span>
+                                    </div>
+                                    {isItemActive && (
+                                      <span className="h-1.5 w-1.5 rounded-full bg-accent animate-pulse shrink-0 mr-1" />
+                                    )}
                                   </Link>
                                 );
                               })}
@@ -242,19 +276,23 @@ export default function Header() {
                     aria-expanded={digitalMenuOpen}
                     aria-haspopup="true"
                     onClick={() => setDigitalMenuOpen((prev) => !prev)}
-                    className={`inline-flex items-center gap-1 rounded-lg px-3 py-2 text-sm font-semibold transition-all duration-200 cursor-pointer ${isDigitalActive
-                      ? "bg-primary-soft text-primary font-bold shadow-2xs"
-                      : digitalMenuOpen
-                        ? "bg-surface-muted text-primary font-bold"
-                        : "text-foreground/80 hover:bg-surface-muted hover:text-primary"
-                      }`}
+                    className={`inline-flex items-center gap-1 rounded-lg px-3 py-2 text-sm font-semibold transition-all duration-200 cursor-pointer ${
+                      isDigitalActive
+                        ? "bg-primary text-white font-bold shadow-xs"
+                        : digitalMenuOpen
+                          ? "bg-surface-muted text-primary font-bold"
+                          : "text-foreground/80 hover:bg-surface-muted hover:text-primary"
+                    }`}
                   >
                     <span>Digital Marketing Services</span>
                     <ChevronDown
-                      className={`h-4 w-4 transition-transform duration-200 ${digitalMenuOpen
-                        ? "rotate-180 text-accent"
-                        : "text-muted"
-                        }`}
+                      className={`h-4 w-4 transition-transform duration-200 ${
+                        digitalMenuOpen
+                          ? "rotate-180 text-accent"
+                          : isDigitalActive
+                            ? "text-accent"
+                            : "text-muted"
+                      }`}
                       aria-hidden="true"
                     />
                   </button>
@@ -277,24 +315,48 @@ export default function Header() {
                       <div className="flex flex-col gap-1">
                         {DIGITAL_MARKETING_MENU.map((item) => {
                           const Icon = item.icon;
+                          const isItemActive = pathname === item.href;
                           return (
                             <Link
                               key={item.label}
                               href={item.href}
                               onClick={closeAll}
-                              className="group flex items-start gap-3 rounded-lg p-2 transition-all duration-150 hover:bg-primary-soft"
+                              className={`group flex items-start justify-between gap-3 rounded-lg p-2 transition-all duration-150 ${
+                                isItemActive
+                                  ? "bg-primary text-white font-bold shadow-xs"
+                                  : "hover:bg-primary-soft"
+                              }`}
                             >
-                              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary-soft text-primary transition-colors group-hover:bg-primary group-hover:text-accent mt-0.5">
-                                <Icon className="h-4 w-4" aria-hidden="true" />
-                              </span>
-                              <div className="min-w-0">
-                                <span className="block text-xs font-bold text-foreground transition-colors group-hover:text-primary">
-                                  {item.label}
+                              <div className="flex items-start gap-3 min-w-0">
+                                <span
+                                  className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg transition-colors mt-0.5 ${
+                                    isItemActive
+                                      ? "bg-white/20 text-white"
+                                      : "bg-primary-soft text-primary group-hover:bg-primary group-hover:text-accent"
+                                  }`}
+                                >
+                                  <Icon className="h-4 w-4" aria-hidden="true" />
                                 </span>
-                                <span className="block text-[11px] text-muted line-clamp-1">
-                                  {item.description}
-                                </span>
+                                <div className="min-w-0">
+                                  <span
+                                    className={`block text-xs font-bold transition-colors ${
+                                      isItemActive ? "text-white" : "text-foreground group-hover:text-primary"
+                                    }`}
+                                  >
+                                    {item.label}
+                                  </span>
+                                  <span
+                                    className={`block text-[11px] line-clamp-1 ${
+                                      isItemActive ? "text-white/80" : "text-muted"
+                                    }`}
+                                  >
+                                    {item.description}
+                                  </span>
+                                </div>
                               </div>
+                              {isItemActive && (
+                                <span className="h-2 w-2 rounded-full bg-accent animate-pulse shrink-0 mt-2 mr-1" />
+                              )}
                             </Link>
                           );
                         })}
@@ -319,19 +381,23 @@ export default function Header() {
                     aria-expanded={aboutMenuOpen}
                     aria-haspopup="true"
                     onClick={() => setAboutMenuOpen((prev) => !prev)}
-                    className={`inline-flex items-center gap-1 rounded-lg px-3 py-2 text-sm font-semibold transition-all duration-200 cursor-pointer ${isAboutActive
-                      ? "bg-primary-soft text-primary font-bold shadow-2xs"
-                      : aboutMenuOpen
-                        ? "bg-surface-muted text-primary font-bold"
-                        : "text-foreground/80 hover:bg-surface-muted hover:text-primary"
-                      }`}
+                    className={`inline-flex items-center gap-1 rounded-lg px-3 py-2 text-sm font-semibold transition-all duration-200 cursor-pointer ${
+                      isAboutActive
+                        ? "bg-primary text-white font-bold shadow-xs"
+                        : aboutMenuOpen
+                          ? "bg-surface-muted text-primary font-bold"
+                          : "text-foreground/80 hover:bg-surface-muted hover:text-primary"
+                    }`}
                   >
                     <span>About Us</span>
                     <ChevronDown
-                      className={`h-4 w-4 transition-transform duration-200 ${aboutMenuOpen
-                        ? "rotate-180 text-accent"
-                        : "text-muted"
-                        }`}
+                      className={`h-4 w-4 transition-transform duration-200 ${
+                        aboutMenuOpen
+                          ? "rotate-180 text-accent"
+                          : isAboutActive
+                            ? "text-accent"
+                            : "text-muted"
+                      }`}
                       aria-hidden="true"
                     />
                   </button>
@@ -346,24 +412,48 @@ export default function Header() {
                       <div className="flex flex-col gap-1">
                         {ABOUT_US_MENU.map((item) => {
                           const Icon = item.icon;
+                          const isItemActive = pathname === item.href;
                           return (
                             <Link
                               key={item.label}
                               href={item.href}
                               onClick={closeAll}
-                              className="group flex items-start gap-3 rounded-lg p-2.5 transition-all duration-150 hover:bg-primary-soft"
+                              className={`group flex items-start justify-between gap-3 rounded-lg p-2.5 transition-all duration-150 ${
+                                isItemActive
+                                  ? "bg-primary text-white font-bold shadow-xs"
+                                  : "hover:bg-primary-soft"
+                              }`}
                             >
-                              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary-soft text-primary transition-colors group-hover:bg-primary group-hover:text-accent mt-0.5">
-                                <Icon className="h-4 w-4" aria-hidden="true" />
-                              </span>
-                              <div className="min-w-0">
-                                <span className="block text-xs font-bold text-foreground transition-colors group-hover:text-primary">
-                                  {item.label}
+                              <div className="flex items-start gap-3 min-w-0">
+                                <span
+                                  className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg transition-colors mt-0.5 ${
+                                    isItemActive
+                                      ? "bg-white/20 text-white"
+                                      : "bg-primary-soft text-primary group-hover:bg-primary group-hover:text-accent"
+                                  }`}
+                                >
+                                  <Icon className="h-4 w-4" aria-hidden="true" />
                                 </span>
-                                <span className="block text-[11px] text-muted line-clamp-1">
-                                  {item.description}
-                                </span>
+                                <div className="min-w-0">
+                                  <span
+                                    className={`block text-xs font-bold transition-colors ${
+                                      isItemActive ? "text-white" : "text-foreground group-hover:text-primary"
+                                    }`}
+                                  >
+                                    {item.label}
+                                  </span>
+                                  <span
+                                    className={`block text-[11px] line-clamp-1 ${
+                                      isItemActive ? "text-white/80" : "text-muted"
+                                    }`}
+                                  >
+                                    {item.description}
+                                  </span>
+                                </div>
                               </div>
+                              {isItemActive && (
+                                <span className="h-2 w-2 rounded-full bg-accent animate-pulse shrink-0 mt-2 mr-1" />
+                              )}
                             </Link>
                           );
                         })}
@@ -376,10 +466,11 @@ export default function Header() {
                 <Link
                   href="/contact-us"
                   onClick={closeAll}
-                  className={`inline-flex items-center rounded-lg px-3 py-2 text-sm font-semibold transition-all duration-200 ${isContactActive
-                    ? "bg-primary-soft text-primary font-bold shadow-2xs"
-                    : "text-foreground/80 hover:bg-surface-muted hover:text-primary"
-                    }`}
+                  className={`inline-flex items-center rounded-lg px-3 py-2 text-sm font-semibold transition-all duration-200 ${
+                    isContactActive
+                      ? "bg-primary text-white font-bold shadow-xs"
+                      : "text-foreground/80 hover:bg-surface-muted hover:text-primary"
+                  }`}
                 >
                   <span>Contact Us</span>
                 </Link>
@@ -500,15 +591,25 @@ export default function Header() {
                     <div className="grid grid-cols-1 gap-1">
                       {cat.items.map((item) => {
                         const Icon = item.icon;
+                        const isItemActive = pathname === item.href;
                         return (
                           <Link
                             key={item.label}
                             href={item.href}
                             onClick={closeAll}
-                            className="flex items-center gap-2 py-1 px-2 rounded text-xs text-foreground hover:text-primary hover:bg-surface"
+                            className={`flex items-center justify-between py-1.5 px-2.5 rounded-md text-xs transition-colors ${
+                              isItemActive
+                                ? "bg-primary text-white font-bold shadow-2xs"
+                                : "text-foreground hover:text-primary hover:bg-surface"
+                            }`}
                           >
-                            <Icon className="h-3.5 w-3.5 text-primary" />
-                            <span>{item.label}</span>
+                            <span className="flex items-center gap-2 min-w-0">
+                              <Icon className={`h-3.5 w-3.5 shrink-0 ${isItemActive ? "text-accent" : "text-primary"}`} />
+                              <span className="truncate">{item.label}</span>
+                            </span>
+                            {isItemActive && (
+                              <span className="h-1.5 w-1.5 rounded-full bg-accent shrink-0 animate-pulse ml-2" />
+                            )}
                           </Link>
                         );
                       })}
@@ -540,15 +641,25 @@ export default function Header() {
               <div className="grid grid-cols-1 gap-1 px-3 py-2 bg-surface-muted rounded-lg border-l-2 border-primary/30 ml-2">
                 {DIGITAL_MARKETING_MENU.map((item) => {
                   const Icon = item.icon;
+                  const isItemActive = pathname === item.href;
                   return (
                     <Link
                       key={item.label}
                       href={item.href}
                       onClick={closeAll}
-                      className="flex items-center gap-2 py-1 px-2 rounded text-xs text-foreground hover:text-primary hover:bg-surface"
+                      className={`flex items-center justify-between py-1.5 px-2.5 rounded-md text-xs transition-colors ${
+                        isItemActive
+                          ? "bg-primary text-white font-bold shadow-2xs"
+                          : "text-foreground hover:text-primary hover:bg-surface"
+                      }`}
                     >
-                      <Icon className="h-3.5 w-3.5 text-primary" />
-                      <span>{item.label}</span>
+                      <span className="flex items-center gap-2 min-w-0">
+                        <Icon className={`h-3.5 w-3.5 shrink-0 ${isItemActive ? "text-accent" : "text-primary"}`} />
+                        <span className="truncate">{item.label}</span>
+                      </span>
+                      {isItemActive && (
+                        <span className="h-1.5 w-1.5 rounded-full bg-accent shrink-0 animate-pulse ml-2" />
+                      )}
                     </Link>
                   );
                 })}
@@ -579,15 +690,25 @@ export default function Header() {
               <div className="grid grid-cols-1 gap-1 px-3 py-2 bg-surface-muted rounded-lg border-l-2 border-primary/30 ml-2">
                 {ABOUT_US_MENU.map((item) => {
                   const Icon = item.icon;
+                  const isItemActive = pathname === item.href;
                   return (
                     <Link
                       key={item.label}
                       href={item.href}
                       onClick={closeAll}
-                      className="flex items-center gap-2 py-1 px-2 rounded text-xs text-foreground hover:text-primary hover:bg-surface"
+                      className={`flex items-center justify-between py-1.5 px-2.5 rounded-md text-xs transition-colors ${
+                        isItemActive
+                          ? "bg-primary text-white font-bold shadow-2xs"
+                          : "text-foreground hover:text-primary hover:bg-surface"
+                      }`}
                     >
-                      <Icon className="h-3.5 w-3.5 text-primary" />
-                      <span>{item.label}</span>
+                      <span className="flex items-center gap-2 min-w-0">
+                        <Icon className={`h-3.5 w-3.5 shrink-0 ${isItemActive ? "text-accent" : "text-primary"}`} />
+                        <span className="truncate">{item.label}</span>
+                      </span>
+                      {isItemActive && (
+                        <span className="h-1.5 w-1.5 rounded-full bg-accent shrink-0 animate-pulse ml-2" />
+                      )}
                     </Link>
                   );
                 })}

@@ -1,37 +1,56 @@
 import React from "react";
+import Image from "next/image";
 import {
   Globe,
-  Compass,
-  Landmark,
-  Building2,
-  Globe2,
   ArrowRight,
   ShieldCheck,
   Phone,
+  MapPin,
+  Check,
 } from "lucide-react";
 import type { ServiceDetail } from "@/lib/service-details";
 import { BUSINESS } from "@/lib/site-data";
 
-const REGION_ICONS = [
+interface DestinationRegion {
+  name: string;
+  image: string;
+  badge: string;
+  popularDestinations: string[];
+  description: string;
+}
+
+const DESTINATION_REGIONS: DestinationRegion[] = [
   {
     name: "North America",
-    icon: Compass,
-    tagline: "Express Cross-Border Routes",
+    image: "/images/north_america_map.jpg",
+    badge: "Direct Delivery",
+    popularDestinations: ["Canada", "Mexico", "Puerto Rico", "US Territories"],
+    description:
+      "Reliable transborder shipping with fast ground and expedited air express options.",
   },
   {
     name: "Europe",
-    icon: Landmark,
-    tagline: "Time-Critical European Delivery",
+    image: "/images/europe_map.jpg",
+    badge: "40+ Countries",
+    popularDestinations: ["United Kingdom", "Germany", "France", "Italy", "Spain"],
+    description:
+      "Comprehensive coverage across the UK and European Union with customs assistance.",
   },
   {
     name: "Asia-Pacific",
-    icon: Building2,
-    tagline: "Major Asian Trade Hubs",
+    image: "/images/asia_pacific_map.jpg",
+    badge: "Priority Routes",
+    popularDestinations: ["India", "Japan", "Australia", "China", "South Korea"],
+    description:
+      "Direct air connections to major commercial, tech, and financial centers.",
   },
   {
     name: "Other International Destinations",
-    icon: Globe2,
-    tagline: "220+ Countries & Territories",
+    image: "/images/world_map.jpg",
+    badge: "220+ Countries",
+    popularDestinations: ["Middle East", "Latin America", "Africa", "Caribbean"],
+    description:
+      "Worldwide door-to-door network connecting Odenton, MD to destinations across the globe.",
   },
 ];
 
@@ -45,7 +64,7 @@ export default function ServiceDestinationsSection({
     service.destinationsTitle || "Send Documents and Packages Around the World";
   const sectionSubtitle =
     service.destinationsSubtitle ||
-    "DHL Express connects shippers with international destinations through its global delivery network. Whether you're sending business paperwork, personal documents, or eligible parcels, destination availability and transit times depend on the selected service.";
+    `${service.title || "International shipping"} connects shippers with global destinations through worldwide delivery networks. Whether you're sending business paperwork, personal documents, or eligible parcels, destination availability and transit times depend on the selected service.`;
   const ctaLabel =
     service.destinationsCtaLabel || "Get an International Shipping Quote";
   const ctaHref = service.ctaQuoteHref || BUSINESS.phoneHref;
@@ -53,24 +72,18 @@ export default function ServiceDestinationsSection({
   return (
     <section
       aria-labelledby="global-destinations-heading"
-      className="mt-10 sm:mt-12 rounded-3xl border border-border/90 bg-gradient-to-br from-surface via-surface to-surface-muted/40 p-6 sm:p-8 lg:p-9 shadow-[var(--shadow-card)] relative overflow-hidden"
+      className="mt-8 sm:mt-12 relative"
     >
-      {/* Decorative ambient background */}
-      <div
-        className="pointer-events-none absolute -top-24 -right-24 h-64 w-64 rounded-full bg-accent/10 blur-3xl"
-        aria-hidden="true"
-      />
-
       {/* Header */}
       <div className="max-w-3xl">
-        <div className="inline-flex items-center gap-1.5 rounded-full border border-accent/25 bg-accent-soft/80 px-3 py-1 text-[11px] font-black uppercase tracking-wider text-accent-dark shadow-2xs">
-          <Globe className="h-3 w-3 text-accent" aria-hidden="true" />
+        <div className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3.5 py-1 text-xs font-black uppercase tracking-wider text-accent shadow-2xs">
+          <Globe className="h-3.5 w-3.5 text-accent-dark" aria-hidden="true" />
           <span>{sectionLabel}</span>
         </div>
 
         <h2
           id="global-destinations-heading"
-          className="font-display mt-3 text-2xl font-black tracking-tight text-primary-dark sm:text-3xl lg:text-[32px] lg:leading-snug"
+          className="font-display mt-3 text-2xl font-black tracking-tight text-primary-dark sm:text-3xl lg:text-4xl"
         >
           {sectionTitle}
         </h2>
@@ -80,54 +93,60 @@ export default function ServiceDestinationsSection({
         </p>
       </div>
 
-      {/* Suggested Country / Region Icons Grid */}
-      <div className="mt-7 grid grid-cols-2 md:grid-cols-4 gap-3.5 sm:gap-4">
-        {REGION_ICONS.map((region) => {
-          const Icon = region.icon;
-          return (
-            <div
-              key={region.name}
-              className="group relative flex flex-col items-center text-center rounded-2xl border border-border/80 bg-surface p-5 sm:p-6 transition-all duration-300 hover:border-accent/50 hover:shadow-[var(--shadow-card-hover)] hover:-translate-y-1"
-            >
-              <span className="flex h-13 w-13 sm:h-14 sm:w-14 items-center justify-center rounded-2xl bg-primary-soft text-primary transition-all duration-300 group-hover:bg-accent group-hover:text-primary-dark group-hover:scale-105 shadow-2xs">
-                <Icon className="h-6 w-6 stroke-[2.2]" />
-              </span>
+      {/* 4 Continent / Region Cards */}
+      <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 sm:gap-5">
+        {DESTINATION_REGIONS.map((region) => (
+          <div
+            key={region.name}
+            className="group flex flex-col rounded-2xl border border-border/80 bg-surface shadow-2xs transition-all duration-300 hover:-translate-y-1 hover:border-accent/60 hover:shadow-lg overflow-hidden"
+          >
+            {/* Image Container */}
+            <div className="relative h-44 sm:h-48 w-full overflow-hidden bg-surface-muted/40 border-b border-border/60">
+              <Image
+                src={region.image}
+                alt={`${region.name} shipping map`}
+                fill
+                sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 25vw"
+                className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+              />
+              {/* Badge overlay on top of image */}
+              <div className="absolute top-3 right-3 z-10">
+                <span className="inline-flex items-center rounded-full bg-primary-dark/85 backdrop-blur-xs px-2.5 py-0.5 text-[10px] font-black uppercase tracking-wider text-white shadow-xs border border-white/15">
+                  {region.badge}
+                </span>
+              </div>
+            </div>
 
-              <h3 className="font-display mt-3 text-sm sm:text-base font-extrabold text-primary-dark transition-colors group-hover:text-primary leading-snug">
+            {/* Content */}
+            <div className="p-4 sm:p-5 flex flex-col flex-1">
+              <h3 className="font-display text-base font-bold text-primary-dark group-hover:text-primary transition-colors">
                 {region.name}
               </h3>
-
-              <p className="mt-1 text-[11px] font-semibold text-muted">
-                {region.tagline}
+              <p className="mt-1.5 text-xs text-muted leading-relaxed flex-1">
+                {region.description}
               </p>
+
             </div>
-          );
-        })}
+          </div>
+        ))}
       </div>
 
-      {/* Action / CTA Bar */}
-      <div className="mt-8 pt-6 border-t border-border/80 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div className="flex items-start gap-3">
-          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-accent-soft text-accent-dark mt-0.5">
-            <ShieldCheck className="h-5 w-5" />
+      {/* Centered CTA Section */}
+      <div className="mt-10 flex flex-col items-center justify-center text-center gap-3.5">
+        <div className="flex items-center justify-center gap-2 text-xs sm:text-sm font-medium text-muted max-w-xl">
+          <ShieldCheck className="h-4 w-4 text-accent shrink-0" />
+          <span>
+            Fast, reliable courier delivery directly from our Odenton, MD counter.
           </span>
-          <div>
-            <p className="text-xs sm:text-sm font-bold text-primary-dark">
-              Fast, reliable courier delivery directly from our Odenton, MD counter.
-            </p>
-            <p className="text-xs text-muted mt-0.5">
-              We assist with destination customs paperwork, packing, and declared value coverage.
-            </p>
-          </div>
         </div>
 
         <a
           href={ctaHref}
-          className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-accent px-6 py-3 text-xs sm:text-sm font-black text-primary-dark transition-all duration-200 hover:bg-accent-light hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 shadow-2xs group cursor-pointer"
+          className="group inline-flex items-center justify-center gap-2.5 rounded-full bg-primary px-7 py-3 text-xs sm:text-sm font-extrabold uppercase tracking-wider text-white shadow-xs transition-all duration-200 hover:bg-primary-dark hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
         >
-          <Phone className="h-3.5 w-3.5" />
+          <Phone className="h-4 w-4 transition-transform group-hover:scale-110" />
           <span>{ctaLabel}</span>
-          <ArrowRight className="h-4 w-4 stroke-[2.5] transition-transform group-hover:translate-x-0.5" />
+          <ArrowRight className="h-4 w-4 stroke-[2.5] transition-transform duration-200 group-hover:translate-x-0.5" />
         </a>
       </div>
     </section>

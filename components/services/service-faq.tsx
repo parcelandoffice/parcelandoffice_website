@@ -20,7 +20,7 @@ export default function ServiceFaq({ service }: { service: ServiceDetail }) {
     "Got questions about drop-offs, pickup deadlines, or boxes? Here is what you need to know:";
 
   return (
-    <section id="faqs" aria-labelledby="service-faq-heading" className="mt-12 border-t border-border pt-10">
+    <section id="faqs" aria-labelledby="service-faq-heading" className="mt-8 sm:mt-12 relative">
       {/* Section Header */}
       <div className="text-center max-w-3xl mx-auto">
         <div className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3.5 py-1 text-xs font-black uppercase tracking-wider text-accent shadow-2xs">
@@ -52,11 +52,10 @@ export default function ServiceFaq({ service }: { service: ServiceDetail }) {
           return (
             <div
               key={idx}
-              className={`overflow-hidden rounded-2xl border transition-all duration-300 ${
-                isOpen
-                  ? "border-primary/40 bg-surface shadow-[var(--shadow-card)]"
-                  : "border-border/80 bg-surface hover:border-accent/40"
-              }`}
+              className={`overflow-hidden rounded-2xl border transition-all duration-300 ${isOpen
+                ? "border-primary/40 bg-surface shadow-[var(--shadow-card)]"
+                : "border-border/80 bg-surface hover:border-accent/40"
+                }`}
             >
               <button
                 type="button"
@@ -68,11 +67,10 @@ export default function ServiceFaq({ service }: { service: ServiceDetail }) {
               >
                 <div className="flex items-center gap-3.5">
                   <span
-                    className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-lg text-xs font-black transition-colors ${
-                      isOpen
-                        ? "bg-accent text-white"
-                        : "bg-primary-soft text-primary"
-                    }`}
+                    className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-lg text-xs font-black transition-colors ${isOpen
+                      ? "bg-accent text-white"
+                      : "bg-primary-soft text-primary"
+                      }`}
                   >
                     Q
                   </span>
@@ -82,9 +80,8 @@ export default function ServiceFaq({ service }: { service: ServiceDetail }) {
                 </div>
 
                 <ChevronDown
-                  className={`h-5 w-5 shrink-0 text-muted transition-transform duration-300 ${
-                    isOpen ? "rotate-180 text-accent" : ""
-                  }`}
+                  className={`h-5 w-5 shrink-0 text-muted transition-transform duration-300 ${isOpen ? "rotate-180 text-accent" : ""
+                    }`}
                   aria-hidden="true"
                 />
               </button>
@@ -93,9 +90,8 @@ export default function ServiceFaq({ service }: { service: ServiceDetail }) {
                 id={answerId}
                 role="region"
                 aria-labelledby={questionId}
-                className={`grid transition-all duration-300 ease-in-out ${
-                  isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
-                }`}
+                className={`grid transition-all duration-300 ease-in-out ${isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+                  }`}
               >
                 <div className="overflow-hidden">
                   <div className="border-t border-border/60 px-6 pt-4 pb-6 text-sm sm:text-base leading-relaxed text-muted font-normal pl-16">

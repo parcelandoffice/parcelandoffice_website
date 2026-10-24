@@ -61,6 +61,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function ServiceDetailPage({ params }: Props) {
   const { slug } = await params;
   const service = getServiceDetail(slug);
+  service.faqHeading = "FAQs About DHL Shipping"
 
   if (!service) {
     notFound();
@@ -140,7 +141,7 @@ export default async function ServiceDetailPage({ params }: Props) {
               <ServiceFaq service={service} />
 
               {/* Bottom Quick Navigation back to Services Grid */}
-              <div className="mt-12 flex flex-col sm:flex-row items-center justify-between gap-4 rounded-2xl border border-border/80 bg-surface-muted/40 p-4 sm:p-5 text-xs">
+              <div className="mt-14 sm:mt-20 border-t border-border/60 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
                 <span className="font-semibold text-muted">
                   Looking for other shipping options? Compare FedEx with UPS, DHL &amp; USPS:
                 </span>

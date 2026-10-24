@@ -26,15 +26,15 @@ export default function ServiceCtaBox({ service }: { service: ServiceDetail }) {
         <div className="flex flex-col sm:flex-row md:flex-col gap-3 shrink-0">
           <a
             href="tel:+14105193131"
-            className="group inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-6 py-3.5 text-sm font-bold text-white shadow-xs transition-all duration-200 hover:bg-accent hover:text-primary-dark hover:shadow-md cursor-pointer"
+            className="group inline-flex items-center justify-center gap-2 rounded-full bg-primary px-6 py-3 text-xs sm:text-sm font-bold uppercase tracking-wider text-white shadow-xs transition-all duration-200 hover:bg-primary-dark hover:shadow-md cursor-pointer"
           >
-            <Phone className="h-4 w-4 text-accent group-hover:text-primary-dark" />
+            <Phone className="h-4 w-4 text-white group-hover:scale-110 transition-transform" />
             <span>Call (410) 519-3131</span>
           </a>
 
           <Link
             href="/contact-us"
-            className="inline-flex items-center justify-center gap-2 rounded-xl border border-border bg-surface px-6 py-3 text-sm font-bold text-foreground transition-all duration-200 hover:border-primary hover:text-primary"
+            className="inline-flex items-center justify-center gap-2 rounded-full border border-border bg-surface px-6 py-3 text-xs sm:text-sm font-bold uppercase tracking-wider text-foreground transition-all duration-200 hover:border-primary hover:text-primary"
           >
             <MessageSquare className="h-4 w-4 text-primary" />
             <span>Send Us a Message</span>

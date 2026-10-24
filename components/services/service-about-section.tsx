@@ -46,31 +46,31 @@ export default function ServiceAboutSection({
   return (
     <section
       aria-labelledby="about-service-heading"
-      className="relative overflow-hidden rounded-3xl border border-border/90 bg-surface p-6 sm:p-8 lg:p-9 shadow-[var(--shadow-card)]"
+      className="relative pt-1 sm:pt-2"
     >
       {/* Subtle ambient decorative glow */}
       <div
-        className="pointer-events-none absolute -top-24 -right-24 h-64 w-64 rounded-full bg-gradient-to-br from-accent/15 via-primary-soft/30 to-transparent blur-2xl"
+        className="pointer-events-none absolute -top-20 -right-20 h-72 w-72 rounded-full bg-gradient-to-br from-accent/10 via-primary-soft/20 to-transparent blur-3xl"
         aria-hidden="true"
       />
 
       <div className="relative">
         {/* Section Label Badge */}
-        <div className="inline-flex items-center gap-1.5 rounded-full border border-accent/25 bg-accent-soft/80 px-3 py-1 text-[11px] font-black uppercase tracking-wider text-accent-dark shadow-2xs">
-          <Sparkles className="h-3 w-3 text-accent" aria-hidden="true" />
+        <div className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3.5 py-1 text-xs font-black uppercase tracking-wider text-accent shadow-2xs">
+          <Sparkles className="h-3.5 w-3.5 text-accent-dark" aria-hidden="true" />
           <span>{aboutLabel}</span>
         </div>
 
         {/* Section Heading (H2) */}
         <h2
           id="about-service-heading"
-          className="font-display mt-3 text-2xl font-black tracking-tight text-primary-dark sm:text-3xl lg:text-[32px] lg:leading-snug"
+          className="font-display mt-3 text-2xl font-black tracking-tight text-primary-dark sm:text-3xl lg:text-4xl"
         >
           {aboutTitle}
         </h2>
 
         {/* Intro Story Paragraphs */}
-        <div className="mt-4 space-y-3.5 text-sm sm:text-base leading-relaxed text-muted font-normal">
+        <div className="mt-4 space-y-3.5 text-sm sm:text-base leading-relaxed text-muted font-normal max-w-4xl">
           {service.introParagraphs.map((para, i) => (
             <p key={i}>{para}</p>
           ))}
@@ -114,41 +114,7 @@ export default function ServiceAboutSection({
           })}
         </div>
 
-        {/* Reassurance Callout Bar */}
-        <div className="mt-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-2xl border border-border/80 bg-surface-muted/50 p-4 sm:p-5">
-          <div className="flex items-start gap-3">
-            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-accent-soft text-accent-dark mt-0.5">
-              <ShieldCheck className="h-5 w-5" />
-            </span>
-            <div>
-              <p className="text-xs sm:text-sm font-bold text-primary-dark">
-                {isDHL
-                  ? "Sending overseas? Our staff verifies international customs documents on the spot."
-                  : "Need assistance preparing your package? Our staff is here to help."}
-              </p>
-              <p className="text-xs text-muted mt-0.5">
-                Visit our Odenton store beside Food Lion • No appointment needed • Free counter drop-off scans
-              </p>
-            </div>
-          </div>
 
-          <div className="flex items-center gap-2 shrink-0">
-            <a
-              href={BUSINESS.phoneHref}
-              className="inline-flex items-center gap-1.5 rounded-xl bg-surface border border-border px-3.5 py-2 text-xs font-bold text-primary hover:border-accent/50 hover:text-accent-dark transition-colors shadow-2xs"
-            >
-              <Phone className="h-3.5 w-3.5 text-accent" />
-              <span>Call 410.519.3131</span>
-            </a>
-            <Link
-              href="/contact"
-              className="inline-flex items-center gap-1.5 rounded-xl bg-primary px-3.5 py-2 text-xs font-bold text-white hover:bg-primary-light transition-colors shadow-2xs"
-            >
-              <MapPin className="h-3.5 w-3.5 text-accent" />
-              <span>Directions</span>
-            </Link>
-          </div>
-        </div>
       </div>
     </section>
   );

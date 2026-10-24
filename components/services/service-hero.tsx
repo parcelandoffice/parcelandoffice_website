@@ -49,15 +49,14 @@ export default function ServiceHero({ service }: { service: ServiceDetail }) {
     <section className="relative overflow-hidden border-b border-border bg-gradient-to-b from-surface-muted/70 via-surface to-surface py-7 sm:py-9 lg:py-12">
       {/* Subtle Carrier-Themed Ambient Lighting Glow */}
       <div
-        className={`pointer-events-none absolute -top-32 -left-32 h-96 w-96 rounded-full blur-3xl opacity-35 ${
-          isDHL
+        className={`pointer-events-none absolute -top-32 -left-32 h-96 w-96 rounded-full blur-3xl opacity-35 ${isDHL
             ? "bg-[#FFCC00]/40"
             : isFedEx
               ? "bg-[#4D148C]/25"
               : isUPS
                 ? "bg-[#FFB500]/30"
                 : "bg-accent/20"
-        }`}
+          }`}
         aria-hidden="true"
       />
       <div
@@ -180,33 +179,20 @@ export default function ServiceHero({ service }: { service: ServiceDetail }) {
               <a
                 href={quoteHref}
                 id="hero-primary-cta"
-                className="inline-flex items-center justify-center gap-2.5 rounded-xl bg-accent px-6 py-3.5 text-sm font-black text-primary-dark transition-all duration-200 hover:bg-accent-light hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 shadow-xs cursor-pointer group"
+                className="group inline-flex items-center justify-center gap-2 rounded-full bg-primary px-7 py-3 text-xs sm:text-sm font-extrabold uppercase tracking-wider text-white shadow-xs transition-all duration-200 hover:bg-primary-dark hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
               >
-                <Phone className="h-4 w-4 text-primary-dark group-hover:scale-110 transition-transform" />
                 <span>{quoteLabel}</span>
-                <ArrowRight className="h-3.5 w-3.5 stroke-[3] transition-transform group-hover:translate-x-0.5" />
+                <ArrowRight className="h-4 w-4 stroke-[2.5] transition-transform duration-200 group-hover:translate-x-0.5" />
               </a>
 
               <Link
                 href={storeHref}
                 id="hero-secondary-cta"
-                className="inline-flex items-center justify-center gap-2.5 rounded-xl border border-border bg-surface px-6 py-3.5 text-sm font-bold text-secondary transition-all duration-200 hover:bg-surface-muted hover:border-primary/40 hover:shadow-xs active:translate-y-0 cursor-pointer group"
+                className="group inline-flex items-center justify-center gap-2 rounded-full border border-border bg-surface px-6 py-3 text-xs sm:text-sm font-bold text-secondary transition-all duration-200 hover:bg-surface-muted hover:border-primary/40 hover:shadow-xs active:translate-y-0 cursor-pointer"
               >
                 <MapPin className="h-4 w-4 text-accent group-hover:scale-110 transition-transform" />
                 <span>{storeLabel}</span>
               </Link>
-            </div>
-
-            {/* Micro Reassurance Tagline */}
-            <div className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted font-medium">
-              <span className="flex items-center gap-1 font-semibold text-primary">
-                <Sparkles className="h-3 w-3 text-accent" />
-                <span>5.0 Star Rated Odenton Hub</span>
-              </span>
-              <span className="text-muted-light/60">•</span>
-              <span>Official Carrier Scan Receipts</span>
-              <span className="text-muted-light/60">•</span>
-              <span>No Appointments Needed</span>
             </div>
           </div>
 

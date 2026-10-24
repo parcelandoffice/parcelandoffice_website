@@ -69,31 +69,25 @@ export default function ServiceProcessSteps({
   return (
     <section
       aria-labelledby="shipping-process-heading"
-      className="mt-10 sm:mt-12 rounded-3xl border border-border/90 bg-gradient-to-br from-surface via-surface to-surface-muted/40 p-6 sm:p-8 lg:p-9 shadow-[var(--shadow-card)] relative overflow-hidden"
+      className="mt-8 sm:mt-12 relative"
     >
-      {/* Decorative ambient background */}
-      <div
-        className="pointer-events-none absolute -bottom-24 -left-24 h-64 w-64 rounded-full bg-accent/10 blur-3xl"
-        aria-hidden="true"
-      />
-
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
         <div className="max-w-2xl">
-          <div className="inline-flex items-center gap-1.5 rounded-full border border-accent/25 bg-accent-soft/80 px-3 py-1 text-[11px] font-black uppercase tracking-wider text-accent-dark shadow-2xs">
-            <Sparkles className="h-3 w-3 text-accent" aria-hidden="true" />
+          <div className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3.5 py-1 text-xs font-black uppercase tracking-wider text-accent shadow-2xs">
+            <Sparkles className="h-3.5 w-3.5 text-accent-dark" aria-hidden="true" />
             <span>{sectionLabel}</span>
           </div>
 
           <h2
             id="shipping-process-heading"
-            className="font-display mt-3 text-2xl font-black tracking-tight text-primary-dark sm:text-3xl lg:text-[32px] lg:leading-snug"
+            className="font-display mt-3 text-2xl font-black tracking-tight text-primary-dark sm:text-3xl lg:text-4xl"
           >
             {sectionTitle}
           </h2>
 
           <p className="mt-2 text-sm sm:text-base leading-relaxed text-muted font-medium">
-            Fast, transparent, and hassle-free international shipping from our Odenton counter beside Food Lion.
+            Fast, transparent, and hassle-free shipping from our Odenton counter beside Food Lion.
           </p>
         </div>
 

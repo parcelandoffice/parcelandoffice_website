@@ -45,8 +45,8 @@ export default function ServiceCutoffTracking({
       const url = dhlCarrier
         ? `${dhlCarrier.url}${encodeURIComponent(cleanNum)}`
         : `https://www.dhl.com/us-en/home/tracking/tracking-express.html?submit=1&tracking-id=${encodeURIComponent(
-            cleanNum,
-          )}`;
+          cleanNum,
+        )}`;
       window.open(url, "_blank", "noopener,noreferrer");
     } else {
       window.open(defaultTrackingUrl, "_blank", "noopener,noreferrer");
@@ -56,24 +56,18 @@ export default function ServiceCutoffTracking({
   return (
     <section
       aria-labelledby="cutoff-tracking-heading"
-      className="mt-10 sm:mt-12 rounded-3xl border border-border/90 bg-surface p-6 sm:p-8 lg:p-9 shadow-[var(--shadow-card)] relative overflow-hidden"
+      className="mt-8 sm:mt-12 relative"
     >
-      {/* Decorative ambient background */}
-      <div
-        className="pointer-events-none absolute -top-24 -right-24 h-64 w-64 rounded-full bg-accent/10 blur-3xl"
-        aria-hidden="true"
-      />
-
       {/* Header */}
       <div className="max-w-3xl">
-        <div className="inline-flex items-center gap-1.5 rounded-full border border-accent/25 bg-accent-soft/80 px-3 py-1 text-[11px] font-black uppercase tracking-wider text-accent-dark shadow-2xs">
-          <Clock className="h-3 w-3 text-accent" aria-hidden="true" />
+        <div className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3.5 py-1 text-xs font-black uppercase tracking-wider text-accent shadow-2xs">
+          <Clock className="h-3.5 w-3.5 text-accent-dark" aria-hidden="true" />
           <span>{sectionLabel}</span>
         </div>
 
         <h2
           id="cutoff-tracking-heading"
-          className="font-display mt-3 text-2xl font-black tracking-tight text-primary-dark sm:text-3xl lg:text-[32px] lg:leading-snug"
+          className="font-display mt-3 text-2xl font-black tracking-tight text-primary-dark sm:text-3xl lg:text-4xl"
         >
           {sectionTitle}
         </h2>
@@ -230,7 +224,7 @@ export default function ServiceCutoffTracking({
           <div className="flex items-center gap-2 self-stretch sm:self-end">
             <button
               type="submit"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-accent px-6 py-2.5 text-xs sm:text-sm font-black text-primary-dark transition-all duration-200 hover:bg-accent-light hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 shadow-2xs cursor-pointer"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full bg-primary px-6 py-2.5 text-xs sm:text-sm font-bold uppercase tracking-wider text-white shadow-xs transition-all duration-200 hover:bg-primary-dark hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
             >
               <span>{ctaLabel}</span>
               <ExternalLink className="h-3.5 w-3.5" />

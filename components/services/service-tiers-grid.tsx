@@ -1,5 +1,5 @@
 import React from "react";
-import { Clock, Zap, CheckCircle2, ArrowRight, ShieldCheck } from "lucide-react";
+import { Zap, CheckCircle2, ArrowRight, ShieldCheck } from "lucide-react";
 import type { ServiceDetail } from "@/lib/service-details";
 import { BUSINESS } from "@/lib/site-data";
 
@@ -12,23 +12,23 @@ export default function ServiceTiersGrid({ service }: { service: ServiceDetail }
   return (
     <section
       aria-labelledby="service-tiers-heading"
-      className="mt-10 sm:mt-12 rounded-3xl border border-border/90 bg-surface p-6 sm:p-8 lg:p-9 shadow-[var(--shadow-card)] relative overflow-hidden"
+      className="mt-8 sm:mt-12 relative"
     >
       {/* Header */}
-      <div className="flex flex-col gap-2">
-        <div className="inline-flex items-center gap-1.5 self-start rounded-full border border-accent/25 bg-accent-soft/80 px-3 py-1 text-[11px] font-black uppercase tracking-wider text-accent-dark shadow-2xs">
-          <Zap className="h-3 w-3 text-accent" aria-hidden="true" />
+      <div className="flex flex-col gap-2 max-w-3xl">
+        <div className="inline-flex items-center gap-2 self-start rounded-full border border-border bg-surface px-3.5 py-1 text-xs font-black uppercase tracking-wider text-accent shadow-2xs">
+          <Zap className="h-3.5 w-3.5 text-accent-dark" aria-hidden="true" />
           <span>{sectionLabel}</span>
         </div>
 
         <h2
           id="service-tiers-heading"
-          className="font-display mt-1 text-2xl font-black tracking-tight text-primary-dark sm:text-3xl lg:text-[32px] lg:leading-snug"
+          className="font-display mt-2 text-2xl font-black tracking-tight text-primary-dark sm:text-3xl lg:text-4xl"
         >
           {service.servicesOfferedTitle}
         </h2>
 
-        <p className="mt-1 text-sm sm:text-base leading-relaxed text-muted max-w-3xl font-medium">
+        <p className="mt-2 text-sm sm:text-base leading-relaxed text-muted font-medium">
           {service.servicesOfferedSubtitle}
         </p>
       </div>
@@ -38,32 +38,19 @@ export default function ServiceTiersGrid({ service }: { service: ServiceDetail }
         {service.servicesList.map((tier) => (
           <div
             key={tier.name}
-            className={`group relative flex flex-col justify-between rounded-2xl border p-5 sm:p-5.5 transition-all duration-300 hover:-translate-y-1 hover:shadow-[var(--shadow-card-hover)] ${
-              tier.featured
-                ? "border-accent/40 bg-gradient-to-b from-accent-soft/30 via-surface to-surface shadow-[var(--shadow-card)]"
-                : "border-border/90 bg-gradient-to-b from-surface via-surface to-surface-muted/30 shadow-[var(--shadow-card)] hover:border-primary/40"
-            }`}
+            className="group relative flex flex-col justify-between rounded-2xl border border-accent/40 bg-gradient-to-b from-accent-soft/30 via-surface to-surface p-5 sm:p-5.5 shadow-[var(--shadow-card)] transition-all duration-300 hover:border-accent hover:-translate-y-1 hover:shadow-[var(--shadow-card-hover)]"
           >
             <div>
               {/* Header Badges */}
-              <div className="flex items-center justify-between gap-2">
+              <div className="flex items-center">
                 <span
-                  className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[10px] font-black uppercase tracking-wider ${
-                    tier.featured
-                      ? "bg-accent text-primary-dark shadow-2xs"
-                      : "bg-primary-soft text-primary border border-primary/10"
-                  }`}
+                  className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-[10px] font-normal uppercase tracking-wider ${tier.featured
+                    ? "bg-accent text-primary-dark shadow-2xs"
+                    : "bg-primary-soft text-primary border border-primary/10"
+                    }`}
                 >
-                  <Clock className="h-3 w-3" />
                   {tier.badge}
                 </span>
-
-                {tier.featured && (
-                  <span className="inline-flex items-center gap-1 text-[10px] font-black uppercase tracking-wider text-accent-dark">
-                    <Zap className="h-3 w-3 fill-accent text-accent" />
-                    Popular
-                  </span>
-                )}
               </div>
 
               {/* Service Title */}
@@ -115,10 +102,10 @@ export default function ServiceTiersGrid({ service }: { service: ServiceDetail }
 
         <a
           href={ctaHref}
-          className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-accent px-5 py-2.5 text-xs sm:text-sm font-black text-primary-dark transition-all duration-200 hover:bg-accent-light hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 shadow-2xs"
+          className="group inline-flex shrink-0 items-center justify-center gap-2 rounded-full bg-primary px-6 py-2.5 text-xs sm:text-sm font-bold uppercase tracking-wider text-white shadow-xs transition-all duration-200 hover:bg-primary-dark hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
         >
           <span>{ctaLabel}</span>
-          <ArrowRight className="h-4 w-4 stroke-[2.5]" />
+          <ArrowRight className="h-4 w-4 stroke-[2.5] transition-transform duration-200 group-hover:translate-x-0.5" />
         </a>
       </div>
     </section>

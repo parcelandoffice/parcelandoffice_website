@@ -60,18 +60,18 @@ export default function ServiceRequirementsSection({
   return (
     <section
       aria-labelledby="shipping-requirements-heading"
-      className="mt-10 sm:mt-12 rounded-3xl border border-border/90 bg-surface p-6 sm:p-8 lg:p-9 shadow-[var(--shadow-card)] relative overflow-hidden"
+      className="mt-8 sm:mt-12 relative"
     >
       {/* Header */}
       <div className="max-w-3xl">
-        <div className="inline-flex items-center gap-1.5 rounded-full border border-accent/25 bg-accent-soft/80 px-3 py-1 text-[11px] font-black uppercase tracking-wider text-accent-dark shadow-2xs">
-          <ClipboardCheck className="h-3 w-3 text-accent" aria-hidden="true" />
+        <div className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3.5 py-1 text-xs font-black uppercase tracking-wider text-accent shadow-2xs">
+          <ClipboardCheck className="h-3.5 w-3.5 text-accent-dark" aria-hidden="true" />
           <span>{sectionLabel}</span>
         </div>
 
         <h2
           id="shipping-requirements-heading"
-          className="font-display mt-3 text-2xl font-black tracking-tight text-primary-dark sm:text-3xl lg:text-[32px] lg:leading-snug"
+          className="font-display mt-3 text-2xl font-black tracking-tight text-primary-dark sm:text-3xl lg:text-4xl"
         >
           {sectionTitle}
         </h2>
