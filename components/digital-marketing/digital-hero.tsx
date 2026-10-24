@@ -36,7 +36,7 @@ export default function DigitalHero({ service }: DigitalHeroProps) {
               <ChevronRight className="h-3.5 w-3.5 text-muted-light/60" aria-hidden="true" />
             </li>
             <li>
-              <Link href="/digital-marketing-services" className="hover:text-primary transition-colors">
+              <Link href="/social-media-marketing-usa" className="hover:text-primary transition-colors">
                 Digital Marketing Services
               </Link>
             </li>

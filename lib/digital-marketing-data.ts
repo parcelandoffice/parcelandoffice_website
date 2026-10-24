@@ -603,7 +603,7 @@ export const DIGITAL_MARKETING_SLUGS = Object.keys(DIGITAL_MARKETING_SERVICES);
 
 export function getDigitalMarketingService(slug: string): DigitalMarketingServiceData | undefined {
   if (!slug) return undefined;
-  const normalized = slug.toLowerCase().trim();
+  const normalized = slug.toLowerCase().trim().replace(/-usa$/, "");
   
   // Exact match
   if (DIGITAL_MARKETING_SERVICES[normalized]) {

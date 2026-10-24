@@ -126,6 +126,7 @@ export type SanityService = {
   _id: string;
   title: string;
   slug?: { current: string };
+  serviceType?: "standard" | "digital-marketing";
   shortDescription?: string;
   iconName?: string;
   customIcon?: SanityImageSource;
@@ -134,6 +135,79 @@ export type SanityService = {
   isFeatured?: boolean;
   badge?: string;
   customUrl?: string;
+
+  // Digital Marketing Hero
+  heroEyebrow?: string;
+  heroTagline?: string;
+  heroDescription?: string;
+  heroImage?: SanityImageSource;
+  heroCtaText?: string;
+  heroCtaHref?: string;
+  heroSecondaryCtaText?: string;
+  heroSecondaryCtaHref?: string;
+  heroStats?: { value: string; label: string; subtext?: string }[];
+  heroKeyBadges?: string[];
+
+  // Digital Marketing Overview
+  overviewEyebrow?: string;
+  overviewHeading?: string;
+  overviewParagraphs?: string[];
+  pillarsTitle?: string;
+  pillars?: { title: string; description: string; icon: string }[];
+
+  // Digital Marketing Solutions
+  solutionsEyebrow?: string;
+  solutionsHeading?: string;
+  solutionsDescription?: string;
+  solutionItems?: {
+    id: string;
+    title: string;
+    description: string;
+    icon: string;
+    highlights: string[];
+  }[];
+
+  // Digital Marketing Process
+  processEyebrow?: string;
+  processHeading?: string;
+  processSubtitle?: string;
+  processSteps?: { step: string; title: string; description: string }[];
+
+  // Digital Marketing Industries
+  industriesEyebrow?: string;
+  industriesHeading?: string;
+  industriesDescription?: string;
+  industryItems?: { title: string; description: string; icon: string }[];
+
+  // Digital Marketing Why Choose Us
+  whyChooseEyebrow?: string;
+  whyChooseHeading?: string;
+  whyChooseSubtitle?: string;
+  whyChoosePoints?: { title: string; description: string }[];
+
+  // Digital Marketing Testimonials
+  testimonialsEyebrow?: string;
+  testimonialsHeading?: string;
+  testimonialsDescription?: string;
+  testimonialsList?: {
+    quote: string;
+    clientName: string;
+    company: string;
+    role?: string;
+    rating?: number;
+  }[];
+
+  // Digital Marketing FAQs
+  faqsEyebrow?: string;
+  faqsHeading?: string;
+  faqsDescription?: string;
+  faqsList?: { question: string; answer: string }[];
+
+  // Digital Marketing Final CTA
+  finalCtaHeading?: string;
+  finalCtaDescription?: string;
+  finalCtaButtonText?: string;
+  finalCtaButtonHref?: string;
 };
 
 export type HomePageData = {
