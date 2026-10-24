@@ -72,27 +72,25 @@ export default function ServiceProcessSteps({
       className="mt-8 sm:mt-12 relative"
     >
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-        <div className="max-w-2xl">
-          <div className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3.5 py-1 text-xs font-black uppercase tracking-wider text-accent shadow-2xs">
-            <Sparkles className="h-3.5 w-3.5 text-accent-dark" aria-hidden="true" />
-            <span>{sectionLabel}</span>
-          </div>
-
-          <h2
-            id="shipping-process-heading"
-            className="font-display mt-3 text-2xl font-black tracking-tight text-primary-dark sm:text-3xl lg:text-4xl"
-          >
-            {sectionTitle}
-          </h2>
-
-          <p className="mt-2 text-sm sm:text-base leading-relaxed text-muted font-medium">
-            Fast, transparent, and hassle-free shipping from our Odenton counter beside Food Lion.
-          </p>
+      <div className="mx-auto max-w-3xl text-center">
+        <div className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3.5 py-1 text-xs font-black uppercase tracking-wider text-accent shadow-2xs">
+          <Sparkles className="h-3.5 w-3.5 text-accent-dark" aria-hidden="true" />
+          <span>{sectionLabel}</span>
         </div>
 
+        <h2
+          id="shipping-process-heading"
+          className="font-display mt-3 text-2xl font-black tracking-tight text-primary-dark sm:text-3xl lg:text-4xl"
+        >
+          {sectionTitle}
+        </h2>
+
+        <p className="mt-2 text-sm sm:text-base leading-relaxed text-muted font-medium">
+          Fast, transparent, and hassle-free shipping from our Odenton counter beside Food Lion.
+        </p>
+
         {/* Hover Hint Badge */}
-        <div className="hidden sm:inline-flex items-center gap-1.5 rounded-full border border-border/80 bg-surface px-3 py-1 text-xs font-semibold text-muted shadow-2xs shrink-0 self-start sm:self-auto">
+        <div className="mt-3.5 inline-flex items-center gap-1.5 rounded-full border border-border/80 bg-surface px-3 py-1 text-xs font-semibold text-muted shadow-2xs">
           <HelpCircle className="h-3.5 w-3.5 text-accent" />
           <span>Hover step for details</span>
         </div>

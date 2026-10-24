@@ -127,7 +127,7 @@ export default function TableOfContents({
 
       <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-[300px_minmax(0,1fr)] xl:gap-14">
         {/* ===================== SIDEBAR ===================== */}
-        <aside className="lg:sticky lg:top-24 lg:max-h-[calc(100vh-7rem)] lg:overflow-y-auto lg:self-start">
+        <aside className="lg:sticky lg:top-24 lg:self-start [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
           {/* Mobile Accordion */}
           <div className="lg:hidden mb-6 rounded-2xl border border-border bg-surface shadow-xs">
             <button
@@ -193,10 +193,10 @@ export default function TableOfContents({
           </div>
 
           {/* Desktop Table of Contents Card */}
-          <div className="hidden lg:block space-y-6">
+          <div className="hidden lg:block space-y-4">
             <div className="overflow-hidden rounded-2xl border border-border/80 bg-surface shadow-[var(--shadow-card)]">
               {/* Card Header */}
-              <div className="border-b border-border/60 bg-gradient-to-r from-surface-muted to-surface p-5">
+              <div className="border-b border-border/60 bg-gradient-to-r from-surface-muted to-surface px-4.5 py-4">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-primary/10 text-primary">
@@ -222,7 +222,7 @@ export default function TableOfContents({
               </div>
 
               {/* Navigation List */}
-              <nav aria-label="Table of contents" className="p-3">
+              <nav aria-label="Table of contents" className="p-2.5">
                 <ul className="space-y-1">
                   {resolvedHeadings.map((heading, idx) => {
                     const isActive = activeId === heading.id;
@@ -234,7 +234,7 @@ export default function TableOfContents({
                             e.preventDefault();
                             handleNavigate(heading.id);
                           }}
-                          className={`group relative flex items-center gap-3 rounded-xl px-3 py-2.5 text-xs transition-all duration-200 ${
+                          className={`group relative flex items-center gap-3 rounded-xl px-3 py-2 text-xs transition-all duration-200 ${
                             isActive
                               ? "bg-primary text-white font-bold shadow-xs"
                               : "text-muted hover:bg-surface-muted hover:text-foreground font-medium"
@@ -260,7 +260,7 @@ export default function TableOfContents({
               </nav>
 
               {/* Card Footer: Quick Share & Read Time */}
-              <div className="border-t border-border/60 bg-surface-muted/40 p-4">
+              <div className="border-t border-border/60 bg-surface-muted/40 px-4 py-3">
                 <div className="flex items-center justify-between text-xs text-muted">
                   <span className="inline-flex items-center gap-1.5 font-medium">
                     <Clock className="h-3.5 w-3.5 text-accent" />
@@ -270,7 +270,7 @@ export default function TableOfContents({
                   <button
                     type="button"
                     onClick={handleCopyLink}
-                    className="inline-flex items-center gap-1.5 font-bold text-primary transition-colors hover:text-accent"
+                    className="inline-flex items-center gap-1.5 font-bold text-primary transition-colors hover:text-accent cursor-pointer"
                     title="Copy article link"
                   >
                     {copied ? (
@@ -290,15 +290,15 @@ export default function TableOfContents({
             </div>
 
             {/* Helpline / Store Assistance Card */}
-            <div className="rounded-2xl border border-primary/20 bg-gradient-to-br from-primary-soft/70 via-surface to-surface p-5 shadow-xs">
+            <div className="rounded-2xl border border-primary/20 bg-gradient-to-br from-primary-soft/70 via-surface to-surface p-4 shadow-xs">
               <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-primary">
                 <PhoneCall className="h-3.5 w-3.5 text-accent" />
                 <span>Odenton Store Help</span>
               </div>
-              <p className="mt-2 text-xs leading-relaxed text-muted">
+              <p className="mt-1.5 text-xs leading-relaxed text-muted">
                 Questions about courier drop-offs, packing materials, or mailbox rentals?
               </p>
-              <div className="mt-3.5 flex flex-col gap-2">
+              <div className="mt-3 flex flex-col gap-2">
                 <a
                   href={BUSINESS.phoneHref}
                   className="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-3 py-2 text-xs font-bold text-white shadow-xs transition-colors hover:bg-primary-light"
