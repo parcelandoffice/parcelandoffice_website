@@ -1,16 +1,21 @@
-import type { Metadata } from "next";
-import { notFound } from "next/navigation";
-import { getServiceDetail, SERVICES_DETAILS } from "@/lib/service-details";
-import { BUSINESS, SITE_NAME, SERVICES } from "@/lib/site-data";
+import { getServiceDetail } from "@/lib/service-details";
+import { BUSINESS, SERVICES, SITE_NAME } from "@/lib/site-data";
+import ServiceAboutSection from "@components/services/service-about-section";
+import ServiceCustomerAssistance from "@components/services/service-customer-assistance";
+import ServiceCutoffTracking from "@components/services/service-cutoff-tracking";
+import ServiceDestinationsSection from "@components/services/service-destinations";
+import ServiceFaq from "@components/services/service-faq";
 import ServiceHero from "@components/services/service-hero";
+import ServiceProcessSteps from "@components/services/service-process-steps";
+import ServiceRequirementsSection from "@components/services/service-requirements";
 import ServiceSidebar from "@components/services/service-sidebar";
 import ServiceTiersGrid from "@components/services/service-tiers-grid";
+import ServiceWhyChoose from "@components/services/service-why-choose";
 import ShippableItemsGrid from "@components/services/shippable-items-grid";
-import PackingTlcSection from "@components/services/packing-tlc-section";
-import ServiceCtaBox from "@components/services/service-cta-box";
-import ServiceFaq from "@components/services/service-faq";
-import { Truck, CheckCircle, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
+import type { Metadata } from "next";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -104,43 +109,8 @@ export default async function ServiceDetailPage({ params }: Props) {
 
             {/* Right Column: In-Depth Service Content */}
             <main className="w-full flex-1 min-w-0">
-              {/* Introduction Story Copy */}
-              <div className="rounded-3xl border border-border bg-surface p-6 sm:p-8 lg:p-9 shadow-[var(--shadow-card)]">
-                <span className="text-xs font-black uppercase tracking-wider text-accent">
-                  About Our Service
-                </span>
-                <h2 className="font-display mt-1 text-2xl font-black tracking-tight text-primary-dark sm:text-3xl">
-                  Fast, Reliable Service at Competitive Rates
-                </h2>
-
-                <div className="mt-4 space-y-3.5 text-sm sm:text-base leading-relaxed text-muted">
-                  {service.introParagraphs.map((para, i) => (
-                    <p key={i}>{para}</p>
-                  ))}
-                </div>
-
-                {/* 4 Key Highlight Benefit Cards */}
-                <div className="mt-8 grid gap-3.5 sm:grid-cols-2">
-                  {service.keyHighlights.map((hl) => (
-                    <div
-                      key={hl.title}
-                      className="flex items-start gap-3 rounded-2xl border border-border/80 bg-surface-muted/50 p-4 transition-all duration-200 hover:border-accent/40 hover:bg-surface hover:shadow-xs"
-                    >
-                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-primary-soft text-primary">
-                        <CheckCircle className="h-4.5 w-4.5 text-accent stroke-[2.5]" />
-                      </span>
-                      <div>
-                        <h3 className="font-display text-sm font-extrabold text-primary-dark">
-                          {hl.title}
-                        </h3>
-                        <p className="mt-0.5 text-xs text-muted leading-relaxed">
-                          {hl.description}
-                        </p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
+              {/* 2. About Our Service Section */}
+              <ServiceAboutSection service={service} />
 
               {/* Service Tiers Grid (e.g. 11 FedEx Tiers) */}
               <ServiceTiersGrid service={service} />
@@ -148,11 +118,23 @@ export default async function ServiceDetailPage({ params }: Props) {
               {/* Categorized Shippable Items (What We Pack & Ship) */}
               <ShippableItemsGrid service={service} />
 
-              {/* Packaging & TLC Guarantee */}
-              {/* <PackingTlcSection service={service} /> */}
+              {/* 5. International Shipping Destinations */}
+              <ServiceDestinationsSection service={service} />
 
-              {/* Have A Question / Callout CTA */}
-              <ServiceCtaBox service={service} />
+              {/* 6. Shipping Options and Requirements */}
+              <ServiceRequirementsSection service={service} />
+
+              {/* 7. How Our Shipping Process Works */}
+              <ServiceProcessSteps service={service} />
+
+              {/* 8. Shipping Cutoff Times and Tracking */}
+              <ServiceCutoffTracking service={service} />
+
+              {/* 9. Why Choose Parcel & Office Solutions */}
+              <ServiceWhyChoose service={service} />
+
+              {/* 10. Customer Assistance and Final CTA */}
+              <ServiceCustomerAssistance service={service} />
 
               {/* Frequently Asked Questions */}
               <ServiceFaq service={service} />

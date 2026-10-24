@@ -3,19 +3,32 @@ export type ServiceDetail = {
   carrierType?: "fedex" | "ups" | "dhl" | "usps" | "office";
   category: "Shipping & Mailing" | "Packing" | "Printing & Document Services" | "Business & Personal Services";
   title: string;
+  shortTitle?: string;
+  breadcrumbTitle?: string;
   headline: string;
   subheadline: string;
   eyebrow: string;
   heroImage: string;
   heroBadge: string;
+  aboutLabel?: string;
+  aboutTitle?: string;
+  ctaQuoteLabel?: string;
+  ctaQuoteHref?: string;
+  ctaStoreLabel?: string;
+  ctaStoreHref?: string;
+  quickPerks?: string[];
   introParagraphs: string[];
   keyHighlights: {
     title: string;
     description: string;
     icon: string;
+    badge?: string;
   }[];
+  servicesOfferedLabel?: string;
   servicesOfferedTitle: string;
   servicesOfferedSubtitle: string;
+  servicesCtaLabel?: string;
+  servicesCtaHref?: string;
   servicesList: {
     name: string;
     badge: string;
@@ -23,13 +36,45 @@ export type ServiceDetail = {
     speed: string;
     featured?: boolean;
   }[];
+  shippableItemsLabel?: string;
   shippableItemsTitle: string;
   shippableItemsSubtitle: string;
+  shippableImportantNotice?: string;
   shippableCategories: {
     categoryName: string;
     icon: string;
     items: string[];
   }[];
+  destinationsLabel?: string;
+  destinationsTitle?: string;
+  destinationsSubtitle?: string;
+  destinationsCtaLabel?: string;
+  requirementsLabel?: string;
+  requirementsTitle?: string;
+  requirementsSubtitle?: string;
+  requirementsNotice?: string;
+  processLabel?: string;
+  processTitle?: string;
+  cutoffTrackingLabel?: string;
+  cutoffTrackingTitle?: string;
+  cutoffTrackingSubtitle?: string;
+  cutoffTrackingCtaLabel?: string;
+  cutoffTrackingCtaHref?: string;
+  whyChooseLabel?: string;
+  whyChooseTitle?: string;
+  whyChooseSubtitle?: string;
+  whyChooseNotice?: string;
+  whyChooseItems?: {
+    title: string;
+    description: string;
+    icon?: string;
+  }[];
+  customerAssistanceLabel?: string;
+  customerAssistanceTitle?: string;
+  customerAssistanceSubtitle?: string;
+  faqEyebrow?: string;
+  faqHeading?: string;
+  faqDescription?: string;
   packingCommitment: {
     title: string;
     quote: string;
@@ -53,12 +98,25 @@ export const SERVICES_DETAILS: Record<string, ServiceDetail> = {
     carrierType: "fedex",
     category: "Shipping & Mailing",
     title: "FedEx Shipping in Odenton, MD",
+    shortTitle: "FedEx Shipping",
+    breadcrumbTitle: "FedEx Shipping",
     headline: "FedEx Shipping in Odenton, MD",
     subheadline:
       "Your One Stop Shop For FedEx Express®, FedEx Ground® and International Shipping Solutions",
     eyebrow: "Officially Recognized FedEx Authorized ShipCenter®",
     heroImage: "/images/fedex-hero.jpg",
     heroBadge: "FedEx Authorized ShipCenter®",
+    aboutLabel: "ABOUT OUR SERVICE",
+    aboutTitle: "Fast, Reliable FedEx Shipping at Competitive Rates",
+    ctaQuoteLabel: "Get a FedEx Shipping Quote",
+    ctaQuoteHref: "tel:+14105193131",
+    ctaStoreLabel: "Visit Our Store",
+    ctaStoreHref: "/contact",
+    quickPerks: [
+      "Today's Express Cutoff: 6:00 PM",
+      "Free Drop-Off Counter Scans",
+      "Shipping and Packaging Assistance",
+    ],
     introParagraphs: [
       "For fast, reliable service at competitive rates, FedEx delivers! Parcel & Office Solutions is an officially recognized FedEx Authorized ShipCenter and as such provides convenient access to FedEx Ground®, FedEx Express® and FedEx International products and service.",
       "As one of the world's most-recognized brands, FedEx delivers your shipments to almost any address in the US and to millions of addresses in over 200 countries worldwide.",
@@ -212,6 +270,10 @@ export const SERVICES_DETAILS: Record<string, ServiceDetail> = {
       groundTime: "4:00 PM",
       notice: "Packages brought in before today's cutoff are guaranteed to depart on tonight's FedEx route.",
     },
+    faqEyebrow: "HELP & ANSWERS",
+    faqHeading: "Frequently Asked Questions About FedEx Shipping",
+    faqDescription:
+      "Got questions about drop-offs, pickup deadlines, or official packaging? Here is what you need to know:",
     faqs: [
       {
         question: "What are today's FedEx pickup cutoffs at your Odenton store?",
@@ -241,11 +303,24 @@ export const SERVICES_DETAILS: Record<string, ServiceDetail> = {
     carrierType: "ups",
     category: "Shipping & Mailing",
     title: "UPS Shipping in Odenton, MD",
+    shortTitle: "UPS Shipping",
+    breadcrumbTitle: "UPS Shipping",
     headline: "UPS Authorized Shipping Outlet in Odenton, MD",
     subheadline: "Complete UPS Air, Ground, and International Shipping Services Under One Roof",
     eyebrow: "Authorized UPS Shipping Outlet (ASO)",
     heroImage: "/images/slider2.jpg",
-    heroBadge: "UPS Authorized Shipping Outlet",
+    heroBadge: "Authorized UPS Shipping Outlet",
+    aboutLabel: "ABOUT OUR SERVICE",
+    aboutTitle: "Fast, Reliable UPS Shipping at Competitive Rates",
+    ctaQuoteLabel: "Get a UPS Shipping Quote",
+    ctaQuoteHref: "tel:+14105193131",
+    ctaStoreLabel: "Visit Our Store",
+    ctaStoreHref: "/contact",
+    quickPerks: [
+      "Today's Express Cutoff: 5:30 PM",
+      "Free Drop-Off Counter Scans",
+      "Shipping and Packaging Assistance",
+    ],
     introParagraphs: [
       "Parcel & Office Solutions is your neighborhood UPS Authorized Shipping Outlet in Odenton, MD. Whether you need overnight delivery across the United States or reliable ground delivery for commercial packages, we have you covered.",
       "Drop off your UPS returns, ship outbound parcels, or let our staff professionally pack your fragile items for guaranteed transit safe arrival.",
@@ -343,6 +418,10 @@ export const SERVICES_DETAILS: Record<string, ServiceDetail> = {
       groundTime: "5:00 PM",
       notice: "Daily UPS air and ground pickups arrive promptly every weekday evening.",
     },
+    faqEyebrow: "HELP & ANSWERS",
+    faqHeading: "Frequently Asked Questions About UPS Shipping",
+    faqDescription:
+      "Got questions about pre-paid drop-offs, daily pickup times, or packing assistance? Here is what you need to know:",
     faqs: [
       {
         question: "Can I drop off pre-paid UPS packages here?",
@@ -359,76 +438,180 @@ export const SERVICES_DETAILS: Record<string, ServiceDetail> = {
     slug: "dhl-shipping",
     carrierType: "dhl",
     category: "Shipping & Mailing",
-    title: "DHL Express Shipping in Odenton, MD",
+    title: "DHL Shipping in Odenton, MD",
+    shortTitle: "DHL Shipping",
+    breadcrumbTitle: "DHL Shipping",
     headline: "DHL Express International Courier in Odenton, MD",
-    subheadline: "Fast, Reliable Worldwide Courier and Document Delivery Across 220+ Countries",
+    subheadline:
+      "Fast, Reliable Worldwide Courier and Document Delivery Across 220+ Countries and Territories.",
     eyebrow: "Authorized DHL Express ServicePoint",
     heroImage: "/images/slider3.jpg",
-    heroBadge: "DHL Authorized ServicePoint",
+    heroBadge: "Authorized DHL Express ServicePoint",
+    aboutLabel: "ABOUT OUR SERVICE",
+    aboutTitle: "Fast, Reliable DHL Shipping at Competitive Rates",
+    ctaQuoteLabel: "Get a DHL Shipping Quote",
+    ctaQuoteHref: "tel:+14105193131",
+    ctaStoreLabel: "Visit Our Store",
+    ctaStoreHref: "/contact",
+    quickPerks: [
+      "Today's Express Cutoff: 5:30 PM",
+      "Free Drop-Off Counter Scans",
+      "Shipping and Packaging Assistance",
+    ],
     introParagraphs: [
-      "Need to send urgent documents or packages abroad? Parcel & Office Solutions is an official DHL Express ServicePoint in Odenton, MD.",
-      "DHL Express connects you to over 220 countries and territories with rapid customs clearance and end-to-end milestone tracking.",
+      "Need to send important documents or packages abroad? Parcel & Office Solutions offers DHL Express shipping services from Odenton, MD, helping individuals and businesses send shipments to international destinations.",
+      "From urgent documents to business packages, our team can help you explore available shipping options, prepare your shipment, and understand applicable customs documentation.",
     ],
     keyHighlights: [
       {
         title: "Daily DHL Pickup",
-        description: "Express departures scheduled daily at 5:30 PM.",
-        icon: "plane",
+        description:
+          "Convenient drop-off with scheduled carrier pickup, subject to the confirmed pickup schedule.",
+        icon: "truck",
+        badge: "Scheduled Pickup",
       },
       {
-        title: "Customs Paperwork Assistance",
-        description: "We help you prepare commercial invoices, harmonized tariff codes, and declaration forms.",
-        icon: "file-text",
-      },
-      {
-        title: "220+ Countries & Territories",
-        description: "The global market leader in international express courier services.",
+        title: "International Shipping",
+        description:
+          "Access available DHL Express services for destinations around the world.",
         icon: "globe",
+        badge: "220+ Countries",
       },
       {
-        title: "Door-to-Door Tracking",
-        description: "Real-time updates as your shipment travels international customs checkpoints.",
+        title: "Customs Documentation Assistance",
+        description:
+          "Get help understanding commercial invoices and other required shipping documents.",
+        icon: "file-text",
+        badge: "Paperwork Help",
+      },
+      {
+        title: "Shipment Tracking",
+        description:
+          "Track eligible shipments using the tracking details provided by DHL.",
         icon: "barcode",
+        badge: "Live Milestones",
       },
     ],
-    servicesOfferedTitle: "DHL International Courier Services In-Store:",
-    servicesOfferedSubtitle: "Fast international delivery backed by DHL's worldwide logistics network.",
+    servicesOfferedLabel: "COMPREHENSIVE CARRIER SOLUTIONS",
+    servicesOfferedTitle: "DHL International Courier Services In-Store",
+    servicesOfferedSubtitle:
+      "Find a DHL shipping option that fits your delivery needs. Available services, delivery estimates, and rates depend on the destination, shipment details, and DHL service availability.",
+    servicesCtaLabel: "Explore DHL Shipping Options",
+    servicesCtaHref: "tel:+14105193131",
     servicesList: [
       {
         name: "DHL Express Worldwide",
         badge: "Top Global",
-        description: "Time-critical delivery by the end of the next possible business day worldwide.",
+        description:
+          "For international documents and packages requiring reliable express delivery.",
         speed: "1–3 Business Days",
         featured: true,
       },
       {
         name: "DHL Express 12:00",
         badge: "Midday Arrival",
-        description: "Guaranteed delivery before 12:00 noon to major international trade centers.",
+        description:
+          "A time-definite delivery option for eligible destinations where the service is available.",
         speed: "Next Business Day Midday",
       },
       {
-        name: "DHL Express Envelope",
-        badge: "Documents",
-        description: "Fast, secure door-to-door transit for urgent legal, financial, and personal paperwork.",
+        name: "DHL Document and Package Shipping",
+        badge: "Customs Ready",
+        description:
+          "Send eligible documents and packages internationally with appropriate shipping labels and customs paperwork.",
         speed: "1–2 Days Worldwide",
         featured: true,
       },
     ],
+    shippableItemsLabel: "WHAT WE SHIP",
     shippableItemsTitle: "International Items Commonly Shipped via DHL",
-    shippableItemsSubtitle: "Ensure smooth customs clearance with our expert guidance and packing.",
+    shippableItemsSubtitle:
+      "We can help you prepare eligible international shipments for personal, educational, and business purposes. Shipment acceptance depends on DHL rules, destination-country regulations, and customs requirements.",
+    shippableImportantNotice:
+      "Important: Restricted items, dangerous goods, food, medicines, and certain electronic products may require special approval or may not be accepted. Confirm eligibility before shipping.",
     shippableCategories: [
       {
         categoryName: "International Documents",
         icon: "file-text",
-        items: ["Passports & immigration papers", "University applications & transcripts", "Legal contracts & deeds", "Financial agreements"],
+        items: [
+          "Passports and immigration paperwork, where permitted",
+          "University applications and transcripts",
+          "Legal contracts and business documents",
+          "Financial and commercial paperwork",
+        ],
       },
       {
-        categoryName: "Commercial Cargo & Goods",
+        categoryName: "Commercial Cargo and Goods",
         icon: "package",
-        items: ["Business inventory & samples", "Apparel & textiles", "Electronics & spare parts", "Gifts to overseas family"],
+        items: [
+          "Business inventory and samples",
+          "Apparel and textiles",
+          "Eligible electronics and accessories",
+          "Gifts and personal belongings",
+        ],
       },
     ],
+    destinationsLabel: "GLOBAL SHIPPING",
+    destinationsTitle: "Send Documents and Packages Around the World",
+    destinationsSubtitle:
+      "DHL Express connects shippers with international destinations through its global delivery network. Whether you're sending business paperwork, personal documents, or eligible parcels, destination availability and transit times depend on the selected service.",
+    destinationsCtaLabel: "Get an International Shipping Quote",
+    requirementsLabel: "SHIPMENT PREPARATION",
+    requirementsTitle: "What You Need Before Shipping With DHL",
+    requirementsSubtitle:
+      "Prepare the essential shipment details before visiting the store.",
+    requirementsNotice:
+      "Our team can help you understand the shipping information and documentation needed for your shipment. Final acceptance and customs requirements are determined by DHL and the destination country.",
+    processLabel: "HOW IT WORKS",
+    processTitle: "Ship With DHL in Four Simple Steps",
+    cutoffTrackingLabel: "CUTOFF TIMES & TRACKING",
+    cutoffTrackingTitle: "Know Your Shipping Cutoff and Track Your Package",
+    cutoffTrackingSubtitle:
+      "Planning your shipment around the daily pickup schedule can help you prepare for dispatch. Actual pickup times, carrier acceptance, transit estimates, and delivery dates may vary.",
+    cutoffTrackingCtaLabel: "Track Your DHL Shipment",
+    cutoffTrackingCtaHref:
+      "https://www.dhl.com/us-en/home/tracking/tracking-express.html",
+    whyChooseLabel: "WHY CHOOSE US",
+    whyChooseTitle: "Convenient International Shipping Support in Odenton, MD",
+    whyChooseSubtitle:
+      "Why Choose Parcel & Office Solutions for DHL Shipping?",
+    whyChooseNotice:
+      "Avoid promising guaranteed delivery dates, the lowest rates, or specific insurance coverage unless these claims have been verified. Actual delivery dates and rates are determined by carrier transit schedules and customs clearance.",
+    whyChooseItems: [
+      {
+        title: "In-Store Assistance",
+        description: "Get help understanding the shipping process.",
+        icon: "users",
+      },
+      {
+        title: "Multiple Shipping Needs",
+        description:
+          "Explore options for eligible documents and packages.",
+        icon: "package",
+      },
+      {
+        title: "Customs Paperwork Guidance",
+        description:
+          "Understand common international shipping documentation requirements.",
+        icon: "file-text",
+      },
+      {
+        title: "Convenient Drop-Off",
+        description:
+          "Visit one location to prepare and submit your shipment.",
+        icon: "map-pin",
+      },
+      {
+        title: "Tracking Information",
+        description:
+          "Keep the shipment details needed to monitor delivery.",
+        icon: "barcode",
+      },
+    ],
+    customerAssistanceLabel: "CUSTOMER ASSISTANCE",
+    customerAssistanceTitle: "Have a Question About DHL Express Shipping?",
+    customerAssistanceSubtitle:
+      "Need help preparing an international shipment, understanding customs paperwork, or comparing available delivery options? Contact our team or visit our store in Odenton, MD.",
     packingCommitment: {
       title: "Global Transit Requires High-Grade Protection",
       quote: "International flights and customs inspections demand secure, verified packaging.",
@@ -443,6 +626,10 @@ export const SERVICES_DETAILS: Record<string, ServiceDetail> = {
       expressTime: "5:30 PM",
       notice: "DHL Express departs Odenton daily at 5:30 PM Monday through Friday.",
     },
+    faqEyebrow: "HELP & ANSWERS",
+    faqHeading: "Frequently Asked Questions About DHL Shipping",
+    faqDescription:
+      "Got questions about DHL Express international shipments, daily pickup cutoffs, or customs paperwork? Here is what you need to know:",
     faqs: [
       {
         question: "Do you help with international customs paperwork?",
@@ -550,6 +737,9 @@ export function getServiceDetail(slug: string): ServiceDetail {
     todayCutoff: {
       notice: "Open Monday to Friday 9:30 AM – 6:30 PM, Saturday 10:00 AM – 3:30 PM.",
     },
+    faqEyebrow: "HELP & ANSWERS",
+    faqHeading: `Frequently Asked Questions About ${titleFormatted}`,
+    faqDescription: `Got questions about our ${titleFormatted.toLowerCase()} in Odenton, MD? Here is what you need to know:`,
     faqs: [
       {
         question: `How quickly can I get ${titleFormatted.toLowerCase()} done?`,
