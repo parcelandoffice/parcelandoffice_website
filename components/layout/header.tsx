@@ -87,7 +87,10 @@ export default function Header() {
 
   const isHomeActive = pathname === "/";
   const isServicesActive = pathname.startsWith("/services") || pathname === "/#services";
-  const isDigitalActive = pathname.startsWith("/digital-marketing");
+  const isDigitalActive =
+    pathname.startsWith("/digital-marketing") ||
+    pathname.endsWith("-usa") ||
+    DIGITAL_MARKETING_MENU.some((item) => item.href === pathname);
   const isAboutActive = pathname.startsWith("/about-us") || pathname.startsWith("/blog");
   const isContactActive = pathname === "/contact-us";
 
