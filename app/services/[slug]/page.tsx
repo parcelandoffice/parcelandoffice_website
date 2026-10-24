@@ -11,9 +11,7 @@ import ServiceRequirementsSection from "@components/services/service-requirement
 import ServiceTiersGrid from "@components/services/service-tiers-grid";
 import ServiceWhyChoose from "@components/services/service-why-choose";
 import ShippableItemsGrid from "@components/services/shippable-items-grid";
-import { ArrowRight } from "lucide-react";
 import type { Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 
 type Props = {
@@ -133,20 +131,6 @@ export default async function ServiceDetailPage({ params }: Props) {
 
             {/* 10. Frequently Asked Questions */}
             <ServiceFaq service={service} />
-
-            {/* Bottom Quick Navigation back to Services Grid */}
-            <div className="mt-14 sm:mt-20 border-t border-border/60 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
-              <span className="font-semibold text-muted">
-                Looking for other shipping options? Compare FedEx with UPS, DHL &amp; USPS:
-              </span>
-              <Link
-                href="/#services"
-                className="inline-flex shrink-0 items-center gap-1.5 font-bold text-primary hover:text-accent transition-colors"
-              >
-                <span>Explore All Services Grid</span>
-                <ArrowRight className="h-3.5 w-3.5" />
-              </Link>
-            </div>
           </main>
         </div>
       </div>

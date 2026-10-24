@@ -12,7 +12,7 @@ export default function RelatedBlogs({ blogs }: RelatedBlogsProps) {
 
   return (
     <section className="bg-surface-muted/60 py-20 border-t border-border/60">
-      <div className="container">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-12 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <div className="mb-2 flex items-center gap-2">
