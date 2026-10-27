@@ -126,14 +126,14 @@ export default async function ServiceDetailPage({ params }: Props) {
             {/* 8. Why Choose Parcel & Office Solutions */}
             <ServiceWhyChoose service={service} />
 
-            {/* 9. Customer Assistance and Final CTA */}
-            <ServiceCustomerAssistance service={service} />
-
-            {/* 10. Frequently Asked Questions */}
+            {/* 9. Frequently Asked Questions */}
             <ServiceFaq service={service} />
           </main>
         </div>
       </div>
+
+      {/* 10. Customer Assistance and Final CTA - Full Width */}
+      <ServiceCustomerAssistance service={service} />
     </>
   );
 }

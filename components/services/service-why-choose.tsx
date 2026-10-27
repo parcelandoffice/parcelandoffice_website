@@ -68,7 +68,7 @@ export default function ServiceWhyChoose({ service }: { service: ServiceDetail }
   return (
     <section
       aria-labelledby="why-choose-heading"
-      className="mt-8 sm:mt-12 relative"
+      className="mt-10 sm:mt-18 relative"
     >
       {/* Header */}
       <div className="mx-auto max-w-3xl text-center">
