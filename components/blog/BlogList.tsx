@@ -1,24 +1,23 @@
 "use client";
 
-import { useMemo, useState, useTransition } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useTransition } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import Image from "next/image";
 import BlogCard from "@components/blog/BlogCard";
 import Pagination from "@components/common/pagination";
-import { BLOG_CATEGORIES, STATIC_BLOGS } from "@/lib/static-blogs";
-import type { Blog } from "@/lib/types";
-import { BLOGS_PER_PAGE } from "@/lib/constants";
-import Image from "next/image";
-import { Sparkles, Layers } from "lucide-react";
+import type { Blog, BlogCategoryItem } from "@/lib/types";
+import { Sparkles, Layers, Home, ChevronRight, Loader2 } from "lucide-react";
 
 interface Props {
-  blogs?: Blog[];
-  currentPage?: number;
-  totalPages?: number;
-  totalBlogs?: number;
+  blogs: Blog[];
+  categories: BlogCategoryItem[];
+  currentPage: number;
+  totalPages: number;
+  totalBlogs: number;
+  activeCategory: string;
   blogHeroTitle?: string;
   blogHeroDescription?: string;
-  initialCategory?: string;
-  allBlogs?: Blog[];
 }
 
 const DEFAULT_BLOG_HERO_TITLE = "Insights, Tips & Shipping Guides";
@@ -26,87 +25,35 @@ const DEFAULT_BLOG_HERO_DESCRIPTION =
   "Expert advice on courier drop-offs, sustainable packaging, private mailbox rentals, and small business fulfillment.";
 
 export default function BlogListing({
-  blogs,
-  currentPage: initialCurrentPage = 1,
-  totalPages: initialTotalPages,
-  totalBlogs: initialTotalBlogs,
+  blogs = [],
+  categories = [],
+  currentPage = 1,
+  totalPages = 1,
+  totalBlogs = 0,
+  activeCategory = "All",
   blogHeroTitle,
   blogHeroDescription,
-  initialCategory,
-  allBlogs = STATIC_BLOGS,
 }: Props) {
   const router = useRouter();
-  const searchParams = useSearchParams();
   const [isPending, startTransition] = useTransition();
-
-  // Read initial category from prop or URL
-  const urlCategory = searchParams.get("category");
-  const urlPage = parseInt(searchParams.get("page") || "1", 10);
-
-  const [activeCategory, setActiveCategory] = useState<string>(
-    urlCategory || initialCategory || "All"
-  );
-  const [page, setPage] = useState<number>(
-    Number.isInteger(urlPage) && urlPage > 0 ? urlPage : initialCurrentPage
-  );
 
   const heroTitle = blogHeroTitle ?? DEFAULT_BLOG_HERO_TITLE;
   const heroDescription =
     blogHeroDescription ?? DEFAULT_BLOG_HERO_DESCRIPTION;
 
-  // Calculate category counts dynamically from allBlogs
-  const categoryCounts = useMemo(() => {
-    const counts: Record<string, number> = { All: allBlogs.length };
-    BLOG_CATEGORIES.forEach((cat) => {
-      if (cat !== "All") {
-        counts[cat] = allBlogs.filter(
-          (b) => b.category?.toLowerCase() === cat.toLowerCase()
-        ).length;
-      }
-    });
-    return counts;
-  }, [allBlogs]);
+  const handleCategorySelect = (category: string) => {
+    if (category.toLowerCase() === activeCategory.toLowerCase()) return;
 
-  // Filter blogs based on active category
-  const filteredBlogs = useMemo(() => {
-    if (activeCategory === "All") {
-      return allBlogs;
-    }
-    return allBlogs.filter(
-      (b) => b.category?.toLowerCase() === activeCategory.toLowerCase()
-    );
-  }, [allBlogs, activeCategory]);
-
-  // Calculate pagination for the filtered list
-  const limit = BLOGS_PER_PAGE;
-  const totalPages = Math.max(1, Math.ceil(filteredBlogs.length / limit));
-  const validPage = Math.min(page, totalPages);
-  const offset = (validPage - 1) * limit;
-  const currentBlogs = filteredBlogs.slice(offset, offset + limit);
-
-  // Sync URL when category or page changes
-  const updateUrl = (newCategory: string, newPage: number) => {
     const params = new URLSearchParams();
-    if (newCategory !== "All") {
-      params.set("category", newCategory);
+    if (category !== "All") {
+      params.set("category", category);
     }
-    if (newPage > 1) {
-      params.set("page", String(newPage));
-    }
-
-    const query = params.toString();
-    const targetUrl = query ? `/blog?${query}` : "/blog";
+    // Reset to page 1 on category change
+    const targetUrl = params.toString() ? `/blog?${params.toString()}` : "/blog";
 
     startTransition(() => {
       router.push(targetUrl, { scroll: false });
     });
-  };
-
-  const handleCategorySelect = (category: string) => {
-    if (category === activeCategory) return;
-    setActiveCategory(category);
-    setPage(1);
-    updateUrl(category, 1);
 
     const section = document.getElementById("blog-listing-section");
     if (section) {
@@ -115,11 +62,23 @@ export default function BlogListing({
   };
 
   const handlePageChange = (newPage: number) => {
-    if (newPage === page || newPage < 1 || newPage > totalPages) {
+    if (newPage === currentPage || newPage < 1 || newPage > totalPages) {
       return;
     }
-    setPage(newPage);
-    updateUrl(activeCategory, newPage);
+
+    const params = new URLSearchParams();
+    if (activeCategory !== "All") {
+      params.set("category", activeCategory);
+    }
+    if (newPage > 1) {
+      params.set("page", String(newPage));
+    }
+
+    const targetUrl = params.toString() ? `/blog?${params.toString()}` : "/blog";
+
+    startTransition(() => {
+      router.push(targetUrl, { scroll: false });
+    });
 
     const section = document.getElementById("blog-listing-section");
     if (section) {
@@ -129,8 +88,8 @@ export default function BlogListing({
 
   return (
     <>
-      {/* Hero Section */}
-      <section className="relative flex min-h-[44vh] items-center justify-center overflow-hidden">
+      {/* ===================== HERO SECTION ===================== */}
+      <section className="relative overflow-hidden bg-primary-dark pt-8 pb-14 sm:pb-16 lg:pb-20">
         <Image
           src="/images/hero-parcels.jpg"
           alt="Parcel & Office Insights & Resources"
@@ -141,15 +100,66 @@ export default function BlogListing({
         />
 
         {/* Brand Theme Overlay */}
-        <div className="absolute inset-0 bg-primary/85" />
+        <div className="absolute inset-0 bg-primary/88" />
         <div
           aria-hidden="true"
-          className="absolute inset-0 opacity-[0.07] [background-image:radial-gradient(circle_at_1px_1px,white_1px,transparent_0)] [background-size:36px_36px]"
+          className="absolute inset-0 opacity-[0.08] [background-image:radial-gradient(circle_at_1px_1px,white_1px,transparent_0)] [background-size:36px_36px]"
         />
 
-        {/* Hero Content */}
-        <div className="relative z-10 mx-auto flex w-full max-w-7xl items-center justify-center px-6 py-14 sm:px-10 lg:px-14">
-          <div className="max-w-3xl text-center">
+        {/* Large container matching site standard (max-w-7xl) */}
+        <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          {/* Breadcrumb Navigation - aligned with the page container */}
+          <nav
+            aria-label="Breadcrumb"
+            className="mb-8 flex flex-wrap items-center gap-2 text-xs font-medium text-white/75 sm:text-sm"
+          >
+            <ol className="flex flex-wrap items-center gap-2">
+              <li className="inline-flex items-center">
+                <Link
+                  href="/"
+                  className="inline-flex items-center gap-1.5 text-white/75 transition-colors hover:text-accent focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent rounded-sm"
+                >
+                  <Home className="h-3.5 w-3.5" aria-hidden="true" />
+                  <span>Home</span>
+                </Link>
+              </li>
+              <li aria-hidden="true" className="text-white/40">
+                <ChevronRight className="h-3.5 w-3.5" />
+              </li>
+              <li className="inline-flex items-center">
+                {activeCategory === "All" ? (
+                  <span className="font-semibold text-accent" aria-current="page">
+                    Blog
+                  </span>
+                ) : (
+                  <Link
+                    href="/blog"
+                    className="text-white/75 transition-colors hover:text-accent focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent rounded-sm"
+                  >
+                    Blog
+                  </Link>
+                )}
+              </li>
+              {activeCategory !== "All" && (
+                <>
+                  <li aria-hidden="true" className="text-white/40">
+                    <ChevronRight className="h-3.5 w-3.5" />
+                  </li>
+                  <li className="inline-flex items-center">
+                    <span
+                      className="rounded-md bg-white/10 px-2.5 py-0.5 text-xs font-semibold text-accent backdrop-blur-sm"
+                      aria-current="page"
+                    >
+                      {activeCategory}
+                    </span>
+                  </li>
+                </>
+              )}
+            </ol>
+          </nav>
+
+          {/* Centered Hero Content */}
+          <div className="mx-auto max-w-3xl text-center">
             {/* Top Pill Badge */}
             <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-accent/30 bg-accent/15 px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-accent-light backdrop-blur-sm">
               <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
@@ -158,61 +168,74 @@ export default function BlogListing({
 
             {/* Title */}
             <h1 className="font-display text-3xl font-extrabold leading-tight tracking-tight text-white sm:text-4xl lg:text-5xl">
-              {heroTitle}
+              {activeCategory !== "All" ? `${activeCategory} Guides` : heroTitle}
             </h1>
 
             {/* Subtitle */}
-            <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-white/80 sm:text-lg">
+            <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-white/80 sm:text-lg">
               {heroDescription}
             </p>
           </div>
         </div>
       </section>
 
-      {/* Main Listing Section with Category Filters */}
+      {/* ===================== MAIN LISTING SECTION ===================== */}
       <section
         id="blog-listing-section"
-        className="container scroll-mt-20 py-14 sm:py-20"
+        className="container relative scroll-mt-20 py-12 sm:py-16"
       >
-        {/* Category Filter Pills */}
-        <div className="mb-12">
-          <div className="mb-4 flex items-center justify-between">
+        {/* Subtle loading transition indicator */}
+        {isPending && (
+          <div className="absolute top-0 left-0 right-0 h-1 bg-accent/20 overflow-hidden">
+            <div className="h-full w-1/3 bg-accent animate-pulse" />
+          </div>
+        )}
+
+        {/* Category Filter Navigation */}
+        <div className="mb-10 sm:mb-12">
+          <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
             <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-primary">
               <Layers className="h-4 w-4 text-accent" aria-hidden="true" />
               <span>Filter By Topic</span>
             </div>
-            <div className="text-xs font-medium text-muted">
-              Showing{" "}
-              <span className="font-bold text-foreground">
-                {filteredBlogs.length}
-              </span>{" "}
-              {filteredBlogs.length === 1 ? "article" : "articles"}
+
+            <div className="flex items-center gap-2 text-xs font-medium text-muted">
+              {isPending && (
+                <Loader2 className="h-3.5 w-3.5 animate-spin text-accent" />
+              )}
+              <span>
+                Showing{" "}
+                <span className="font-bold text-foreground">{totalBlogs}</span>{" "}
+                {totalBlogs === 1 ? "article" : "articles"}
+                {activeCategory !== "All" ? ` in ${activeCategory}` : ""}
+              </span>
             </div>
           </div>
 
+          {/* Category Tabs */}
           <div
             className="flex flex-wrap items-center gap-2 sm:gap-2.5"
             role="tablist"
             aria-label="Blog categories"
           >
-            {BLOG_CATEGORIES.map((category) => {
-              const isSelected = activeCategory === category;
-              const count = categoryCounts[category] ?? 0;
+            {categories.map((cat) => {
+              const isSelected =
+                activeCategory.toLowerCase() === cat.title.toLowerCase();
 
               return (
                 <button
-                  key={category}
+                  key={cat.title}
                   type="button"
                   role="tab"
                   aria-selected={isSelected}
-                  onClick={() => handleCategorySelect(category)}
-                  className={`group inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-bold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary/20 ${
+                  onClick={() => handleCategorySelect(cat.title)}
+                  className={`group inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-bold transition-all duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary/20 ${
                     isSelected
                       ? "bg-primary text-white shadow-sm ring-1 ring-primary"
                       : "border border-border bg-surface text-muted hover:border-primary/40 hover:bg-surface-muted hover:text-foreground"
                   }`}
                 >
-                  <span>{category}</span>
+                  <span>{cat.title}</span>
                   <span
                     className={`inline-flex h-5 min-w-5 items-center justify-center rounded-full px-1.5 text-[11px] font-bold ${
                       isSelected
@@ -220,7 +243,7 @@ export default function BlogListing({
                         : "bg-surface-subtle text-muted group-hover:text-foreground"
                     }`}
                   >
-                    {count}
+                    {cat.count}
                   </span>
                 </button>
               );
@@ -229,19 +252,22 @@ export default function BlogListing({
         </div>
 
         {/* Blogs Grid */}
-        {currentBlogs.length === 0 ? (
-          <div className="rounded-2xl border border-border bg-surface-muted/50 py-16 text-center">
+        {blogs.length === 0 ? (
+          <div className="rounded-2xl border border-border bg-surface-muted/50 py-16 px-6 text-center">
+            <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-accent/15 text-accent">
+              <Layers className="h-7 w-7" />
+            </div>
             <p className="text-xl font-bold text-foreground">
               No blog posts found
             </p>
-            <p className="mt-2 text-sm text-muted">
+            <p className="mx-auto mt-2 max-w-md text-sm text-muted">
               There are currently no articles in &ldquo;{activeCategory}&rdquo;.
-              Try selecting another category.
+              Try selecting another category or view all guides.
             </p>
             <button
               type="button"
               onClick={() => handleCategorySelect("All")}
-              className="mt-5 inline-flex items-center justify-center rounded-xl bg-primary px-5 py-2.5 text-xs font-bold text-white shadow-sm transition-all hover:bg-primary-dark"
+              className="mt-6 inline-flex items-center justify-center rounded-xl bg-primary px-5 py-2.5 text-xs font-bold text-white shadow-sm transition-all hover:bg-primary-dark cursor-pointer"
             >
               View All Articles
             </button>
@@ -252,7 +278,7 @@ export default function BlogListing({
               isPending ? "opacity-60 pointer-events-none" : "opacity-100"
             }`}
           >
-            {currentBlogs.map((blog) => (
+            {blogs.map((blog) => (
               <BlogCard key={blog.id} blog={blog} />
             ))}
           </div>
@@ -261,12 +287,12 @@ export default function BlogListing({
         {/* Pagination Section */}
         {totalPages > 1 && (
           <div
-            className={`mt-6 ${
+            className={`mt-10 ${
               isPending ? "pointer-events-none opacity-60" : ""
             }`}
           >
             <Pagination
-              currentPage={validPage}
+              currentPage={currentPage}
               totalPages={totalPages}
               onPageChange={handlePageChange}
             />

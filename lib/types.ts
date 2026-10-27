@@ -332,6 +332,12 @@ export type PostCategory = {
   description?: string;
 };
 
+export type BlogCategoryItem = {
+  title: string;
+  count: number;
+  description?: string;
+};
+
 export type SanityPost = {
   _id: string;
   title: string;
