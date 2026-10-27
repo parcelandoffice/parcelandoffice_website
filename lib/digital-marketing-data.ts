@@ -49,6 +49,33 @@ export interface DigitalMarketingFaq {
   answer: string;
 }
 
+export interface DigitalMarketingPlatformItem {
+  name: string;
+  description: string;
+  platform: "facebook" | "instagram" | "linkedin" | "youtube" | string;
+}
+
+export interface DigitalMarketingPlatformsData {
+  eyebrow?: string;
+  heading: string;
+  description?: string;
+  items: DigitalMarketingPlatformItem[];
+}
+
+export interface DigitalMarketingLocalApproachPoint {
+  title: string;
+  description: string;
+  icon?: string;
+}
+
+export interface DigitalMarketingLocalMarketingData {
+  eyebrow?: string;
+  heading: string;
+  intro: string;
+  approachTitle: string;
+  points: DigitalMarketingLocalApproachPoint[];
+}
+
 export interface DigitalMarketingFinalCta {
   heading: string;
   description: string;
@@ -85,6 +112,7 @@ export interface DigitalMarketingServiceData {
     description?: string;
     items: DigitalMarketingSolutionItem[];
   };
+  platforms?: DigitalMarketingPlatformsData;
   process?: {
     eyebrow: string;
     heading: string;
@@ -97,6 +125,7 @@ export interface DigitalMarketingServiceData {
     description: string;
     items: DigitalMarketingIndustry[];
   };
+  localMarketing?: DigitalMarketingLocalMarketingData;
   whyChooseUs?: {
     eyebrow: string;
     heading: string;
@@ -172,52 +201,118 @@ export const DIGITAL_MARKETING_SERVICES: Record<string, DigitalMarketingServiceD
       ],
     },
     solutions: {
-      eyebrow: "Our Social Media Marketing Services",
-      heading: "Social Media Solutions to Grow Your Business",
-      description:
-        "Comprehensive strategies engineered to expand your reach, foster customer trust, and generate continuous business opportunities across key social channels.",
+      eyebrow: "",
+      heading: "Our Social Media Marketing Services",
       items: [
         {
-          id: "strategy-management",
-          title: "Social Media Strategy & Management",
+          id: "strategy-planning",
+          title: "Social Media Strategy and Planning",
           description:
-            "Develop a clear social media strategy, maintain active profiles and publish content aligned with your business goals.",
+            "We develop a tailored social media plan based on your business objectives, audience research, competitors, and available resources.",
           icon: "strategy",
+          highlights: [
+            "Audience and competitor research",
+            "Platform selection and content pillars",
+            "Monthly content calendars",
+            "Campaign planning and performance goals",
+          ],
         },
         {
           id: "content-creation",
-          title: "Content Creation & Publishing",
+          title: "Social Media Content Creation",
           description:
-            "Create engaging graphics, promotional posts and informative content that communicate your brand's value and connect with your audience.",
+            "We create relevant, on-brand content that communicates your value and gives your audience a reason to engage.",
           icon: "content",
+          highlights: [
+            "Branded graphics and carousel posts",
+            "Captions, post copy, and calls to action",
+            "Reels and short-form video content",
+            "Promotional, educational, and seasonal campaigns",
+          ],
         },
         {
-          id: "facebook-instagram",
-          title: "Facebook & Instagram Marketing",
+          id: "account-management",
+          title: "Social Media Account Management",
           description:
-            "Strengthen your presence on Facebook and Instagram through platform-specific content, audience engagement and promotional campaigns.",
+            "We help keep your social channels active, organized, and aligned with your brand.",
           icon: "social",
+          highlights: [
+            "Content scheduling and publishing",
+            "Profile and page optimization",
+            "Comment and message monitoring, as agreed",
+            "Monthly performance reviews and content adjustments",
+          ],
         },
         {
-          id: "social-advertising",
-          title: "Social Media Advertising",
+          id: "paid-advertising",
+          title: "Paid Social Media Advertising",
           description:
-            "Reach relevant audiences through paid campaigns designed to support brand awareness, website traffic and lead generation.",
+            "We plan and manage paid campaigns to reach relevant audiences and support specific marketing objectives.",
           icon: "campaign",
+          highlights: [
+            "Facebook and Instagram advertising",
+            "Audience and geographic targeting",
+            "Lead generation, traffic, and sales campaigns",
+            "Creative testing, budget optimization, and conversion tracking",
+          ],
         },
         {
-          id: "brand-awareness",
-          title: "Brand Awareness & Engagement",
+          id: "community-reputation",
+          title: "Community Engagement and Brand Reputation",
           description:
-            "Build brand recognition, encourage audience interaction and maintain a consistent brand identity across social media channels.",
+            "We help businesses maintain a responsive, consistent presence and build stronger relationships with their audiences.",
           icon: "brand",
+          highlights: [
+            "Monitoring comments and relevant conversations",
+            "Supporting customer inquiries and response workflows",
+            "Identifying common audience questions",
+            "Maintaining a consistent brand voice",
+          ],
         },
         {
-          id: "performance-tracking",
-          title: "Performance Tracking & Reporting",
+          id: "analytics-reporting",
+          title: "Social Media Analytics and Reporting",
           description:
-            "Monitor reach, engagement, clicks and campaign performance to identify opportunities for improvement.",
+            "We review campaign performance to understand what is working and where improvements are needed.",
           icon: "analytics",
+          highlights: [
+            "Reach, impressions, and engagement",
+            "Website visits and tracked conversions",
+            "Lead volume and cost per lead for paid campaigns",
+            "Monthly insights and recommendations",
+          ],
+        },
+      ],
+    },
+    platforms: {
+      eyebrow: "Social Media Platforms We Manage",
+      heading: "Choose the platforms for your audience",
+      description:
+        "A strong social media strategy does not require your business to be active on every platform. We help you prioritize channels based on your audience, content capabilities, and business goals.",
+      items: [
+        {
+          name: "Facebook Marketing",
+          description:
+            "Build awareness, share business updates, connect with local audiences, promote offers, and support lead generation through organic content and paid campaigns.",
+          platform: "facebook",
+        },
+        {
+          name: "Instagram Marketing",
+          description:
+            "Showcase products and services through Reels, Stories, carousels, testimonials, and visual brand storytelling.",
+          platform: "instagram",
+        },
+        {
+          name: "LinkedIn Marketing",
+          description:
+            "Build professional credibility, share industry insights, promote expertise, and support B2B relationships and lead generation.",
+          platform: "linkedin",
+        },
+        {
+          name: "YouTube Marketing",
+          description:
+            "Use educational videos, customer stories, product demonstrations, and Shorts to support brand discovery and audience trust.",
+          platform: "youtube",
         },
       ],
     },
@@ -287,6 +382,45 @@ export const DIGITAL_MARKETING_SERVICES: Record<string, DigitalMarketingServiceD
           title: "B2B & Technology",
           description: "Drive lead generation with informative infographics, case studies, product feature highlights, and thought leadership.",
           icon: "cpu",
+        },
+      ],
+    },
+    localMarketing: {
+      eyebrow: "Local Market Focus • Odenton, MD",
+      heading: "Local Social Media Marketing in Odenton, MD",
+      intro:
+        "Businesses in Odenton, Maryland, need marketing that reflects their services, customers, and local market. A well-planned social media presence can help local businesses introduce their offerings, share updates, highlight promotions, and stay connected with potential customers.",
+      approachTitle: "Our social media marketing approach:",
+      points: [
+        {
+          title: "Geographic targeting",
+          description:
+            "Select suitable locations for paid campaigns based on your service coverage.",
+          icon: "map-pin",
+        },
+        {
+          title: "Audience characteristics",
+          description:
+            "Consider relevant interests, demographics, and platform targeting options.",
+          icon: "target",
+        },
+        {
+          title: "Content relevance",
+          description:
+            "Match posts and promotions to customer needs and business priorities.",
+          icon: "sparkles",
+        },
+        {
+          title: "Conversion goals",
+          description:
+            "Direct interested users toward a suitable next step, such as visiting a website, contacting your business, or submitting an inquiry.",
+          icon: "trending-up",
+        },
+        {
+          title: "Campaign measurement",
+          description:
+            "Review available results and refine targeting or creative elements when appropriate.",
+          icon: "bar-chart",
         },
       ],
     },

@@ -11,11 +11,11 @@ export default function DigitalProcess({ service }: DigitalProcessProps) {
   if (!process || !process.steps || process.steps.length === 0) return null;
 
   return (
-    <section id="process" className="bg-surface py-14 sm:py-20 lg:py-24 border-t border-border">
+    <section id="process" className="bg-surface-muted/50 py-14 sm:py-20 lg:py-24 border-t border-border">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="mx-auto max-w-3xl text-center">
-          <div className="inline-flex items-center gap-2 rounded-full border border-border bg-surface-muted px-3.5 py-1 text-xs font-black uppercase tracking-wider text-accent shadow-2xs">
+          <div className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3.5 py-1 text-xs font-black uppercase tracking-wider text-accent shadow-2xs">
             <Sparkles className="h-3.5 w-3.5 text-accent-dark" aria-hidden="true" />
             <span>{process.eyebrow}</span>
           </div>
@@ -39,7 +39,7 @@ export default function DigitalProcess({ service }: DigitalProcessProps) {
             return (
               <div
                 key={stepItem.step}
-                className="group relative flex flex-col justify-between rounded-3xl border border-border/80 bg-surface-muted/40 p-6 transition-all duration-300 hover:-translate-y-1 hover:border-accent/50 hover:bg-surface hover:shadow-[var(--shadow-card-hover)]"
+                className="group relative flex flex-col justify-between rounded-3xl border border-border/80 bg-surface p-6 transition-all duration-300 hover:-translate-y-1 hover:border-accent/50 hover:shadow-[var(--shadow-card-hover)]"
               >
                 <div>
                   {/* Step Number Badge */}

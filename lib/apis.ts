@@ -623,6 +623,7 @@ function mapSanityToDigitalMarketingService(
         ? (doc.solutionItems as any)
         : (baseFallback?.solutions.items || []),
     },
+    platforms: baseFallback?.platforms,
     process: {
       eyebrow: doc.processEyebrow || baseFallback?.process?.eyebrow || "Our Process",
       heading: doc.processHeading || baseFallback?.process?.heading || "How We Drive Results",
@@ -639,6 +640,7 @@ function mapSanityToDigitalMarketingService(
         ? (doc.industryItems as any)
         : (baseFallback?.industries?.items || []),
     },
+    localMarketing: baseFallback?.localMarketing,
     whyChooseUs: {
       eyebrow: doc.whyChooseEyebrow || baseFallback?.whyChooseUs?.eyebrow || "Why Choose Us",
       heading: doc.whyChooseHeading || baseFallback?.whyChooseUs?.heading || "The Trusted Choice",
