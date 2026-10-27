@@ -15,10 +15,10 @@ export default function DigitalCta({ service }: DigitalCtaProps) {
   return (
     <section className="relative overflow-hidden bg-gradient-to-br from-primary-dark via-primary to-secondary py-16 sm:py-20 lg:py-24 text-white">
       {/* Decorative Background Elements */}
-      <div
+      {/* <div
         className="pointer-events-none absolute -top-24 -right-24 h-96 w-96 rounded-full bg-accent/20 blur-3xl"
         aria-hidden="true"
-      />
+      /> */}
       <div
         className="pointer-events-none absolute -bottom-24 -left-24 h-96 w-96 rounded-full bg-primary-light/30 blur-3xl"
         aria-hidden="true"

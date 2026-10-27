@@ -4,6 +4,11 @@ import HowItWorks from "@components/home/how-it-works";
 import ServicesGrid from "@components/home/services-grid";
 import TrackingAndPickup from "@components/home/tracking-and-pickup";
 import WelcomeSection from "@components/home/welcome-section";
+import WhyChooseUs from "@components/home/why-choose-us";
+import Testimonials from "@components/home/testimonials";
+import Faq from "@components/home/faq";
+import FinalCta from "@components/home/final-cta";
+import ContactCtaSection from "@components/home/contact-cta-section";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -63,6 +68,32 @@ export default async function Home() {
 
       {/* 5. 3-Step Process */}
       <HowItWorks data={homeData} />
+
+      {/* 6. Why Choose Us */}
+      <WhyChooseUs data={homeData} />
+
+      {/* 7. Client Testimonials */}
+      <Testimonials
+        testimonialTag={homeData?.testimonialTag}
+        testimonialTitle={homeData?.testimonialTitle}
+        testimonialDescription={homeData?.testimonialDescription}
+        testimonials={homeData?.testimonials}
+      />
+
+      {/* 8. Frequently Asked Questions */}
+      <Faq
+        faqTag={homeData?.faqTag}
+        faqTitle={homeData?.faqTitle}
+        faqDescription={homeData?.faqDescription}
+        faqCtaButtonText={homeData?.faqCtaButtonText}
+        faqs={homeData?.faqs}
+      />
+
+      {/* 9. Final Call to Action Banner */}
+      <FinalCta />
+
+      {/* 10. Contact & Inquiry Section */}
+      <ContactCtaSection />
     </>
   );
 }

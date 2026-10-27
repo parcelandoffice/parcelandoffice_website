@@ -9,8 +9,10 @@ import { BUSINESS, SITE_NAME } from "@/lib/site-data";
 import DigitalHero from "@components/digital-marketing/digital-hero";
 import DigitalOverview from "@components/digital-marketing/digital-overview";
 import DigitalServicesList from "@components/digital-marketing/digital-services-list";
+import DigitalPlatforms from "@components/digital-marketing/digital-platforms";
 import DigitalProcess from "@components/digital-marketing/digital-process";
 import DigitalIndustries from "@components/digital-marketing/digital-industries";
+import DigitalLocalMarketing from "@components/digital-marketing/digital-local-marketing";
 import DigitalWhyChoose from "@components/digital-marketing/digital-why-choose";
 import DigitalTestimonials from "@components/digital-marketing/digital-testimonials";
 import DigitalFaq from "@components/digital-marketing/digital-faq";
@@ -133,22 +135,32 @@ export default async function DigitalMarketingServiceUsaPage({ params }: Props) 
         {/* Section 3: Solutions / Services List */}
         <DigitalServicesList service={service} />
 
-        {/* Section 4: Process Methodology */}
-        <DigitalProcess service={service} />
+        {/* Section 4: Platforms We Manage */}
+        <DigitalPlatforms service={service} />
 
-        {/* Section 5: Industries Served */}
+        {/* Section 5: Industries We Serve */}
         <DigitalIndustries service={service} />
 
-        {/* Section 6: Why Choose Us */}
+        {/* Section 6: Local Social Media Marketing in Odenton, MD */}
+        <DigitalLocalMarketing service={service} />
+
+        {/* Section 7: Marketing Process */}
+        <DigitalProcess service={service} />
+
+        {/* Section 8: Why Choose Us */}
         <DigitalWhyChoose service={service} />
 
-        {/* Section 7: Client Testimonials */}
-        <DigitalTestimonials service={service} />
-
-        {/* Section 8: Frequently Asked Questions */}
+        {/* Section 9: Frequently Asked Questions */}
         <DigitalFaq service={service} />
 
-        {/* Section 9: Final Call to Action */}
+        {/* Client Testimonials (only if real approved feedback exists) */}
+        {service.testimonials &&
+          service.testimonials.items &&
+          service.testimonials.items.some(
+            (t) => t.approved && !t.quote.includes("[Insert")
+          ) && <DigitalTestimonials service={service} />}
+
+        {/* Section 10: Final Call to Action */}
         <DigitalCta service={service} />
       </main>
     </>

@@ -12,7 +12,7 @@ export default function ServiceTiersGrid({ service }: { service: ServiceDetail }
   return (
     <section
       aria-labelledby="service-tiers-heading"
-      className="mt-8 sm:mt-12 relative"
+      className="mt-10 sm:mt-18 relative"
     >
       {/* Header */}
       <div className="mx-auto max-w-3xl text-center">

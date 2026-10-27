@@ -60,7 +60,7 @@ export default function ServiceRequirementsSection({
   return (
     <section
       aria-labelledby="shipping-requirements-heading"
-      className="mt-8 sm:mt-12 relative"
+      className="mt-10 sm:mt-18 relative"
     >
       {/* Header */}
       <div className="mx-auto max-w-3xl text-center">
