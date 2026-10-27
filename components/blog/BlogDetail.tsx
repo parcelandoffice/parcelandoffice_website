@@ -105,9 +105,12 @@ export default function BlogDetail({
 
             <ChevronRight className="h-3.5 w-3.5 text-white/40" aria-hidden="true" />
 
-            <span className="rounded-md bg-white/10 px-2 py-0.5 text-xs font-semibold text-accent">
+            <Link
+              href={`/blog?category=${encodeURIComponent(categoryName)}`}
+              className="rounded-md bg-white/10 px-2.5 py-0.5 text-xs font-semibold text-accent transition-colors hover:bg-white/20"
+            >
               {categoryName}
-            </span>
+            </Link>
           </nav>
 
           {/* Article Header Grid: Balanced columns with prominent image and well-proportioned title */}
@@ -116,10 +119,13 @@ export default function BlogDetail({
             <div className="lg:col-span-7 xl:col-span-6">
               {/* Category Pill, Read Time & Published Date */}
               <div className="mb-4 flex flex-wrap items-center gap-3">
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-accent px-3 py-1 text-xs font-bold uppercase tracking-wider text-white shadow-xs">
+                <Link
+                  href={`/blog?category=${encodeURIComponent(categoryName)}`}
+                  className="inline-flex items-center gap-1.5 rounded-full bg-accent px-3 py-1 text-xs font-bold uppercase tracking-wider text-white shadow-xs transition-opacity hover:opacity-90"
+                >
                   <Sparkles className="h-3 w-3" />
                   {categoryName}
-                </span>
+                </Link>
 
                 <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-white/75">
                   <Clock className="h-3.5 w-3.5 text-accent" aria-hidden="true" />

@@ -24,9 +24,10 @@ const PAGE_CANONICAL_PATHS: Record<PageSeoKey, string> = {
 
 const DEFAULT_PAGE_METADATA: Record<PageSeoKey, Metadata> = {
   home: {
-    title: "RP Law Firm | Trusted Legal Excellence",
+    title:
+      "Parcel & Office Solutions | Shipping, Printing & Mailbox Rentals in Odenton, MD",
     description:
-      "RP Law Firm provides expert legal counsel in corporate law, litigation, labor & employment, NRI services, and real estate.",
+      "Authorized shipping center for FedEx, UPS, DHL, and USPS in Odenton, MD. Offering packing, mailbox rentals, digital printing, and notary services.",
   },
   blog: {
     title: "Blog & Shipping Insights | Parcel and Office",

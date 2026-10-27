@@ -5,6 +5,7 @@ import { urlFor } from "./sanity-image-builder";
 import type {
   AboutPageData,
   Blog,
+  BlogCategoryItem,
   ContactCtaData,
   FooterData,
   HomePageData,
@@ -167,6 +168,8 @@ const allPostSlugsQuery = `
 `;
 
 export function mapSanityPostToBlog(post: SanityPost): Blog {
+  const categoryTitle = post.categories?.[0]?.title || "General";
+
   return {
     id: post._id,
     title: post.title,
@@ -175,18 +178,63 @@ export function mapSanityPostToBlog(post: SanityPost): Blog {
     image: post.mainImage
       ? urlFor(post.mainImage).width(800).height(480).url()
       : PLACEHOLDER_IMAGE,
-    imageAlt: post.mainImage?.alt,
-    category: post.categories?.[0]?.title ?? "Legal",
-    publishedAt: post.publishedAt,
+    imageAlt: post.mainImage?.alt || post.title,
+    category: categoryTitle,
+    publishedAt: post.publishedAt || new Date().toISOString(),
   };
 }
 
-import {
-  getStaticBlogs,
-  getStaticBlogBySlug,
-  mapStaticBlogToSanityPost,
-  STATIC_BLOGS,
-} from "./static-blogs";
+export async function getBlogCategories(): Promise<BlogCategoryItem[]> {
+  try {
+    const [sanityCategories, totalCount, uncategorizedCount] = await Promise.all([
+      fetchFromSanity<
+        { _id: string; title: string; description?: string; count: number }[]
+      >(`
+        *[_type == "category"] | order(title asc) {
+          _id,
+          title,
+          description,
+          "count": count(*[_type == "post" && references(^._id)])
+        }
+      `),
+      fetchFromSanity<number>(`count(*[_type == "post"])`),
+      fetchFromSanity<number>(
+        `count(*[_type == "post" && (!defined(categories) || count(categories) == 0)])`
+      ),
+    ]);
+
+    const result: BlogCategoryItem[] = [
+      {
+        title: "All",
+        count: totalCount || 0,
+        description: "All guides, shipping insights, and office solutions articles.",
+      },
+    ];
+
+    (sanityCategories || []).forEach((cat) => {
+      if (cat.title) {
+        result.push({
+          title: cat.title,
+          count: cat.count || 0,
+          description: cat.description || undefined,
+        });
+      }
+    });
+
+    if (uncategorizedCount > 0) {
+      result.push({
+        title: "General",
+        count: uncategorizedCount,
+        description: "General shipping and office solutions articles.",
+      });
+    }
+
+    return result;
+  } catch (error) {
+    console.error("Error fetching categories from Sanity:", error);
+    return [{ title: "All", count: 0 }];
+  }
+}
 
 type PostsQueryOptions = {
   limit?: number;
@@ -200,40 +248,109 @@ export async function getPosts({
   category,
 }: PostsQueryOptions = {}): Promise<Blog[]> {
   try {
-    const posts: SanityPost[] = await fetchFromSanity(postsQuery, {
-      limit,
-      offset,
-    });
+    let query: string;
+    let params: QueryParams = { limit, offset };
 
+    if (!category || category === "All") {
+      query = `
+        *[_type == "post"]
+        | order(publishedAt desc)
+        [$offset...$offset + $limit] {
+          _id,
+          title,
+          "slug": slug.current,
+          publishedAt,
+          short_description,
+          body,
+          mainImage,
+          author->{
+            ${authorFields}
+          },
+          categories[]->{
+            _id,
+            title,
+            description
+          }
+        }
+      `;
+    } else if (category.toLowerCase() === "general") {
+      query = `
+        *[_type == "post" && (!defined(categories) || count(categories) == 0 || "General" in categories[]->title)]
+        | order(publishedAt desc)
+        [$offset...$offset + $limit] {
+          _id,
+          title,
+          "slug": slug.current,
+          publishedAt,
+          short_description,
+          body,
+          mainImage,
+          author->{
+            ${authorFields}
+          },
+          categories[]->{
+            _id,
+            title,
+            description
+          }
+        }
+      `;
+    } else {
+      params = { limit, offset, category };
+      query = `
+        *[_type == "post" && ($category in categories[]->title || $category in categories[]->_id)]
+        | order(publishedAt desc)
+        [$offset...$offset + $limit] {
+          _id,
+          title,
+          "slug": slug.current,
+          publishedAt,
+          short_description,
+          body,
+          mainImage,
+          author->{
+            ${authorFields}
+          },
+          categories[]->{
+            _id,
+            title,
+            description
+          }
+        }
+      `;
+    }
+
+    const posts = await fetchFromSanity<SanityPost[]>(query, params);
     if (posts && posts.length > 0) {
       return posts.map(mapSanityPostToBlog);
     }
+    return [];
   } catch (error) {
-    console.warn("Sanity getPosts returned error, falling back to static blogs:", error);
+    console.error("Error fetching posts from Sanity:", error);
+    return [];
   }
-
-  const { blogs } = getStaticBlogs({ category, limit, offset });
-  return blogs;
 }
 
-export async function getTotalPostsCount(categoryId?: string, categoryName?: string): Promise<number> {
+export async function getTotalPostsCount(categoryName?: string): Promise<number> {
   try {
-    if (categoryId) {
-      const count = await fetchFromSanity<number>(
-        `count(*[_type == "post" && $categoryId in categories[]._ref])`,
-        { categoryId }
-      );
-      if (count > 0) return count;
-    } else {
-      const count = await fetchFromSanity<number>(`count(*[_type == "post"])`);
-      if (count > 0) return count;
+    if (!categoryName || categoryName === "All") {
+      return await fetchFromSanity<number>(`count(*[_type == "post"])`);
     }
-  } catch (error) {
-    console.warn("Sanity getTotalPostsCount error, falling back to static blogs:", error);
-  }
 
-  const { total } = getStaticBlogs({ category: categoryName });
-  return total;
+    if (categoryName.toLowerCase() === "general") {
+      return await fetchFromSanity<number>(
+        `count(*[_type == "post" && (!defined(categories) || count(categories) == 0 || "General" in categories[]->title)])`
+      );
+    }
+
+    return await fetchFromSanity<number>(
+      `count(*[_type == "post" && ($category in categories[]->title || $category in categories[]->_id)])`,
+      { category: categoryName }
+    );
+  } catch (error) {
+    console.error("Error fetching total posts count from Sanity:", error);
+    return 0;
+  }
 }
 
 export async function getAllPostSlugs(): Promise<
@@ -242,41 +359,28 @@ export async function getAllPostSlugs(): Promise<
   try {
     const slugs = await fetchFromSanity<
       Array<{ slug: string; publishedAt?: string; _updatedAt?: string }>
-    >(allPostSlugsQuery);
-    if (slugs && slugs.length > 0) return slugs;
+    >(
+      `*[_type == "post" && defined(slug.current)] | order(publishedAt desc) {
+        "slug": slug.current,
+        publishedAt,
+        _updatedAt
+      }`
+    );
+    return slugs || [];
   } catch (error) {
-    // fallback
+    console.error("Error fetching all post slugs from Sanity:", error);
+    return [];
   }
-
-  return STATIC_BLOGS.map((b) => ({
-    slug: b.slug,
-    publishedAt: b.publishedAt,
-    _updatedAt: b.publishedAt,
-  }));
 }
 
-export async function getPostBySlug(
-  slug: string
-): Promise<SanityPost | null> {
+export async function getPostBySlug(slug: string): Promise<SanityPost | null> {
   try {
-    const post: SanityPost | null = await fetchFromSanity(
-      postBySlugQuery,
-      { slug }
-    );
-
-    if (post) {
-      return post;
-    }
+    const post = await fetchFromSanity<SanityPost | null>(postBySlugQuery, { slug });
+    return post || null;
   } catch (error) {
-    console.warn("Sanity getPostBySlug error, falling back to static blogs:", error);
+    console.error("Error fetching post by slug from Sanity:", error);
+    return null;
   }
-
-  const staticItem = getStaticBlogBySlug(slug);
-  if (staticItem) {
-    return mapStaticBlogToSanityPost(staticItem);
-  }
-
-  return null;
 }
 
 export async function getPostsByCategory({
@@ -284,81 +388,79 @@ export async function getPostsByCategory({
   limit = DEFAULT_LIMIT,
   offset = DEFAULT_OFFSET,
 }: PostsQueryOptions & { categoryId: string }): Promise<Blog[]> {
-  const posts: SanityPost[] = await fetchFromSanity(
-    postsByCategoryQuery,
-    {
-      categoryId,
-      limit,
-      offset,
-    }
-  );
-
-  return posts.map(mapSanityPostToBlog);
+  return getPosts({ category: categoryId, limit, offset });
 }
-
-const relatedPostsQuery = `
-  *[
-    _type == "post" &&
-    _id != $postId &&
-    $categoryId in categories[]._ref
-  ]
-  | order(publishedAt desc)
-  [0...$limit] {
-    _id,
-    title,
-    "slug": slug.current,
-    publishedAt,
-    short_description,
-    body,
-    mainImage,
-
-    author->{
-      ${authorFields}
-    },
-
-    categories[]->{
-      _id,
-      title,
-      description
-    }
-  }
-`;
 
 export async function getRelatedPosts(
   postId: string,
   categoryId: string,
-  limit: number = 2
+  limit: number = 3
 ): Promise<Blog[]> {
-  const posts: SanityPost[] = await fetchFromSanity(
-    relatedPostsQuery,
-    {
-      postId,
-      categoryId,
-      limit,
-    }
-  );
-
-  return posts.map(mapSanityPostToBlog);
+  return getRelatedPostsByCategory(categoryId, postId, limit);
 }
 
 export async function getRelatedPostsByCategory(
-  categoryId: string,
-  postId: string
+  categoryNameOrId: string,
+  postId: string,
+  limit: number = 3
 ): Promise<Blog[]> {
   try {
-    const posts: SanityPost[] = await fetchFromSanity(
-      relatedPostsByCategoryQuery,
-      { categoryId, postId }
+    let posts = await fetchFromSanity<SanityPost[]>(
+      `*[
+        _type == "post" &&
+        _id != $postId &&
+        ($category in categories[]->title || $category in categories[]->_id)
+      ] | order(publishedAt desc)[0...$limit] {
+        _id,
+        title,
+        "slug": slug.current,
+        publishedAt,
+        short_description,
+        mainImage,
+        author->{
+          ${authorFields}
+        },
+        categories[]->{
+          _id,
+          title
+        }
+      }`,
+      { category: categoryNameOrId, postId, limit }
     );
 
-    if (posts && posts.length > 0) {
-      return posts.map(mapSanityPostToBlog);
+    if (!posts || posts.length < limit) {
+      const remaining = limit - (posts?.length || 0);
+      const existingIds = (posts || []).map((p) => p._id);
+      const fallbackPosts = await fetchFromSanity<SanityPost[]>(
+        `*[
+          _type == "post" &&
+          _id != $postId &&
+          !(_id in $existingIds)
+        ] | order(publishedAt desc)[0...$remaining] {
+          _id,
+          title,
+          "slug": slug.current,
+          publishedAt,
+          short_description,
+          mainImage,
+          author->{
+            ${authorFields}
+          },
+          categories[]->{
+            _id,
+            title
+          }
+        }`,
+        { postId, existingIds, remaining }
+      );
+      posts = [...(posts || []), ...(fallbackPosts || [])];
     }
-  } catch (error) {
-    // fallback
-  }
 
-  return STATIC_BLOGS.filter((b) => b.id !== postId).slice(0, 3);
+    return (posts || []).map(mapSanityPostToBlog);
+  } catch (error) {
+    console.error("Error fetching related posts from Sanity:", error);
+    return [];
+  }
 }
 
 export async function getPageSeoData(): Promise<PageSeoData | null> {
