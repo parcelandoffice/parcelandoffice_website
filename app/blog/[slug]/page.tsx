@@ -15,12 +15,12 @@ export async function generateMetadata({
 
     if (!post) {
         return {
-            title: "Blog | RP Law Firm",
+            title: "Blog | Parcel & Office Solutions",
         };
     }
 
     return {
-        title: post.metaTitle || post.title,
+        title: post.metaTitle || `${post.title} | Parcel & Office Solutions`,
         description: post.metaDescription || post.short_description,
         alternates: {
             canonical: `${process.env.SITE_URL}/blog/${slug}`,
@@ -31,13 +31,15 @@ export async function generateMetadata({
 const BlogDetailPage = async ({ params }: PageProps) => {
     const { slug } = await params;
     const blogDetail = await getPostBySlug(slug);
-    const primaryCategoryId = blogDetail?.categories?.[0]?._id;
-    const relatedBlogs: Blog[] =
-        blogDetail && primaryCategoryId
-            ? await getRelatedPostsByCategory(primaryCategoryId, blogDetail._id)
-            : [];
+    const categoryIdentifier =
+        blogDetail?.categories?.[0]?.title ||
+        blogDetail?.categories?.[0]?._id ||
+        "Shipping & Logistics";
+    const relatedBlogs: Blog[] = blogDetail
+        ? await getRelatedPostsByCategory(categoryIdentifier, blogDetail._id, 3)
+        : [];
 
     return <BlogDetail blogDetail={blogDetail as SanityPost} relatedBlogs={relatedBlogs} />;
-}
+};
 
 export default BlogDetailPage;
