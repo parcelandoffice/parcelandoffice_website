@@ -46,10 +46,10 @@ export default function DigitalCta({ service }: DigitalCtaProps) {
           <div className="mt-8 sm:mt-10 flex flex-wrap items-center justify-center gap-4">
             <Link
               href={finalCta.ctaHref}
-              className="group inline-flex items-center justify-center gap-2.5 rounded-full bg-primary px-8 py-3.5 text-xs sm:text-sm font-extrabold uppercase tracking-wider text-white shadow-xs transition-all duration-200 hover:bg-primary-dark hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
+              className="group inline-flex items-center justify-center gap-2.5 rounded-full bg-accent px-8 py-3.5 text-xs sm:text-sm font-extrabold uppercase tracking-wider text-primary-dark shadow-md transition-all duration-200 hover:bg-accent-light hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
             >
               <span>{finalCta.ctaText}</span>
-              <ArrowRight className="h-4 w-4 text-accent transition-transform duration-200 group-hover:translate-x-1" />
+              <ArrowRight className="h-4 w-4 text-primary-dark transition-transform duration-200 group-hover:translate-x-1" />
             </Link>
 
             <Link
