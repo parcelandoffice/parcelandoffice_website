@@ -135,6 +135,18 @@ export type SanityService = {
   isFeatured?: boolean;
   badge?: string;
   customUrl?: string;
+  // Digital Marketing Section Visibility Switches
+  showHero?: boolean;
+  showOverview?: boolean;
+  showSolutions?: boolean;
+  showPlatforms?: boolean;
+  showIndustries?: boolean;
+  showLocalMarketing?: boolean;
+  showProcess?: boolean;
+  showWhyChooseUs?: boolean;
+  showTestimonials?: boolean;
+  showFaqs?: boolean;
+  showFinalCta?: boolean;
 
   // Digital Marketing Hero
   heroEyebrow?: string;
@@ -152,38 +164,60 @@ export type SanityService = {
   overviewEyebrow?: string;
   overviewHeading?: string;
   overviewParagraphs?: string[];
+  overviewImage?: SanityImageSource;
   pillarsTitle?: string;
-  pillars?: { title: string; description: string; icon: string }[];
+  pillars?: { title: string; description: string; icon?: string; iconImage?: SanityImageSource }[];
 
   // Digital Marketing Solutions
   solutionsEyebrow?: string;
   solutionsHeading?: string;
   solutionsDescription?: string;
+  solutionsCtaText?: string;
+  solutionsCtaHref?: string;
   solutionItems?: {
-    id: string;
+    id?: string;
     title: string;
     description: string;
-    icon: string;
-    highlights: string[];
+    icon?: string;
+    iconImage?: SanityImageSource;
+    highlights?: string[];
   }[];
+
+  // Digital Marketing Platforms
+  platformsEyebrow?: string;
+  platformsHeading?: string;
+  platformsDescription?: string;
+  platformsList?: { name: string; description: string; platform?: string; iconImage?: SanityImageSource }[];
+
+  // Digital Marketing Local Marketing
+  localMarketingEyebrow?: string;
+  localMarketingHeading?: string;
+  localMarketingIntro?: string;
+  localMarketingCtaText?: string;
+  localMarketingCtaHref?: string;
+  localMarketingApproachTitle?: string;
+  localMarketingPoints?: { title: string; description: string; icon?: string; iconImage?: SanityImageSource }[];
 
   // Digital Marketing Process
   processEyebrow?: string;
   processHeading?: string;
   processSubtitle?: string;
-  processSteps?: { step: string; title: string; description: string }[];
+  processSteps?: { step: string; title: string; description: string; iconImage?: SanityImageSource }[];
 
   // Digital Marketing Industries
   industriesEyebrow?: string;
   industriesHeading?: string;
   industriesDescription?: string;
-  industryItems?: { title: string; description: string; icon: string }[];
+  industryItems?: { title: string; description?: string; icon?: string; iconImage?: SanityImageSource }[];
 
   // Digital Marketing Why Choose Us
   whyChooseEyebrow?: string;
   whyChooseHeading?: string;
   whyChooseSubtitle?: string;
-  whyChoosePoints?: { title: string; description: string }[];
+  whyChooseDescription?: string;
+  whyChooseCtaText?: string;
+  whyChooseCtaHref?: string;
+  whyChoosePoints?: { title: string; description: string; iconImage?: SanityImageSource }[];
 
   // Digital Marketing Testimonials
   testimonialsEyebrow?: string;
@@ -195,6 +229,7 @@ export type SanityService = {
     company: string;
     role?: string;
     rating?: number;
+    avatar?: SanityImageSource;
   }[];
 
   // Digital Marketing FAQs
@@ -204,10 +239,16 @@ export type SanityService = {
   faqsList?: { question: string; answer: string }[];
 
   // Digital Marketing Final CTA
+  finalCtaEyebrow?: string;
   finalCtaHeading?: string;
   finalCtaDescription?: string;
+  finalCtaPrimaryButtonText?: string;
+  finalCtaPrimaryButtonHref?: string;
+  finalCtaSecondaryButtonText?: string;
+  finalCtaSecondaryButtonHref?: string;
   finalCtaButtonText?: string;
   finalCtaButtonHref?: string;
+  finalCtaTrustPoints?: string[];
 };
 
 export type HomePageData = {

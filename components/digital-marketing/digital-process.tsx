@@ -42,11 +42,16 @@ export default function DigitalProcess({ service }: DigitalProcessProps) {
                 className="group relative flex flex-col justify-between rounded-3xl border border-border/80 bg-surface p-6 transition-all duration-300 hover:-translate-y-1 hover:border-accent/50 hover:shadow-[var(--shadow-card-hover)]"
               >
                 <div>
-                  {/* Step Number Badge */}
+                  {/* Step Number Badge & Uploaded Icon */}
                   <div className="flex items-center justify-between mb-5">
-                    <span className="font-display text-2xl sm:text-3xl font-black text-accent tracking-tight group-hover:scale-105 transition-transform duration-200">
-                      {stepItem.step}
-                    </span>
+                    <div className="flex items-center gap-2.5">
+                      {stepItem.iconUrl && (
+                        <img src={stepItem.iconUrl} alt={stepItem.title} className="h-6 w-6 object-contain" />
+                      )}
+                      <span className="font-display text-2xl sm:text-3xl font-black text-accent tracking-tight group-hover:scale-105 transition-transform duration-200">
+                        {stepItem.step}
+                      </span>
+                    </div>
                     {!isLast && (
                       <span className="hidden lg:block text-muted-light/40 group-hover:text-accent transition-colors">
                         <ArrowRight className="h-4 w-4" />

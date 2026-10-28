@@ -1,3 +1,5 @@
+import { SERVICES_MENU_CATEGORIES } from "./site-data";
+
 export type ServiceDetail = {
   slug: string;
   carrierType?: "fedex" | "ups" | "dhl" | "usps" | "office";
@@ -35,6 +37,7 @@ export type ServiceDetail = {
     description: string;
     speed: string;
     featured?: boolean;
+    price?: string;
   }[];
   shippableItemsLabel?: string;
   shippableItemsTitle: string;
@@ -53,8 +56,26 @@ export type ServiceDetail = {
   requirementsTitle?: string;
   requirementsSubtitle?: string;
   requirementsNotice?: string;
+  requirementsItems?: {
+    title: string;
+    description: string;
+    icon?: string;
+  }[];
   processLabel?: string;
   processTitle?: string;
+  processSubtitle?: string;
+  processSteps?: {
+    step: string;
+    title: string;
+    description: string;
+  }[];
+  checklistTitle?: string;
+  checklistSubtitle?: string;
+  checklistItems?: {
+    title: string;
+    description: string;
+    required?: boolean;
+  }[];
   cutoffTrackingLabel?: string;
   cutoffTrackingTitle?: string;
   cutoffTrackingSubtitle?: string;
@@ -641,6 +662,735 @@ export const SERVICES_DETAILS: Record<string, ServiceDetail> = {
       },
     ],
   },
+
+  "professional-packing": {
+    slug: "professional-packing",
+    carrierType: "office",
+    category: "Packing",
+    title: "Professional Packing in Odenton, MD",
+    shortTitle: "Professional Packing",
+    breadcrumbTitle: "Professional Packing",
+    headline: "Professional Packing Services in Odenton, MD",
+    subheadline:
+      "Expert Custom Packaging, Fragile Item Cushioning, and Heavy-Duty Corrugated Boxing for Guaranteed Transit Protection.",
+    eyebrow: "Certified Packaging Specialists",
+    heroImage: "/images/courier-associate-packing.jpg",
+    heroBadge: "Certified Packing Center",
+    aboutLabel: "ABOUT OUR PACKING SERVICE",
+    aboutTitle: "We Pack It With TLC So It Arrives In Perfect Condition",
+    ctaQuoteLabel: "Get a Packing Quote",
+    ctaQuoteHref: "tel:+14105193131",
+    ctaStoreLabel: "Visit Our Store",
+    ctaStoreHref: "/contact-us",
+    quickPerks: [
+      "30+ Box Sizes in Stock",
+      "Fragile & Sentimental TLC",
+      "Carrier-Approved Transit Prep",
+    ],
+    introParagraphs: [
+      "At Parcel & Office Solutions, we understand that what you are shipping is often irreplaceable. Whether it's delicate china, high-end electronics, family heirlooms, or original artwork, our certified packaging professionals use industry-leading techniques to protect your valuables.",
+      "Don't risk heartbreak or shipping claims by packing fragile items yourself with recycled or worn boxes. We stock heavy-duty corrugated cartons, antistatic cushioning, bubble packaging, and custom-fit materials designed to withstand overland and airline cargo transit.",
+      "Bring us your unwrapped items, and we'll take care of every layer — from inner cushioning to corner reinforcement and heavy-duty tape sealing.",
+    ],
+    keyHighlights: [
+      {
+        title: "Over 30 Box Sizes in Stock",
+        description: "From small jewelry cubes to heavy-duty wardrobe and guitar cartons.",
+        icon: "package",
+        badge: "In Stock Daily",
+      },
+      {
+        title: "TLC Fragile Cushioning",
+        description: "Custom bubble wrap, foam wrap, packing peanuts, and anti-static electronics protection.",
+        icon: "heart",
+        badge: "Certified TLC",
+      },
+      {
+        title: "Carrier Guidelines Compliant",
+        description: "Packaged according to strict FedEx, UPS, DHL, and USPS transit standards.",
+        icon: "shield",
+        badge: "Carrier Approved",
+      },
+      {
+        title: "Custom Box Re-Sizing",
+        description: "Oddly shaped or oversized items? We custom-build cartons tailored to your item's dimensions.",
+        icon: "scissors",
+        badge: "Custom Fit",
+      },
+    ],
+    servicesOfferedLabel: "SPECIALIZED PACKING TIERS",
+    servicesOfferedTitle: "Comprehensive Packing Options Tailored to Your Goods",
+    servicesOfferedSubtitle: "Select the level of packaging and protection designed for your items.",
+    servicesList: [
+      {
+        name: "Standard Package Packing",
+        badge: "Everyday Items",
+        description: "Ideal for clothes, books, durable household goods, and everyday shipments in sturdy corrugated boxes.",
+        speed: "5–10 Minutes",
+        featured: false,
+        price: "Affordable Standard Rates",
+      },
+      {
+        name: "Fragile & Delicate TLC Packing",
+        badge: "Double-Boxed",
+        description: "Multi-layer bubble wrap, foam corner protectors, and double-boxing for glassware, pottery, and heirlooms.",
+        speed: "10–15 Minutes",
+        featured: true,
+        price: "Premium Protection",
+      },
+      {
+        name: "Electronics & Tech Gear Packaging",
+        badge: "Anti-Static",
+        description: "Anti-static bubble cushioning, monitor screen protection, and custom boxing for PCs, laptops, and consoles.",
+        speed: "15–20 Minutes",
+        featured: true,
+        price: "Tech Shield Guard",
+      },
+      {
+        name: "Artwork, Mirrors & Canvas Crating",
+        badge: "Specialty Fit",
+        description: "Telescoping picture boxes, acid-free surface wraps, and reinforced corner guards for framed art and mirrors.",
+        speed: "Same-Day While You Wait",
+        featured: false,
+        price: "Specialty Sizes",
+      },
+    ],
+    shippableItemsLabel: "WHAT WE COMMONLY PACK",
+    shippableItemsTitle: "Items We Regularly Pack & Prepare for Transit",
+    shippableItemsSubtitle: "Bring your unwrapped items to our Odenton counter and let our experts handle the rest.",
+    shippableImportantNotice: "We supply all packaging materials on site so you never have to worry about buying tape or bubble wrap.",
+    shippableCategories: [
+      {
+        categoryName: "Fragile China & Glassware",
+        icon: "heart",
+        items: [
+          "Fine porcelain & china sets",
+          "Glass vases & stemware",
+          "Ceramic dishes & pottery",
+          "Chandeliers & lighting fixtures",
+        ],
+      },
+      {
+        categoryName: "Fine Art & Framed Works",
+        icon: "palette",
+        items: [
+          "Oil & acrylic canvas paintings",
+          "Framed photography & diplomas",
+          "Sculptures & statues",
+          "Mirrors & decorative glass",
+        ],
+      },
+      {
+        categoryName: "Electronics & High-Tech",
+        icon: "laptop",
+        items: [
+          "Desktop computers & monitors",
+          "Laptops, tablets & phones",
+          "Audio amps & speakers",
+          "Gaming systems & consoles",
+        ],
+      },
+      {
+        categoryName: "Musical Instruments & Sports",
+        icon: "gift",
+        items: [
+          "Guitars, violins & brass instruments",
+          "Golf clubs & sports equipment",
+          "Skateboards & snowboards",
+          "Bicycles & accessories",
+        ],
+      },
+    ],
+    processLabel: "HOW IT WORKS",
+    processTitle: "Our Four-Step Professional Packing Process",
+    processSubtitle: "Experience effortless, stress-free packing from the moment you step through our doors.",
+    processSteps: [
+      {
+        step: "01",
+        title: "Bring In Your Unwrapped Items",
+        description: "No need to pack or tape anything. Just bring your loose items into our store beside Food Lion.",
+      },
+      {
+        step: "02",
+        title: "Inspection & Box Selection",
+        description: "Our certified specialist evaluates weight, fragility, and dimensions to select the optimal corrugated box.",
+      },
+      {
+        step: "03",
+        title: "TLC Layering & Sealing",
+        description: "We apply multi-layer cushioning, void-fill, and heavy-duty 3-inch pressure-sensitive adhesive tape.",
+      },
+      {
+        step: "04",
+        title: "Carrier Hand-Off & Receipt",
+        description: "Ship right away via FedEx, UPS, DHL, or USPS with tracking and declared value coverage.",
+      },
+    ],
+    packingCommitment: {
+      title: "Packaging and Shipping Experts — It's Handled!",
+      quote: "Don't forget, here at Parcel & Office Solutions we are packaging and shipping experts—bring us your delicate, valuable, time-sensitive and sentimental items.",
+      body: "We have shipping boxes for virtually anything, and we'll pack it with TLC to make sure it arrives in perfect condition. We stock heavy-duty corrugated cartons, antistatic cushioning, bubble packaging, and custom-fit materials designed to withstand airline cargo and overland transit.",
+      features: [
+        "Certified carrier-grade packing guidelines",
+        "Over 30 standard & specialized box sizes in stock",
+        "Custom box re-sizing for unusual items",
+        "Declared value & parcel protection documentation",
+      ],
+    },
+    todayCutoff: {
+      expressTime: "6:00 PM",
+      groundTime: "5:00 PM",
+      notice: "Have your items packed and shipped on the same visit before evening carrier pickups.",
+    },
+    whyChooseLabel: "WHY CHOOSE US",
+    whyChooseTitle: "Why Entrust Your Packing to Parcel & Office Solutions?",
+    whyChooseSubtitle: "Save hours of time, eliminate packing stress, and ensure your shipments arrive intact.",
+    whyChooseItems: [
+      {
+        title: "Certified Packaging Specialists",
+        description: "Trained in the science of impact protection, vibration dampening, and compression resistance.",
+        icon: "shield",
+      },
+      {
+        title: "30+ Heavy-Duty Box Sizes",
+        description: "Always the right fit for your item, reducing excessive dimensional weight costs.",
+        icon: "package",
+      },
+      {
+        title: "Convenient One-Stop Shop",
+        description: "Pack and immediately ship via FedEx, UPS, DHL, or USPS under one roof.",
+        icon: "map-pin",
+      },
+      {
+        title: "Declared Value Protection",
+        description: "We document and verify packaging standards for high-value and insured parcels.",
+        icon: "barcode",
+      },
+      {
+        title: "Friendly Neighborhood Care",
+        description: "Personalized attention from our Odenton team who treats your belongings like family.",
+        icon: "users",
+      },
+    ],
+    customerAssistanceLabel: "PACKING ASSISTANCE",
+    customerAssistanceTitle: "Have Questions About Packing an Unusual or Fragile Item?",
+    customerAssistanceSubtitle: "Give us a call or visit our store. We'll examine your item and recommend the best protective solution.",
+    faqEyebrow: "HELP & ANSWERS",
+    faqHeading: "Frequently Asked Questions About Professional Packing",
+    faqDescription: "Everything you need to know about packing materials, drop-offs, and custom box fitting:",
+    faqs: [
+      {
+        question: "Can I bring items that aren't packed at all?",
+        answer: "Yes! In fact, we prefer you bring items unwrapped so our trained specialists can inspect them, wrap them properly with the right cushioning, and fit them into the perfect box size.",
+      },
+      {
+        question: "Do you sell boxes and packing supplies separately?",
+        answer: "Yes, we sell corrugated boxes, bubble wrap, packing peanuts, tape dispensers, and padded mailers directly for DIY packers.",
+      },
+      {
+        question: "What carriers do you pack for?",
+        answer: "Our packing standards meet and exceed requirements for FedEx, UPS, DHL, and the US Postal Service. You can ship with any carrier directly after packing.",
+      },
+      {
+        question: "How much does professional packing cost?",
+        answer: "Packing pricing depends on the box size, amount of cushioning material required, and item complexity. We provide transparent upfront pricing before starting.",
+      },
+    ],
+  },
+
+  "print-document-services": {
+    slug: "print-document-services",
+    carrierType: "office",
+    category: "Printing & Document Services",
+    title: "Print & Document Services in Odenton, MD",
+    shortTitle: "Print & Document Services",
+    breadcrumbTitle: "Printing Services",
+    headline: "High-Quality Print & Document Services in Odenton, MD",
+    subheadline:
+      "Vibrant Color Printing, Fast Digital Copying, Presentation Binding, Laminating, and Marketing Collateral for Businesses and Individuals.",
+    eyebrow: "Full-Service Document Printing Center",
+    heroImage: "/images/printed-menu-showcase.jpg",
+    heroBadge: "Digital Print Center",
+    aboutLabel: "ABOUT OUR PRINT SERVICES",
+    aboutTitle: "State-of-the-Art Digital Printing with Flawless Color & Clarity",
+    ctaQuoteLabel: "Get a Printing Quote",
+    ctaQuoteHref: "tel:+14105193131",
+    ctaStoreLabel: "Visit Our Store",
+    ctaStoreHref: "/contact-us",
+    quickPerks: [
+      "High-Speed Color & B/W",
+      "Heavy Cardstocks & Gloss Finishes",
+      "No Minimum Quantities",
+    ],
+    introParagraphs: [
+      "Whether you need ten color flyers for an upcoming event or five hundred bound presentations for an executive boardroom meeting, Parcel & Office Solutions delivers commercial-grade digital printing right here in Odenton, MD.",
+      "We utilize modern high-resolution digital production presses that reproduce deep, rich blacks and crisp, vibrant colors on a wide selection of premium paper stocks, text weights, and heavy cardstocks.",
+      "From basic copying and PDF printing to full document binding, custom folding, laminating, and cutting, our team handles every project with precision and quick turnarounds.",
+    ],
+    keyHighlights: [
+      {
+        title: "High-Resolution Digital Presses",
+        description: "Pin-sharp text, rich color gamuts, and consistent tone for flyers, resumes, and corporate reports.",
+        icon: "printer",
+        badge: "Up to 2400 DPI",
+      },
+      {
+        title: "Booklet Binding & Laminating",
+        description: "Comb binding, spiral coil binding, clear covers, cardstock backings, and thermal lamination.",
+        icon: "layers",
+        badge: "Full Finishing",
+      },
+      {
+        title: "Heavy Stocks & Custom Paper",
+        description: "Choose from 28lb bright white, 80lb/100lb glossy cardstock, linen textures, and pastel colors.",
+        icon: "tag",
+        badge: "Paper Selection",
+      },
+      {
+        title: "Fast Turnaround — No Minimums",
+        description: "Print 1 copy or 1,000 copies. Email your files or bring a USB flash drive for while-you-wait service.",
+        icon: "clock",
+        badge: "Same-Day Service",
+      },
+    ],
+    servicesOfferedLabel: "PRINTING SOLUTIONS",
+    servicesOfferedTitle: "Full Spectrum of Print & Document Capabilities",
+    servicesOfferedSubtitle: "Explore our versatile printing formats, paper stocks, and professional bindery options.",
+    servicesList: [
+      {
+        name: "Full-Color & B/W Digital Copies",
+        badge: "High-Speed",
+        description: "High-speed sheet-fed copying for training manuals, legal briefs, packets, and everyday paperwork.",
+        speed: "While You Wait",
+        featured: true,
+        price: "From Single Pages to Bulk",
+      },
+      {
+        name: "Brochures, Flyers & Menus",
+        badge: "Marketing",
+        description: "Vibrant tri-fold, bi-fold, or flat marketing flyers on premium glossy or matte cardstocks.",
+        speed: "Same-Day / Next-Day",
+        featured: true,
+        price: "Custom Quantities",
+      },
+      {
+        name: "Comb & Spiral Coil Binding",
+        badge: "Presentations",
+        description: "Professional plastic comb or durable spiral coil binding with clear protective front and vinyl back covers.",
+        speed: "15–30 Minutes",
+        featured: false,
+        price: "Per Booklet",
+      },
+      {
+        name: "Laminating & Precision Cutting",
+        badge: "Finishing",
+        description: "Durable thermal encapsulation for menus, badges, ID cards, signs, and reference sheets.",
+        speed: "While You Wait",
+        featured: false,
+        price: "All Standard Sizes",
+      },
+    ],
+    shippableItemsLabel: "CAPABILITIES & FORMATS",
+    shippableItemsTitle: "Popular Print Materials & Document Types",
+    shippableItemsSubtitle: "Serving Odenton area contractors, schools, healthcare providers, and local businesses.",
+    shippableImportantNotice: "We accept PDF, DOCX, JPG, PNG, and TIFF formats via USB, email, or direct walk-in.",
+    shippableCategories: [
+      {
+        categoryName: "Corporate & Commercial",
+        icon: "briefcase",
+        items: [
+          "Business reports & proposals",
+          "Sales brochures & product sheets",
+          "Employee handbooks & manuals",
+          "Invoices, receipts & forms",
+        ],
+      },
+      {
+        categoryName: "Marketing & Promotional",
+        icon: "file-text",
+        items: [
+          "Restaurant & takeout menus",
+          "Event flyers & promotional hand-outs",
+          "Postcards & mailers",
+          "Real estate feature sheets",
+        ],
+      },
+      {
+        categoryName: "Personal & Academic",
+        icon: "heart",
+        items: [
+          "Professional resumes & CVs",
+          "Funeral programs & memorial booklets",
+          "Church bulletins & newsletters",
+          "School projects & thesis papers",
+        ],
+      },
+      {
+        categoryName: "Finishing & Bindery",
+        icon: "layers",
+        items: [
+          "Lamination (Letter, Legal, Tabloid)",
+          "Plastic comb & coil binding",
+          "Saddle-stitch booklet stapling",
+          "Precision machine cutting & scoring",
+        ],
+      },
+    ],
+    processLabel: "EASY ORDER WORKFLOW",
+    processTitle: "How to Print Documents with Us in Four Easy Steps",
+    processSubtitle: "Skip the complicated online setup — get your files printed quickly and accurately.",
+    processSteps: [
+      {
+        step: "01",
+        title: "Send or Bring Your Files",
+        description: "Email your documents to us in advance or bring them on a USB flash drive to our store counter.",
+      },
+      {
+        step: "02",
+        title: "Select Paper & Finishing",
+        description: "Choose your paper weight, color options, single/double sided, and any binding or lamination.",
+      },
+      {
+        step: "03",
+        title: "Proof & Digital Print",
+        description: "We review a test proof before running the batch to guarantee razor-sharp resolution and color alignment.",
+      },
+      {
+        step: "04",
+        title: "Pickup or Ship Out",
+        description: "Pick up your packaged prints in-store, or let us courier them directly to your client or office.",
+      },
+    ],
+    packingCommitment: {
+      title: "Commercial-Grade Quality Guarantee",
+      quote: "Every page matters. We inspect every print job for sharpness, bleed accuracy, and color fidelity.",
+      body: "Our high-speed digital printers ensure crisp text, vibrant photographs, and smudge-free laser output. Whether it's a single resume or 500 presentation booklets, you'll receive professional quality every time.",
+      features: [
+        "High-definition digital laser reproduction",
+        "Wide selection of paper stocks in stock",
+        "Precision finishing, folding, and trimming",
+        "Direct email and walk-in flash drive support",
+      ],
+    },
+    todayCutoff: {
+      notice: "Most print jobs submitted before 4:00 PM are ready for same-day pickup.",
+    },
+    whyChooseLabel: "WHY CHOOSE US",
+    whyChooseTitle: "Why Choose Parcel & Office Solutions for Printing?",
+    whyChooseSubtitle: "Local convenience, commercial equipment, and attentive personal service right in Odenton.",
+    whyChooseItems: [
+      {
+        title: "Commercial-Grade Equipment",
+        description: "Faster and far higher quality than home desktop inkjet printers.",
+        icon: "printer",
+      },
+      {
+        title: "No Minimum Orders",
+        description: "Order just 1 page or hundreds — pay only for what you actually need.",
+        icon: "tag",
+      },
+      {
+        title: "Complete In-House Finishing",
+        description: "Binding, cutting, laminating, and folding all handled under one roof.",
+        icon: "layers",
+      },
+      {
+        title: "Same-Day Turnaround Available",
+        description: "Fast turnaround times so you never miss an urgent deadline.",
+        icon: "clock",
+      },
+      {
+        title: "Print & Ship Under One Roof",
+        description: "Print your documents and immediately mail them via FedEx, UPS, or USPS.",
+        icon: "package",
+      },
+    ],
+    customerAssistanceLabel: "PRINT ASSISTANCE",
+    customerAssistanceTitle: "Have a Custom Print Project or Need a Quote?",
+    customerAssistanceSubtitle: "Contact our printing team with your file details, page counts, and finishing requirements.",
+    faqEyebrow: "HELP & ANSWERS",
+    faqHeading: "Frequently Asked Questions About Print & Document Services",
+    faqDescription: "Answers to common questions regarding formats, turnarounds, and binding options:",
+    faqs: [
+      {
+        question: "What file formats do you accept for printing?",
+        answer: "We recommend saving your files as PDF for the highest fidelity. We also accept Microsoft Word, PowerPoint, Excel, JPG, PNG, and TIFF formats.",
+      },
+      {
+        question: "Can I email my files before coming to the store?",
+        answer: "Yes! You can email your files to contact@parcelofficesolutions.com with your instructions (color vs. B/W, quantity, paper type) and we will have them ready for pickup.",
+      },
+      {
+        question: "Do you have cardstock and specialty papers in stock?",
+        answer: "Yes, we stock various paper weights from 20lb standard copy paper up to 80lb and 100lb heavy cover cardstock in glossy, matte, and pastel finishes.",
+      },
+      {
+        question: "Can you bind multi-page presentations and booklets?",
+        answer: "Yes, we offer plastic comb and spiral coil binding complete with clear protective front covers and durable vinyl backings.",
+      },
+    ],
+  },
+
+  "digital-fingerprinting": {
+    slug: "digital-fingerprinting",
+    carrierType: "office",
+    category: "Business & Personal Services",
+    title: "Digital Fingerprinting in Odenton, MD",
+    shortTitle: "Digital Fingerprinting",
+    breadcrumbTitle: "Digital Fingerprinting",
+    headline: "Certified Digital Fingerprinting in Odenton, MD",
+    subheadline:
+      "Fast, Inkless Live Scan Fingerprinting for State Background Checks, Licensing, Security Clearances, and Pre-Employment.",
+    eyebrow: "Authorized Live Scan Fingerprint Provider",
+    heroImage: "/images/small-biz-owner.jpg",
+    heroBadge: "Certified Live Scan Provider",
+    aboutLabel: "ABOUT OUR FINGERPRINTING SERVICE",
+    aboutTitle: "State-Approved Electronic Fingerprint Capture with Instant Submission",
+    ctaQuoteLabel: "Get Fingerprinting Info",
+    ctaQuoteHref: "tel:+14105193131",
+    ctaStoreLabel: "Visit Our Store",
+    ctaStoreHref: "/contact-us",
+    quickPerks: [
+      "Walk-Ins Welcome — No Appt Needed",
+      "Ink-Free Optical Scanning",
+      "Instant Electronic CJIS/State Submission",
+    ],
+    introParagraphs: [
+      "Need official fingerprinting for Maryland state licensing, security clearances, childcare certification, or pre-employment background checks? Parcel & Office Solutions provides authorized digital Live Scan fingerprinting right here in Odenton, MD.",
+      "Our state-of-the-art optical scanners capture pristine, smudge-free digital fingerprint images without messy black ink. The system immediately checks image quality against strict state and federal forensic standards to ensure your prints will not be rejected.",
+      "Once captured, your fingerprints are securely transmitted electronically to the Maryland Criminal Justice Information System (CJIS) and FBI, accelerating your background check turnaround.",
+    ],
+    keyHighlights: [
+      {
+        title: "State-Certified Live Scan System",
+        description: "Official electronic capture authorized for Maryland CJIS and FBI criminal background checks.",
+        icon: "fingerprint",
+        badge: "CJIS Approved",
+      },
+      {
+        title: "Inkless Optical Precision",
+        description: "Clean, mess-free digital scanning that verifies roll quality and clarity in real time.",
+        icon: "shield",
+        badge: "Zero Mess",
+      },
+      {
+        title: "Walk-Ins Always Welcome",
+        description: "No need to schedule weeks in advance. Visit our Odenton center during normal business hours.",
+        icon: "clock",
+        badge: "No Appt Needed",
+      },
+      {
+        title: "Fast 10-Minute Service",
+        description: "Most fingerprinting sessions take less than 10 minutes from check-in to official receipt.",
+        icon: "sparkles",
+        badge: "Quick In & Out",
+      },
+    ],
+    servicesOfferedLabel: "FINGERPRINTING SOLUTIONS",
+    servicesOfferedTitle: "Official Fingerprinting for All Certification Needs",
+    servicesOfferedSubtitle: "Approved for healthcare, education, real estate, security, and government applications.",
+    servicesList: [
+      {
+        name: "Maryland State CJIS Background Check",
+        badge: "State Level",
+        description: "Electronic Live Scan submission directly to Maryland Criminal Justice Information System for state licensing.",
+        speed: "10 Minutes In-Store",
+        featured: true,
+        price: "Official State Rates",
+      },
+      {
+        name: "FBI Federal Background Check",
+        badge: "Federal Level",
+        description: "Combined CJIS and FBI electronic submission for federal security clearances, immigration, or multi-state licensing.",
+        speed: "Instant Electronic Transfer",
+        featured: true,
+        price: "State + FBI Combined",
+      },
+      {
+        name: "Standard FD-258 Ink Fingerprint Cards",
+        badge: "Hardcopy Card",
+        description: "Physical fingerprinting on official FBI FD-258 cards for out-of-state licensing, FINRA, or federal submissions.",
+        speed: "While You Wait",
+        featured: false,
+        price: "Per Card Printed",
+      },
+      {
+        name: "Employment & Volunteer Screening",
+        badge: "Organizations",
+        description: "Fingerprinting for teachers, daycares, healthcare workers, eldercare, and youth sports coaches.",
+        speed: "Fast Group or Individual",
+        featured: false,
+        price: "Group Rates Available",
+      },
+    ],
+    checklistTitle: "WHAT TO BRING FOR FINGERPRINTING",
+    checklistSubtitle: "Ensure you have the required documents before your visit to ensure a smooth, compliant session.",
+    checklistItems: [
+      {
+        title: "Valid Government-Issued Photo ID",
+        description: "Current Driver's License, State ID Card, US Passport, or Military ID (must not be expired).",
+        required: true,
+      },
+      {
+        title: "Agency Authorization & ORI Number",
+        description: "Your employer, licensing board, or state agency will provide an ORI number and Authorization code.",
+        required: true,
+      },
+      {
+        title: "Reason for Fingerprinting / Form",
+        description: "Bring the specific Live Scan pre-registration form or agency instructions packet provided to you.",
+        required: true,
+      },
+      {
+        title: "Payment Method",
+        description: "We accept Visa, MasterCard, Amex, Discover, and cash for state fees and rolling charges.",
+        required: true,
+      },
+    ],
+    shippableItemsLabel: "ELIGIBLE LICENSES & USES",
+    shippableItemsTitle: "Common Reasons for Fingerprinting in Maryland",
+    shippableItemsSubtitle: "Serving applicants across Odenton, Fort Meade, Crofton, Hanover, and Anne Arundel County.",
+    shippableImportantNotice: "Remember to bring your agency's 7-digit Authorization Number and ORI code.",
+    shippableCategories: [
+      {
+        categoryName: "Healthcare & Caregiving",
+        icon: "heart",
+        items: [
+          "Nursing (RN, LPN, CNA) licensing",
+          "Physicians & medical professionals",
+          "Childcare & daycare workers",
+          "Home healthcare & eldercare providers",
+        ],
+      },
+      {
+        categoryName: "Professional Licensing",
+        icon: "briefcase",
+        items: [
+          "Real estate agents & brokers",
+          "Security guards & private investigators",
+          "Financial & FINRA registrations",
+          "Cannabis commission licenses",
+        ],
+      },
+      {
+        categoryName: "Education & Public Service",
+        icon: "file-text",
+        items: [
+          "Public & private school teachers",
+          "Substitute teachers & aides",
+          "Youth sports coaches & volunteers",
+          "Government contractors (Fort Meade)",
+        ],
+      },
+      {
+        categoryName: "Legal & Personal",
+        icon: "shield",
+        items: [
+          "Name change petitions",
+          "Adoption & foster parenting",
+          "Handgun Qualification License (HQL)",
+          "Immigration & visa clearances",
+        ],
+      },
+    ],
+    processLabel: "SIMPLE IN-STORE PROCESS",
+    processTitle: "Complete Your Fingerprinting in Four Quick Steps",
+    processSubtitle: "Our certified technicians guide you through the process quickly and comfortably.",
+    processSteps: [
+      {
+        step: "01",
+        title: "Check In at Our Counter",
+        description: "Provide your government ID and agency paperwork with your ORI and Authorization numbers.",
+      },
+      {
+        step: "02",
+        title: "Data Entry & Verification",
+        description: "Our technician inputs your applicant demographics into the secure Live Scan terminal.",
+      },
+      {
+        step: "03",
+        title: "Inkless Optical Scanning",
+        description: "We guide your fingers across the glass optical sensor for both four-finger slaps and individual rolls.",
+      },
+      {
+        step: "04",
+        title: "Instant Submission & Receipt",
+        description: "Prints are transmitted electronically. You receive an official CJIS receipt with your Tracking Number.",
+      },
+    ],
+    packingCommitment: {
+      title: "Secure, CJIS-Compliant Protection",
+      quote: "Your privacy and security are paramount. Fingerprint data is encrypted and transmitted directly to state repositories.",
+      body: "We adhere strictly to state and federal data privacy standards. Your digital biometric data is never stored locally on our terminals after successful transmission.",
+      features: [
+        "Certified and background-checked technicians",
+        "Direct encrypted transmission to CJIS & FBI",
+        "Zero messy black ink or residue on hands",
+        "Official receipt with Tracking ID provided on-site",
+      ],
+    },
+    todayCutoff: {
+      notice: "Live Scan fingerprinting is available Monday–Friday 9:30 AM–6:00 PM, Saturday 10:00 AM–3:00 PM.",
+    },
+    whyChooseLabel: "WHY CHOOSE US",
+    whyChooseTitle: "Why Get Fingerprinted at Parcel & Office Solutions?",
+    whyChooseSubtitle: "Save time with no long appointment waitlists, easy parking, and fast certified service.",
+    whyChooseItems: [
+      {
+        title: "No Appointments Required",
+        description: "Walk in at your convenience during our open hours Monday through Saturday.",
+        icon: "clock",
+      },
+      {
+        title: "Convenient Location Beside Food Lion",
+        description: "Plenty of free parking right in front of our Odenton shopping center store.",
+        icon: "map-pin",
+      },
+      {
+        title: "Immediate Quality Verification",
+        description: "Our Live Scan software tests print clarity instantly, eliminating rejected card delays.",
+        icon: "shield",
+      },
+      {
+        title: "Official Tracking Receipt",
+        description: "Get a printed receipt with your CJIS Tracking Number immediately for proof to your employer.",
+        icon: "barcode",
+      },
+      {
+        title: "Full Business Services Under One Roof",
+        description: "Combine fingerprinting with passport photos, notary public, and priority shipping in one trip.",
+        icon: "layers",
+      },
+    ],
+    customerAssistanceLabel: "FINGERPRINT ASSISTANCE",
+    customerAssistanceTitle: "Questions About What Forms or Agency Codes You Need?",
+    customerAssistanceSubtitle: "Give us a call at (410) 519-3131 and our team will help verify your paperwork before coming in.",
+    faqEyebrow: "HELP & ANSWERS",
+    faqHeading: "Frequently Asked Questions About Digital Fingerprinting",
+    faqDescription: "Common questions regarding Live Scan, state fees, appointment policies, and processing times:",
+    faqs: [
+      {
+        question: "Do I need to schedule an appointment for fingerprinting?",
+        answer: "No! We accept walk-ins during our normal operating hours. Feel free to stop by whenever is most convenient for you.",
+      },
+      {
+        question: "What should I bring to my fingerprinting session?",
+        answer: "You must bring a valid, unexpired government-issued photo ID (Driver's License, State ID, or Passport) and your agency's Live Scan pre-registration form with the Authorization Number and ORI code.",
+      },
+      {
+        question: "How long does the fingerprinting session take?",
+        answer: "The entire process usually takes about 10 minutes from reviewing your paperwork to printing your official receipt.",
+      },
+      {
+        question: "How long does it take for my employer or licensing agency to get results?",
+        answer: "Because we submit electronically via Live Scan, Maryland CJIS typically processes background results within 48 to 72 business hours and sends them directly to your requesting agency.",
+      },
+      {
+        question: "Can you print physical fingerprint cards (FD-258)?",
+        answer: "Yes, if your agency requires hardcopy fingerprint cards, we can capture your prints digitally and print them directly onto official FBI FD-258 cards.",
+      },
+    ],
+  },
 };
 
 /**
@@ -651,6 +1401,12 @@ export function getServiceDetail(slug: string): ServiceDetail {
     return SERVICES_DETAILS[slug];
   }
 
+  // Find category dynamically from SERVICES_MENU_CATEGORIES
+  const foundCategory = SERVICES_MENU_CATEGORIES.find((cat) =>
+    cat.items.some((item) => item.slug === slug)
+  );
+  const category = (foundCategory ? foundCategory.title : "Business & Personal Services") as ServiceDetail["category"];
+
   // Graceful generic generator for any other slug
   const titleFormatted = slug
     .split("-")
@@ -660,7 +1416,7 @@ export function getServiceDetail(slug: string): ServiceDetail {
   return {
     slug,
     carrierType: "office",
-    category: "Business & Personal Services",
+    category,
     title: `${titleFormatted} in Odenton, MD`,
     headline: `${titleFormatted} in Odenton, MD`,
     subheadline: `Professional, Reliable ${titleFormatted} at Parcel & Office Solutions`,

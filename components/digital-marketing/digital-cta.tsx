@@ -46,15 +46,15 @@ export default function DigitalCta({ service }: DigitalCtaProps) {
           <div className="mt-8 sm:mt-10 flex flex-wrap items-center justify-center gap-4">
             <Link
               href={finalCta.ctaHref}
-              className="inline-flex items-center justify-center gap-2 rounded-xl bg-accent px-8 py-4 text-base font-bold text-white shadow-lg shadow-accent/30 transition-all duration-200 hover:bg-accent-dark hover:scale-[1.02] active:scale-[0.98]"
+              className="group inline-flex items-center justify-center gap-2.5 rounded-full bg-primary px-8 py-3.5 text-xs sm:text-sm font-extrabold uppercase tracking-wider text-white shadow-xs transition-all duration-200 hover:bg-primary-dark hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
             >
               <span>{finalCta.ctaText}</span>
-              <ArrowRight className="h-4 w-4" />
+              <ArrowRight className="h-4 w-4 text-accent transition-transform duration-200 group-hover:translate-x-1" />
             </Link>
 
             <Link
               href={BUSINESS.phoneHref}
-              className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/25 bg-white/10 px-6 py-4 text-base font-bold text-white backdrop-blur-md transition-all duration-200 hover:bg-white/20 active:scale-[0.98]"
+              className="inline-flex items-center justify-center gap-2 rounded-full border border-white/25 bg-white/10 px-7 py-3.5 text-xs sm:text-sm font-extrabold uppercase tracking-wider text-white backdrop-blur-md transition-all duration-200 hover:bg-white/20 hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
             >
               <Phone className="h-4 w-4 text-accent-light" />
               <span>Call Us: (410) 519-3131</span>

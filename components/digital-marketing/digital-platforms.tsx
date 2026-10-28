@@ -1,4 +1,5 @@
 import React from "react";
+import { Sparkles } from "lucide-react";
 import type { DigitalMarketingServiceData } from "@/lib/digital-marketing-data";
 
 interface DigitalPlatformsProps {
@@ -61,8 +62,8 @@ export default function DigitalPlatforms({ service }: DigitalPlatformsProps) {
         {/* Section Header - Clean without title highlighter */}
         <div className="mx-auto max-w-3xl text-center">
           {platforms.eyebrow && (
-            <div className="inline-flex items-center gap-2 rounded-full border border-border bg-surface-muted px-3.5 py-1 text-xs font-black uppercase tracking-wider text-accent shadow-2xs">
-              <span className="h-1.5 w-1.5 rounded-full bg-accent" />
+            <div className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3.5 py-1 text-xs font-black uppercase tracking-wider text-accent shadow-2xs">
+              <Sparkles className="h-3.5 w-3.5 text-accent-dark" aria-hidden="true" />
               <span>{platforms.eyebrow}</span>
             </div>
           )}
@@ -87,8 +88,12 @@ export default function DigitalPlatforms({ service }: DigitalPlatformsProps) {
                 className="group flex flex-col items-start transition-all duration-300"
               >
                 {/* Platform Icon Badge */}
-                <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-primary-soft text-primary transition-all duration-300 group-hover:bg-accent group-hover:text-white group-hover:scale-105">
-                  {getPlatformIcon(item.platform)}
+                <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-primary-soft text-primary transition-all duration-300 group-hover:bg-accent group-hover:text-white group-hover:scale-105 overflow-hidden">
+                  {item.iconUrl ? (
+                    <img src={item.iconUrl} alt={item.name} className="h-8 w-8 object-contain" />
+                  ) : (
+                    getPlatformIcon(item.platform || "")
+                  )}
                 </div>
 
                 {/* Platform Title */}

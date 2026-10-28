@@ -3,6 +3,7 @@ import Link from "next/link";
 import {
   CheckCircle2,
   ArrowRight,
+  Sparkles,
 } from "lucide-react";
 import type { DigitalMarketingServiceData } from "@/lib/digital-marketing-data";
 
@@ -21,7 +22,7 @@ export default function DigitalWhyChoose({ service }: DigitalWhyChooseProps) {
           {/* Left Column: Heading & Value Proposition Banner (5 Cols) */}
           <div className="lg:col-span-5">
             <div className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3.5 py-1 text-xs font-black uppercase tracking-wider text-accent shadow-2xs">
-              <span className="h-1.5 w-1.5 rounded-full bg-accent" />
+              <Sparkles className="h-3.5 w-3.5 text-accent-dark" aria-hidden="true" />
               <span>{whyChooseUs.eyebrow}</span>
             </div>
 
@@ -38,10 +39,10 @@ export default function DigitalWhyChoose({ service }: DigitalWhyChooseProps) {
 
             <div className="mt-8">
               <Link
-                href={`/contact-us?service=${service.slug}`}
+                href={whyChooseUs.ctaHref || `/contact-us?service=${service.slug}`}
                 className="group inline-flex items-center justify-center gap-2.5 rounded-full bg-primary px-7 py-3.5 text-xs sm:text-sm font-extrabold uppercase tracking-wider text-white shadow-xs transition-all duration-200 hover:bg-primary-dark hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
               >
-                <span>Request a Custom Proposal</span>
+                <span>{whyChooseUs.ctaText || "Request a Custom Proposal"}</span>
                 <ArrowRight className="h-4 w-4 text-accent transition-transform duration-200 group-hover:translate-x-1" />
               </Link>
             </div>
@@ -62,9 +63,13 @@ export default function DigitalWhyChoose({ service }: DigitalWhyChooseProps) {
                       isLastOdd ? "sm:col-span-2" : ""
                     }`}
                   >
-                    {/* Custom Numbered Check Icon */}
-                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-primary-soft text-primary font-bold text-xs transition-colors group-hover:bg-primary group-hover:text-accent mt-0.5">
-                      0{index + 1}
+                    {/* Custom Numbered Check Icon or Uploaded Image */}
+                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-primary-soft text-primary font-bold text-xs transition-colors group-hover:bg-primary group-hover:text-accent mt-0.5 overflow-hidden">
+                      {point.iconUrl ? (
+                        <img src={point.iconUrl} alt={point.title} className="h-5 w-5 object-contain" />
+                      ) : (
+                        `0${index + 1}`
+                      )}
                     </span>
 
                     <div className="flex-1 min-w-0">

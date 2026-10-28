@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { ChevronDown, HelpCircle } from "lucide-react";
+import { ChevronDown, Sparkles } from "lucide-react";
 import type { DigitalMarketingServiceData } from "@/lib/digital-marketing-data";
 
 interface DigitalFaqProps {
@@ -24,7 +24,7 @@ export default function DigitalFaq({ service }: DigitalFaqProps) {
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto">
           <div className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3.5 py-1 text-xs font-black uppercase tracking-wider text-accent shadow-2xs">
-            <HelpCircle className="h-3.5 w-3.5 text-accent-dark" aria-hidden="true" />
+            <Sparkles className="h-3.5 w-3.5 text-accent-dark" aria-hidden="true" />
             <span>{faqs.eyebrow}</span>
           </div>
 

@@ -127,41 +127,42 @@ export default async function DigitalMarketingServiceUsaPage({ params }: Props) 
 
       <main className="min-h-screen bg-background text-foreground">
         {/* Section 1: Hero Section */}
-        <DigitalHero service={service} />
+        {service.showHero !== false && <DigitalHero service={service} />}
 
         {/* Section 2: Service Overview */}
-        <DigitalOverview service={service} />
+        {service.showOverview !== false && <DigitalOverview service={service} />}
 
         {/* Section 3: Solutions / Services List */}
-        <DigitalServicesList service={service} />
+        {service.showSolutions !== false && <DigitalServicesList service={service} />}
 
         {/* Section 4: Platforms We Manage */}
-        <DigitalPlatforms service={service} />
+        {service.showPlatforms !== false && <DigitalPlatforms service={service} />}
 
         {/* Section 5: Industries We Serve */}
-        <DigitalIndustries service={service} />
+        {service.showIndustries !== false && <DigitalIndustries service={service} />}
 
         {/* Section 6: Local Social Media Marketing in Odenton, MD */}
-        <DigitalLocalMarketing service={service} />
+        {service.showLocalMarketing !== false && <DigitalLocalMarketing service={service} />}
 
         {/* Section 7: Marketing Process */}
-        <DigitalProcess service={service} />
+        {service.showProcess !== false && <DigitalProcess service={service} />}
 
         {/* Section 8: Why Choose Us */}
-        <DigitalWhyChoose service={service} />
+        {service.showWhyChooseUs !== false && <DigitalWhyChoose service={service} />}
 
         {/* Section 9: Frequently Asked Questions */}
-        <DigitalFaq service={service} />
+        {service.showFaqs !== false && <DigitalFaq service={service} />}
 
-        {/* Client Testimonials (only if real approved feedback exists) */}
-        {service.testimonials &&
+        {/* Client Testimonials (only if real approved feedback exists and switch is active) */}
+        {service.showTestimonials !== false &&
+          service.testimonials &&
           service.testimonials.items &&
           service.testimonials.items.some(
             (t) => t.approved && !t.quote.includes("[Insert")
           ) && <DigitalTestimonials service={service} />}
 
         {/* Section 10: Final Call to Action */}
-        <DigitalCta service={service} />
+        {service.showFinalCta !== false && <DigitalCta service={service} />}
       </main>
     </>
   );

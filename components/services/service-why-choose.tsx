@@ -8,6 +8,14 @@ import {
   Award,
   Check,
   ShieldAlert,
+  ShieldCheck,
+  Clock,
+  Printer,
+  Fingerprint,
+  Layers,
+  Tag,
+  Heart,
+  Sparkles,
   type LucideIcon,
 } from "lucide-react";
 import type { ServiceDetail } from "@/lib/service-details";
@@ -18,6 +26,14 @@ const ICON_MAP: Record<string, LucideIcon> = {
   "file-text": FileText,
   "map-pin": MapPin,
   barcode: Barcode,
+  shield: ShieldCheck,
+  clock: Clock,
+  printer: Printer,
+  fingerprint: Fingerprint,
+  layers: Layers,
+  tag: Tag,
+  heart: Heart,
+  sparkles: Sparkles,
 };
 
 export default function ServiceWhyChoose({ service }: { service: ServiceDetail }) {

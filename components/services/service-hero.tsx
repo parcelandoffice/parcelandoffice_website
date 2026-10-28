@@ -21,6 +21,7 @@ export default function ServiceHero({ service }: { service: ServiceDetail }) {
   const isFedEx = service.carrierType === "fedex" || service.slug.includes("fedex");
   const isUPS = service.carrierType === "ups" || service.slug.includes("ups");
   const isUSPS = service.carrierType === "usps" || service.slug.includes("postal");
+  const isCarrier = isDHL || isFedEx || isUPS || isUSPS;
 
   const breadcrumbName =
     service.breadcrumbTitle ||
@@ -39,11 +40,13 @@ export default function ServiceHero({ service }: { service: ServiceDetail }) {
         ? "Get a FedEx Shipping Quote"
         : isUPS
           ? "Get a UPS Shipping Quote"
-          : "Get a Shipping Quote");
+          : isCarrier
+            ? "Get a Shipping Quote"
+            : `Get a Quote`);
 
   const storeLabel = service.ctaStoreLabel || "Visit Our Store";
   const quoteHref = service.ctaQuoteHref || BUSINESS.phoneHref;
-  const storeHref = service.ctaStoreHref || "/contact";
+  const storeHref = service.ctaStoreHref || "/contact-us";
 
   return (
     <section className="relative overflow-hidden border-b border-border bg-gradient-to-b from-surface-muted/70 via-surface to-surface py-7 sm:py-9 lg:py-12">
@@ -148,30 +151,63 @@ export default function ServiceHero({ service }: { service: ServiceDetail }) {
 
             {/* Quick Information Badges */}
             <div className="mt-5 flex flex-wrap items-center gap-2.5 sm:gap-3 text-xs font-semibold text-secondary">
-              {/* Badge 1: Cutoff with live pulsing beacon */}
-              <div className="inline-flex items-center gap-2 rounded-xl border border-border/90 bg-surface px-3 py-1.5 shadow-2xs hover:border-accent/40 transition-colors">
-                <span className="relative flex h-2 w-2" aria-hidden="true">
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-75"></span>
-                  <span className="relative inline-flex h-2 w-2 rounded-full bg-accent"></span>
-                </span>
-                <Clock className="h-3.5 w-3.5 text-accent shrink-0" aria-hidden="true" />
-                <span>
-                  Today&apos;s Express Cutoff:{" "}
-                  <strong className="font-black text-primary-dark">{cutoffTime}</strong>
-                </span>
-              </div>
+              {service.quickPerks && service.quickPerks.length > 0 ? (
+                service.quickPerks.map((perk, i) => (
+                  <div
+                    key={perk}
+                    className="inline-flex items-center gap-2 rounded-xl border border-border/90 bg-surface px-3 py-1.5 shadow-2xs hover:border-accent/40 transition-colors"
+                  >
+                    {i === 0 ? (
+                      <span className="relative flex h-2 w-2" aria-hidden="true">
+                        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-75"></span>
+                        <span className="relative inline-flex h-2 w-2 rounded-full bg-accent"></span>
+                      </span>
+                    ) : (
+                      <ShieldCheck className="h-3.5 w-3.5 text-accent shrink-0" aria-hidden="true" />
+                    )}
+                    <span className="font-bold text-primary-dark">{perk}</span>
+                  </div>
+                ))
+              ) : isCarrier ? (
+                <>
+                  <div className="inline-flex items-center gap-2 rounded-xl border border-border/90 bg-surface px-3 py-1.5 shadow-2xs hover:border-accent/40 transition-colors">
+                    <span className="relative flex h-2 w-2" aria-hidden="true">
+                      <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-75"></span>
+                      <span className="relative inline-flex h-2 w-2 rounded-full bg-accent"></span>
+                    </span>
+                    <Clock className="h-3.5 w-3.5 text-accent shrink-0" aria-hidden="true" />
+                    <span>
+                      Today&apos;s Express Cutoff:{" "}
+                      <strong className="font-black text-primary-dark">{cutoffTime}</strong>
+                    </span>
+                  </div>
 
-              {/* Badge 2: Free Drop-Off Counter Scans */}
-              <div className="inline-flex items-center gap-2 rounded-xl border border-border/90 bg-surface px-3 py-1.5 shadow-2xs hover:border-success/40 transition-colors">
-                <PackageCheck className="h-3.5 w-3.5 text-success shrink-0" aria-hidden="true" />
-                <span>Free Drop-Off Counter Scans</span>
-              </div>
+                  <div className="inline-flex items-center gap-2 rounded-xl border border-border/90 bg-surface px-3 py-1.5 shadow-2xs hover:border-success/40 transition-colors">
+                    <PackageCheck className="h-3.5 w-3.5 text-success shrink-0" aria-hidden="true" />
+                    <span>Free Drop-Off Counter Scans</span>
+                  </div>
 
-              {/* Badge 3: Shipping & Packaging Assistance */}
-              <div className="inline-flex items-center gap-2 rounded-xl border border-border/90 bg-surface px-3 py-1.5 shadow-2xs hover:border-primary/40 transition-colors">
-                <ShieldCheck className="h-3.5 w-3.5 text-primary shrink-0" aria-hidden="true" />
-                <span>Shipping and Packaging Assistance</span>
-              </div>
+                  <div className="inline-flex items-center gap-2 rounded-xl border border-border/90 bg-surface px-3 py-1.5 shadow-2xs hover:border-primary/40 transition-colors">
+                    <ShieldCheck className="h-3.5 w-3.5 text-primary shrink-0" aria-hidden="true" />
+                    <span>Shipping and Packaging Assistance</span>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="inline-flex items-center gap-2 rounded-xl border border-border/90 bg-surface px-3 py-1.5 shadow-2xs hover:border-accent/40 transition-colors">
+                    <Sparkles className="h-3.5 w-3.5 text-accent shrink-0" aria-hidden="true" />
+                    <span className="font-bold text-primary-dark">Walk-Ins Always Welcome</span>
+                  </div>
+                  <div className="inline-flex items-center gap-2 rounded-xl border border-border/90 bg-surface px-3 py-1.5 shadow-2xs hover:border-primary/40 transition-colors">
+                    <Clock className="h-3.5 w-3.5 text-primary shrink-0" aria-hidden="true" />
+                    <span>Fast Turnaround While You Wait</span>
+                  </div>
+                  <div className="inline-flex items-center gap-2 rounded-xl border border-border/90 bg-surface px-3 py-1.5 shadow-2xs hover:border-success/40 transition-colors">
+                    <ShieldCheck className="h-3.5 w-3.5 text-success shrink-0" aria-hidden="true" />
+                    <span>Odenton Local Business Care</span>
+                  </div>
+                </>
+              )}
             </div>
 
             {/* CTA Buttons */}
@@ -265,15 +301,17 @@ export default function ServiceHero({ service }: { service: ServiceDetail }) {
                   <div className="rounded-2xl border border-white/20 bg-primary-dark/85 p-3.5 sm:p-4 text-white shadow-md backdrop-blur-md">
                     <div className="flex items-center justify-between gap-2">
                       <span className="text-[11px] font-black uppercase tracking-wider text-accent">
-                        Scheduled Daily Pickups
+                        {isCarrier ? "Scheduled Daily Pickups" : "Walk-Ins Always Welcome"}
                       </span>
                       <span className="inline-flex items-center gap-1 text-[10px] font-bold text-white/90">
                         <Clock className="h-3 w-3 text-accent" />
-                        <span>Departs Tonight</span>
+                        <span>{isCarrier ? "Departs Tonight" : "Open 6 Days / Week"}</span>
                       </span>
                     </div>
                     <p className="mt-1 text-xs sm:text-[13px] font-bold text-white leading-snug">
-                      Fast, reliable courier delivery directly from Odenton, MD.
+                      {isCarrier
+                        ? "Fast, reliable courier delivery directly from Odenton, MD."
+                        : `Fast, friendly ${service.shortTitle || "in-store"} support right here in Odenton, MD.`}
                     </p>
                     <div className="mt-2 pt-2 border-t border-white/15 flex items-center justify-between text-[10.5px] text-white/80">
                       <span>8777 Piney Orchard Pkwy Ste B</span>
