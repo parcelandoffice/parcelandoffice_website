@@ -7,6 +7,7 @@ import {
   UtensilsCrossed,
   Cpu,
   Layers,
+  Sparkles,
 } from "lucide-react";
 import type { DigitalMarketingServiceData } from "@/lib/digital-marketing-data";
 
@@ -43,7 +44,7 @@ export default function DigitalIndustries({ service }: DigitalIndustriesProps) {
         {/* Section Header */}
         <div className="mx-auto max-w-3xl text-center">
           <div className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3.5 py-1 text-xs font-black uppercase tracking-wider text-accent shadow-2xs">
-            <span className="h-1.5 w-1.5 rounded-full bg-accent" />
+            <Sparkles className="h-3.5 w-3.5 text-accent-dark" aria-hidden="true" />
             <span>{industries.eyebrow}</span>
           </div>
 
@@ -59,15 +60,19 @@ export default function DigitalIndustries({ service }: DigitalIndustriesProps) {
         {/* Compact Industry Cards Grid - Icon & Name Only */}
         <div className="mt-10 sm:mt-12 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 sm:gap-5">
           {industries.items.map((item, idx) => {
-            const IconComponent = getIndustryIcon(item.icon);
+            const IconComponent = getIndustryIcon(item.icon || "");
 
             return (
               <div
                 key={idx}
                 className="group flex flex-col items-center justify-center text-center rounded-2xl border border-border bg-surface p-5 sm:p-6 shadow-[var(--shadow-card)] transition-all duration-300 hover:-translate-y-1 hover:border-accent/40 hover:shadow-[var(--shadow-card-hover)]"
               >
-                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary-soft text-primary transition-all duration-300 group-hover:bg-primary group-hover:text-accent group-hover:scale-105">
-                  <IconComponent className="h-7 w-7" aria-hidden="true" />
+                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary-soft text-primary transition-all duration-300 group-hover:bg-primary group-hover:text-accent group-hover:scale-105 overflow-hidden">
+                  {item.iconUrl ? (
+                    <img src={item.iconUrl} alt={item.title} className="h-7 w-7 object-contain" />
+                  ) : (
+                    <IconComponent className="h-7 w-7" aria-hidden="true" />
+                  )}
                 </div>
 
                 <h3 className="font-display mt-3.5 text-sm sm:text-base font-bold text-primary-dark group-hover:text-primary transition-colors leading-snug">

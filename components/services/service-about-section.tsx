@@ -14,6 +14,17 @@ import {
   Phone,
   MapPin,
   ArrowRight,
+  Printer,
+  Fingerprint,
+  Scissors,
+  Layers,
+  Tag,
+  Heart,
+  Package,
+  Box,
+  Camera,
+  Stamp,
+  Award,
   type LucideIcon,
 } from "lucide-react";
 import type { ServiceDetail } from "@/lib/service-details";
@@ -29,6 +40,17 @@ function getFeatureIcon(iconName: string): LucideIcon {
   if (norm.includes("clock")) return Clock;
   if (norm.includes("shield")) return ShieldCheck;
   if (norm.includes("check")) return CheckCircle2;
+  if (norm.includes("print")) return Printer;
+  if (norm.includes("fingerprint")) return Fingerprint;
+  if (norm.includes("scissor")) return Scissors;
+  if (norm.includes("layer")) return Layers;
+  if (norm.includes("tag")) return Tag;
+  if (norm.includes("heart")) return Heart;
+  if (norm.includes("sparkle")) return Sparkles;
+  if (norm.includes("box")) return Box;
+  if (norm.includes("camera")) return Camera;
+  if (norm.includes("stamp")) return Stamp;
+  if (norm.includes("package")) return Package;
   return PackageCheck;
 }
 
@@ -110,7 +132,6 @@ export default function ServiceAboutSection({
 
                 <div className="mt-4 pt-3 border-t border-border/60 flex items-center justify-between text-[11px] font-bold text-primary group-hover:text-accent transition-colors">
                   <span>Available In-Store</span>
-                  <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
                 </div>
               </div>
             );

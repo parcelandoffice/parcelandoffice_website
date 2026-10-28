@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 import {
   Compass,
   Sparkles,
@@ -8,6 +9,7 @@ import {
   BarChart3,
   BadgeCheck,
   Target,
+  ArrowRight,
 } from "lucide-react";
 import type { DigitalMarketingServiceData, DigitalMarketingSolutionItem } from "@/lib/digital-marketing-data";
 
@@ -50,12 +52,10 @@ export default function DigitalServicesList({ service }: DigitalServicesListProp
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="mx-auto max-w-3xl text-center">
-          {solutions.eyebrow && (
-            <div className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3.5 py-1 text-xs font-black uppercase tracking-wider text-accent shadow-2xs">
-              <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-              <span>{solutions.eyebrow}</span>
-            </div>
-          )}
+          <div className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3.5 py-1 text-xs font-black uppercase tracking-wider text-accent shadow-2xs">
+            <Sparkles className="h-3.5 w-3.5 text-accent-dark" aria-hidden="true" />
+            <span>{solutions.eyebrow || "Our Solutions"}</span>
+          </div>
           <h2 className="font-display mt-3 text-3xl font-black tracking-tight text-primary-dark sm:text-4xl lg:text-5xl">
             {solutions.heading}
           </h2>
@@ -68,7 +68,7 @@ export default function DigitalServicesList({ service }: DigitalServicesListProp
         {/* Service Cards */}
         <div className="mt-12 sm:mt-14 grid grid-cols-1 gap-6 lg:grid-cols-2 lg:gap-8">
           {solutions.items.map((item: DigitalMarketingSolutionItem, index: number) => {
-            const Icon = getSolutionIcon(item.icon);
+            const Icon = getSolutionIcon(item.icon || "");
 
             return (
               <article
@@ -88,8 +88,12 @@ export default function DigitalServicesList({ service }: DigitalServicesListProp
 
                 <div>
                   <div className="flex items-start gap-4 sm:gap-5">
-                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-primary-soft text-primary transition-colors duration-300 group-hover:bg-accent-soft group-hover:text-accent-dark">
-                      <Icon className="h-6 w-6" aria-hidden="true" />
+                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-primary-soft text-primary transition-colors duration-300 group-hover:bg-accent-soft group-hover:text-accent-dark overflow-hidden">
+                      {item.iconUrl ? (
+                        <img src={item.iconUrl} alt={item.title} className="h-6 w-6 object-contain" />
+                      ) : (
+                        <Icon className="h-6 w-6" aria-hidden="true" />
+                      )}
                     </div>
                     {/* Title with reserved right padding so it never overlaps the corner index digit */}
                     <div className="min-w-0 flex-1 pr-14 sm:pr-16">
@@ -114,6 +118,17 @@ export default function DigitalServicesList({ service }: DigitalServicesListProp
               </article>
             );
           })}
+        </div>
+
+        {/* Section Bottom Primary CTA Button */}
+        <div className="mt-12 sm:mt-16 flex flex-col items-center justify-center text-center">
+          <Link
+            href={solutions.ctaHref || service.hero.ctaHref || `/contact-us?service=${service.slug}-usa`}
+            className="group inline-flex items-center justify-center gap-2.5 rounded-full bg-primary px-7 py-3.5 text-xs sm:text-sm font-extrabold uppercase tracking-wider text-white shadow-xs transition-all duration-200 hover:bg-primary-dark hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
+          >
+            <span>{solutions.ctaText || "Request a Custom Proposal"}</span>
+            <ArrowRight className="h-4 w-4 text-accent transition-transform duration-200 group-hover:translate-x-1" />
+          </Link>
         </div>
       </div>
     </section>

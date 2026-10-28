@@ -229,19 +229,17 @@ export default function BlogListing({
                   role="tab"
                   aria-selected={isSelected}
                   onClick={() => handleCategorySelect(cat.title)}
-                  className={`group inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-bold transition-all duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary/20 ${
-                    isSelected
+                  className={`group inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-bold transition-all duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary/20 ${isSelected
                       ? "bg-primary text-white shadow-sm ring-1 ring-primary"
                       : "border border-border bg-surface text-muted hover:border-primary/40 hover:bg-surface-muted hover:text-foreground"
-                  }`}
+                    }`}
                 >
                   <span>{cat.title}</span>
                   <span
-                    className={`inline-flex h-5 min-w-5 items-center justify-center rounded-full px-1.5 text-[11px] font-bold ${
-                      isSelected
+                    className={`inline-flex h-5 min-w-5 items-center justify-center rounded-full px-1.5 text-[11px] font-bold ${isSelected
                         ? "bg-accent text-primary-dark"
                         : "bg-surface-subtle text-muted group-hover:text-foreground"
-                    }`}
+                      }`}
                   >
                     {cat.count}
                   </span>
@@ -274,9 +272,8 @@ export default function BlogListing({
           </div>
         ) : (
           <div
-            className={`grid gap-8 md:grid-cols-2 lg:grid-cols-3 transition-opacity duration-200 ${
-              isPending ? "opacity-60 pointer-events-none" : "opacity-100"
-            }`}
+            className={`grid gap-8 md:grid-cols-2 lg:grid-cols-3 transition-opacity duration-200 ${isPending ? "opacity-60 pointer-events-none" : "opacity-100"
+              }`}
           >
             {blogs.map((blog) => (
               <BlogCard key={blog.id} blog={blog} />
@@ -287,9 +284,8 @@ export default function BlogListing({
         {/* Pagination Section */}
         {totalPages > 1 && (
           <div
-            className={`mt-10 ${
-              isPending ? "pointer-events-none opacity-60" : ""
-            }`}
+            className={`mt-10 ${isPending ? "pointer-events-none opacity-60" : ""
+              }`}
           >
             <Pagination
               currentPage={currentPage}

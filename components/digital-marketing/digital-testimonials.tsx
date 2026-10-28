@@ -1,5 +1,5 @@
 import React from "react";
-import { Star, Quote, BadgeCheck } from "lucide-react";
+import { Star, Quote, BadgeCheck, Sparkles } from "lucide-react";
 import type { DigitalMarketingServiceData } from "@/lib/digital-marketing-data";
 
 interface DigitalTestimonialsProps {
@@ -25,7 +25,7 @@ export default function DigitalTestimonials({ service }: DigitalTestimonialsProp
         {/* Section Header */}
         <div className="mx-auto max-w-3xl text-center">
           <div className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3.5 py-1 text-xs font-black uppercase tracking-wider text-accent shadow-2xs">
-            <span className="h-1.5 w-1.5 rounded-full bg-accent" />
+            <Sparkles className="h-3.5 w-3.5 text-accent-dark" aria-hidden="true" />
             <span>{testimonials.eyebrow || "Client Testimonials"}</span>
           </div>
 

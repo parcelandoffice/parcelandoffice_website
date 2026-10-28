@@ -37,7 +37,7 @@ export default function DigitalHero({ service }: DigitalHeroProps) {
             </li>
             <li>
               <Link href="/social-media-marketing-usa" className="hover:text-primary transition-colors">
-                Digital Marketing Services
+                IT Services
               </Link>
             </li>
             <li>
@@ -56,12 +56,9 @@ export default function DigitalHero({ service }: DigitalHeroProps) {
           {/* Left Column: Copy & CTAs (7 Cols) */}
           <div className="lg:col-span-7">
             {/* Eyebrow Pill Badge */}
-            <div className="inline-flex items-center gap-2 rounded-full border border-accent/25 bg-accent-soft px-3.5 py-1.5 shadow-2xs">
-              <span className="flex h-2 w-2 rounded-full bg-accent animate-pulse" />
+            <div className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3.5 py-1 text-xs font-black uppercase tracking-wider text-accent shadow-2xs">
               <Sparkles className="h-3.5 w-3.5 text-accent-dark" aria-hidden="true" />
-              <span className="text-xs font-black tracking-wide uppercase text-accent-dark">
-                {hero.eyebrow}
-              </span>
+              <span>{hero.eyebrow}</span>
             </div>
 
             {/* Main Heading & Tagline */}
@@ -81,7 +78,7 @@ export default function DigitalHero({ service }: DigitalHeroProps) {
             <div className="mt-8 flex flex-wrap items-center gap-3.5 sm:gap-4">
               <Link
                 href={hero.ctaHref}
-                className="group inline-flex items-center justify-center gap-2.5 rounded-xl bg-primary px-6 py-3.5 text-sm sm:text-base font-bold text-white shadow-md transition-all duration-200 hover:bg-primary-dark hover:shadow-lg active:scale-[0.98]"
+                className="group inline-flex items-center justify-center gap-2.5 rounded-full bg-primary px-7 py-3.5 text-xs sm:text-sm font-extrabold uppercase tracking-wider text-white shadow-xs transition-all duration-200 hover:bg-primary-dark hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
               >
                 <span>{hero.ctaText}</span>
                 <ArrowRight className="h-4 w-4 text-accent transition-transform duration-200 group-hover:translate-x-1" aria-hidden="true" />
@@ -89,7 +86,7 @@ export default function DigitalHero({ service }: DigitalHeroProps) {
 
               <Link
                 href={hero.secondaryCtaHref}
-                className="inline-flex items-center justify-center gap-2 rounded-xl border border-border bg-surface px-5 py-3.5 text-sm sm:text-base font-bold text-primary-dark shadow-2xs transition-all duration-200 hover:border-primary-light hover:bg-surface-muted active:scale-[0.98]"
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-border bg-surface px-6 py-3.5 text-xs sm:text-sm font-extrabold uppercase tracking-wider text-primary-dark shadow-2xs transition-all duration-200 hover:border-primary hover:bg-surface-muted active:translate-y-0 cursor-pointer"
               >
                 <span>{hero.secondaryCtaText}</span>
               </Link>
@@ -134,22 +131,6 @@ export default function DigitalHero({ service }: DigitalHeroProps) {
 
               </div>
 
-              {/* 3 Metrics Cards Grid beneath Hero Visual */}
-              <div className="mt-4 grid grid-cols-3 gap-2 sm:gap-3">
-                {hero.stats.map((stat, idx) => (
-                  <div
-                    key={idx}
-                    className="rounded-2xl border border-border/90 bg-surface p-3 text-center shadow-2xs transition-colors hover:border-accent/40"
-                  >
-                    <span className="font-display block text-lg sm:text-xl font-black text-primary-dark">
-                      {stat.value}
-                    </span>
-                    <span className="mt-0.5 block text-[11px] font-bold text-foreground leading-tight line-clamp-1">
-                      {stat.label}
-                    </span>
-                  </div>
-                ))}
-              </div>
             </div>
           </div>
         </div>

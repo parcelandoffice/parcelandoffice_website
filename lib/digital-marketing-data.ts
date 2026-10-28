@@ -7,14 +7,16 @@ export interface DigitalMarketingStat {
 export interface DigitalMarketingPillar {
   title: string;
   description: string;
-  icon: "calendar" | "palette" | "users" | "target" | "trending-up" | "sparkles" | "check-circle" | "code";
+  icon?: "calendar" | "palette" | "users" | "target" | "trending-up" | "sparkles" | "check-circle" | "code" | string;
+  iconUrl?: string;
 }
 
 export interface DigitalMarketingSolutionItem {
   id: string;
   title: string;
   description: string;
-  icon: "strategy" | "content" | "target" | "analytics" | "campaign" | "code" | "social" | "brand" | string;
+  icon?: "strategy" | "content" | "target" | "analytics" | "campaign" | "code" | "social" | "brand" | string;
+  iconUrl?: string;
   highlights?: string[];
 }
 
@@ -22,17 +24,20 @@ export interface DigitalMarketingProcessStep {
   step: string;
   title: string;
   description: string;
+  iconUrl?: string;
 }
 
 export interface DigitalMarketingIndustry {
   title: string;
   description: string;
-  icon: "shopping-bag" | "heart-pulse" | "building" | "briefcase" | "utensils" | "cpu";
+  icon?: "shopping-bag" | "heart-pulse" | "building" | "briefcase" | "utensils" | "cpu" | string;
+  iconUrl?: string;
 }
 
 export interface DigitalMarketingWhyChoosePoint {
   title: string;
   description: string;
+  iconUrl?: string;
 }
 
 export interface DigitalMarketingTestimonial {
@@ -52,7 +57,8 @@ export interface DigitalMarketingFaq {
 export interface DigitalMarketingPlatformItem {
   name: string;
   description: string;
-  platform: "facebook" | "instagram" | "linkedin" | "youtube" | string;
+  platform?: "facebook" | "instagram" | "linkedin" | "youtube" | string;
+  iconUrl?: string;
 }
 
 export interface DigitalMarketingPlatformsData {
@@ -66,6 +72,7 @@ export interface DigitalMarketingLocalApproachPoint {
   title: string;
   description: string;
   icon?: string;
+  iconUrl?: string;
 }
 
 export interface DigitalMarketingLocalMarketingData {
@@ -74,6 +81,8 @@ export interface DigitalMarketingLocalMarketingData {
   intro: string;
   approachTitle: string;
   points: DigitalMarketingLocalApproachPoint[];
+  ctaText?: string;
+  ctaHref?: string;
 }
 
 export interface DigitalMarketingFinalCta {
@@ -87,6 +96,17 @@ export interface DigitalMarketingServiceData {
   slug: string;
   title: string;
   shortDescription: string;
+  showHero?: boolean;
+  showOverview?: boolean;
+  showSolutions?: boolean;
+  showPlatforms?: boolean;
+  showIndustries?: boolean;
+  showLocalMarketing?: boolean;
+  showProcess?: boolean;
+  showWhyChooseUs?: boolean;
+  showTestimonials?: boolean;
+  showFaqs?: boolean;
+  showFinalCta?: boolean;
   hero: {
     eyebrow: string;
     title: string;
@@ -103,6 +123,8 @@ export interface DigitalMarketingServiceData {
     eyebrow: string;
     heading: string;
     paragraphs: string[];
+    image?: string;
+    imageAlt?: string;
     pillarsTitle?: string;
     pillars: DigitalMarketingPillar[];
   };
@@ -110,6 +132,8 @@ export interface DigitalMarketingServiceData {
     eyebrow: string;
     heading: string;
     description?: string;
+    ctaText?: string;
+    ctaHref?: string;
     items: DigitalMarketingSolutionItem[];
   };
   platforms?: DigitalMarketingPlatformsData;
@@ -130,6 +154,8 @@ export interface DigitalMarketingServiceData {
     eyebrow: string;
     heading: string;
     subtitle?: string;
+    ctaText?: string;
+    ctaHref?: string;
     points: DigitalMarketingWhyChoosePoint[];
   };
   testimonials?: {
@@ -172,6 +198,8 @@ export const DIGITAL_MARKETING_SERVICES: Record<string, DigitalMarketingServiceD
     overview: {
       eyebrow: "Service Overview",
       heading: "Turn Your Social Media Presence Into a Business Opportunity",
+      image: "/images/social-media-overview.jpg",
+      imageAlt: "Social media marketing analytics and strategy workspace",
       paragraphs: [
         "Social media gives your business an opportunity to connect with customers, showcase your services and stay relevant in a competitive market.",
         "Our social media marketing services combine content planning, creative development, social media management and paid campaigns to help your business communicate effectively and work toward measurable marketing goals.",
@@ -201,7 +229,7 @@ export const DIGITAL_MARKETING_SERVICES: Record<string, DigitalMarketingServiceD
       ],
     },
     solutions: {
-      eyebrow: "",
+      eyebrow: "Our Solutions",
       heading: "Our Social Media Marketing Services",
       items: [
         {
@@ -545,6 +573,8 @@ export const DIGITAL_MARKETING_SERVICES: Record<string, DigitalMarketingServiceD
     overview: {
       eyebrow: "Service Overview",
       heading: "Turn Clicks Into Committed Customers",
+      image: "/images/google-ads-overview.jpg",
+      imageAlt: "Lead generation funnels and conversion analytics",
       paragraphs: [
         "Consistent customer acquisition is the lifeblood of every growing business. Our lead generation solutions identify your highest-value prospects and motivate them to take direct action.",
         "We combine precision landing pages, compelling lead magnets, automated qualification, and multi-channel traffic to deliver qualified business opportunities directly to your team.",
@@ -603,6 +633,8 @@ export const DIGITAL_MARKETING_SERVICES: Record<string, DigitalMarketingServiceD
     overview: {
       eyebrow: "Service Overview",
       heading: "Reach High-Intent Searchers The Moment They Need You",
+      image: "/images/google-ads-overview.jpg",
+      imageAlt: "Google Ads campaign optimization and PPC metrics",
       paragraphs: [
         "When potential customers search for services in your area, being on page one is essential. Pay-Per-Click advertising gives you immediate visibility and brings immediate traffic.",
         "We continuously optimize bid strategies, refine negative keyword lists, and craft compelling ad copy to drive down cost per click while boosting qualified conversions.",
@@ -661,6 +693,8 @@ export const DIGITAL_MARKETING_SERVICES: Record<string, DigitalMarketingServiceD
     overview: {
       eyebrow: "Service Overview",
       heading: "Rank in Traditional Search and Lead the AI Answer Revolution",
+      image: "/images/web-development-overview.jpg",
+      imageAlt: "Search engine optimization and AI answer generative analytics",
       paragraphs: [
         "Search behavior has evolved. Customers no longer just browse traditional search results; they ask AI models like ChatGPT, Perplexity, and Google Gemini for recommendations.",
         "Our unified SEO, AEO, and GEO framework ensures your business is cited as the definitive authority, capturing both traditional rankings and AI-generated answers.",
@@ -719,6 +753,8 @@ export const DIGITAL_MARKETING_SERVICES: Record<string, DigitalMarketingServiceD
     overview: {
       eyebrow: "Service Overview",
       heading: "A Website That Works As Hard As You Do",
+      image: "/images/web-development-overview.jpg",
+      imageAlt: "Custom modern web development and responsive UI design",
       paragraphs: [
         "A dated or sluggish website costs your business customers every day. Modern consumers demand instant load times, seamless mobile navigation, and effortless contact options.",
         "Our web development team crafts custom, secure, and SEO-ready web applications that elevate your brand reputation and turn casual visitors into loyal clients.",
