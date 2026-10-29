@@ -195,13 +195,16 @@ export function getDigitalMarketingHref(slug: string): string {
   return `/${clean}-usa`;
 }
 
-export const DIGITAL_MARKETING_MENU = [
-  { label: "Social Media Marketing", href: "/social-media-marketing-usa", slug: "social-media-marketing", icon: Share2, description: "Boost brand presence & audience engagement" },
-  { label: "Lead Generation", href: "/lead-generation-usa", slug: "lead-generation", icon: Target, description: "Capture verified leads and customer inquiries" },
-  { label: "Google Ads & PPC", href: "/google-ads-ppc-usa", slug: "google-ads-ppc", icon: TrendingUp, description: "High-ROI targeted search & display campaigns" },
-  { label: "SEO, AEO & GEO", href: "/seo-aeo-geo-usa", slug: "seo-aeo-geo", icon: Globe, description: "Search, Answer & Generative Engine Optimization" },
-  { label: "Web Development", href: "/web-development-usa", slug: "web-development", icon: Code, description: "Custom, responsive & high-converting websites" },
-];
+/**
+ * @deprecated IT services are now loaded dynamically from Sanity CMS via getItServices().
+ */
+export const DIGITAL_MARKETING_MENU: Array<{
+  label: string;
+  href: string;
+  slug: string;
+  description: string;
+  icon?: any;
+}> = [];
 
 export const ABOUT_US_MENU = [
   { label: "About Us", href: "/about-us", icon: Building2, description: "Our story, mission & trusted team in Odenton, MD" },

@@ -19,8 +19,6 @@ import type {
 } from "./types";
 import {
   type DigitalMarketingServiceData,
-  getDigitalMarketingService,
-  DIGITAL_MARKETING_SERVICES,
 } from "./digital-marketing-data";
 
 const SANITY_REVALIDATE_SECONDS = 180;
@@ -1054,11 +1052,24 @@ export async function getDigitalMarketingServices(): Promise<SanityService[]> {
   }
 }
 
+export interface ItServiceMenuItem {
+  _id?: string;
+  title: string;
+  slug: string;
+  cleanSlug: string;
+  href: string;
+  shortDescription?: string;
+  badge?: string;
+  iconUrl?: string;
+  iconName?: string;
+  orderRank?: number;
+  isFeatured?: boolean;
+}
+
 export async function getDigitalMarketingServiceBySlug(
   slug: string
 ): Promise<DigitalMarketingServiceData | null> {
   const cleanSlug = slug.toLowerCase().trim().replace(/-usa$/, "");
-  const fallback = getDigitalMarketingService(cleanSlug);
 
   try {
     const sanityDoc = await fetchFromSanity<SanityService | null>(
@@ -1203,13 +1214,13 @@ export async function getDigitalMarketingServiceBySlug(
     );
 
     if (sanityDoc) {
-      return mapSanityToDigitalMarketingService(sanityDoc, fallback);
+      return mapSanityToDigitalMarketingService(sanityDoc);
     }
   } catch (error) {
     console.error(`Error fetching digital marketing service "${slug}" from Sanity:`, error);
   }
 
-  return fallback || null;
+  return null;
 }
 
 export async function getItServiceBySlug(
@@ -1235,9 +1246,9 @@ export async function getRawItServiceBySlug(slug: string): Promise<any | null> {
   }
 }
 
-export async function getItServices(): Promise<SanityService[]> {
+export async function getItServices(): Promise<ItServiceMenuItem[]> {
   try {
-    return await fetchFromSanity<SanityService[]>(`
+    const rawServices = await fetchFromSanity<any[]>(`
       *[_type == "itService"] | order(orderRank asc, _createdAt asc) {
         _id,
         _type,
@@ -1247,9 +1258,48 @@ export async function getItServices(): Promise<SanityService[]> {
         shortDescription,
         orderRank,
         isFeatured,
-        customIcon
+        customIcon,
+        customUrl,
+        iconName
       }
     `);
+
+    if (!rawServices || rawServices.length === 0) {
+      return [];
+    }
+
+    return rawServices.map((doc) => {
+      const slugCurrent = doc.slug?.current || "";
+      const cleanSlug = slugCurrent.replace(/-usa$/, "");
+      const href = doc.customUrl || (cleanSlug ? `/${cleanSlug}-usa` : `/${slugCurrent}`);
+
+      let iconUrl: string | undefined = undefined;
+      if (doc.customIcon) {
+        if (typeof doc.customIcon === "string") {
+          iconUrl = doc.customIcon;
+        } else if (doc.customIcon.asset) {
+          try {
+            iconUrl = urlFor(doc.customIcon).url() || undefined;
+          } catch {
+            iconUrl = undefined;
+          }
+        }
+      }
+
+      return {
+        _id: doc._id,
+        title: doc.title || "",
+        slug: slugCurrent,
+        cleanSlug,
+        href,
+        shortDescription: doc.shortDescription || "",
+        badge: doc.badge || undefined,
+        iconUrl,
+        iconName: doc.iconName || undefined,
+        orderRank: doc.orderRank,
+        isFeatured: doc.isFeatured,
+      };
+    });
   } catch (error) {
     console.error("Error fetching IT services list from Sanity:", error);
     return [];
@@ -1257,16 +1307,15 @@ export async function getItServices(): Promise<SanityService[]> {
 }
 
 export async function getAllDigitalMarketingSlugs(): Promise<string[]> {
-  const staticSlugs = Object.keys(DIGITAL_MARKETING_SERVICES);
   try {
     const sanitySlugs = await fetchFromSanity<string[]>(`
       *[_type in ["itService", "service"] && (_type == "itService" || serviceType == "digital-marketing" || serviceType == "digital_marketing_service") && defined(slug.current)].slug.current
     `);
     const cleanedSanity = (sanitySlugs || []).map((s) => s.replace(/-usa$/, ""));
-    const set = new Set([...staticSlugs, ...cleanedSanity]);
+    const set = new Set([...cleanedSanity]);
     return Array.from(set);
   } catch {
-    return staticSlugs;
+    return [];
   }
 }
 

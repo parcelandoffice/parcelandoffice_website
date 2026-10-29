@@ -1,14 +1,14 @@
 import React from "react";
 import type { ServiceDetail } from "@/lib/service-details";
 import ServiceHero from "@components/services/service-hero";
-import ServiceAboutSection from "@components/services/service-about-section";
-import PackingTlcSection from "@components/services/packing-tlc-section";
-import SampleServiceTiers from "@components/services/sample-ui/sample-service-tiers";
-import SampleFeaturesGrid from "@components/services/sample-ui/sample-features-grid";
-import SampleProcessWorkflow from "@components/services/sample-ui/sample-process-workflow";
-import ServiceWhyChoose from "@components/services/service-why-choose";
+import PackingAbout from "@components/services/packing/packing-about";
+import PackingCapabilities from "@components/services/packing/packing-capabilities";
+import PackingCommonUses from "@components/services/packing/packing-common-uses";
+import PackingSupplies from "@components/services/packing/packing-supplies";
+import PackingProcess from "@components/services/packing/packing-process";
+import PackingWhyChoose from "@components/services/packing/packing-why-choose";
 import ServiceFaq from "@components/services/service-faq";
-import ServiceCustomerAssistance from "@components/services/service-customer-assistance";
+import PackingCustomerAssistance from "@components/services/packing/packing-customer-assistance";
 
 export default function PackingTemplate({
   service,
@@ -23,35 +23,33 @@ export default function PackingTemplate({
       {/* 2. Main Full-Width Content Container */}
       <div className="bg-surface py-10 sm:py-14 lg:py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <main className="w-full min-w-0">
-            {/* 1. About Our Service Section (Common) */}
-            <ServiceAboutSection service={service} />
+          <main className="w-full min-w-0 space-y-14 sm:space-y-18 lg:space-y-20">
+            {/* 2. About Our Service Section */}
+            <PackingAbout />
 
-            {/* 2. Packing Commitment & TLC Highlight */}
-            {service.packingCommitment && (
-              <PackingTlcSection service={service} />
-            )}
+            {/* 3. Professional Packing Capabilities */}
+            <PackingCapabilities />
 
-            {/* 3. Specialized Packing Options / Tiers */}
-            <SampleServiceTiers service={service} />
+            {/* 4. Common Uses for Professional Packing */}
+            <PackingCommonUses />
 
-            {/* 4. Categorized Items We Pack & Prepare */}
-            <SampleFeaturesGrid service={service} />
+            {/* 5. Packing Materials and Supplies */}
+            <PackingSupplies />
 
-            {/* 5. How Our Four-Step Process Works */}
-            <SampleProcessWorkflow service={service} />
+            {/* 6. How Our Professional Packing Process Works */}
+            <PackingProcess />
 
-            {/* 6. Why Choose Parcel & Office Solutions (Common) */}
-            <ServiceWhyChoose service={service} />
+            {/* 7. Why Choose Parcel & Office Solutions? */}
+            <PackingWhyChoose />
 
-            {/* 7. Frequently Asked Questions (Common) */}
+            {/* 8. Frequently Asked Questions (Kept as per current integration) */}
             <ServiceFaq service={service} />
+
+            {/* 9. Customer Assistance and Final CTA */}
+            <PackingCustomerAssistance />
           </main>
         </div>
       </div>
-
-      {/* 8. Customer Assistance and Final CTA (Common) */}
-      <ServiceCustomerAssistance service={service} />
     </>
   );
 }

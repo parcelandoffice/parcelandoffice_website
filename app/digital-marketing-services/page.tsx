@@ -1,5 +1,10 @@
+import { getItServices } from "@/lib/apis";
 import { redirect } from "next/navigation";
 
-export default function DigitalMarketingServicesIndexPage() {
-  redirect("/social-media-marketing-usa");
+export default async function DigitalMarketingServicesIndexPage() {
+  const itServices = await getItServices();
+  if (itServices.length > 0 && itServices[0].href) {
+    redirect(itServices[0].href);
+  }
+  redirect("/");
 }

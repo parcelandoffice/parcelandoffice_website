@@ -3,6 +3,7 @@ import { SITE_NAME } from "@/lib/site-data";
 import WhatsAppFloat from "@components/common/whatsapp-float";
 import Footer from "@components/layout/footer";
 import Header from "@components/layout/header";
+import { getItServices } from "@/lib/apis";
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Outfit } from "next/font/google";
 import "./globals.css";
@@ -41,11 +42,13 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const itServices = await getItServices();
+
   return (
     <html
       lang="en"
@@ -79,7 +82,7 @@ export default function RootLayout({
             style={{ display: "none", visibility: "hidden" }}
           ></iframe>
         </noscript>
-        <Header />
+        <Header itServices={itServices} />
         <main className="flex-1 overflow-x-clip">{children}</main>
         <Footer />
         {/* <WhatsAppFloat /> */}
