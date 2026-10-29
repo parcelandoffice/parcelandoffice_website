@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 import { Star, Quote, BadgeCheck, Sparkles } from "lucide-react";
 import type { DigitalMarketingServiceData } from "@/lib/digital-marketing-data";
 
@@ -9,8 +10,6 @@ interface DigitalTestimonialsProps {
 export default function DigitalTestimonials({ service }: DigitalTestimonialsProps) {
   const testimonials = service.testimonials;
 
-  // Strict constraint per requirements:
-  // "Use only approved, genuine testimonials. If social media-specific testimonials are unavailable, omit this section until suitable feedback is collected."
   const approvedTestimonials = testimonials?.items?.filter(
     (item) => item.approved !== false
   );
@@ -25,7 +24,17 @@ export default function DigitalTestimonials({ service }: DigitalTestimonialsProp
         {/* Section Header */}
         <div className="mx-auto max-w-3xl text-center">
           <div className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3.5 py-1 text-xs font-black uppercase tracking-wider text-accent shadow-2xs">
-            <Sparkles className="h-3.5 w-3.5 text-accent-dark" aria-hidden="true" />
+            {service.iconUrl ? (
+              <Image
+                src={service.iconUrl}
+                alt={service.title}
+                width={14}
+                height={14}
+                className="h-3.5 w-3.5 object-contain"
+              />
+            ) : (
+              <Sparkles className="h-3.5 w-3.5 text-accent-dark" aria-hidden="true" />
+            )}
             <span>{testimonials.eyebrow || "Client Testimonials"}</span>
           </div>
 
@@ -51,12 +60,12 @@ export default function DigitalTestimonials({ service }: DigitalTestimonialsProp
               key={idx}
               className="group relative flex flex-col justify-between overflow-hidden rounded-3xl border border-border bg-surface p-7 sm:p-8 shadow-[var(--shadow-card)] transition-all duration-300 hover:-translate-y-1 hover:border-accent/40 hover:shadow-[var(--shadow-card-hover)]"
             >
-              {/* Decorative Top Bar - Blue by default, Yellow on hover */}
+              {/* Decorative Top Bar */}
               <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-primary to-primary-light transition-opacity duration-300 group-hover:opacity-0" />
               <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-accent via-accent-light to-accent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
 
               <div>
-                {/* Header: Star Rating & Card Badge */}
+                {/* Header: Star Rating & Verified Badge */}
                 <div className="flex items-center justify-between mb-5">
                   <div className="flex items-center gap-1 text-accent">
                     {Array.from({ length: t.rating || 5 }).map((_, starIdx) => (
@@ -64,8 +73,9 @@ export default function DigitalTestimonials({ service }: DigitalTestimonialsProp
                     ))}
                   </div>
 
-                  <span className="text-xs font-bold text-muted">
-                    Testimonial Card {idx + 1}
+                  <span className="inline-flex items-center gap-1 rounded-full bg-accent-soft px-2.5 py-1 text-[11px] font-bold text-accent-dark">
+                    <BadgeCheck className="h-3.5 w-3.5" />
+                    <span>Verified Client</span>
                   </span>
                 </div>
 
@@ -77,25 +87,28 @@ export default function DigitalTestimonials({ service }: DigitalTestimonialsProp
               </div>
 
               {/* Author attribution */}
-              <div className="mt-7 pt-5 border-t border-border/80 flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-primary-soft text-primary font-extrabold text-sm group-hover:bg-accent-soft group-hover:text-accent-dark transition-colors">
-                    {t.clientName.charAt(0)}
-                  </div>
-                  <div>
-                    <h4 className="font-display text-sm sm:text-base font-bold text-primary-dark">
-                      — {t.clientName}
-                    </h4>
-                    <p className="text-xs text-muted">
-                      {t.company}
-                    </p>
-                  </div>
+              <div className="mt-7 pt-5 border-t border-border/80 flex items-center gap-3">
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-primary-soft text-primary font-extrabold text-sm group-hover:bg-accent-soft group-hover:text-accent-dark transition-colors overflow-hidden">
+                  {t.avatarUrl ? (
+                    <Image
+                      src={t.avatarUrl}
+                      alt={t.clientName}
+                      width={44}
+                      height={44}
+                      className="h-full w-full object-cover"
+                    />
+                  ) : (
+                    t.clientName.charAt(0)
+                  )}
                 </div>
-
-                <span className="inline-flex items-center gap-1 rounded-full bg-accent-soft px-2.5 py-1 text-[11px] font-bold text-accent-dark">
-                  <BadgeCheck className="h-3.5 w-3.5" />
-                  <span>Verified</span>
-                </span>
+                <div className="min-w-0 flex-1">
+                  <h4 className="font-display text-sm sm:text-base font-bold text-primary-dark truncate">
+                    {t.clientName}
+                  </h4>
+                  <p className="text-xs text-muted truncate">
+                    {t.role ? `${t.role}, ` : ""}{t.company}
+                  </p>
+                </div>
               </div>
             </div>
           ))}

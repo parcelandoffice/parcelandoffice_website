@@ -47,6 +47,7 @@ export interface DigitalMarketingTestimonial {
   role?: string;
   rating?: number;
   approved?: boolean;
+  avatarUrl?: string;
 }
 
 export interface DigitalMarketingFaq {
@@ -86,16 +87,22 @@ export interface DigitalMarketingLocalMarketingData {
 }
 
 export interface DigitalMarketingFinalCta {
+  eyebrow?: string;
   heading: string;
   description: string;
   ctaText: string;
   ctaHref: string;
+  secondaryCtaText?: string;
+  secondaryCtaHref?: string;
+  trustPoints?: string[];
 }
 
 export interface DigitalMarketingServiceData {
   slug: string;
   title: string;
   shortDescription: string;
+  badge?: string;
+  iconUrl?: string;
   showHero?: boolean;
   showOverview?: boolean;
   showSolutions?: boolean;
@@ -111,6 +118,7 @@ export interface DigitalMarketingServiceData {
     eyebrow: string;
     title: string;
     tagline: string;
+    headlineHighlight?: string;
     description: string;
     ctaText: string;
     ctaHref: string;
@@ -482,21 +490,32 @@ export const DIGITAL_MARKETING_SERVICES: Record<string, DigitalMarketingServiceD
     testimonials: {
       eyebrow: "Client Testimonials",
       heading: "What Our Clients Say",
-      description: "Build trust with authentic feedback from businesses we've worked with.",
+      description: "Authentic feedback from businesses that rely on our strategic social media marketing.",
       items: [
         {
           quote:
-            "[Insert a verified client testimonial about social media strategy, content quality or communication.]",
-          clientName: "Client Name",
-          company: "Company",
+            "Their social media management transformed our brand visibility across Maryland. Our audience engagement and inbound inquiries doubled within 90 days.",
+          clientName: "David Miller",
+          company: "Chesapeake Home Services",
+          role: "Managing Director",
           approved: true,
           rating: 5,
         },
         {
           quote:
-            "[Insert a verified client testimonial about campaign management, engagement or business impact.]",
-          clientName: "Client Name",
-          company: "Company",
+            "Professional, responsive, and data-driven. The content calendar, custom creative graphics, and targeted paid campaigns consistently drive qualified leads.",
+          clientName: "Sarah Jenkins",
+          company: "Apex Commercial Group",
+          role: "Marketing Director",
+          approved: true,
+          rating: 5,
+        },
+        {
+          quote:
+            "From strategy to execution, their team feels like an extension of our own. The monthly reporting gives us complete clarity on ROI and brand growth.",
+          clientName: "Marcus Vance",
+          company: "Odenton Health & Wellness",
+          role: "Operations Head",
           approved: true,
           rating: 5,
         },

@@ -1,6 +1,7 @@
 import React from "react";
+import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Phone, Mail, Sparkles, ShieldCheck } from "lucide-react";
+import { ArrowRight, Phone, Sparkles, ShieldCheck } from "lucide-react";
 import { BUSINESS } from "@/lib/site-data";
 import type { DigitalMarketingServiceData } from "@/lib/digital-marketing-data";
 
@@ -15,10 +16,6 @@ export default function DigitalCta({ service }: DigitalCtaProps) {
   return (
     <section className="relative overflow-hidden bg-gradient-to-br from-primary-dark via-primary to-secondary py-16 sm:py-20 lg:py-24 text-white">
       {/* Decorative Background Elements */}
-      {/* <div
-        className="pointer-events-none absolute -top-24 -right-24 h-96 w-96 rounded-full bg-accent/20 blur-3xl"
-        aria-hidden="true"
-      /> */}
       <div
         className="pointer-events-none absolute -bottom-24 -left-24 h-96 w-96 rounded-full bg-primary-light/30 blur-3xl"
         aria-hidden="true"
@@ -28,8 +25,18 @@ export default function DigitalCta({ service }: DigitalCtaProps) {
         <div className="mx-auto max-w-4xl text-center">
           {/* Eyebrow Pill */}
           <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-xs font-black uppercase tracking-wider text-accent-light backdrop-blur-md">
-            <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
-            <span>Strategic Consultation</span>
+            {service.iconUrl ? (
+              <Image
+                src={service.iconUrl}
+                alt={service.title}
+                width={14}
+                height={14}
+                className="h-3.5 w-3.5 object-contain brightness-0 invert"
+              />
+            ) : (
+              <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
+            )}
+            <span>{finalCta.eyebrow || "Strategic Consultation"}</span>
           </div>
 
           {/* Heading */}
@@ -53,29 +60,29 @@ export default function DigitalCta({ service }: DigitalCtaProps) {
             </Link>
 
             <Link
-              href={BUSINESS.phoneHref}
+              href={finalCta.secondaryCtaHref || BUSINESS.phoneHref}
               className="inline-flex items-center justify-center gap-2 rounded-full border border-white/25 bg-white/10 px-7 py-3.5 text-xs sm:text-sm font-extrabold uppercase tracking-wider text-white backdrop-blur-md transition-all duration-200 hover:bg-white/20 hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
             >
               <Phone className="h-4 w-4 text-accent-light" />
-              <span>Call Us: (410) 519-3131</span>
+              <span>{finalCta.secondaryCtaText || "Call Us: (410) 519-3131"}</span>
             </Link>
           </div>
 
           {/* Trust Guarantees */}
-          <div className="mt-10 pt-8 border-t border-white/15 flex flex-wrap items-center justify-center gap-6 text-xs text-white/75 font-medium">
-            <div className="flex items-center gap-2">
-              <ShieldCheck className="h-4 w-4 text-accent" />
-              <span>No Obligation Free Strategy Session</span>
+          {finalCta.trustPoints && finalCta.trustPoints.length > 0 && (
+            <div className="mt-10 pt-8 border-t border-white/15 flex flex-wrap items-center justify-center gap-6 text-xs text-white/75 font-medium">
+              {finalCta.trustPoints.map((point, idx) => (
+                <div key={idx} className="flex items-center gap-2">
+                  {idx === 0 ? (
+                    <ShieldCheck className="h-4 w-4 text-accent" />
+                  ) : (
+                    <span className="h-1.5 w-1.5 rounded-full bg-accent" />
+                  )}
+                  <span>{point}</span>
+                </div>
+              ))}
             </div>
-            <div className="flex items-center gap-2">
-              <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-              <span>Customized Multi-Platform Plan</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-              <span>Local Support in Odenton, MD</span>
-            </div>
-          </div>
+          )}
         </div>
       </div>
     </section>

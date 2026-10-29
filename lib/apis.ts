@@ -13,6 +13,7 @@ import type {
   PostAuthor,
   SanityPost,
   SanityService,
+  SanityTestimonial,
   SettingsData,
   SiteMetadata,
 } from "./types";
@@ -679,37 +680,32 @@ function mapSanityToDigitalMarketingService(
   baseFallback?: DigitalMarketingServiceData
 ): DigitalMarketingServiceData {
   const cleanSlug = (doc.slug?.current || baseFallback?.slug || "").replace(/-usa$/, "");
-  let heroImgUrl = baseFallback?.hero.heroImage || "/images/social-media-hero.jpg";
-  if (doc.heroImage) {
-    try {
-      heroImgUrl = urlFor(doc.heroImage).url();
-    } catch {
-      // ignore
-    }
-  }
-
-  let overviewImgUrl = baseFallback?.overview.image;
-  if (doc.overviewImage) {
-    try {
-      overviewImgUrl = urlFor(doc.overviewImage).url();
-    } catch {
-      // ignore
-    }
-  }
 
   const resolveIconUrl = (source?: any): string | undefined => {
     if (!source) return undefined;
+    if (typeof source === "string") return source || undefined;
+    if (!source.asset) return undefined;
     try {
-      return urlFor(source).url();
+      return urlFor(source).url() || undefined;
     } catch {
       return undefined;
     }
   };
 
+  const heroImgUrl =
+    resolveIconUrl(doc.heroImage) ||
+    baseFallback?.hero.heroImage ||
+    "/images/social-media-hero.jpg";
+
+  const overviewImgUrl =
+    resolveIconUrl(doc.overviewImage) || baseFallback?.overview.image;
+
   return {
     slug: cleanSlug,
     title: doc.title || baseFallback?.title || "Digital Marketing Services",
+    badge: doc.badge || baseFallback?.badge,
     shortDescription: doc.shortDescription || baseFallback?.shortDescription || "",
+    iconUrl: resolveIconUrl(doc.customIcon),
     showHero: doc.showHero !== false,
     showOverview: doc.showOverview !== false,
     showSolutions: doc.showSolutions !== false,
@@ -723,8 +719,9 @@ function mapSanityToDigitalMarketingService(
     showFinalCta: doc.showFinalCta !== false,
     hero: {
       eyebrow: doc.heroEyebrow || baseFallback?.hero.eyebrow || doc.title,
-      title: doc.title || baseFallback?.hero.title || "",
+      title: (doc.heroImage as any)?.alt || doc.title || baseFallback?.hero.title || "",
       tagline: doc.heroTagline || baseFallback?.hero.tagline || "",
+      headlineHighlight: doc.heroHeadlineHighlight || baseFallback?.hero.headlineHighlight || "",
       description: doc.heroDescription || doc.shortDescription || baseFallback?.hero.description || "",
       ctaText: doc.heroCtaText || baseFallback?.hero.ctaText || "Get a Free Consultation",
       ctaHref: doc.heroCtaHref || baseFallback?.hero.ctaHref || `/contact-us?service=${cleanSlug}-usa`,
@@ -739,14 +736,20 @@ function mapSanityToDigitalMarketingService(
       eyebrow: doc.overviewEyebrow || baseFallback?.overview.eyebrow || "Service Overview",
       heading: doc.overviewHeading || baseFallback?.overview.heading || "Strategic Brand Growth",
       image: overviewImgUrl || baseFallback?.overview.image,
-      imageAlt: doc.overviewHeading || baseFallback?.overview.imageAlt,
-      paragraphs: (doc.overviewParagraphs && doc.overviewParagraphs.length > 0)
-        ? doc.overviewParagraphs
-        : (baseFallback?.overview.paragraphs || []),
+      imageAlt: (doc.overviewImage as any)?.alt || doc.overviewHeading || baseFallback?.overview.imageAlt,
+      paragraphs: doc.overviewParagraph
+        ? doc.overviewParagraph
+            .split(/\n+/)
+            .map((p) => p.trim())
+            .filter(Boolean)
+        : (doc.overviewParagraphs && doc.overviewParagraphs.length > 0)
+          ? doc.overviewParagraphs
+          : (baseFallback?.overview.paragraphs || []),
       pillarsTitle: doc.pillarsTitle || baseFallback?.overview.pillarsTitle,
       pillars: (doc.pillars && doc.pillars.length > 0)
-        ? doc.pillars.map((p: any) => ({
+        ? doc.pillars.map((p: any, idx: number) => ({
             ...p,
+            icon: p.icon || baseFallback?.overview.pillars?.[idx]?.icon,
             iconUrl: resolveIconUrl(p.iconImage),
           }))
         : (baseFallback?.overview.pillars || []),
@@ -758,14 +761,22 @@ function mapSanityToDigitalMarketingService(
       ctaText: doc.solutionsCtaText || baseFallback?.solutions.ctaText || "REQUEST A CUSTOM PROPOSAL",
       ctaHref: doc.solutionsCtaHref || baseFallback?.solutions.ctaHref || `/contact-us?service=${cleanSlug}-usa`,
       items: (doc.solutionItems && doc.solutionItems.length > 0)
-        ? doc.solutionItems.map((s: any, idx: number) => ({
-            id: s.id || `solution-${idx}`,
-            title: s.title,
-            description: s.description,
-            icon: s.icon,
-            iconUrl: resolveIconUrl(s.iconImage),
-            highlights: s.highlights || [],
-          }))
+        ? doc.solutionItems.map((s: any, idx: number) => {
+            const matchedFallback =
+              baseFallback?.solutions.items?.find(
+                (fb) =>
+                  (s.id && fb.id === s.id) ||
+                  (s.title && fb.title.toLowerCase() === s.title.toLowerCase())
+              ) || baseFallback?.solutions.items?.[idx];
+            return {
+              id: s.id || matchedFallback?.id || `solution-${idx}`,
+              title: s.title,
+              description: s.description,
+              icon: s.icon || matchedFallback?.icon,
+              iconUrl: resolveIconUrl(s.iconImage),
+              highlights: s.highlights || matchedFallback?.highlights || [],
+            };
+          })
         : (baseFallback?.solutions.items || []),
     },
     platforms: (doc.platformsList && doc.platformsList.length > 0)
@@ -773,12 +784,21 @@ function mapSanityToDigitalMarketingService(
           eyebrow: doc.platformsEyebrow || baseFallback?.platforms?.eyebrow || "Social Media Platforms We Manage",
           heading: doc.platformsHeading || baseFallback?.platforms?.heading || "Choose the platforms for your audience",
           description: doc.platformsDescription || baseFallback?.platforms?.description,
-          items: doc.platformsList.map((pl: any) => ({
-            name: pl.name,
-            description: pl.description,
-            platform: pl.platform || pl.name.toLowerCase().replace(/\s+/g, "-"),
-            iconUrl: resolveIconUrl(pl.iconImage),
-          })),
+          items: doc.platformsList.map((pl: any, idx: number) => {
+            const matchedFallback =
+              baseFallback?.platforms?.items?.find(
+                (fb) => pl.name && fb.name.toLowerCase() === pl.name.toLowerCase()
+              ) || baseFallback?.platforms?.items?.[idx];
+            return {
+              name: pl.name,
+              description: pl.description,
+              platform:
+                pl.platform ||
+                matchedFallback?.platform ||
+                pl.name.toLowerCase().replace(/\s+/g, "-"),
+              iconUrl: resolveIconUrl(pl.iconImage),
+            };
+          }),
         }
       : baseFallback?.platforms,
     process: {
@@ -799,12 +819,18 @@ function mapSanityToDigitalMarketingService(
       heading: doc.industriesHeading || baseFallback?.industries?.heading || "Tailored Industry Expertise",
       description: doc.industriesDescription || baseFallback?.industries?.description || "",
       items: (doc.industryItems && doc.industryItems.length > 0)
-        ? doc.industryItems.map((ind: any) => ({
-            title: ind.title,
-            description: ind.description || "",
-            icon: ind.icon || "",
-            iconUrl: resolveIconUrl(ind.iconImage),
-          }))
+        ? doc.industryItems.map((ind: any, idx: number) => {
+            const matchedFallback =
+              baseFallback?.industries?.items?.find(
+                (fb) => ind.title && fb.title.toLowerCase() === ind.title.toLowerCase()
+              ) || baseFallback?.industries?.items?.[idx];
+            return {
+              title: ind.title,
+              description: ind.description || matchedFallback?.description || "",
+              icon: ind.icon || matchedFallback?.icon || "",
+              iconUrl: resolveIconUrl(ind.iconImage),
+            };
+          })
         : (baseFallback?.industries?.items || []),
     },
     localMarketing: (doc.localMarketingPoints && doc.localMarketingPoints.length > 0)
@@ -815,18 +841,27 @@ function mapSanityToDigitalMarketingService(
           ctaText: doc.localMarketingCtaText || baseFallback?.localMarketing?.ctaText,
           ctaHref: doc.localMarketingCtaHref || baseFallback?.localMarketing?.ctaHref,
           approachTitle: doc.localMarketingApproachTitle || baseFallback?.localMarketing?.approachTitle || "Our Approach",
-          points: doc.localMarketingPoints.map((lp: any) => ({
-            title: lp.title,
-            description: lp.description,
-            icon: lp.icon,
-            iconUrl: resolveIconUrl(lp.iconImage),
-          })),
+          points: doc.localMarketingPoints.map((lp: any, idx: number) => {
+            const matchedFallback =
+              baseFallback?.localMarketing?.points?.find(
+                (fb) => lp.title && fb.title.toLowerCase() === lp.title.toLowerCase()
+              ) || baseFallback?.localMarketing?.points?.[idx];
+            return {
+              title: lp.title,
+              description: lp.description,
+              icon: lp.icon || matchedFallback?.icon,
+              iconUrl: resolveIconUrl(lp.iconImage),
+            };
+          }),
         }
       : baseFallback?.localMarketing,
     whyChooseUs: {
       eyebrow: doc.whyChooseEyebrow || baseFallback?.whyChooseUs?.eyebrow || "Why Choose Us",
       heading: doc.whyChooseHeading || baseFallback?.whyChooseUs?.heading || "The Trusted Choice",
-      subtitle: doc.whyChooseSubtitle || baseFallback?.whyChooseUs?.subtitle,
+      subtitle:
+        doc.whyChooseDescription ||
+        doc.whyChooseSubtitle ||
+        baseFallback?.whyChooseUs?.subtitle,
       ctaText: doc.whyChooseCtaText || baseFallback?.whyChooseUs?.ctaText,
       ctaHref: doc.whyChooseCtaHref || baseFallback?.whyChooseUs?.ctaHref,
       points: (doc.whyChoosePoints && doc.whyChoosePoints.length > 0)
@@ -842,7 +877,15 @@ function mapSanityToDigitalMarketingService(
       heading: doc.testimonialsHeading || baseFallback?.testimonials?.heading || "What Our Clients Say",
       description: doc.testimonialsDescription || baseFallback?.testimonials?.description,
       items: (doc.testimonialsList && doc.testimonialsList.length > 0)
-        ? (doc.testimonialsList as any)
+        ? doc.testimonialsList.map((t: any) => ({
+            quote: t.quote,
+            clientName: t.clientName,
+            role: t.role,
+            company: t.company,
+            rating: t.rating || 5,
+            approved: true,
+            avatarUrl: resolveIconUrl(t.avatar),
+          }))
         : (baseFallback?.testimonials?.items || []),
     },
     faqs: {
@@ -854,10 +897,16 @@ function mapSanityToDigitalMarketingService(
         : (baseFallback?.faqs?.items || []),
     },
     finalCta: {
+      eyebrow: doc.finalCtaEyebrow || baseFallback?.finalCta?.eyebrow || "Strategic Consultation",
       heading: doc.finalCtaHeading || baseFallback?.finalCta?.heading || "Ready to Grow?",
       description: doc.finalCtaDescription || baseFallback?.finalCta?.description || "Get in touch with our specialists today.",
       ctaText: doc.finalCtaPrimaryButtonText || doc.finalCtaButtonText || baseFallback?.finalCta?.ctaText || "Get in Touch",
       ctaHref: doc.finalCtaPrimaryButtonHref || doc.finalCtaButtonHref || baseFallback?.finalCta?.ctaHref || `/contact-us?service=${cleanSlug}-usa`,
+      secondaryCtaText: doc.finalCtaSecondaryButtonText || baseFallback?.finalCta?.secondaryCtaText,
+      secondaryCtaHref: doc.finalCtaSecondaryButtonHref || baseFallback?.finalCta?.secondaryCtaHref,
+      trustPoints: (doc.finalCtaTrustPoints && doc.finalCtaTrustPoints.length > 0)
+        ? doc.finalCtaTrustPoints
+        : (baseFallback?.finalCta?.trustPoints || []),
     },
   };
 }
@@ -867,6 +916,7 @@ export async function getDigitalMarketingServices(): Promise<SanityService[]> {
     return await fetchFromSanity(`
       *[_type in ["itService", "service"] && (_type == "itService" || serviceType == "digital-marketing" || serviceType == "digital_marketing_service")] | order(orderRank asc, _createdAt asc) {
         _id,
+        _type,
         title,
         slug,
         serviceType,
@@ -891,6 +941,7 @@ export async function getDigitalMarketingServices(): Promise<SanityService[]> {
         showFinalCta,
         heroEyebrow,
         heroTagline,
+        heroHeadlineHighlight,
         heroDescription,
         heroImage,
         heroCtaText,
@@ -898,9 +949,9 @@ export async function getDigitalMarketingServices(): Promise<SanityService[]> {
         heroSecondaryCtaText,
         heroSecondaryCtaHref,
         heroStats,
-        heroKeyBadges,
         overviewEyebrow,
         overviewHeading,
+        overviewParagraph,
         overviewParagraphs,
         overviewImage,
         pillarsTitle,
@@ -973,10 +1024,7 @@ export async function getDigitalMarketingServices(): Promise<SanityService[]> {
           description,
           iconImage
         },
-        testimonialsEyebrow,
-        testimonialsHeading,
-        testimonialsDescription,
-        testimonialsList[]{
+        "testimonialsList": *[_type == "testimonial" && (serviceCategory == "itService" || !defined(serviceCategory) || isFeatured == true)] | order(_createdAt desc){
           quote,
           clientName,
           role,
@@ -1014,8 +1062,9 @@ export async function getDigitalMarketingServiceBySlug(
 
   try {
     const sanityDoc = await fetchFromSanity<SanityService | null>(
-      `*[_type in ["itService", "service"] && (_type == "itService" || serviceType == "digital-marketing" || serviceType == "digital_marketing_service") && (slug.current == $cleanSlug || slug.current == $slug || slug.current == $withUsa)][0]{
+      `*[_type in ["itService", "service"] && (_type == "itService" || serviceType == "digital-marketing" || serviceType == "digital_marketing_service") && (slug.current == $cleanSlug || slug.current == $slug || slug.current == $withUsa)] | order(select(_type == "itService" => 0, 1) asc, _updatedAt desc)[0]{
         _id,
+        _type,
         title,
         slug,
         serviceType,
@@ -1040,6 +1089,7 @@ export async function getDigitalMarketingServiceBySlug(
         showFinalCta,
         heroEyebrow,
         heroTagline,
+        heroHeadlineHighlight,
         heroDescription,
         heroImage,
         heroCtaText,
@@ -1047,9 +1097,9 @@ export async function getDigitalMarketingServiceBySlug(
         heroSecondaryCtaText,
         heroSecondaryCtaHref,
         heroStats,
-        heroKeyBadges,
         overviewEyebrow,
         overviewHeading,
+        overviewParagraph,
         overviewParagraphs,
         overviewImage,
         pillarsTitle,
@@ -1122,10 +1172,7 @@ export async function getDigitalMarketingServiceBySlug(
           description,
           iconImage
         },
-        testimonialsEyebrow,
-        testimonialsHeading,
-        testimonialsDescription,
-        testimonialsList[]{
+        "testimonialsList": *[_type == "testimonial" && (serviceCategory == "itService" || !defined(serviceCategory) || isFeatured == true)] | order(_createdAt desc){
           quote,
           clientName,
           role,
@@ -1163,6 +1210,50 @@ export async function getDigitalMarketingServiceBySlug(
   }
 
   return fallback || null;
+}
+
+export async function getItServiceBySlug(
+  slug: string
+): Promise<DigitalMarketingServiceData | null> {
+  return getDigitalMarketingServiceBySlug(slug);
+}
+
+export async function getRawItServiceBySlug(slug: string): Promise<any | null> {
+  const cleanSlug = slug.toLowerCase().trim().replace(/-usa$/, "");
+  try {
+    return await fetchFromSanity(
+      `*[_type == "itService" && (slug.current == $cleanSlug || slug.current == $slug || slug.current == $withUsa)][0]`,
+      {
+        cleanSlug,
+        slug,
+        withUsa: `${cleanSlug}-usa`,
+      }
+    );
+  } catch (error) {
+    console.error(`Error fetching raw IT service for "${slug}" from Sanity:`, error);
+    return null;
+  }
+}
+
+export async function getItServices(): Promise<SanityService[]> {
+  try {
+    return await fetchFromSanity<SanityService[]>(`
+      *[_type == "itService"] | order(orderRank asc, _createdAt asc) {
+        _id,
+        _type,
+        title,
+        slug,
+        badge,
+        shortDescription,
+        orderRank,
+        isFeatured,
+        customIcon
+      }
+    `);
+  } catch (error) {
+    console.error("Error fetching IT services list from Sanity:", error);
+    return [];
+  }
 }
 
 export async function getAllDigitalMarketingSlugs(): Promise<string[]> {
@@ -1261,3 +1352,24 @@ const firstAuthorQuery = `
 export async function getFirstAuthor(): Promise<PostAuthor | null> {
   return fetchFromSanity(firstAuthorQuery);
 }
+
+export async function getTestimonials(): Promise<SanityTestimonial[]> {
+  try {
+    return await fetchFromSanity(`
+      *[_type == "testimonial"] | order(_createdAt desc){
+        _id,
+        clientName,
+        role,
+        company,
+        quote,
+        rating,
+        avatar,
+        serviceCategory,
+        isFeatured
+      }
+    `);
+  } catch (error) {
+    console.error("Error fetching testimonials from Sanity:", error);
+    return [];
+  }
+}

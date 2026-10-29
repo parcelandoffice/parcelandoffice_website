@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 import Link from "next/link";
 import {
   MapPin,
@@ -16,8 +17,8 @@ interface DigitalLocalMarketingProps {
   service: DigitalMarketingServiceData;
 }
 
-function getPointIcon(iconName?: string): LucideIcon {
-  switch (iconName) {
+function getPointIcon(iconName: string = "", title: string = "", index: number = 0): LucideIcon {
+  switch (iconName.toLowerCase()) {
     case "map-pin":
       return MapPin;
     case "target":
@@ -28,9 +29,14 @@ function getPointIcon(iconName?: string): LucideIcon {
       return TrendingUp;
     case "bar-chart":
       return BarChart3;
-    default:
-      return Compass;
   }
+  const combined = `${iconName} ${title}`.toLowerCase();
+  if (combined.includes("map") || combined.includes("geo") || combined.includes("location") || index === 0) return MapPin;
+  if (combined.includes("target") || combined.includes("audience") || index === 1) return Target;
+  if (combined.includes("sparkle") || combined.includes("content") || combined.includes("hashtag") || index === 2) return Sparkles;
+  if (combined.includes("trend") || combined.includes("conversion") || combined.includes("goal") || index === 3) return TrendingUp;
+  if (combined.includes("chart") || combined.includes("measure") || combined.includes("metric") || combined.includes("analytic") || index === 4) return BarChart3;
+  return Compass;
 }
 
 export default function DigitalLocalMarketing({ service }: DigitalLocalMarketingProps) {
@@ -45,7 +51,17 @@ export default function DigitalLocalMarketing({ service }: DigitalLocalMarketing
           <div className="lg:col-span-5 lg:sticky lg:top-28 self-start">
             {localMarketing.eyebrow && (
               <div className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3.5 py-1 text-xs font-black uppercase tracking-wider text-accent shadow-2xs">
-                <Sparkles className="h-3.5 w-3.5 text-accent-dark" aria-hidden="true" />
+                {service.iconUrl ? (
+                  <Image
+                    src={service.iconUrl}
+                    alt={service.title}
+                    width={14}
+                    height={14}
+                    className="h-3.5 w-3.5 object-contain"
+                  />
+                ) : (
+                  <Sparkles className="h-3.5 w-3.5 text-accent-dark" aria-hidden="true" />
+                )}
                 <span>{localMarketing.eyebrow}</span>
               </div>
             )}
@@ -60,7 +76,7 @@ export default function DigitalLocalMarketing({ service }: DigitalLocalMarketing
 
             <div className="mt-8">
               <Link
-                href={localMarketing.ctaHref || `/contact-us?service=${service.slug}-usa`}
+                href={localMarketing.ctaHref || service.hero.ctaHref || `/contact-us?service=${service.slug}-usa`}
                 className="group inline-flex items-center justify-center gap-2.5 rounded-full bg-primary px-7 py-3.5 text-xs sm:text-sm font-extrabold uppercase tracking-wider text-white shadow-xs transition-all duration-200 hover:bg-primary-dark hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
               >
                 <span>{localMarketing.ctaText || "Request a Custom Proposal"}</span>
@@ -81,11 +97,11 @@ export default function DigitalLocalMarketing({ service }: DigitalLocalMarketing
             {/* Interconnected Vertical Approach Flow */}
             <div className="relative pl-6 sm:pl-8 border-l-2 border-border space-y-5 sm:space-y-6">
               {localMarketing.points.map((point, index) => {
-                const Icon = getPointIcon(point.icon);
+                const Icon = getPointIcon(point.icon || "", point.title || "", index);
 
                 return (
                   <div key={point.title} className="group relative">
-                    {/* Numbered node on the vertical track - perfectly centered with card and icon */}
+                    {/* Numbered node on the vertical track - centered with card */}
                     <span
                       aria-hidden="true"
                       className="absolute -left-6 sm:-left-8 top-1/2 -translate-x-1/2 -translate-y-1/2 flex h-7 w-7 items-center justify-center rounded-full border-2 border-surface bg-primary text-xs font-bold text-white shadow-2xs transition-colors duration-200 group-hover:bg-accent"
@@ -97,7 +113,13 @@ export default function DigitalLocalMarketing({ service }: DigitalLocalMarketing
                       <div className="flex items-center gap-3.5 sm:gap-4">
                         <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary-soft text-primary transition-all duration-300 group-hover:bg-accent group-hover:text-white group-hover:scale-105 overflow-hidden">
                           {point.iconUrl ? (
-                            <img src={point.iconUrl} alt={point.title} className="h-5 w-5 object-contain" />
+                            <Image
+                              src={point.iconUrl}
+                              alt={point.title}
+                              width={20}
+                              height={20}
+                              className="h-5 w-5 object-contain"
+                            />
                           ) : (
                             <Icon className="h-5 w-5" aria-hidden="true" />
                           )}

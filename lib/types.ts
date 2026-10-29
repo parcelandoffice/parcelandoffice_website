@@ -124,6 +124,7 @@ export type ProcessStepData = {
 
 export type SanityService = {
   _id: string;
+  _type?: string;
   title: string;
   slug?: { current: string };
   serviceType?: "standard" | "digital-marketing";
@@ -151,6 +152,7 @@ export type SanityService = {
   // Digital Marketing Hero
   heroEyebrow?: string;
   heroTagline?: string;
+  heroHeadlineHighlight?: string;
   heroDescription?: string;
   heroImage?: SanityImageSource;
   heroCtaText?: string;
@@ -163,6 +165,7 @@ export type SanityService = {
   // Digital Marketing Overview
   overviewEyebrow?: string;
   overviewHeading?: string;
+  overviewParagraph?: string;
   overviewParagraphs?: string[];
   overviewImage?: SanityImageSource;
   pillarsTitle?: string;
@@ -402,4 +405,16 @@ export type Blog = {
   imageAlt?: string;
   category?: string;
   publishedAt: string;
+};
+
+export type SanityTestimonial = {
+  _id: string;
+  clientName: string;
+  role?: string;
+  company?: string;
+  quote: string;
+  rating?: number;
+  avatar?: SanityImageSource;
+  serviceCategory?: string;
+  isFeatured?: boolean;
 };

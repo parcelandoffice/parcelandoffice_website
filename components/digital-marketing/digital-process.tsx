@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 import { ArrowRight, Sparkles } from "lucide-react";
 import type { DigitalMarketingServiceData } from "@/lib/digital-marketing-data";
 
@@ -16,7 +17,17 @@ export default function DigitalProcess({ service }: DigitalProcessProps) {
         {/* Section Header */}
         <div className="mx-auto max-w-3xl text-center">
           <div className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3.5 py-1 text-xs font-black uppercase tracking-wider text-accent shadow-2xs">
-            <Sparkles className="h-3.5 w-3.5 text-accent-dark" aria-hidden="true" />
+            {service.iconUrl ? (
+              <Image
+                src={service.iconUrl}
+                alt={service.title}
+                width={14}
+                height={14}
+                className="h-3.5 w-3.5 object-contain"
+              />
+            ) : (
+              <Sparkles className="h-3.5 w-3.5 text-accent-dark" aria-hidden="true" />
+            )}
             <span>{process.eyebrow}</span>
           </div>
 
@@ -46,7 +57,13 @@ export default function DigitalProcess({ service }: DigitalProcessProps) {
                   <div className="flex items-center justify-between mb-5">
                     <div className="flex items-center gap-2.5">
                       {stepItem.iconUrl && (
-                        <img src={stepItem.iconUrl} alt={stepItem.title} className="h-6 w-6 object-contain" />
+                        <Image
+                          src={stepItem.iconUrl}
+                          alt={stepItem.title}
+                          width={24}
+                          height={24}
+                          className="h-6 w-6 object-contain"
+                        />
                       )}
                       <span className="font-display text-2xl sm:text-3xl font-black text-accent tracking-tight group-hover:scale-105 transition-transform duration-200">
                         {stepItem.step}
