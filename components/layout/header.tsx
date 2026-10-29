@@ -8,7 +8,15 @@ import {
   Search,
   X,
   ArrowRight,
+  Share2,
+  Target,
+  TrendingUp,
+  Globe,
+  Code,
+  Sparkles,
+  type LucideIcon,
 } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -18,10 +26,20 @@ import StoreHoursModal from "@components/common/store-hours-modal";
 import {
   BUSINESS,
   SERVICES_MENU_CATEGORIES,
-  DIGITAL_MARKETING_MENU,
   ABOUT_US_MENU,
   STORE_HOURS,
 } from "@/lib/site-data";
+import type { ItServiceMenuItem } from "@/lib/apis";
+
+function getItServiceFallbackIcon(title?: string, slug?: string): LucideIcon {
+  const text = `${title || ""} ${slug || ""}`.toLowerCase();
+  if (text.includes("social")) return Share2;
+  if (text.includes("lead")) return Target;
+  if (text.includes("ad") || text.includes("ppc")) return TrendingUp;
+  if (text.includes("seo") || text.includes("geo") || text.includes("search") || text.includes("engine")) return Globe;
+  if (text.includes("web") || text.includes("dev") || text.includes("software") || text.includes("app")) return Code;
+  return Sparkles;
+}
 
 function useTodayHours() {
   const [label, setLabel] = useState<string>("9:30 AM – 6:30 PM");
@@ -39,7 +57,11 @@ function useTodayHours() {
   return label;
 }
 
-export default function Header() {
+interface HeaderProps {
+  itServices?: ItServiceMenuItem[];
+}
+
+export default function Header({ itServices = [] }: HeaderProps) {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [queryModalOpen, setQueryModalOpen] = useState(false);
@@ -52,6 +74,23 @@ export default function Header() {
   const [mobileAboutOpen, setMobileAboutOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const todayHours = useTodayHours();
+
+  const [itServicesList, setItServicesList] = useState<ItServiceMenuItem[]>(itServices);
+
+  useEffect(() => {
+    if (itServices && itServices.length > 0) {
+      setItServicesList(itServices);
+    } else {
+      fetch("/api/it-services")
+        .then((res) => res.json())
+        .then((data) => {
+          if (data?.success && Array.isArray(data.services)) {
+            setItServicesList(data.services);
+          }
+        })
+        .catch(() => { });
+    }
+  }, [itServices]);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 4);
@@ -72,7 +111,7 @@ export default function Header() {
   const isDigitalActive =
     pathname.startsWith("/digital-marketing") ||
     pathname.endsWith("-usa") ||
-    DIGITAL_MARKETING_MENU.some((item) => item.href === pathname);
+    itServicesList.some((item) => item.href === pathname);
   const isAboutActive = pathname.startsWith("/about-us") || pathname.startsWith("/blog");
   const isContactActive = pathname === "/contact-us";
 
@@ -287,49 +326,79 @@ export default function Header() {
                         </span>
                       </div>
                       <div className="flex flex-col gap-1">
-                        {DIGITAL_MARKETING_MENU.map((item) => {
-                          const Icon = item.icon;
-                          const isItemActive = pathname === item.href;
-                          return (
-                            <Link
-                              key={item.label}
-                              href={item.href}
-                              onClick={closeAll}
-                              className={`group flex items-start justify-between gap-3 rounded-lg p-2 transition-all duration-150 ${isItemActive
-                                ? "bg-primary text-white font-bold shadow-xs"
-                                : "hover:bg-primary-soft"
-                                }`}
-                            >
-                              <div className="flex items-start gap-3 min-w-0">
-                                <span
-                                  className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg transition-colors mt-0.5 ${isItemActive
-                                    ? "bg-white/20 text-white"
-                                    : "bg-primary-soft text-primary group-hover:bg-primary group-hover:text-accent"
-                                    }`}
-                                >
-                                  <Icon className="h-4 w-4" aria-hidden="true" />
-                                </span>
-                                <div className="min-w-0">
+                        {itServicesList.length === 0 ? (
+                          <div className="py-4 text-center text-xs text-muted">
+                            No IT services available
+                          </div>
+                        ) : (
+                          itServicesList.map((item) => {
+                            const FallbackIcon = getItServiceFallbackIcon(item.title, item.slug);
+                            const isItemActive = pathname === item.href;
+                            return (
+                              <Link
+                                key={item.slug || item.title}
+                                href={item.href}
+                                onClick={closeAll}
+                                className={`group flex items-start justify-between gap-3 rounded-lg p-2 transition-all duration-150 ${isItemActive
+                                  ? "bg-primary text-white font-bold shadow-xs"
+                                  : "hover:bg-primary-soft"
+                                  }`}
+                              >
+                                <div className="flex items-start gap-3 min-w-0">
                                   <span
-                                    className={`block text-xs font-bold transition-colors ${isItemActive ? "text-white" : "text-foreground group-hover:text-primary"
+                                    className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg transition-colors mt-0.5 overflow-hidden ${isItemActive
+                                      ? "bg-white/20 text-white"
+                                      : "bg-primary-soft text-primary group-hover:bg-primary group-hover:text-accent"
                                       }`}
                                   >
-                                    {item.label}
+                                    {item.iconUrl ? (
+                                      <Image
+                                        src={item.iconUrl}
+                                        alt={item.title}
+                                        width={18}
+                                        height={18}
+                                        className="h-4 w-4 object-contain"
+                                      />
+                                    ) : (
+                                      <FallbackIcon className="h-4 w-4" aria-hidden="true" />
+                                    )}
                                   </span>
-                                  <span
-                                    className={`block text-[11px] line-clamp-1 ${isItemActive ? "text-white/80" : "text-muted"
-                                      }`}
-                                  >
-                                    {item.description}
-                                  </span>
+                                  <div className="min-w-0">
+                                    <div className="flex items-center gap-1.5 flex-wrap">
+                                      <span
+                                        className={`block text-xs font-bold transition-colors ${isItemActive ? "text-white" : "text-foreground group-hover:text-primary"
+                                          }`}
+                                      >
+                                        {item.title}
+                                      </span>
+                                      {item.badge && (
+                                        <span
+                                          className={`text-[9px] uppercase tracking-wider font-extrabold px-1.5 py-0.5 rounded ${isItemActive
+                                            ? "bg-white/25 text-white"
+                                            : "bg-accent/15 text-accent border border-accent/30"
+                                            }`}
+                                        >
+                                          {item.badge}
+                                        </span>
+                                      )}
+                                    </div>
+                                    {item.shortDescription && (
+                                      <span
+                                        className={`block text-[11px] line-clamp-1 ${isItemActive ? "text-white/80" : "text-muted"
+                                          }`}
+                                      >
+                                        {item.shortDescription}
+                                      </span>
+                                    )}
+                                  </div>
                                 </div>
-                              </div>
-                              {isItemActive && (
-                                <span className="h-2 w-2 rounded-full bg-accent animate-pulse shrink-0 mt-2 mr-1" />
-                              )}
-                            </Link>
-                          );
-                        })}
+                                {isItemActive && (
+                                  <span className="h-2 w-2 rounded-full bg-accent animate-pulse shrink-0 mt-2 mr-1" />
+                                )}
+                              </Link>
+                            );
+                          })
+                        )}
                       </div>
                     </div>
                   </div>
@@ -581,7 +650,7 @@ export default function Header() {
               </div>
             )}
 
-            {/* 3. Digital Marketing Services Accordion */}
+            {/* 3. IT Services Accordion */}
             <button
               type="button"
               onClick={() => setMobileDigitalOpen((prev) => !prev)}
@@ -592,7 +661,7 @@ export default function Header() {
                   : "text-foreground hover:bg-surface-muted"
                 }`}
             >
-              <span>Digital Marketing Services</span>
+              <span>IT Services</span>
               <ChevronDown
                 className={`h-4 w-4 transition-transform duration-200 ${mobileDigitalOpen ? "rotate-180" : ""
                   }`}
@@ -601,29 +670,53 @@ export default function Header() {
             </button>
             {mobileDigitalOpen && (
               <div className="grid grid-cols-1 gap-1 px-3 py-2 bg-surface-muted rounded-lg border-l-2 border-primary/30 ml-2">
-                {DIGITAL_MARKETING_MENU.map((item) => {
-                  const Icon = item.icon;
-                  const isItemActive = pathname === item.href;
-                  return (
-                    <Link
-                      key={item.label}
-                      href={item.href}
-                      onClick={closeAll}
-                      className={`flex items-center justify-between py-1.5 px-2.5 rounded-md text-xs transition-colors ${isItemActive
-                        ? "bg-primary text-white font-bold shadow-2xs"
-                        : "text-foreground hover:text-primary hover:bg-surface"
-                        }`}
-                    >
-                      <span className="flex items-center gap-2 min-w-0">
-                        <Icon className={`h-3.5 w-3.5 shrink-0 ${isItemActive ? "text-accent" : "text-primary"}`} />
-                        <span className="truncate">{item.label}</span>
-                      </span>
-                      {isItemActive && (
-                        <span className="h-1.5 w-1.5 rounded-full bg-accent shrink-0 animate-pulse ml-2" />
-                      )}
-                    </Link>
-                  );
-                })}
+                {itServicesList.length === 0 ? (
+                  <div className="py-2 px-2.5 text-xs text-muted">No IT services available</div>
+                ) : (
+                  itServicesList.map((item) => {
+                    const FallbackIcon = getItServiceFallbackIcon(item.title, item.slug);
+                    const isItemActive = pathname === item.href;
+                    return (
+                      <Link
+                        key={item.slug || item.title}
+                        href={item.href}
+                        onClick={closeAll}
+                        className={`flex items-center justify-between py-1.5 px-2.5 rounded-md text-xs transition-colors ${isItemActive
+                          ? "bg-primary text-white font-bold shadow-2xs"
+                          : "text-foreground hover:text-primary hover:bg-surface"
+                          }`}
+                      >
+                        <span className="flex items-center gap-2 min-w-0">
+                          {item.iconUrl ? (
+                            <Image
+                              src={item.iconUrl}
+                              alt={item.title}
+                              width={14}
+                              height={14}
+                              className="h-3.5 w-3.5 object-contain shrink-0"
+                            />
+                          ) : (
+                            <FallbackIcon className={`h-3.5 w-3.5 shrink-0 ${isItemActive ? "text-accent" : "text-primary"}`} />
+                          )}
+                          <span className="truncate">{item.title}</span>
+                          {item.badge && (
+                            <span
+                              className={`text-[8px] uppercase tracking-wider font-bold px-1 py-0.2 rounded shrink-0 ${isItemActive
+                                  ? "bg-white/20 text-white"
+                                  : "bg-accent/15 text-accent"
+                                }`}
+                            >
+                              {item.badge}
+                            </span>
+                          )}
+                        </span>
+                        {isItemActive && (
+                          <span className="h-1.5 w-1.5 rounded-full bg-accent shrink-0 animate-pulse ml-2" />
+                        )}
+                      </Link>
+                    );
+                  })
+                )}
               </div>
             )}
 

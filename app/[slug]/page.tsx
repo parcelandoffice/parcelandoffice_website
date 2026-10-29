@@ -1,22 +1,21 @@
-import type { Metadata } from "next";
-import { notFound, redirect } from "next/navigation";
 import {
-  getDigitalMarketingServiceBySlug,
   getAllDigitalMarketingSlugs,
+  getItServiceBySlug
 } from "@/lib/apis";
-import { DIGITAL_MARKETING_SERVICES } from "@/lib/digital-marketing-data";
 import { BUSINESS, SITE_NAME } from "@/lib/site-data";
+import DigitalCta from "@components/digital-marketing/digital-cta";
+import DigitalFaq from "@components/digital-marketing/digital-faq";
 import DigitalHero from "@components/digital-marketing/digital-hero";
-import DigitalOverview from "@components/digital-marketing/digital-overview";
-import DigitalServicesList from "@components/digital-marketing/digital-services-list";
-import DigitalPlatforms from "@components/digital-marketing/digital-platforms";
-import DigitalProcess from "@components/digital-marketing/digital-process";
 import DigitalIndustries from "@components/digital-marketing/digital-industries";
 import DigitalLocalMarketing from "@components/digital-marketing/digital-local-marketing";
-import DigitalWhyChoose from "@components/digital-marketing/digital-why-choose";
+import DigitalOverview from "@components/digital-marketing/digital-overview";
+import DigitalPlatforms from "@components/digital-marketing/digital-platforms";
+import DigitalProcess from "@components/digital-marketing/digital-process";
+import DigitalServicesList from "@components/digital-marketing/digital-services-list";
 import DigitalTestimonials from "@components/digital-marketing/digital-testimonials";
-import DigitalFaq from "@components/digital-marketing/digital-faq";
-import DigitalCta from "@components/digital-marketing/digital-cta";
+import DigitalWhyChoose from "@components/digital-marketing/digital-why-choose";
+import type { Metadata } from "next";
+import { notFound, redirect } from "next/navigation";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -32,7 +31,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const cleanSlug = slug.replace(/-usa$/, "");
-  const service = await getDigitalMarketingServiceBySlug(slug);
+  const service = await getItServiceBySlug(slug);
 
   if (!service) {
     return {
@@ -78,13 +77,13 @@ export default async function DigitalMarketingServiceUsaPage({ params }: Props) 
 
   // If accessed without '-usa', redirect to canonical USA format
   if (!slug.endsWith("-usa")) {
-    const candidate = await getDigitalMarketingServiceBySlug(slug);
+    const candidate = await getItServiceBySlug(slug);
     if (candidate) {
       redirect(`/${slug}-usa`);
     }
   }
 
-  const service = await getDigitalMarketingServiceBySlug(slug);
+  const service = await getItServiceBySlug(slug);
 
   if (!service) {
     notFound();
@@ -150,16 +149,16 @@ export default async function DigitalMarketingServiceUsaPage({ params }: Props) 
         {/* Section 8: Why Choose Us */}
         {service.showWhyChooseUs !== false && <DigitalWhyChoose service={service} />}
 
-        {/* Section 9: Frequently Asked Questions */}
-        {service.showFaqs !== false && <DigitalFaq service={service} />}
-
-        {/* Client Testimonials (only if real approved feedback exists and switch is active) */}
+        {/* Client Testimonials (after Why Choose Us) */}
         {service.showTestimonials !== false &&
           service.testimonials &&
           service.testimonials.items &&
-          service.testimonials.items.some(
-            (t) => t.approved && !t.quote.includes("[Insert")
-          ) && <DigitalTestimonials service={service} />}
+          service.testimonials.items.length > 0 && (
+            <DigitalTestimonials service={service} />
+          )}
+
+        {/* Section 9: Frequently Asked Questions */}
+        {service.showFaqs !== false && <DigitalFaq service={service} />}
 
         {/* Section 10: Final Call to Action */}
         {service.showFinalCta !== false && <DigitalCta service={service} />}

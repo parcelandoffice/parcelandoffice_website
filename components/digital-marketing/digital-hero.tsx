@@ -36,7 +36,7 @@ export default function DigitalHero({ service }: DigitalHeroProps) {
               <ChevronRight className="h-3.5 w-3.5 text-muted-light/60" aria-hidden="true" />
             </li>
             <li>
-              <Link href="/social-media-marketing-usa" className="hover:text-primary transition-colors">
+              <Link href={`/${service.slug}-usa`} className="hover:text-primary transition-colors">
                 IT Services
               </Link>
             </li>
@@ -55,18 +55,72 @@ export default function DigitalHero({ service }: DigitalHeroProps) {
         <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-12 lg:gap-12">
           {/* Left Column: Copy & CTAs (7 Cols) */}
           <div className="lg:col-span-7">
-            {/* Eyebrow Pill Badge */}
-            <div className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3.5 py-1 text-xs font-black uppercase tracking-wider text-accent shadow-2xs">
-              <Sparkles className="h-3.5 w-3.5 text-accent-dark" aria-hidden="true" />
-              <span>{hero.eyebrow}</span>
+            {/* Eyebrow & Optional Badge */}
+            <div className="flex flex-wrap items-center gap-2">
+              <div className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3.5 py-1 text-xs font-black uppercase tracking-wider text-accent shadow-2xs">
+                {service.iconUrl ? (
+                  <Image
+                    src={service.iconUrl}
+                    alt={service.title}
+                    width={14}
+                    height={14}
+                    className="h-3.5 w-3.5 object-contain"
+                  />
+                ) : (
+                  <Sparkles className="h-3.5 w-3.5 text-accent-dark" aria-hidden="true" />
+                )}
+                <span>{hero.eyebrow}</span>
+              </div>
+
+              {service.badge && (
+                <span className="inline-flex items-center rounded-full bg-accent/15 px-2.5 py-1 text-[11px] font-black uppercase tracking-wider text-accent-dark">
+                  {service.badge}
+                </span>
+              )}
             </div>
 
             {/* Main Heading & Tagline */}
             <h1 className="font-display mt-4 text-3xl font-black tracking-tight text-primary-dark sm:text-4xl lg:text-[44px] lg:leading-[1.15]">
-              {hero.tagline.split("Grow Your Business")[0]}
-              <span className="bg-gradient-to-r from-accent-dark via-accent to-accent-light bg-clip-text text-transparent">
-                Grow Your Business.
-              </span>
+              {(() => {
+                const highlight = hero.headlineHighlight?.trim();
+                if (highlight) {
+                  if (hero.tagline.includes(highlight)) {
+                    const parts = hero.tagline.split(highlight);
+                    return (
+                      <>
+                        {parts[0]}
+                        <span className="bg-gradient-to-r from-accent-dark via-accent to-accent-light bg-clip-text text-transparent">
+                          {highlight}
+                        </span>
+                        {parts.slice(1).join(highlight)}
+                      </>
+                    );
+                  }
+                  return (
+                    <>
+                      {hero.tagline}{" "}
+                      <span className="bg-gradient-to-r from-accent-dark via-accent to-accent-light bg-clip-text text-transparent">
+                        {highlight}
+                      </span>
+                    </>
+                  );
+                }
+
+                if (hero.tagline.includes("Grow Your Business")) {
+                  const parts = hero.tagline.split("Grow Your Business");
+                  return (
+                    <>
+                      {parts[0]}
+                      <span className="bg-gradient-to-r from-accent-dark via-accent to-accent-light bg-clip-text text-transparent">
+                        Grow Your Business{hero.tagline.includes("Grow Your Business.") ? "." : ""}
+                      </span>
+                      {parts.slice(1).join("Grow Your Business").replace(/^\./, "")}
+                    </>
+                  );
+                }
+
+                return hero.tagline;
+              })()}
             </h1>
 
             {/* Description Paragraph */}
@@ -102,7 +156,7 @@ export default function DigitalHero({ service }: DigitalHeroProps) {
                 <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl bg-surface-muted sm:aspect-[16/11]">
                   <Image
                     src={hero.heroImage}
-                    alt={hero.title}
+                    alt={hero.title || service.title}
                     fill
                     priority
                     sizes="(min-width: 1024px) 480px, 100vw"
@@ -111,7 +165,7 @@ export default function DigitalHero({ service }: DigitalHeroProps) {
                   <div className="absolute inset-0 bg-gradient-to-t from-primary-dark/70 via-transparent to-transparent" />
 
                   {/* Overlaid Bottom Banner inside Image */}
-                  <div className="absolute bottom-3 left-3 right-3 rounded-xl border border-white/20 bg-primary-dark/85 p-3.5 backdrop-blur-md text-white">
+                  {/* <div className="absolute bottom-3 left-3 right-3 rounded-xl border border-white/20 bg-primary-dark/85 p-3.5 backdrop-blur-md text-white">
                     <div className="flex items-center justify-between">
                       <div>
                         <span className="text-[10px] font-black uppercase tracking-wider text-accent-light">
@@ -122,15 +176,22 @@ export default function DigitalHero({ service }: DigitalHeroProps) {
                         </h2>
                       </div>
                       <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent text-white shadow-2xs">
-                        <TrendingUp className="h-4 w-4" />
+                        {service.iconUrl ? (
+                          <Image
+                            src={service.iconUrl}
+                            alt={service.title}
+                            width={16}
+                            height={16}
+                            className="h-4 w-4 object-contain brightness-0 invert"
+                          />
+                        ) : (
+                          <TrendingUp className="h-4 w-4" />
+                        )}
                       </span>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
-
-
               </div>
-
             </div>
           </div>
         </div>

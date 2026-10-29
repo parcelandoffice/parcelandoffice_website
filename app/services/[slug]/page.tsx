@@ -1,8 +1,9 @@
 import { getServiceDetail } from "@/lib/service-details";
+import { getDigitalMarketingServiceBySlug } from "@/lib/apis";
 import { BUSINESS, SERVICES, SERVICES_MENU_CATEGORIES, SITE_NAME } from "@/lib/site-data";
 import { ServiceTemplateDispatcher } from "@components/services/templates";
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -24,6 +25,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const service = getServiceDetail(slug);
 
   if (!service) {
+    const itService = await getDigitalMarketingServiceBySlug(slug);
+    if (itService) {
+      return {
+        title: `${itService.title} | ${SITE_NAME}`,
+        description: itService.hero.description,
+      };
+    }
     return {
       title: `Service Not Found | ${SITE_NAME}`,
     };
@@ -55,6 +63,10 @@ export default async function ServiceDetailPage({ params }: Props) {
   const service = getServiceDetail(slug);
 
   if (!service) {
+    const itService = await getDigitalMarketingServiceBySlug(slug);
+    if (itService) {
+      redirect(`/${itService.slug}-usa`);
+    }
     notFound();
   }
 

@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 import Link from "next/link";
 import {
   CheckCircle2,
@@ -22,7 +23,17 @@ export default function DigitalWhyChoose({ service }: DigitalWhyChooseProps) {
           {/* Left Column: Heading & Value Proposition Banner (5 Cols) */}
           <div className="lg:col-span-5">
             <div className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3.5 py-1 text-xs font-black uppercase tracking-wider text-accent shadow-2xs">
-              <Sparkles className="h-3.5 w-3.5 text-accent-dark" aria-hidden="true" />
+              {service.iconUrl ? (
+                <Image
+                  src={service.iconUrl}
+                  alt={service.title}
+                  width={14}
+                  height={14}
+                  className="h-3.5 w-3.5 object-contain"
+                />
+              ) : (
+                <Sparkles className="h-3.5 w-3.5 text-accent-dark" aria-hidden="true" />
+              )}
               <span>{whyChooseUs.eyebrow}</span>
             </div>
 
@@ -36,10 +47,9 @@ export default function DigitalWhyChoose({ service }: DigitalWhyChooseProps) {
               </p>
             )}
 
-
             <div className="mt-8">
               <Link
-                href={whyChooseUs.ctaHref || `/contact-us?service=${service.slug}`}
+                href={whyChooseUs.ctaHref || service.hero.ctaHref || `/contact-us?service=${service.slug}-usa`}
                 className="group inline-flex items-center justify-center gap-2.5 rounded-full bg-primary px-7 py-3.5 text-xs sm:text-sm font-extrabold uppercase tracking-wider text-white shadow-xs transition-all duration-200 hover:bg-primary-dark hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
               >
                 <span>{whyChooseUs.ctaText || "Request a Custom Proposal"}</span>
@@ -66,7 +76,13 @@ export default function DigitalWhyChoose({ service }: DigitalWhyChooseProps) {
                     {/* Custom Numbered Check Icon or Uploaded Image */}
                     <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-primary-soft text-primary font-bold text-xs transition-colors group-hover:bg-primary group-hover:text-accent mt-0.5 overflow-hidden">
                       {point.iconUrl ? (
-                        <img src={point.iconUrl} alt={point.title} className="h-5 w-5 object-contain" />
+                        <Image
+                          src={point.iconUrl}
+                          alt={point.title}
+                          width={20}
+                          height={20}
+                          className="h-5 w-5 object-contain"
+                        />
                       ) : (
                         `0${index + 1}`
                       )}

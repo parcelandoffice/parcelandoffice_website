@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 import Link from "next/link";
 import {
   Compass,
@@ -20,9 +21,9 @@ interface DigitalServicesListProps {
 export default function DigitalServicesList({ service }: DigitalServicesListProps) {
   const { solutions } = service;
 
-  // Icon mapping
-  const getSolutionIcon = (iconName: string) => {
-    switch (iconName) {
+  // Icon mapping from current static template
+  const getSolutionIcon = (iconName: string = "", title: string = "", id: string = "") => {
+    switch (iconName.toLowerCase()) {
       case "strategy":
         return Compass;
       case "content":
@@ -42,9 +43,15 @@ export default function DigitalServicesList({ service }: DigitalServicesListProp
       case "reporting":
       case "performance":
         return BarChart3;
-      default:
-        return Layers;
     }
+    const combined = `${iconName} ${title} ${id}`.toLowerCase();
+    if (combined.includes("strategy") || combined.includes("plan")) return Compass;
+    if (combined.includes("content") || combined.includes("creative")) return Sparkles;
+    if (combined.includes("account") || combined.includes("management") || combined.includes("social") || combined.includes("share")) return Share2;
+    if (combined.includes("paid") || combined.includes("ad") || combined.includes("campaign") || combined.includes("target")) return Target;
+    if (combined.includes("community") || combined.includes("reputation") || combined.includes("brand")) return BadgeCheck;
+    if (combined.includes("analytic") || combined.includes("report") || combined.includes("metric") || combined.includes("chart")) return BarChart3;
+    return Layers;
   };
 
   return (
@@ -53,7 +60,17 @@ export default function DigitalServicesList({ service }: DigitalServicesListProp
         {/* Section Header */}
         <div className="mx-auto max-w-3xl text-center">
           <div className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3.5 py-1 text-xs font-black uppercase tracking-wider text-accent shadow-2xs">
-            <Sparkles className="h-3.5 w-3.5 text-accent-dark" aria-hidden="true" />
+            {service.iconUrl ? (
+              <Image
+                src={service.iconUrl}
+                alt={service.title}
+                width={14}
+                height={14}
+                className="h-3.5 w-3.5 object-contain"
+              />
+            ) : (
+              <Sparkles className="h-3.5 w-3.5 text-accent-dark" aria-hidden="true" />
+            )}
             <span>{solutions.eyebrow || "Our Solutions"}</span>
           </div>
           <h2 className="font-display mt-3 text-3xl font-black tracking-tight text-primary-dark sm:text-4xl lg:text-5xl">
@@ -68,7 +85,7 @@ export default function DigitalServicesList({ service }: DigitalServicesListProp
         {/* Service Cards */}
         <div className="mt-12 sm:mt-14 grid grid-cols-1 gap-6 lg:grid-cols-2 lg:gap-8">
           {solutions.items.map((item: DigitalMarketingSolutionItem, index: number) => {
-            const Icon = getSolutionIcon(item.icon || "");
+            const Icon = getSolutionIcon(item.icon || "", item.title || "", item.id || "");
 
             return (
               <article
@@ -90,7 +107,13 @@ export default function DigitalServicesList({ service }: DigitalServicesListProp
                   <div className="flex items-start gap-4 sm:gap-5">
                     <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-primary-soft text-primary transition-colors duration-300 group-hover:bg-accent-soft group-hover:text-accent-dark overflow-hidden">
                       {item.iconUrl ? (
-                        <img src={item.iconUrl} alt={item.title} className="h-6 w-6 object-contain" />
+                        <Image
+                          src={item.iconUrl}
+                          alt={item.title}
+                          width={24}
+                          height={24}
+                          className="h-6 w-6 object-contain"
+                        />
                       ) : (
                         <Icon className="h-6 w-6" aria-hidden="true" />
                       )}
