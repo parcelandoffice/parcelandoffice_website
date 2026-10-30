@@ -5,6 +5,7 @@ import type { ServiceDetail } from "@/lib/service-details";
 
 export default function PackingTlcSection({ service }: { service: ServiceDetail }) {
   const { packingCommitment } = service;
+  if (!packingCommitment) return null;
 
   return (
     <section className="mt-12 overflow-hidden rounded-3xl border border-primary/20 bg-gradient-to-br from-primary-dark via-primary to-primary-dark text-white p-6 sm:p-8 lg:p-10 shadow-[var(--shadow-card)]">

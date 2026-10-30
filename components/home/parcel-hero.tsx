@@ -95,7 +95,7 @@ export default function ParcelHero({ slides }: { slides?: HeroSlide[] }) {
             className="flex h-full w-full transition-transform duration-500 ease-in-out"
             style={{ transform: `translateX(-${activeSlide * 100}%)` }}
           >
-            {HERO_SLIDES.map((slide, index) => (
+            {heroSlides.map((slide, index) => (
               <div
                 key={index}
                 className="relative min-w-full w-full shrink-0 min-h-[380px] sm:min-h-[440px] lg:min-h-[480px]"
@@ -161,7 +161,7 @@ export default function ParcelHero({ slides }: { slides?: HeroSlide[] }) {
             aria-label="Slider Dots"
             className="absolute bottom-5 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2.5 bg-transparent"
           >
-            {HERO_SLIDES.map((_, index) => (
+            {heroSlides.map((_, index) => (
               <button
                 key={index}
                 role="tab"

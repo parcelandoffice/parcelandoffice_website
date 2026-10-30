@@ -1,7 +1,9 @@
 import { PackageOpen, Send, Radar, type LucideIcon } from "lucide-react";
+import Image from "next/image";
 import RevealCss from "@components/ui/reveal-css";
 import SectionHeading from "@components/ui/section-heading";
 import { HOW_IT_WORKS } from "@/lib/site-data";
+import { getImageUrl } from "@/lib/helpers";
 import type { HomePageData } from "@/lib/types";
 
 const DEFAULT_ICONS = [PackageOpen, Send, Radar];
@@ -20,15 +22,31 @@ export default function HowItWorks({ data }: { data?: HomePageData | null }) {
 
   const steps =
     data?.processSteps && data.processSteps.length > 0
-      ? data.processSteps.map((s, idx) => ({
-          title: s.title,
-          text: s.text,
-          icon: (s.icon && STEP_ICON_MAP[s.icon]) || DEFAULT_ICONS[idx % DEFAULT_ICONS.length],
-        }))
+      ? data.processSteps.map((s, idx) => {
+          let customIconUrl: string | null = null;
+          if (s.icon && typeof s.icon === "object") {
+            customIconUrl = getImageUrl(s.icon);
+          } else if (typeof s.icon === "string" && (s.icon.startsWith("http") || s.icon.startsWith("/"))) {
+            customIconUrl = s.icon;
+          }
+
+          const fallbackIcon =
+            typeof s.icon === "string" && STEP_ICON_MAP[s.icon]
+              ? STEP_ICON_MAP[s.icon]
+              : DEFAULT_ICONS[idx % DEFAULT_ICONS.length];
+
+          return {
+            title: s.title,
+            text: s.text,
+            customIconUrl,
+            fallbackIcon,
+          };
+        })
       : HOW_IT_WORKS.map((s, idx) => ({
           title: s.title,
           text: s.text,
-          icon: DEFAULT_ICONS[idx % DEFAULT_ICONS.length],
+          customIconUrl: null,
+          fallbackIcon: DEFAULT_ICONS[idx % DEFAULT_ICONS.length],
         }));
 
   return (
@@ -55,16 +73,28 @@ export default function HowItWorks({ data }: { data?: HomePageData | null }) {
           />
 
           {steps.map((step, index) => {
-            const Icon = step.icon;
+            const Icon = step.fallbackIcon;
             return (
               <RevealCss as="li" key={step.title} delay={index * 0.1}>
                 <div className="relative flex flex-col items-center text-center p-6 rounded-2xl border border-border bg-surface-muted/50 hover:bg-surface-muted transition-colors">
-                  <span className="relative flex h-16 w-16 items-center justify-center rounded-2xl bg-primary text-on-primary shadow-xs">
-                    <Icon className="h-7 w-7" aria-hidden="true" />
-                    <span className="absolute -top-2 -right-2 flex h-6 w-6 items-center justify-center rounded-full bg-accent text-xs font-black text-on-dark shadow-xs">
+                  <div className="relative flex h-16 w-16 items-center justify-center rounded-2xl bg-primary text-on-primary shadow-xs">
+                    {step.customIconUrl ? (
+                      <div className="relative flex h-8 w-8 items-center justify-center overflow-hidden">
+                        <Image
+                          src={step.customIconUrl}
+                          alt={step.title}
+                          width={32}
+                          height={32}
+                          className="h-8 w-8 object-contain"
+                        />
+                      </div>
+                    ) : (
+                      <Icon className="h-7 w-7" aria-hidden="true" />
+                    )}
+                    <span className="absolute -top-2 -right-2 z-10 flex h-6 w-6 items-center justify-center rounded-full bg-accent text-xs font-black text-white shadow-xs">
                       {index + 1}
                     </span>
-                  </span>
+                  </div>
                   <h3 className="font-display mt-5 text-xl font-bold text-foreground">
                     {step.title}
                   </h3>

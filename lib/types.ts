@@ -60,6 +60,8 @@ export type PracticeAreaItem = {
 export type WhyChooseUsItem = {
   title: string;
   subtitle: string;
+  icon?: any;
+  badge?: string;
 };
 
 export type TrackRecordItem = {
@@ -104,12 +106,12 @@ export type PickupCutoffData = {
 export type WelcomeHighlightData = {
   _key?: string;
   text: string;
-  icon?: string;
+  icon?: any;
 };
 
 export type WelcomeStatData = {
   _key?: string;
-  value: number;
+  value: number | string;
   suffix?: string;
   label: string;
 };
@@ -119,7 +121,7 @@ export type ProcessStepData = {
   stepNumber: number;
   title: string;
   text: string;
-  icon?: string;
+  icon?: any;
 };
 
 export type SanityService = {
@@ -279,6 +281,7 @@ export type HomePageData = {
   // Welcome & Story
   welcomeEyebrow?: string;
   welcomeTitle?: string;
+  welcomeParagraph?: string;
   welcomeParagraphs?: string[];
   welcomeHighlights?: WelcomeHighlightData[];
   welcomeStats?: WelcomeStatData[];
@@ -294,6 +297,33 @@ export type HomePageData = {
   processTitle?: string;
   processDescription?: string;
   processSteps?: ProcessStepData[];
+
+  // Final CTA Banner
+  finalCtaEyebrow?: string;
+  finalCtaTitle?: string;
+  finalCtaDescription?: string;
+  finalCtaPrimaryText?: string;
+  finalCtaPrimaryUrl?: string;
+  finalCtaPhoneText?: string;
+  finalCtaPhoneUrl?: string;
+  finalCtaDirectionsText?: string;
+  finalCtaDirectionsUrl?: string;
+
+  // Contact Section
+  contactTag?: string;
+  contactHeading?: string;
+  contactDescription?: string;
+  contactPhone?: string;
+  contactPhoneHref?: string;
+  contactPhoneSubtext?: string;
+  contactEmail?: string;
+  contactEmailHref?: string;
+  contactEmailSubtext?: string;
+  contactAddress?: string;
+  contactAddressSubtext?: string;
+  contactAddressMapUrl?: string;
+  contactFormSubmitText?: string;
+  contactFormServices?: string[];
 
   // SEO
   metaTitle?: string;
@@ -325,8 +355,10 @@ export type HomePageData = {
   trackRecordDescription?: string;
   trackRecords?: TrackRecordItem[];
   testimonialTag?: string;
+  testimonialBadge?: string;
   testimonialTitle?: string;
   testimonialDescription?: string;
+  testimonialSubtitle?: string;
   testimonials?: HomeTestimonial[];
   faqTag?: string;
   faqTitle?: string;

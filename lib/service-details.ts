@@ -96,13 +96,13 @@ export type ServiceDetail = {
   faqEyebrow?: string;
   faqHeading?: string;
   faqDescription?: string;
-  packingCommitment: {
+  packingCommitment?: {
     title: string;
     quote: string;
     body: string;
     features: string[];
   };
-  todayCutoff: {
+  todayCutoff?: {
     expressTime?: string;
     groundTime?: string;
     notice: string;
@@ -890,128 +890,98 @@ export const SERVICES_DETAILS: Record<string, ServiceDetail> = {
     eyebrow: "Full-Service Document Printing Center",
     heroImage: "/images/printed-menu-showcase.jpg",
     heroBadge: "Digital Print Center",
-    aboutLabel: "ABOUT OUR PRINT SERVICES",
-    aboutTitle: "State-of-the-Art Digital Printing with Flawless Color & Clarity",
+    aboutLabel: "ABOUT OUR SERVICES",
+    aboutTitle: "Fast, Reliable Service at Competitive Rates",
     ctaQuoteLabel: "Get a Printing Quote",
     ctaQuoteHref: "tel:+14105193131",
     ctaStoreLabel: "Visit Our Store",
     ctaStoreHref: "/contact-us",
     quickPerks: [
-      "High-Speed Color & B/W",
-      "Heavy Cardstocks & Gloss Finishes",
-      "No Minimum Quantities",
+      "Fast Turnaround",
+      "Experienced Team",
+      "Competitive Pricing",
     ],
     introParagraphs: [
-      "Whether you need ten color flyers for an upcoming event or five hundred bound presentations for an executive boardroom meeting, Parcel & Office Solutions delivers commercial-grade digital printing right here in Odenton, MD.",
-      "We utilize modern high-resolution digital production presses that reproduce deep, rich blacks and crisp, vibrant colors on a wide selection of premium paper stocks, text weights, and heavy cardstocks.",
-      "From basic copying and PDF printing to full document binding, custom folding, laminating, and cutting, our team handles every project with precision and quick turnarounds.",
+      "At Parcel & Office Solutions in Odenton, MD, we offer printing and document services tailored to individuals, professionals, and local businesses. Whether you need personal documents printed, business materials prepared, or multiple copies of important paperwork, our team can help you find the right solution.",
     ],
     keyHighlights: [
       {
-        title: "High-Resolution Digital Presses",
-        description: "Pin-sharp text, rich color gamuts, and consistent tone for flyers, resumes, and corporate reports.",
-        icon: "printer",
-        badge: "Up to 2400 DPI",
-      },
-      {
-        title: "Booklet Binding & Laminating",
-        description: "Comb binding, spiral coil binding, clear covers, cardstock backings, and thermal lamination.",
-        icon: "layers",
-        badge: "Full Finishing",
-      },
-      {
-        title: "Heavy Stocks & Custom Paper",
-        description: "Choose from 28lb bright white, 80lb/100lb glossy cardstock, linen textures, and pastel colors.",
-        icon: "tag",
-        badge: "Paper Selection",
-      },
-      {
-        title: "Fast Turnaround — No Minimums",
-        description: "Print 1 copy or 1,000 copies. Email your files or bring a USB flash drive for while-you-wait service.",
+        title: "Fast Turnaround",
+        description:
+          "Get your printing completed efficiently, depending on the project requirements, document volume, and service availability.",
         icon: "clock",
-        badge: "Same-Day Service",
+        badge: "Efficient",
+      },
+      {
+        title: "Experienced Team",
+        description:
+          "Receive assistance with printing requirements, document preparation, and available service options.",
+        icon: "shield",
+        badge: "Expert Staff",
+      },
+      {
+        title: "Competitive Pricing",
+        description:
+          "Explore printing solutions based on your document specifications, quantity, paper selection, and finishing requirements.",
+        icon: "tag",
+        badge: "Clear Value",
+      },
+      {
+        title: "One-Stop Convenience",
+        description:
+          "Access printing, copying, scanning, and other document-related services at one convenient location.",
+        icon: "printer",
+        badge: "All-in-One",
       },
     ],
-    servicesOfferedLabel: "PRINTING SOLUTIONS",
-    servicesOfferedTitle: "Full Spectrum of Print & Document Capabilities",
-    servicesOfferedSubtitle: "Explore our versatile printing formats, paper stocks, and professional bindery options.",
+    servicesOfferedLabel: "COMPREHENSIVE PRINTING SOLUTIONS",
+    servicesOfferedTitle: "Our Print & Document Services Capabilities",
+    servicesOfferedSubtitle:
+      "From everyday document printing to professional business materials, we offer printing solutions for a range of personal and commercial needs.",
     servicesList: [
       {
-        name: "Full-Color & B/W Digital Copies",
-        badge: "High-Speed",
-        description: "High-speed sheet-fed copying for training manuals, legal briefs, packets, and everyday paperwork.",
-        speed: "While You Wait",
-        featured: true,
-        price: "From Single Pages to Bulk",
-      },
-      {
-        name: "Brochures, Flyers & Menus",
-        badge: "Marketing",
-        description: "Vibrant tri-fold, bi-fold, or flat marketing flyers on premium glossy or matte cardstocks.",
-        speed: "Same-Day / Next-Day",
-        featured: true,
-        price: "Custom Quantities",
-      },
-      {
-        name: "Comb & Spiral Coil Binding",
-        badge: "Presentations",
-        description: "Professional plastic comb or durable spiral coil binding with clear protective front and vinyl back covers.",
-        speed: "15–30 Minutes",
+        name: "Standard Print Document Services",
+        badge: "Everyday Printing",
+        description:
+          "Print everyday documents, forms, reports, letters, and other paperwork for personal, educational, or professional use.",
+        speed: "Fast Turnaround",
         featured: false,
-        price: "Per Booklet",
+        price: "Standard Solutions",
       },
       {
-        name: "Laminating & Precision Cutting",
-        badge: "Finishing",
-        description: "Durable thermal encapsulation for menus, badges, ID cards, signs, and reference sheets.",
-        speed: "While You Wait",
-        featured: false,
-        price: "All Standard Sizes",
+        name: "Bulk & Commercial Printing Solutions",
+        badge: "Commercial Volume",
+        description:
+          "Prepare larger quantities of printed materials for business communication, marketing campaigns, events, and day-to-day operations.",
+        speed: "Flexible Schedule",
+        featured: true,
+        price: "Bulk Pricing",
       },
     ],
-    shippableItemsLabel: "CAPABILITIES & FORMATS",
-    shippableItemsTitle: "Popular Print Materials & Document Types",
-    shippableItemsSubtitle: "Serving Odenton area contractors, schools, healthcare providers, and local businesses.",
-    shippableImportantNotice: "We accept PDF, DOCX, JPG, PNG, and TIFF formats via USB, email, or direct walk-in.",
+    shippableItemsLabel: "WHAT WE PRINT",
+    shippableItemsTitle: "Common Uses for Print & Document Services",
+    shippableItemsSubtitle:
+      "From personal paperwork to business communication, our printing and document solutions support a variety of needs across Odenton and the surrounding communities.",
+    shippableImportantNotice: "We accept digital files via email, USB, or direct in-store walk-in.",
     shippableCategories: [
       {
-        categoryName: "Corporate & Commercial",
-        icon: "briefcase",
-        items: [
-          "Business reports & proposals",
-          "Sales brochures & product sheets",
-          "Employee handbooks & manuals",
-          "Invoices, receipts & forms",
-        ],
-      },
-      {
-        categoryName: "Marketing & Promotional",
-        icon: "file-text",
-        items: [
-          "Restaurant & takeout menus",
-          "Event flyers & promotional hand-outs",
-          "Postcards & mailers",
-          "Real estate feature sheets",
-        ],
-      },
-      {
-        categoryName: "Personal & Academic",
+        categoryName: "Personal & Family",
         icon: "heart",
         items: [
-          "Professional resumes & CVs",
-          "Funeral programs & memorial booklets",
-          "Church bulletins & newsletters",
-          "School projects & thesis papers",
+          "Personal records and applications",
+          "School and educational documents",
+          "Forms and correspondence",
+          "Copies of eligible personal paperwork",
         ],
       },
       {
-        categoryName: "Finishing & Bindery",
-        icon: "layers",
+        categoryName: "Small Business & Corporate",
+        icon: "briefcase",
         items: [
-          "Lamination (Letter, Legal, Tabloid)",
-          "Plastic comb & coil binding",
-          "Saddle-stitch booklet stapling",
-          "Precision machine cutting & scoring",
+          "Business documents and reports",
+          "Marketing and promotional materials",
+          "Business cards and brochures",
+          "Office paperwork and company handouts",
         ],
       },
     ],
@@ -1367,6 +1337,229 @@ export const SERVICES_DETAILS: Record<string, ServiceDetail> = {
       {
         question: "Can you print physical fingerprint cards (FD-258)?",
         answer: "Yes, if your agency requires hardcopy fingerprint cards, we can capture your prints digitally and print them directly onto official FBI FD-258 cards.",
+      },
+    ],
+  },
+
+  "notary-public": {
+    slug: "notary-public",
+    carrierType: "office",
+    category: "Business & Personal Services",
+    title: "Notary Public in Odenton, MD",
+    shortTitle: "Notary Public",
+    breadcrumbTitle: "Notary Public",
+    headline: "Professional Notary Public Services in Odenton, MD",
+    subheadline:
+      "Convenient, Reliable In-Store Notarization for Legal Documents, Contracts, Affidavits, and Personal Paperwork.",
+    eyebrow: "Certified Maryland Notary Public",
+    heroImage: "/images/small-biz-owner.jpg",
+    heroBadge: "Authorized Notary Center",
+    aboutLabel: "ABOUT OUR SERVICES",
+    aboutTitle: "Convenient Notary Services for Important Documents",
+    ctaQuoteLabel: "Contact Our Notary",
+    ctaQuoteHref: "tel:+14105193131",
+    ctaStoreLabel: "Visit Our Store",
+    ctaStoreHref: "/contact-us",
+    quickPerks: [
+      "Eligible Document Notarization",
+      "Valid ID Verification",
+      "Convenient Odenton Location",
+    ],
+    introParagraphs: [
+      "Parcel & Office Solutions offers notary public services in Odenton, MD, for individuals and businesses who need eligible documents notarized. Whether you are preparing legal paperwork, business documents, permission forms, or other documents requiring notarization, our team can help you understand the next steps.",
+      "Notarization requirements depend on the document, the receiving organization, and applicable Maryland law. Contact the store to confirm availability, identification requirements, and whether an appointment is needed.",
+    ],
+    keyHighlights: [
+      {
+        title: "Personal Documents",
+        description: "Ask about notarization for eligible personal paperwork.",
+        icon: "file-text",
+        badge: "Personal Forms",
+      },
+      {
+        title: "Business Documents",
+        description: "Get assistance with documents requiring notarial services.",
+        icon: "briefcase",
+        badge: "Commercial",
+      },
+      {
+        title: "Identification Requirements",
+        description: "Confirm acceptable identification before your visit.",
+        icon: "shield",
+        badge: "ID Check",
+      },
+      {
+        title: "Convenient In-Store Service",
+        description: "Contact the store to check notary availability.",
+        icon: "map-pin",
+        badge: "Walk-In / Call Ahead",
+      },
+    ],
+    servicesOfferedLabel: "OUR NOTARY SERVICES",
+    servicesOfferedTitle: "Notary Assistance for Common Document Needs",
+    servicesOfferedSubtitle: "Explore our range of notarial assistance for eligible personal and commercial paperwork.",
+    servicesList: [
+      {
+        name: "Legal Documents",
+        badge: "Notarial Act",
+        description: "Ask about notarization for eligible legal paperwork requiring a notarial act.",
+        speed: "In-Store Review",
+        featured: true,
+        price: "Standard State Fee",
+      },
+      {
+        name: "Business and Contract Documents",
+        badge: "Agreements",
+        description: "Explore available notary services for eligible agreements and business documents.",
+        speed: "Business Support",
+        featured: true,
+        price: "Per Signature",
+      },
+      {
+        name: "Real Estate Documents",
+        badge: "Property",
+        description: "Confirm whether the specific real estate document and required notarial act can be handled.",
+        speed: "Consult Required",
+        featured: false,
+        price: "Inquire In-Store",
+      },
+      {
+        name: "Personal and Family Forms",
+        badge: "Family Forms",
+        description: "Ask about eligible school permission forms, medical release forms, and other personal paperwork.",
+        speed: "Quick Service",
+        featured: false,
+        price: "Standard Fee",
+      },
+      {
+        name: "Power of Attorney and Vehicle Documents",
+        badge: "Authorization",
+        description: "Confirm the document's requirements and the notary's ability to perform the requested act before visiting.",
+        speed: "Verification Required",
+        featured: false,
+        price: "Standard Fee",
+      },
+    ],
+    shippableItemsLabel: "COMMON USES",
+    shippableItemsTitle: "Notary Services for Personal and Business Needs",
+    shippableItemsSubtitle: "Serving Odenton and nearby communities with convenient in-store notarial support.",
+    shippableCategories: [
+      {
+        categoryName: "Personal & Family",
+        icon: "heart",
+        items: [
+          "School permission forms",
+          "Eligible medical release documents",
+          "Personal legal paperwork",
+          "Family-related documents requiring notarization",
+        ],
+      },
+      {
+        categoryName: "Small Business & Corporate",
+        icon: "briefcase",
+        items: [
+          "Contracts and agreements",
+          "Business documents",
+          "Eligible real estate paperwork",
+          "Other documents requiring a notarial act",
+        ],
+      },
+    ],
+    checklistTitle: "Prepare Your Documents Before Visiting",
+    checklistItems: [
+      {
+        title: "Complete Document",
+        description: "The complete document requiring notarization, with all pages included.",
+        required: true,
+      },
+      {
+        title: "Valid Photo ID",
+        description: "Acceptable, current identification as required by Maryland law (Driver's License, Passport, etc.).",
+        required: true,
+      },
+      {
+        title: "Receiving Organization Instructions",
+        description: "Any instructions provided by the receiving organization regarding notarial certificates.",
+        required: false,
+      },
+      {
+        title: "All Required Signers",
+        description: "All required signers must be physically present when their presence is necessary.",
+        required: true,
+      },
+    ],
+    processLabel: "HOW IT WORKS",
+    processTitle: "Our Simple In-Store Notarization Process",
+    processSubtitle: "Straightforward, accurate notarial assistance from our commissioned team in Odenton.",
+    processSteps: [
+      {
+        step: "01",
+        title: "Bring Unsigned Documents & ID",
+        description: "Bring your complete, unsigned paperwork and a valid government-issued photo ID.",
+      },
+      {
+        step: "02",
+        title: "Identity & Document Verification",
+        description: "Our notary verifies signers' identities and confirms document eligibility under Maryland law.",
+      },
+      {
+        step: "03",
+        title: "Sign in Notary Presence",
+        description: "Sign your documents in the presence of the commissioned notary public.",
+      },
+      {
+        step: "04",
+        title: "Official Notarial Seal Applied",
+        description: "We apply the official Maryland notary seal and signature, and log the act in our journal.",
+      },
+    ],
+    whyChooseLabel: "WHY CHOOSE US",
+    whyChooseTitle: "Convenient, Trusted Notary Public in Odenton",
+    whyChooseSubtitle: "Save time with easy parking, walk-in availability, and complete business support in one stop.",
+    whyChooseItems: [
+      {
+        title: "Commissioned Maryland Notaries",
+        description: "Knowledgeable notaries adhering strictly to Maryland state notary regulations.",
+        icon: "shield",
+      },
+      {
+        title: "Convenient Location",
+        description: "Located beside Food Lion Supermarket on Piney Orchard Parkway with free front parking.",
+        icon: "map-pin",
+      },
+      {
+        title: "One-Stop Solution",
+        description: "Have your documents copied, scanned, notarized, and shipped in a single visit.",
+        icon: "layers",
+      },
+      {
+        title: "Friendly Professional Care",
+        description: "Attentive assistance to ensure all required document signing steps are handled correctly.",
+        icon: "users",
+      },
+    ],
+    customerAssistanceLabel: "NOTARY ASSISTANCE",
+    customerAssistanceTitle: "Have Questions About Notary Availability or Document Eligibility?",
+    customerAssistanceSubtitle: "Give us a call at (410) 519-3131 to check current notary hours or verify identification requirements before visiting.",
+    faqEyebrow: "HELP & ANSWERS",
+    faqHeading: "Frequently Asked Questions About Notary Services",
+    faqDescription: "Everything you need to know about preparing for your notarization visit:",
+    faqs: [
+      {
+        question: "Do I need to schedule an appointment for notary services?",
+        answer: "We welcome walk-ins! However, because notary schedules may vary, we recommend calling ahead to confirm a commissioned notary is currently on duty.",
+      },
+      {
+        question: "What forms of ID are accepted for notarization in Maryland?",
+        answer: "Maryland law requires a valid, current government-issued photo ID with signature, such as a State Driver's License, State Identification Card, or US Passport.",
+      },
+      {
+        question: "Can I sign the document before coming to the store?",
+        answer: "No. Do not sign or date the document in advance if the notary or receiving organization requires signing in the notary's presence. Signatures must be executed or acknowledged in front of the notary.",
+      },
+      {
+        question: "Can a notary provide legal advice or choose which notarial act I need?",
+        answer: "No. Notaries are not attorneys and cannot provide legal advice or determine whether a document is legally appropriate for your situation. Please consult the document issuer or an attorney.",
       },
     ],
   },

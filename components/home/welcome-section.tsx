@@ -3,6 +3,8 @@ import AnimatedCounter from "@components/ui/animated-counter";
 import RevealCss from "@components/ui/reveal-css";
 import SectionHeading from "@components/ui/section-heading";
 import { HOME_STATS } from "@/lib/site-data";
+import Image from "next/image";
+import { getImageUrl } from "@/lib/helpers";
 
 import type { HomePageData } from "@/lib/types";
 
@@ -23,8 +25,10 @@ const ICON_MAP: Record<string, any> = {
 export default function WelcomeSection({ data }: { data?: HomePageData | null }) {
   const eyebrow = data?.welcomeEyebrow || "About Us";
   const title = data?.welcomeTitle || "Parcel & Office Solutions — it's handled!";
-  const paragraphs =
-    data?.welcomeParagraphs && data.welcomeParagraphs.length > 0
+  const paragraphs: string[] =
+    typeof data?.welcomeParagraph === "string" && data.welcomeParagraph.trim()
+      ? data.welcomeParagraph.split("\n\n").filter(Boolean)
+      : data?.welcomeParagraphs && data.welcomeParagraphs.length > 0
       ? data.welcomeParagraphs
       : [
           "Located at 8777 Piney Orchard Pkwy Ste B beside Food Lion Supermarket, Odenton MD, we are the go-to resource for packing, shipping, printing and business service needs of the residents and businesses of Odenton. Our team of dedicated, professionally trained experts understands the meaning of super-star customer care — we focus on saving you time and money by ensuring you get the right products and services at the right price.",
@@ -33,19 +37,44 @@ export default function WelcomeSection({ data }: { data?: HomePageData | null })
 
   const highlights =
     data?.welcomeHighlights && data.welcomeHighlights.length > 0
-      ? data.welcomeHighlights.map((h) => ({
-          icon: (h.icon && ICON_MAP[h.icon]) || Boxes,
+      ? data.welcomeHighlights.map((h, idx) => {
+          let customIconUrl: string | null = null;
+          if (h.icon && typeof h.icon === "object") {
+            customIconUrl = getImageUrl(h.icon as any);
+          } else if (typeof h.icon === "string" && (h.icon.startsWith("http") || h.icon.startsWith("/"))) {
+            customIconUrl = h.icon;
+          }
+
+          const fallbackIcon =
+            typeof h.icon === "string" && ICON_MAP[h.icon]
+              ? ICON_MAP[h.icon]
+              : HIGHLIGHTS[idx % HIGHLIGHTS.length]?.icon || Boxes;
+
+          return {
+            text: h.text,
+            customIconUrl,
+            fallbackIcon,
+          };
+        })
+      : HIGHLIGHTS.map((h) => ({
           text: h.text,
-        }))
-      : HIGHLIGHTS;
+          customIconUrl: null,
+          fallbackIcon: h.icon,
+        }));
 
   const stats =
     data?.welcomeStats && data.welcomeStats.length > 0
-      ? data.welcomeStats.map((s) => ({
-          value: s.value,
-          suffix: s.suffix || "",
-          label: s.label,
-        }))
+      ? data.welcomeStats.map((s) => {
+          const rawVal = String(s.value ?? "");
+          const numMatch = rawVal.match(/[\d.]+/);
+          const parsedNum = numMatch ? parseFloat(numMatch[0]) : 0;
+          const parsedSuffix = s.suffix || rawVal.replace(/[\d.\s]/g, "") || "";
+          return {
+            value: parsedNum,
+            suffix: parsedSuffix,
+            label: s.label,
+          };
+        })
       : HOME_STATS;
 
   return (
@@ -68,13 +97,23 @@ export default function WelcomeSection({ data }: { data?: HomePageData | null })
         ))}
 
         <ul className="mt-7 grid gap-3 sm:grid-cols-2">
-          {highlights.map(({ icon: Icon, text }) => (
+          {highlights.map(({ text, customIconUrl, fallbackIcon: Icon }) => (
             <li
               key={text}
               className="flex items-start gap-3 rounded-xl border border-border bg-surface p-3.5 text-sm font-medium text-secondary transition-all duration-300 hover:border-primary/40 hover:shadow-[var(--shadow-card)]"
             >
-              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary-soft text-primary">
-                <Icon className="h-4 w-4" aria-hidden="true" />
+              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary-soft text-primary overflow-hidden">
+                {customIconUrl ? (
+                  <Image
+                    src={customIconUrl}
+                    alt={text}
+                    width={20}
+                    height={20}
+                    className="h-4 w-4 object-contain"
+                  />
+                ) : (
+                  <Icon className="h-4 w-4" aria-hidden="true" />
+                )}
               </span>
               {text}
             </li>

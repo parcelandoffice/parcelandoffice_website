@@ -1,13 +1,13 @@
 import React from "react";
 import type { ServiceDetail } from "@/lib/service-details";
 import ServiceHero from "@components/services/service-hero";
-import ServiceAboutSection from "@components/services/service-about-section";
-import SampleServiceTiers from "@components/services/sample-ui/sample-service-tiers";
-import SampleRequirementsGuide from "@components/services/sample-ui/sample-requirements-guide";
-import SampleFeaturesGrid from "@components/services/sample-ui/sample-features-grid";
-import SampleProcessWorkflow from "@components/services/sample-ui/sample-process-workflow";
-import ServiceWhyChoose from "@components/services/service-why-choose";
 import ServiceFaq from "@components/services/service-faq";
+import NotaryAbout from "@components/services/notary/notary-about";
+import NotaryServices from "@components/services/notary/notary-services";
+import NotaryCommonUses from "@components/services/notary/notary-common-uses";
+import NotaryRequirements from "@components/services/notary/notary-requirements";
+import NotaryProcess from "@components/services/notary/notary-process";
+import NotaryWhyChoose from "@components/services/notary/notary-why-choose";
 import ServiceCustomerAssistance from "@components/services/service-customer-assistance";
 
 export default function BusinessPersonalTemplate({
@@ -23,32 +23,32 @@ export default function BusinessPersonalTemplate({
       {/* 2. Main Full-Width Content Container */}
       <div className="bg-surface py-10 sm:py-14 lg:py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <main className="w-full min-w-0">
-            {/* 1. About Our Service Section (Common) */}
-            <ServiceAboutSection service={service} />
+          <main className="w-full min-w-0 space-y-14 sm:space-y-18 lg:space-y-20">
+            {/* 2. About Our Notary Public Services */}
+            <NotaryAbout />
 
-            {/* 2. Available Service Tiers & Packages */}
-            <SampleServiceTiers service={service} />
+            {/* 3. Notary Public Services */}
+            <NotaryServices />
 
-            {/* 3. What to Bring & Checklist Requirements */}
-            <SampleRequirementsGuide service={service} />
+            {/* 4. Common Uses for Notary Services */}
+            <NotaryCommonUses />
 
-            {/* 4. Common Uses, Licensing & Eligible Purposes */}
-            <SampleFeaturesGrid service={service} />
+            {/* 5. What to Bring for Notarization */}
+            <NotaryRequirements />
 
-            {/* 5. In-Store Step-by-Step Process */}
-            <SampleProcessWorkflow service={service} />
+            {/* 6. How Our Notary Process Works */}
+            <NotaryProcess />
 
-            {/* 6. Why Choose Parcel & Office Solutions (Common) */}
-            <ServiceWhyChoose service={service} />
+            {/* 7. Why Choose Parcel & Office Solutions */}
+            <NotaryWhyChoose />
 
-            {/* 7. Frequently Asked Questions (Common) */}
+            {/* 8. Frequently Asked Questions (Common as in dhl-shipping) */}
             <ServiceFaq service={service} />
           </main>
         </div>
       </div>
 
-      {/* 8. Customer Assistance and Final CTA (Common) */}
+      {/* 9. Customer Assistance and Final CTA (Common as in dhl-shipping) */}
       <ServiceCustomerAssistance service={service} />
     </>
   );
