@@ -29,7 +29,7 @@ export default function ServiceHero({ service }: { service: ServiceDetail }) {
     service.title.split(" in ")[0];
 
   const cutoffTime =
-    service.todayCutoff.expressTime ||
+    service.todayCutoff?.expressTime ||
     (isDHL ? "5:30 PM" : isFedEx ? "6:00 PM" : isUPS ? "5:30 PM" : "Confirmed Daily Cutoff");
 
   const quoteLabel =

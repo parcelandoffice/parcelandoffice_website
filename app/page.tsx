@@ -74,9 +74,9 @@ export default async function Home() {
 
       {/* 7. Client Testimonials */}
       <Testimonials
-        testimonialTag={homeData?.testimonialTag}
+        testimonialTag={homeData?.testimonialTag || homeData?.testimonialBadge}
         testimonialTitle={homeData?.testimonialTitle}
-        testimonialDescription={homeData?.testimonialDescription}
+        testimonialDescription={homeData?.testimonialDescription || homeData?.testimonialSubtitle}
         testimonials={homeData?.testimonials}
       />
 
@@ -90,10 +90,10 @@ export default async function Home() {
       />
 
       {/* 9. Final Call to Action Banner */}
-      <FinalCta />
+      <FinalCta data={homeData} />
 
       {/* 10. Contact & Inquiry Section */}
-      <ContactCtaSection />
+      <ContactCtaSection homeData={homeData} />
     </>
   );
 }

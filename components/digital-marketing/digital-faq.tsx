@@ -1,8 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import Image from "next/image";
-import { ChevronDown, Sparkles } from "lucide-react";
+import { ChevronDown, HelpCircle } from "lucide-react";
 import type { DigitalMarketingServiceData } from "@/lib/digital-marketing-data";
 
 interface DigitalFaqProps {
@@ -19,33 +18,36 @@ export default function DigitalFaq({ service }: DigitalFaqProps) {
     setOpenIndex((prev) => (prev === index ? null : index));
   };
 
+  const eyebrow = faqs.eyebrow || "Help & Answers";
+  const heading = faqs.heading || "Frequently Asked Questions";
+  const description =
+    faqs.description ||
+    "Got questions about our services? Here is what you need to know:";
+
   return (
-    <section id="faqs" className="bg-surface-muted/40 py-14 sm:py-20 lg:py-24 border-t border-border">
+    <section
+      id="faqs"
+      aria-labelledby="digital-faq-heading"
+      className="bg-surface-muted/40 py-14 sm:py-20 lg:py-24 border-t border-border"
+    >
       <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto">
           <div className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3.5 py-1 text-xs font-black uppercase tracking-wider text-accent shadow-2xs">
-            {service.iconUrl ? (
-              <Image
-                src={service.iconUrl}
-                alt={service.title}
-                width={14}
-                height={14}
-                className="h-3.5 w-3.5 object-contain"
-              />
-            ) : (
-              <Sparkles className="h-3.5 w-3.5 text-accent-dark" aria-hidden="true" />
-            )}
-            <span>{faqs.eyebrow}</span>
+            <HelpCircle className="h-3.5 w-3.5 text-accent-dark" aria-hidden="true" />
+            <span>{eyebrow}</span>
           </div>
 
-          <h2 className="font-display mt-3 text-3xl font-black tracking-tight text-primary-dark sm:text-4xl">
-            {faqs.heading}
+          <h2
+            id="digital-faq-heading"
+            className="font-display mt-3 text-3xl font-black tracking-tight text-primary-dark sm:text-4xl"
+          >
+            {heading}
           </h2>
 
-          {faqs.description && (
+          {description && (
             <p className="mt-3 text-base sm:text-lg text-muted leading-relaxed">
-              {faqs.description}
+              {description}
             </p>
           )}
         </div>
@@ -54,8 +56,8 @@ export default function DigitalFaq({ service }: DigitalFaqProps) {
         <div className="mt-10 sm:mt-12 space-y-3.5">
           {faqs.items.map((item, idx) => {
             const isOpen = openIndex === idx;
-            const questionId = `faq-question-${idx}`;
-            const answerId = `faq-answer-${idx}`;
+            const questionId = `service-faq-question-${idx}`;
+            const answerId = `service-faq-answer-${idx}`;
 
             return (
               <div
@@ -93,6 +95,7 @@ export default function DigitalFaq({ service }: DigitalFaqProps) {
                     className={`h-5 w-5 shrink-0 text-muted transition-transform duration-300 ${
                       isOpen ? "rotate-180 text-accent" : ""
                     }`}
+                    aria-hidden="true"
                   />
                 </button>
 

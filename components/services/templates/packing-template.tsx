@@ -8,7 +8,7 @@ import PackingSupplies from "@components/services/packing/packing-supplies";
 import PackingProcess from "@components/services/packing/packing-process";
 import PackingWhyChoose from "@components/services/packing/packing-why-choose";
 import ServiceFaq from "@components/services/service-faq";
-import PackingCustomerAssistance from "@components/services/packing/packing-customer-assistance";
+import ServiceCustomerAssistance from "@components/services/service-customer-assistance";
 
 export default function PackingTemplate({
   service,
@@ -42,14 +42,14 @@ export default function PackingTemplate({
             {/* 7. Why Choose Parcel & Office Solutions? */}
             <PackingWhyChoose />
 
-            {/* 8. Frequently Asked Questions (Kept as per current integration) */}
+            {/* 8. Frequently Asked Questions (Common as in dhl-shipping) */}
             <ServiceFaq service={service} />
-
-            {/* 9. Customer Assistance and Final CTA */}
-            <PackingCustomerAssistance />
           </main>
         </div>
       </div>
+
+      {/* 9. Customer Assistance and Final CTA (Common as in dhl-shipping) */}
+      <ServiceCustomerAssistance service={service} />
     </>
   );
 }

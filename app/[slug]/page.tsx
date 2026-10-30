@@ -3,7 +3,7 @@ import {
   getItServiceBySlug
 } from "@/lib/apis";
 import { BUSINESS, SITE_NAME } from "@/lib/site-data";
-import DigitalCta from "@components/digital-marketing/digital-cta";
+import FinalCta from "@components/home/final-cta";
 import DigitalFaq from "@components/digital-marketing/digital-faq";
 import DigitalHero from "@components/digital-marketing/digital-hero";
 import DigitalIndustries from "@components/digital-marketing/digital-industries";
@@ -160,8 +160,8 @@ export default async function DigitalMarketingServiceUsaPage({ params }: Props) 
         {/* Section 9: Frequently Asked Questions */}
         {service.showFaqs !== false && <DigitalFaq service={service} />}
 
-        {/* Section 10: Final Call to Action */}
-        {service.showFinalCta !== false && <DigitalCta service={service} />}
+        {/* Section 10: Final Call to Action (Common as in dhl-shipping) */}
+        {service.showFinalCta !== false && <FinalCta />}
       </main>
     </>
   );

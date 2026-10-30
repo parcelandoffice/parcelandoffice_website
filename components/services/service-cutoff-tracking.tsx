@@ -34,7 +34,7 @@ export default function ServiceCutoffTracking({
     "https://www.dhl.com/us-en/home/tracking/tracking-express.html";
 
   const cutoffTime =
-    service.todayCutoff.expressTime ||
+    service.todayCutoff?.expressTime ||
     (isDHL ? "5:30 PM (Mon – Fri)" : "Daily Scheduled Pickup");
 
   const handleTrackSubmit = (e: React.FormEvent) => {

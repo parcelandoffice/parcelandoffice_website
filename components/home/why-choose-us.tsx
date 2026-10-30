@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import {
   ArrowRight,
   Boxes,
@@ -16,11 +17,13 @@ import {
 import type { HomePageData } from "@/lib/types";
 import RevealCss from "@components/ui/reveal-css";
 import { BUSINESS } from "@/lib/site-data";
+import { getImageUrl } from "@/lib/helpers";
 
 interface WhyChooseItem {
   title: string;
   subtitle: string;
   icon: LucideIcon;
+  customIconUrl?: string | null;
   badge?: string;
 }
 
@@ -85,12 +88,22 @@ export default function WhyChooseUs({
   // If Sanity provides items, map them or fallback to our curated 5 points
   const items: WhyChooseItem[] =
     activeData?.whyChooseUsItems && activeData.whyChooseUsItems.length > 0
-      ? activeData.whyChooseUsItems.map((item, index) => ({
-        title: item.title,
-        subtitle: item.subtitle,
-        icon: DEFAULT_ITEMS[index % DEFAULT_ITEMS.length].icon,
-        badge: `0${index + 1}`,
-      }))
+      ? activeData.whyChooseUsItems.map((item, index) => {
+          let customIconUrl: string | null = null;
+          if (item.icon && typeof item.icon === "object") {
+            customIconUrl = getImageUrl(item.icon);
+          } else if (typeof item.icon === "string" && (item.icon.startsWith("http") || item.icon.startsWith("/"))) {
+            customIconUrl = item.icon;
+          }
+
+          return {
+            title: item.title,
+            subtitle: item.subtitle,
+            icon: DEFAULT_ITEMS[index % DEFAULT_ITEMS.length].icon,
+            customIconUrl,
+            badge: item.badge || `0${index + 1}`,
+          };
+        })
       : DEFAULT_ITEMS;
 
   return (
@@ -98,34 +111,24 @@ export default function WhyChooseUs({
       id="why-choose-us"
       className="relative overflow-hidden bg-surface py-16 sm:py-20 lg:py-24 border-b border-border"
     >
-      {/* Decorative background glow accents */}
-      <div
-        className="pointer-events-none absolute -top-32 -left-32 h-80 w-80 rounded-full bg-primary/5 blur-3xl"
-        aria-hidden="true"
-      />
-      <div
-        className="pointer-events-none absolute -bottom-32 -right-32 h-80 w-80 rounded-full bg-accent/5 blur-3xl"
-        aria-hidden="true"
-      />
-
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:items-center">
-          {/* Left Column: Heading, Proposition, CTA, Trust Highlights (5 Cols) */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+          {/* Left Column: Heading, Subtitle & Interactive Stats (5 Cols) */}
           <div className="lg:col-span-5">
             <RevealCss direction="right">
               {/* Eyebrow Pill */}
-              <div className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3.5 py-1 text-xs font-black uppercase tracking-wider text-accent shadow-2xs">
-                <Sparkles className="h-3.5 w-3.5 text-accent" aria-hidden="true" />
+              <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3.5 py-1 text-xs font-black uppercase tracking-wider text-primary">
+                <Sparkles className="h-3.5 w-3.5 text-accent" />
                 <span>{eyebrow}</span>
               </div>
 
-              {/* Headline Title */}
-              <h2 className="font-display mt-4 text-3xl font-black tracking-tight text-primary-dark sm:text-4xl lg:text-[42px] lg:leading-[1.15]">
+              {/* Section Headline */}
+              <h2 className="font-display mt-4 text-3xl font-black tracking-tight text-primary-dark sm:text-4xl lg:text-4xl lg:leading-tight">
                 {title}
               </h2>
 
               {/* Description */}
-              <p className="mt-4 text-base sm:text-lg text-muted leading-relaxed">
+              <p className="mt-4 text-base text-muted leading-relaxed">
                 {description}
               </p>
 
@@ -167,8 +170,18 @@ export default function WhyChooseUs({
                     >
                       {/* Icon & Number Badge */}
                       <div className="relative shrink-0">
-                        <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary-soft text-primary transition-all duration-300 group-hover:bg-primary group-hover:text-accent shadow-2xs">
-                          <Icon className="h-5 w-5" aria-hidden="true" />
+                        <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary-soft text-primary transition-all duration-300 group-hover:bg-primary group-hover:text-accent shadow-2xs overflow-hidden">
+                          {item.customIconUrl ? (
+                            <Image
+                              src={item.customIconUrl}
+                              alt={item.title}
+                              width={24}
+                              height={24}
+                              className="h-5 w-5 object-contain"
+                            />
+                          ) : (
+                            <Icon className="h-5 w-5" aria-hidden="true" />
+                          )}
                         </span>
                         <span className="absolute -top-1.5 -right-1.5 flex h-4.5 w-4.5 items-center justify-center rounded-full bg-accent text-[10px] font-black text-on-dark shadow-2xs">
                           {item.badge}
@@ -180,12 +193,10 @@ export default function WhyChooseUs({
                         <h3 className="font-display text-base font-extrabold text-primary-dark group-hover:text-primary transition-colors">
                           {item.title}
                         </h3>
-                        <p className="mt-1.5 text-xs sm:text-[13.5px] text-muted leading-relaxed">
+                        <p className="mt-1 text-xs sm:text-sm text-muted leading-relaxed">
                           {item.subtitle}
                         </p>
                       </div>
-
-                      <CheckCircle2 className="h-4.5 w-4.5 shrink-0 text-accent opacity-60 group-hover:opacity-100 transition-opacity stroke-[2.5] mt-1" />
                     </div>
                   );
                 })}
