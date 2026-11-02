@@ -52,7 +52,7 @@ export default function ContactCta({
   const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [faxCopied, setFaxCopied] = useState(false);
+  const [emailCopied, setEmailCopied] = useState(false);
 
   const phoneHref = BUSINESS.phoneHref;
   const tag = contactCtaData?.tag ?? DEFAULT_TAG;
@@ -73,11 +73,11 @@ export default function ContactCta({
     }
   };
 
-  const handleCopyFax = () => {
+  const handleCopyEmail = () => {
     if (navigator?.clipboard?.writeText) {
-      navigator.clipboard.writeText(BUSINESS.fax);
-      setFaxCopied(true);
-      setTimeout(() => setFaxCopied(false), 2000);
+      navigator.clipboard.writeText(BUSINESS.email);
+      setEmailCopied(true);
+      setTimeout(() => setEmailCopied(false), 2000);
     }
   };
 
@@ -383,12 +383,12 @@ export default function ContactCta({
 
         {/* 2. Key Contact Cards Grid (Address, Fax, Phone, Email, Store Hours) */}
         <section className="relative -mt-6 sm:-mt-8 z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {/* Card 1: Address & Company Name */}
             <div className="group rounded-2xl border border-border bg-surface p-5 shadow-[var(--shadow-card)] transition-all duration-300 hover:border-accent/40 hover:shadow-[var(--shadow-card-hover)] hover:-translate-y-0.5 flex flex-col justify-between">
               <div>
                 <div className="flex items-center justify-between mb-3">
-                  <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary-soft text-primary shadow-2xs transition-all duration-300 group-hover:bg-accent group-hover:text-white group-hover:scale-110 group-hover:shadow-[0_4px_12px_rgba(255,140,0,0.35)]">
+                  <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary-soft text-primary shadow-2xs transition-all duration-300 group-hover:bg-accent group-hover:text-white group-hover:scale-110 group-hover:shadow-[0_4px_12px_rgba(242,77,2,0.35)]">
                     <MapPin className="h-5 w-5 transition-transform duration-300" />
                   </span>
                   <span className="text-[11px] font-bold uppercase tracking-wider text-muted">
@@ -419,23 +419,20 @@ export default function ContactCta({
               </a>
             </div>
 
-            {/* Card 2: Phone & Fax Number */}
+            {/* Card 2: Phone & Email */}
             <div className="group rounded-2xl border border-border bg-surface p-5 shadow-[var(--shadow-card)] transition-all duration-300 hover:border-accent/40 hover:shadow-[var(--shadow-card-hover)] hover:-translate-y-0.5 flex flex-col justify-between">
               <div>
                 <div className="flex items-center justify-between mb-3">
-                  <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary-soft text-primary shadow-2xs transition-all duration-300 group-hover:bg-accent group-hover:text-white group-hover:scale-110 group-hover:shadow-[0_4px_12px_rgba(255,140,0,0.35)]">
+                  <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary-soft text-primary shadow-2xs transition-all duration-300 group-hover:bg-accent group-hover:text-white group-hover:scale-110 group-hover:shadow-[0_4px_12px_rgba(242,77,2,0.35)]">
                     <PhoneCall className="h-5 w-5 transition-transform duration-300" />
                   </span>
                   <span className="text-[11px] font-bold uppercase tracking-wider text-muted">
-                    Phone &amp; Fax
+                    Phone &amp; Email
                   </span>
                 </div>
                 <span className="block text-xs font-bold text-muted uppercase tracking-wider">
-                  Call or Fax
+                  Call or Email
                 </span>
-                <h3 className="mt-1 font-display text-base font-bold text-secondary">
-                  Direct Inquiries
-                </h3>
 
                 <div className="mt-2 space-y-2 text-xs">
                   <div>
@@ -448,54 +445,46 @@ export default function ContactCta({
                     </a>
                   </div>
 
-                  <div className="pt-1 border-t border-border/60 flex items-center justify-between">
-                    <div>
-                      <span className="text-[11px] font-semibold text-muted block">Fax Number:</span>
-                      <span className="font-bold text-foreground text-sm flex items-center gap-1.5">
-                        <Printer className="h-3.5 w-3.5 text-muted" />
-                        {BUSINESS.fax}
-                      </span>
+                  <div className="pt-2 border-t border-border/60">
+                    <div className="flex items-center justify-between mb-1">
+                      <span className="text-[11px] font-semibold text-muted">Email Address:</span>
+                      <button
+                        type="button"
+                        onClick={handleCopyEmail}
+                        aria-label="Copy Email Address"
+                        className="inline-flex items-center gap-1 rounded-lg border border-border bg-surface-muted px-2 py-0.5 text-[11px] font-semibold text-secondary hover:bg-surface-subtle transition-colors cursor-pointer shrink-0"
+                      >
+                        {emailCopied ? (
+                          <>
+                            <Check className="h-3 w-3 text-success" />
+                            <span className="text-success">Copied</span>
+                          </>
+                        ) : (
+                          <>
+                            <Copy className="h-3 w-3" />
+                            <span>Copy</span>
+                          </>
+                        )}
+                      </button>
                     </div>
-                    <button
-                      type="button"
-                      onClick={handleCopyFax}
-                      aria-label="Copy Fax Number"
-                      className="inline-flex items-center gap-1 rounded-lg border border-border bg-surface-muted px-2 py-1 text-[11px] font-semibold text-secondary hover:bg-surface-subtle transition-colors cursor-pointer"
+                    <a
+                      href={`mailto:${BUSINESS.email}`}
+                      className="font-bold text-foreground hover:text-primary transition-colors text-xs sm:text-sm flex items-center gap-1.5 break-all"
+                      title={BUSINESS.email}
                     >
-                      {faxCopied ? (
-                        <>
-                          <Check className="h-3 w-3 text-success" />
-                          <span className="text-success">Copied</span>
-                        </>
-                      ) : (
-                        <>
-                          <Copy className="h-3 w-3" />
-                          <span>Copy</span>
-                        </>
-                      )}
-                    </button>
+                      <Mail className="h-3.5 w-3.5 text-muted shrink-0" />
+                      <span className="truncate">{BUSINESS.email}</span>
+                    </a>
                   </div>
                 </div>
-              </div>
-
-              <div className="mt-4 pt-2 border-t border-border/60">
-                <a
-                  href={`https://wa.me/${BUSINESS.whatsappNumber}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 text-xs font-bold text-whatsapp hover:brightness-110 transition-colors"
-                >
-                  <MessageSquare className="h-3.5 w-3.5" />
-                  <span>WhatsApp: (410) 519-3131</span>
-                </a>
               </div>
             </div>
 
             {/* Card 3: Email Address */}
-            <div className="group rounded-2xl border border-border bg-surface p-5 shadow-[var(--shadow-card)] transition-all duration-300 hover:border-accent/40 hover:shadow-[var(--shadow-card-hover)] hover:-translate-y-0.5 flex flex-col justify-between">
+            {/* <div className="group rounded-2xl border border-border bg-surface p-5 shadow-[var(--shadow-card)] transition-all duration-300 hover:border-accent/40 hover:shadow-[var(--shadow-card-hover)] hover:-translate-y-0.5 flex flex-col justify-between">
               <div>
                 <div className="flex items-center justify-between mb-3">
-                  <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary-soft text-primary shadow-2xs transition-all duration-300 group-hover:bg-accent group-hover:text-white group-hover:scale-110 group-hover:shadow-[0_4px_12px_rgba(255,140,0,0.35)]">
+                  <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary-soft text-primary shadow-2xs transition-all duration-300 group-hover:bg-accent group-hover:text-white group-hover:scale-110 group-hover:shadow-[0_4px_12px_rgba(242,77,2,0.35)]">
                     <Mail className="h-5 w-5 transition-transform duration-300" />
                   </span>
                   <span className="text-[11px] font-bold uppercase tracking-wider text-muted">
@@ -531,13 +520,13 @@ export default function ContactCta({
                 <span>Write to Us</span>
                 <ExternalLink className="h-3.5 w-3.5" />
               </a>
-            </div>
+            </div> */}
 
             {/* Card 4: Store Hours */}
             <div className="group rounded-2xl border border-border bg-surface p-5 shadow-[var(--shadow-card)] transition-all duration-300 hover:border-accent/40 hover:shadow-[var(--shadow-card-hover)] hover:-translate-y-0.5 flex flex-col justify-between">
               <div>
                 <div className="flex items-center justify-between mb-3">
-                  <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary-soft text-primary shadow-2xs transition-all duration-300 group-hover:bg-accent group-hover:text-white group-hover:scale-110 group-hover:shadow-[0_4px_12px_rgba(255,140,0,0.35)]">
+                  <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary-soft text-primary shadow-2xs transition-all duration-300 group-hover:bg-accent group-hover:text-white group-hover:scale-110 group-hover:shadow-[0_4px_12px_rgba(242,77,2,0.35)]">
                     <Clock className="h-5 w-5 transition-transform duration-300" />
                   </span>
                   <span className="inline-flex items-center gap-1 rounded-full bg-success/15 px-2 py-0.5 text-[10px] font-bold text-success uppercase">

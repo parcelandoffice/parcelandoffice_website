@@ -106,7 +106,7 @@ export default function PrintingCapabilities() {
                       <span
                         className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl transition-colors duration-200 ${
                           isFeatured
-                            ? "bg-primary text-white group-hover:bg-accent group-hover:text-primary-dark"
+                            ? "bg-primary text-white group-hover:bg-accent group-hover:text-white"
                             : "bg-primary-soft text-primary group-hover:bg-primary group-hover:text-white"
                         }`}
                       >

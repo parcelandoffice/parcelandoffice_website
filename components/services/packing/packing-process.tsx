@@ -68,7 +68,7 @@ export default function PackingProcess() {
               <div>
                 {/* Step Header with Circle & Tag */}
                 <div className="flex items-center justify-between gap-2 border-b border-border/70 pb-4">
-                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-primary text-white font-display text-base font-black shadow-2xs group-hover:bg-accent group-hover:text-primary-dark transition-colors duration-200">
+                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-primary text-white font-display text-base font-black shadow-2xs group-hover:bg-accent group-hover:text-white transition-colors duration-200">
                     {item.step}
                   </span>
 

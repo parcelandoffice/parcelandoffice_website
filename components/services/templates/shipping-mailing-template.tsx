@@ -19,45 +19,63 @@ export default function ShippingMailingTemplate({
 }) {
   return (
     <>
-      {/* 1. Hero Showcase Section (Common) */}
-      <ServiceHero service={service} />
+      {/* 1. Hero Showcase Section */}
+      {service.showHero !== false && <ServiceHero service={service} />}
 
       {/* 2. Main Full-Width Content Container */}
       <div className="bg-surface py-10 sm:py-14 lg:py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <main className="w-full min-w-0">
             {/* 1. Daily Shipping Cutoff Times and Tracking */}
-            <ServiceCutoffTracking service={service} />
+            {service.showCutoffTracking !== false && (
+              <ServiceCutoffTracking service={service} />
+            )}
 
-            {/* 2. About Our Service Section (Common) */}
-            <ServiceAboutSection service={service} />
+            {/* 2. About Our Service Section */}
+            {service.showAbout !== false && (
+              <ServiceAboutSection service={service} />
+            )}
 
-            {/* 3. Service Tiers Grid (e.g. 11 FedEx Tiers / DHL / UPS) */}
-            <ServiceTiersGrid service={service} />
+            {/* 3. Service Tiers Grid */}
+            {service.showServicesOffered !== false && (
+              <ServiceTiersGrid service={service} />
+            )}
 
             {/* 4. Categorized Shippable Items */}
-            <ShippableItemsGrid service={service} />
+            {service.showShippableItems !== false && (
+              <ShippableItemsGrid service={service} />
+            )}
 
             {/* 5. International Shipping Destinations */}
-            <ServiceDestinationsSection service={service} />
+            {service.showDestinations !== false && (
+              <ServiceDestinationsSection service={service} />
+            )}
 
             {/* 6. Shipping Options and Requirements */}
-            <ServiceRequirementsSection service={service} />
+            {service.showRequirements !== false && (
+              <ServiceRequirementsSection service={service} />
+            )}
 
             {/* 7. How Our Shipping Process Works */}
-            <ServiceProcessSteps service={service} />
+            {service.showProcess !== false && (
+              <ServiceProcessSteps service={service} />
+            )}
 
-            {/* 8. Why Choose Parcel & Office Solutions (Common) */}
-            <ServiceWhyChoose service={service} />
+            {/* 8. Why Choose Parcel & Office Solutions */}
+            {service.showWhyChoose !== false && (
+              <ServiceWhyChoose service={service} />
+            )}
 
-            {/* 9. Frequently Asked Questions (Common) */}
-            <ServiceFaq service={service} />
+            {/* 9. Frequently Asked Questions */}
+            {service.showFaqs !== false && <ServiceFaq service={service} />}
           </main>
         </div>
       </div>
 
-      {/* 10. Customer Assistance and Final CTA (Common) */}
-      <ServiceCustomerAssistance service={service} />
+      {/* 10. Customer Assistance and Final CTA */}
+      {service.showFinalCta !== false && (
+        <ServiceCustomerAssistance service={service} />
+      )}
     </>
   );
 }

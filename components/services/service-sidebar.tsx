@@ -204,7 +204,7 @@ export default function ServiceSidebar({ currentSlug }: { currentSlug: string })
           />
           <button
             type="submit"
-            className="group flex w-full items-center justify-center gap-1.5 rounded-xl bg-primary px-3 py-2 text-xs font-bold text-white transition-all hover:bg-accent hover:text-primary-dark shadow-2xs cursor-pointer"
+            className="group flex w-full items-center justify-center gap-1.5 rounded-xl bg-primary px-3 py-2 text-xs font-bold text-white transition-all hover:bg-accent hover:text-white shadow-2xs cursor-pointer"
           >
             <span>Track on FedEx</span>
             <ExternalLink className="h-3 w-3" />

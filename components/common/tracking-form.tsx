@@ -95,10 +95,10 @@ export default function TrackingForm({
         </div>
         <button
           type="submit"
-          className="inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-accent hover:bg-accent-dark px-7 text-sm font-extrabold text-primary-dark transition-all duration-200 hover:shadow-md active:scale-95 shadow-xs shadow-accent/25 cursor-pointer"
+          className="inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-accent hover:bg-accent-dark px-7 text-sm font-extrabold text-white transition-all duration-200 hover:shadow-md active:scale-95 shadow-xs shadow-accent/25 cursor-pointer"
         >
           <span>Track Package</span>
-          <ArrowRight className="h-4 w-4 text-primary-dark" aria-hidden="true" />
+          <ArrowRight className="h-4 w-4 text-white" aria-hidden="true" />
         </button>
       </div>
 

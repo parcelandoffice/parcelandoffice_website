@@ -55,7 +55,15 @@ export default function ServiceRequirementsSection({
     "Prepare the essential shipment details before visiting the store.";
   const noticeText =
     service.requirementsNotice ||
-    "Our team can help you understand the shipping information and documentation needed for your shipment. Final acceptance and customs requirements are determined by DHL and the destination country.";
+    "Our team can help you understand the shipping information and documentation needed for your shipment. Final acceptance and customs requirements are determined by the carrier and the destination country.";
+
+  const items =
+    service.requirementsItems && service.requirementsItems.length > 0
+      ? service.requirementsItems.map((item, idx) => ({
+          text: typeof item === "string" ? item : item.title || item.description,
+          icon: REQUIREMENTS_POINTS[idx % REQUIREMENTS_POINTS.length].icon,
+        }))
+      : REQUIREMENTS_POINTS;
 
   return (
     <section
@@ -83,14 +91,14 @@ export default function ServiceRequirementsSection({
 
       {/* Attractive Bullet Points List (No Cards) */}
       <ul className="mt-6 grid sm:grid-cols-2 gap-x-8 gap-y-3.5">
-        {REQUIREMENTS_POINTS.map((item, idx) => {
-          const Icon = item.icon;
+        {items.map((item, idx) => {
+          const Icon = item.icon || ClipboardCheck;
           return (
             <li
               key={idx}
               className="group flex items-center gap-3 py-1 transition-colors"
             >
-              <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-accent-soft text-accent-dark transition-all duration-200 group-hover:bg-accent group-hover:text-primary-dark shadow-2xs">
+              <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-accent-soft text-accent-dark transition-all duration-200 group-hover:bg-accent group-hover:text-white shadow-2xs">
                 <Icon className="h-3.5 w-3.5 stroke-[2.4]" aria-hidden="true" />
               </span>
               <span className="text-sm sm:text-[14px] font-bold text-primary-dark leading-snug group-hover:text-primary transition-colors">

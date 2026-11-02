@@ -16,11 +16,12 @@ type ProcessStep = {
   step: string;
   title: string;
   description: string;
-  badge: string;
-  icon: typeof PackageOpen;
+  badge?: string;
+  icon?: typeof PackageOpen;
+  iconUrl?: string;
 };
 
-const PROCESS_STEPS: ProcessStep[] = [
+const DEFAULT_PROCESS_STEPS: ProcessStep[] = [
   {
     step: "01",
     title: "Bring Your Shipment",
@@ -55,6 +56,8 @@ const PROCESS_STEPS: ProcessStep[] = [
   },
 ];
 
+const DEFAULT_ICONS = [PackageOpen, SlidersHorizontal, FileText, Barcode];
+
 export default function ServiceProcessSteps({
   service,
 }: {
@@ -65,6 +68,21 @@ export default function ServiceProcessSteps({
   const sectionTitle =
     service.processTitle ||
     (isDHL ? "Ship With DHL in Four Simple Steps" : "Ship in Four Simple Steps");
+  const sectionSubtitle =
+    service.processSubtitle ||
+    "Fast, transparent, and hassle-free shipping from our Odenton counter beside Food Lion.";
+
+  const stepsToDisplay =
+    service.processSteps && service.processSteps.length > 0
+      ? service.processSteps.map((step, idx) => ({
+          step: step.step || `0${idx + 1}`,
+          title: step.title,
+          description: step.description,
+          badge: step.badge || `Step ${idx + 1}`,
+          icon: DEFAULT_ICONS[idx % DEFAULT_ICONS.length],
+          iconUrl: step.iconUrl,
+        }))
+      : DEFAULT_PROCESS_STEPS;
 
   return (
     <section
@@ -86,9 +104,8 @@ export default function ServiceProcessSteps({
         </h2>
 
         <p className="mt-2 text-sm sm:text-base leading-relaxed text-muted font-medium">
-          Fast, transparent, and hassle-free shipping from our Odenton counter beside Food Lion.
+          {sectionSubtitle}
         </p>
-
       </div>
 
       {/* Linked 4-Step Interactive Stepper */}
@@ -104,8 +121,8 @@ export default function ServiceProcessSteps({
 
         {/* Step Nodes Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-4 gap-8 sm:gap-3 relative z-10">
-          {PROCESS_STEPS.map((step, idx) => {
-            const Icon = step.icon;
+          {stepsToDisplay.map((step) => {
+            const Icon = step.icon || PackageOpen;
             return (
               <div
                 key={step.step}
@@ -131,44 +148,41 @@ export default function ServiceProcessSteps({
                 </div>
 
                 {/* Round Circle Node with Icon */}
-                <div className="relative flex h-20 w-20 items-center justify-center rounded-full border-2 border-border/90 bg-surface shadow-md transition-all duration-300 group-hover:border-accent group-hover:shadow-[0_0_24px_rgba(255,140,0,0.35)] group-hover:scale-110 cursor-pointer">
-                  <Icon className="h-8 w-8 text-primary transition-colors duration-200 group-hover:text-accent stroke-[2.2]" />
+                <div className="relative flex h-20 w-20 items-center justify-center rounded-full border-2 border-border/90 bg-surface shadow-md transition-all duration-300 group-hover:border-accent group-hover:shadow-[0_0_24px_rgba(242,77,2,0.35)] group-hover:scale-110 cursor-pointer">
+                  {step.iconUrl ? (
+                    <span className="h-10 w-10 flex items-center justify-center p-1.5">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={step.iconUrl} alt={step.title} className="h-full w-full object-contain" />
+                    </span>
+                  ) : (
+                    <Icon className="h-8 w-8 text-primary transition-colors duration-200 group-hover:text-accent stroke-[2.2]" />
+                  )}
 
                   {/* Step Number Badge */}
-                  <span className="absolute -top-1 -right-1 flex h-6 w-6 items-center justify-center rounded-full bg-accent text-[11px] font-black text-primary-dark shadow-xs ring-2 ring-surface">
+                  <span className="absolute -top-1 -right-1 flex h-6 w-6 items-center justify-center rounded-full bg-accent text-[11px] font-black text-white shadow-xs ring-2 ring-surface">
                     {step.step}
                   </span>
                 </div>
 
-                {/* Title at Bottom of Round */}
-                <h3 className="font-display mt-4 text-sm sm:text-base font-extrabold text-primary-dark transition-colors group-hover:text-primary max-w-[180px] leading-snug">
-                  {idx + 1}. {step.title}
+                {/* Step Title Below Node */}
+                <h3 className="font-display mt-4 text-sm sm:text-base font-bold text-primary-dark transition-colors group-hover:text-primary max-w-[200px]">
+                  {step.title}
                 </h3>
 
-                {/* Micro-label below Title */}
-                <span className="mt-1 text-[11px] font-semibold text-muted-light group-hover:text-accent-dark transition-colors">
-                  {step.badge}
-                </span>
+                {/* Mobile Description (Always visible on mobile for accessibility) */}
+                <p className="block sm:hidden mt-1.5 text-xs text-muted max-w-xs">
+                  {step.description}
+                </p>
               </div>
             );
           })}
         </div>
       </div>
 
-      {/* Process Reassurance Footnote */}
-      <div className="mt-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-2xl border border-border/80 bg-surface-muted/50 p-4 sm:p-4.5">
-        <p className="text-xs sm:text-[13px] font-medium text-secondary">
-          <strong className="font-bold text-primary-dark">No appointments required.</strong> Visit during store hours and our trained courier specialists will guide you through each step.
-        </p>
-
-        <Link
-          href="/contact"
-          className="inline-flex shrink-0 items-center justify-center gap-1.5 text-xs font-bold text-primary hover:text-accent transition-colors self-start sm:self-center"
-        >
-          <MapPin className="h-3.5 w-3.5 text-accent" />
-          <span>View Store Directions</span>
-          <ArrowRight className="h-3.5 w-3.5" />
-        </Link>
+      {/* Helpful Hint Callout Below Stepper */}
+      <div className="mt-8 flex items-center justify-center gap-2 text-xs font-semibold text-muted text-center">
+        <Sparkles className="h-3.5 w-3.5 text-accent" />
+        <span>No carrier account required — walk in, ship, and get on with your day!</span>
       </div>
     </section>
   );

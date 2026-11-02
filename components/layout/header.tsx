@@ -30,6 +30,7 @@ import {
   STORE_HOURS,
 } from "@/lib/site-data";
 import type { ItServiceMenuItem } from "@/lib/apis";
+import type { ResolvedLogo } from "@/lib/logo";
 
 function getItServiceFallbackIcon(title?: string, slug?: string): LucideIcon {
   const text = `${title || ""} ${slug || ""}`.toLowerCase();
@@ -59,19 +60,18 @@ function useTodayHours() {
 
 interface HeaderProps {
   itServices?: ItServiceMenuItem[];
+  logo?: ResolvedLogo | null;
 }
 
-export default function Header({ itServices = [] }: HeaderProps) {
+export default function Header({ itServices = [], logo }: HeaderProps) {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [queryModalOpen, setQueryModalOpen] = useState(false);
   const [storeHoursModalOpen, setStoreHoursModalOpen] = useState(false);
   const [servicesMenuOpen, setServicesMenuOpen] = useState(false);
   const [digitalMenuOpen, setDigitalMenuOpen] = useState(false);
-  const [aboutMenuOpen, setAboutMenuOpen] = useState(false);
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
   const [mobileDigitalOpen, setMobileDigitalOpen] = useState(false);
-  const [mobileAboutOpen, setMobileAboutOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const todayHours = useTodayHours();
 
@@ -112,20 +112,21 @@ export default function Header({ itServices = [] }: HeaderProps) {
     pathname.startsWith("/digital-marketing") ||
     pathname.endsWith("-usa") ||
     itServicesList.some((item) => item.href === pathname);
-  const isAboutActive = pathname.startsWith("/about-us") || pathname.startsWith("/blog");
+  const isAboutActive = pathname === "/about-us" || pathname.startsWith("/about-us");
+  const isBlogActive = pathname === "/blog" || pathname.startsWith("/blog");
   const isContactActive = pathname === "/contact-us";
 
   useEffect(() => {
     if (isServicesActive) setMobileServicesOpen(true);
     if (isDigitalActive) setMobileDigitalOpen(true);
-    if (isAboutActive) setMobileAboutOpen(true);
+
   }, [isServicesActive, isDigitalActive, isAboutActive]);
 
   const closeAll = () => {
     setMobileOpen(false);
     setServicesMenuOpen(false);
     setDigitalMenuOpen(false);
-    setAboutMenuOpen(false);
+
   };
 
   const scrollToTracking = (e: React.MouseEvent<HTMLAnchorElement>) => {
@@ -141,16 +142,20 @@ export default function Header({ itServices = [] }: HeaderProps) {
 
   return (
     <>
-      <header className="sticky top-0 z-40 bg-surface">
+      <header className="sticky top-0 z-40 bg-secondary-dark text-on-dark shadow-sm">
         {/* Row 1: Brand Logo on Left, 2 CTAs on Right */}
         <div
-          className={`border-b bg-surface transition-all duration-200 ${scrolled || mobileOpen
-            ? "border-border/80 shadow-[var(--shadow-card)]"
-            : "border-transparent"
+          className={`border-b bg-secondary-dark transition-all duration-200 ${scrolled || mobileOpen
+            ? "border-white/10 shadow-[var(--shadow-card)]"
+            : "border-white/10"
             }`}
         >
-          <div className="mx-auto flex max-w-7xl items-center justify-between gap-2 sm:gap-4 px-3 sm:px-6 lg:px-8 py-2.5 sm:py-3">
-            <Logo onNavigate={closeAll} />
+          <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 sm:gap-6 px-4 sm:px-6 lg:px-8 py-2.5 sm:py-3 min-h-[58px] sm:min-h-[64px] lg:min-h-[68px]">
+            <Logo
+              logo={logo}
+              onNavigate={closeAll}
+              sizeClassName="h-[28px] min-[400px]:h-[30px] sm:h-[32px] lg:h-[35px] xl:h-[36px]"
+            />
 
             {/* Right side Menu & Track Your Parcel CTA */}
             <div className="flex items-center gap-2 lg:gap-3">
@@ -164,8 +169,8 @@ export default function Header({ itServices = [] }: HeaderProps) {
                   href="/"
                   onClick={closeAll}
                   className={`inline-flex items-center rounded-lg px-3 py-2 text-sm font-semibold transition-all duration-200 ${isHomeActive
-                    ? "bg-primary text-white font-bold shadow-xs"
-                    : "text-foreground/80 hover:bg-surface-muted hover:text-primary"
+                    ? "bg-accent text-white font-bold shadow-xs"
+                    : "text-white/80 hover:bg-white/10 hover:text-white"
                     }`}
                 >
                   <span>Home</span>
@@ -189,10 +194,10 @@ export default function Header({ itServices = [] }: HeaderProps) {
                     aria-controls="services-mega-menu"
                     onClick={() => setServicesMenuOpen((prev) => !prev)}
                     className={`inline-flex items-center gap-1 rounded-lg px-3 py-2 text-sm font-semibold transition-all duration-200 cursor-pointer ${isServicesActive
-                      ? "bg-primary text-white font-bold shadow-xs"
+                      ? "bg-accent text-white font-bold shadow-xs"
                       : servicesMenuOpen
-                        ? "bg-surface-muted text-primary font-bold"
-                        : "text-foreground/80 hover:bg-surface-muted hover:text-primary"
+                        ? "bg-white/15 text-white font-bold"
+                        : "text-white/80 hover:bg-white/10 hover:text-white"
                       }`}
                   >
                     <span>Services</span>
@@ -200,8 +205,8 @@ export default function Header({ itServices = [] }: HeaderProps) {
                       className={`h-4 w-4 transition-transform duration-200 ${servicesMenuOpen
                         ? "rotate-180 text-accent"
                         : isServicesActive
-                          ? "text-accent"
-                          : "text-muted"
+                          ? "text-white"
+                          : "text-white/60"
                         }`}
                       aria-hidden="true"
                     />
@@ -252,7 +257,7 @@ export default function Header({ itServices = [] }: HeaderProps) {
                                       <span
                                         className={`flex h-6 w-6 shrink-0 items-center justify-center rounded transition-colors ${isItemActive
                                           ? "bg-white/20 text-white"
-                                          : "bg-primary-soft text-primary group-hover:bg-primary group-hover:text-accent"
+                                          : "bg-primary-soft text-primary group-hover:bg-primary group-hover:text-white"
                                           }`}
                                       >
                                         <Icon className="h-3.5 w-3.5" aria-hidden="true" />
@@ -295,10 +300,10 @@ export default function Header({ itServices = [] }: HeaderProps) {
                     aria-haspopup="true"
                     onClick={() => setDigitalMenuOpen((prev) => !prev)}
                     className={`inline-flex items-center gap-1 rounded-lg px-3 py-2 text-sm font-semibold transition-all duration-200 cursor-pointer ${isDigitalActive
-                      ? "bg-primary text-white font-bold shadow-xs"
+                      ? "bg-accent text-white font-bold shadow-xs"
                       : digitalMenuOpen
-                        ? "bg-surface-muted text-primary font-bold"
-                        : "text-foreground/80 hover:bg-surface-muted hover:text-primary"
+                        ? "bg-white/15 text-white font-bold"
+                        : "text-white/80 hover:bg-white/10 hover:text-white"
                       }`}
                   >
                     <span>IT Services</span>
@@ -306,8 +311,8 @@ export default function Header({ itServices = [] }: HeaderProps) {
                       className={`h-4 w-4 transition-transform duration-200 ${digitalMenuOpen
                         ? "rotate-180 text-accent"
                         : isDigitalActive
-                          ? "text-accent"
-                          : "text-muted"
+                          ? "text-white"
+                          : "text-white/60"
                         }`}
                       aria-hidden="true"
                     />
@@ -348,7 +353,7 @@ export default function Header({ itServices = [] }: HeaderProps) {
                                   <span
                                     className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg transition-colors mt-0.5 overflow-hidden ${isItemActive
                                       ? "bg-white/20 text-white"
-                                      : "bg-primary-soft text-primary group-hover:bg-primary group-hover:text-accent"
+                                      : "bg-primary-soft text-primary group-hover:bg-primary group-hover:text-white"
                                       }`}
                                   >
                                     {item.iconUrl ? (
@@ -371,16 +376,6 @@ export default function Header({ itServices = [] }: HeaderProps) {
                                       >
                                         {item.title}
                                       </span>
-                                      {item.badge && (
-                                        <span
-                                          className={`text-[9px] uppercase tracking-wider font-extrabold px-1.5 py-0.5 rounded ${isItemActive
-                                            ? "bg-white/25 text-white"
-                                            : "bg-accent/15 text-accent border border-accent/30"
-                                            }`}
-                                        >
-                                          {item.badge}
-                                        </span>
-                                      )}
                                     </div>
                                     {item.shortDescription && (
                                       <span
@@ -405,103 +400,36 @@ export default function Header({ itServices = [] }: HeaderProps) {
                 </div>
 
                 {/* 4. About Us */}
-                <div
-                  className="relative"
-                  onMouseEnter={() => setAboutMenuOpen(true)}
-                  onMouseLeave={() => setAboutMenuOpen(false)}
-                  onBlur={(event) => {
-                    if (!event.currentTarget.contains(event.relatedTarget)) {
-                      setAboutMenuOpen(false);
-                    }
-                  }}
+                <Link
+                  href="/about-us"
+                  onClick={closeAll}
+                  className={`inline-flex items-center rounded-lg px-3 py-2 text-sm font-semibold transition-all duration-200 ${isAboutActive
+                    ? "bg-accent text-white font-bold shadow-xs"
+                    : "text-white/80 hover:bg-white/10 hover:text-white"
+                    }`}
                 >
-                  <button
-                    type="button"
-                    aria-expanded={aboutMenuOpen}
-                    aria-haspopup="true"
-                    onClick={() => setAboutMenuOpen((prev) => !prev)}
-                    className={`inline-flex items-center gap-1 rounded-lg px-3 py-2 text-sm font-semibold transition-all duration-200 cursor-pointer ${isAboutActive
-                      ? "bg-primary text-white font-bold shadow-xs"
-                      : aboutMenuOpen
-                        ? "bg-surface-muted text-primary font-bold"
-                        : "text-foreground/80 hover:bg-surface-muted hover:text-primary"
-                      }`}
-                  >
-                    <span>About Us</span>
-                    <ChevronDown
-                      className={`h-4 w-4 transition-transform duration-200 ${aboutMenuOpen
-                        ? "rotate-180 text-accent"
-                        : isAboutActive
-                          ? "text-accent"
-                          : "text-muted"
-                        }`}
-                      aria-hidden="true"
-                    />
-                  </button>
+                  <span>About Us</span>
+                </Link>
 
-                  <div
-                    className={`absolute right-0 top-full w-[300px] pt-2 transition-all duration-200 ${aboutMenuOpen
-                      ? "visible translate-y-0 opacity-100"
-                      : "invisible translate-y-1.5 opacity-0 pointer-events-none"
-                      }`}
-                  >
-                    <div className="rounded-xl border border-border border-t-4 border-t-accent bg-surface p-3 shadow-[var(--shadow-float)]">
-                      <div className="flex flex-col gap-1">
-                        {ABOUT_US_MENU.map((item) => {
-                          const Icon = item.icon;
-                          const isItemActive = pathname === item.href;
-                          return (
-                            <Link
-                              key={item.label}
-                              href={item.href}
-                              onClick={closeAll}
-                              className={`group flex items-start justify-between gap-3 rounded-lg p-2.5 transition-all duration-150 ${isItemActive
-                                ? "bg-primary text-white font-bold shadow-xs"
-                                : "hover:bg-primary-soft"
-                                }`}
-                            >
-                              <div className="flex items-start gap-3 min-w-0">
-                                <span
-                                  className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg transition-colors mt-0.5 ${isItemActive
-                                    ? "bg-white/20 text-white"
-                                    : "bg-primary-soft text-primary group-hover:bg-primary group-hover:text-accent"
-                                    }`}
-                                >
-                                  <Icon className="h-4 w-4" aria-hidden="true" />
-                                </span>
-                                <div className="min-w-0">
-                                  <span
-                                    className={`block text-xs font-bold transition-colors ${isItemActive ? "text-white" : "text-foreground group-hover:text-primary"
-                                      }`}
-                                  >
-                                    {item.label}
-                                  </span>
-                                  <span
-                                    className={`block text-[11px] line-clamp-1 ${isItemActive ? "text-white/80" : "text-muted"
-                                      }`}
-                                  >
-                                    {item.description}
-                                  </span>
-                                </div>
-                              </div>
-                              {isItemActive && (
-                                <span className="h-2 w-2 rounded-full bg-accent animate-pulse shrink-0 mt-2 mr-1" />
-                              )}
-                            </Link>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                {/* 5. Blogs */}
+                <Link
+                  href="/blog"
+                  onClick={closeAll}
+                  className={`inline-flex items-center rounded-lg px-3 py-2 text-sm font-semibold transition-all duration-200 ${isBlogActive
+                    ? "bg-accent text-white font-bold shadow-xs"
+                    : "text-white/80 hover:bg-white/10 hover:text-white"
+                    }`}
+                >
+                  <span>Blogs</span>
+                </Link>
 
-                {/* 5. Contact Us */}
+                {/* 6. Contact Us */}
                 <Link
                   href="/contact-us"
                   onClick={closeAll}
                   className={`inline-flex items-center rounded-lg px-3 py-2 text-sm font-semibold transition-all duration-200 ${isContactActive
-                    ? "bg-primary text-white font-bold shadow-xs"
-                    : "text-foreground/80 hover:bg-surface-muted hover:text-primary"
+                    ? "bg-accent text-white font-bold shadow-xs"
+                    : "text-white/80 hover:bg-white/10 hover:text-white"
                     }`}
                 >
                   <span>Contact Us</span>
@@ -527,7 +455,7 @@ export default function Header({ itServices = [] }: HeaderProps) {
                 aria-expanded={mobileOpen}
                 aria-controls="mobile-menu"
                 onClick={() => setMobileOpen((prev) => !prev)}
-                className="rounded-lg p-2 text-foreground transition-colors hover:bg-surface-muted lg:hidden cursor-pointer"
+                className="rounded-lg p-2 text-white transition-colors hover:bg-white/10 lg:hidden cursor-pointer"
               >
                 {mobileOpen ? (
                   <X className="h-6 w-6" aria-hidden="true" />
@@ -542,7 +470,7 @@ export default function Header({ itServices = [] }: HeaderProps) {
         {/* Mobile drawer with Full Menu */}
         <div
           id="mobile-menu"
-          className={`overflow-y-auto border-b border-border bg-surface transition-all duration-200 lg:hidden ${mobileOpen
+          className={`overflow-y-auto border-b border-white/10 bg-secondary-dark text-on-dark transition-all duration-200 lg:hidden ${mobileOpen
             ? "max-h-[calc(100dvh-5rem)] opacity-100"
             : "pointer-events-none max-h-0 opacity-0"
             }`}
@@ -555,23 +483,23 @@ export default function Header({ itServices = [] }: HeaderProps) {
                 setMobileOpen(false);
                 setStoreHoursModalOpen(true);
               }}
-              className="flex items-center justify-between rounded-lg border border-border bg-surface-muted px-3.5 py-2 text-xs font-semibold text-foreground transition-colors hover:border-accent hover:bg-accent-soft mb-1 cursor-pointer w-full text-left"
+              className="flex items-center justify-between rounded-lg border border-white/10 bg-white/5 px-3.5 py-2 text-xs font-semibold text-white/90 transition-colors hover:border-accent hover:bg-white/10 mb-1 cursor-pointer w-full text-left"
             >
               <span className="flex items-center gap-2">
                 <Clock className="h-3.5 w-3.5 text-accent" />
-                <span>Today: <strong className="font-bold text-foreground">{todayHours}</strong></span>
+                <span>Today: <strong className="font-bold text-white">{todayHours}</strong></span>
               </span>
-              <span className="rounded bg-accent/20 px-2 py-0.5 text-[10px] font-bold text-accent-dark uppercase">
+              <span className="rounded bg-accent/20 px-2 py-0.5 text-[10px] font-bold text-accent-light uppercase">
                 View Hours
               </span>
             </button>
 
             {/* Mobile CTAs */}
-            <div className="pb-3 border-b border-border mb-2">
+            <div className="pb-3 border-b border-white/10 mb-2">
               <Link
                 href="/#tracking"
                 onClick={scrollToTracking}
-                className="flex items-center justify-center gap-2 rounded-full border border-accent/25 bg-accent px-4 py-2.5 text-xs font-bold text-on-dark shadow-xs w-full"
+                className="flex items-center justify-center gap-2 rounded-full border border-accent/25 bg-accent px-4 py-2.5 text-xs font-bold text-white shadow-xs w-full"
               >
                 <Search className="h-3.5 w-3.5 text-white" aria-hidden="true" />
                 <span>Track Your Parcel</span>
@@ -583,13 +511,13 @@ export default function Header({ itServices = [] }: HeaderProps) {
               href="/"
               onClick={closeAll}
               className={`flex items-center justify-between rounded-lg px-4 py-2.5 text-sm font-semibold transition-colors ${isHomeActive
-                ? "bg-primary text-white font-bold border-l-4 border-accent shadow-xs"
-                : "text-foreground hover:bg-surface-muted"
+                ? "bg-accent text-white font-bold shadow-xs"
+                : "text-white/90 hover:bg-white/10 hover:text-white"
                 }`}
             >
               <span>Home</span>
               {isHomeActive && (
-                <span className="rounded bg-accent px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-wider text-primary-dark">
+                <span className="rounded bg-white/20 px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-wider text-white">
                   Active
                 </span>
               )}
@@ -600,24 +528,26 @@ export default function Header({ itServices = [] }: HeaderProps) {
               type="button"
               onClick={() => setMobileServicesOpen((prev) => !prev)}
               className={`flex items-center justify-between rounded-lg px-4 py-2.5 text-left text-sm font-semibold transition-colors ${isServicesActive
-                ? "bg-primary text-white font-bold border-l-4 border-accent"
+                ? "bg-accent text-white font-bold"
                 : mobileServicesOpen
-                  ? "bg-primary-soft text-primary font-bold"
-                  : "text-foreground hover:bg-surface-muted"
+                  ? "bg-white/10 text-white font-bold"
+                  : "text-white/90 hover:bg-white/10 hover:text-white"
                 }`}
             >
               <span>Services (18)</span>
               <ChevronDown
-                className={`h-4 w-4 transition-transform duration-200 ${mobileServicesOpen ? "rotate-180" : ""
+                className={`h-4 w-4 transition-transform duration-200 ${mobileServicesOpen ? "rotate-180 text-accent" : isServicesActive
+                  ? "text-white"
+                  : "text-white/60"
                   }`}
                 aria-hidden="true"
               />
             </button>
             {mobileServicesOpen && (
-              <div className="flex flex-col gap-3 px-3 py-2 bg-surface-muted rounded-lg border-l-2 border-primary/30 ml-2">
+              <div className="flex flex-col gap-3 px-3 py-2 bg-white/5 rounded-lg border-l-2 border-accent ml-2">
                 {SERVICES_MENU_CATEGORIES.map((cat) => (
                   <div key={cat.title}>
-                    <span className="block text-[11px] font-extrabold uppercase tracking-wider text-primary pb-1 border-b border-border/60 mb-1">
+                    <span className="block text-[11px] font-extrabold uppercase tracking-wider text-accent pb-1 border-b border-white/10 mb-1">
                       {cat.title}
                     </span>
                     <div className="grid grid-cols-1 gap-1">
@@ -630,16 +560,16 @@ export default function Header({ itServices = [] }: HeaderProps) {
                             href={item.href}
                             onClick={closeAll}
                             className={`flex items-center justify-between py-1.5 px-2.5 rounded-md text-xs transition-colors ${isItemActive
-                              ? "bg-primary text-white font-bold shadow-2xs"
-                              : "text-foreground hover:text-primary hover:bg-surface"
+                              ? "bg-accent text-white font-bold shadow-2xs"
+                              : "text-white/80 hover:text-white hover:bg-white/10"
                               }`}
                           >
                             <span className="flex items-center gap-2 min-w-0">
-                              <Icon className={`h-3.5 w-3.5 shrink-0 ${isItemActive ? "text-accent" : "text-primary"}`} />
+                              <Icon className={`h-3.5 w-3.5 shrink-0 ${isItemActive ? "text-white" : "text-accent"}`} />
                               <span className="truncate">{item.label}</span>
                             </span>
                             {isItemActive && (
-                              <span className="h-1.5 w-1.5 rounded-full bg-accent shrink-0 animate-pulse ml-2" />
+                              <span className="h-1.5 w-1.5 rounded-full bg-white shrink-0 animate-pulse ml-2" />
                             )}
                           </Link>
                         );
@@ -655,23 +585,25 @@ export default function Header({ itServices = [] }: HeaderProps) {
               type="button"
               onClick={() => setMobileDigitalOpen((prev) => !prev)}
               className={`flex items-center justify-between rounded-lg px-4 py-2.5 text-left text-sm font-semibold transition-colors ${isDigitalActive
-                ? "bg-primary text-white font-bold border-l-4 border-accent"
+                ? "bg-accent text-white font-bold"
                 : mobileDigitalOpen
-                  ? "bg-primary-soft text-primary font-bold"
-                  : "text-foreground hover:bg-surface-muted"
+                  ? "bg-white/10 text-white font-bold"
+                  : "text-white/90 hover:bg-white/10 hover:text-white"
                 }`}
             >
               <span>IT Services</span>
               <ChevronDown
-                className={`h-4 w-4 transition-transform duration-200 ${mobileDigitalOpen ? "rotate-180" : ""
+                className={`h-4 w-4 transition-transform duration-200 ${mobileDigitalOpen ? "rotate-180 text-accent" : isDigitalActive
+                  ? "text-white"
+                  : "text-white/60"
                   }`}
                 aria-hidden="true"
               />
             </button>
             {mobileDigitalOpen && (
-              <div className="grid grid-cols-1 gap-1 px-3 py-2 bg-surface-muted rounded-lg border-l-2 border-primary/30 ml-2">
+              <div className="grid grid-cols-1 gap-1 px-3 py-2 bg-white/5 rounded-lg border-l-2 border-accent ml-2">
                 {itServicesList.length === 0 ? (
-                  <div className="py-2 px-2.5 text-xs text-muted">No IT services available</div>
+                  <div className="py-2 px-2.5 text-xs text-white/50">No IT services available</div>
                 ) : (
                   itServicesList.map((item) => {
                     const FallbackIcon = getItServiceFallbackIcon(item.title, item.slug);
@@ -682,8 +614,8 @@ export default function Header({ itServices = [] }: HeaderProps) {
                         href={item.href}
                         onClick={closeAll}
                         className={`flex items-center justify-between py-1.5 px-2.5 rounded-md text-xs transition-colors ${isItemActive
-                          ? "bg-primary text-white font-bold shadow-2xs"
-                          : "text-foreground hover:text-primary hover:bg-surface"
+                          ? "bg-accent text-white font-bold shadow-2xs"
+                          : "text-white/80 hover:text-white hover:bg-white/10"
                           }`}
                       >
                         <span className="flex items-center gap-2 min-w-0">
@@ -696,22 +628,12 @@ export default function Header({ itServices = [] }: HeaderProps) {
                               className="h-3.5 w-3.5 object-contain shrink-0"
                             />
                           ) : (
-                            <FallbackIcon className={`h-3.5 w-3.5 shrink-0 ${isItemActive ? "text-accent" : "text-primary"}`} />
+                            <FallbackIcon className={`h-3.5 w-3.5 shrink-0 ${isItemActive ? "text-white" : "text-accent"}`} />
                           )}
                           <span className="truncate">{item.title}</span>
-                          {item.badge && (
-                            <span
-                              className={`text-[8px] uppercase tracking-wider font-bold px-1 py-0.2 rounded shrink-0 ${isItemActive
-                                  ? "bg-white/20 text-white"
-                                  : "bg-accent/15 text-accent"
-                                }`}
-                            >
-                              {item.badge}
-                            </span>
-                          )}
                         </span>
                         {isItemActive && (
-                          <span className="h-1.5 w-1.5 rounded-full bg-accent shrink-0 animate-pulse ml-2" />
+                          <span className="h-1.5 w-1.5 rounded-full bg-white shrink-0 animate-pulse ml-2" />
                         )}
                       </Link>
                     );
@@ -720,66 +642,52 @@ export default function Header({ itServices = [] }: HeaderProps) {
               </div>
             )}
 
-
-
-            {/* 5. About Us Accordion */}
-            <button
-              type="button"
-              onClick={() => setMobileAboutOpen((prev) => !prev)}
-              className={`flex items-center justify-between rounded-lg px-4 py-2.5 text-left text-sm font-semibold transition-colors ${isAboutActive
-                ? "bg-primary text-white font-bold border-l-4 border-accent"
-                : mobileAboutOpen
-                  ? "bg-primary-soft text-primary font-bold"
-                  : "text-foreground hover:bg-surface-muted"
+            {/* 4. About Us */}
+            <Link
+              href="/about-us"
+              onClick={closeAll}
+              className={`flex items-center justify-between rounded-lg px-4 py-2.5 text-sm font-semibold transition-colors ${isAboutActive
+                ? "bg-accent text-white font-bold shadow-xs"
+                : "text-white/90 hover:bg-white/10 hover:text-white"
                 }`}
             >
               <span>About Us</span>
-              <ChevronDown
-                className={`h-4 w-4 transition-transform duration-200 ${mobileAboutOpen ? "rotate-180" : ""
-                  }`}
-                aria-hidden="true"
-              />
-            </button>
-            {mobileAboutOpen && (
-              <div className="grid grid-cols-1 gap-1 px-3 py-2 bg-surface-muted rounded-lg border-l-2 border-primary/30 ml-2">
-                {ABOUT_US_MENU.map((item) => {
-                  const Icon = item.icon;
-                  const isItemActive = pathname === item.href;
-                  return (
-                    <Link
-                      key={item.label}
-                      href={item.href}
-                      onClick={closeAll}
-                      className={`flex items-center justify-between py-1.5 px-2.5 rounded-md text-xs transition-colors ${isItemActive
-                        ? "bg-primary text-white font-bold shadow-2xs"
-                        : "text-foreground hover:text-primary hover:bg-surface"
-                        }`}
-                    >
-                      <span className="flex items-center gap-2 min-w-0">
-                        <Icon className={`h-3.5 w-3.5 shrink-0 ${isItemActive ? "text-accent" : "text-primary"}`} />
-                        <span className="truncate">{item.label}</span>
-                      </span>
-                      {isItemActive && (
-                        <span className="h-1.5 w-1.5 rounded-full bg-accent shrink-0 animate-pulse ml-2" />
-                      )}
-                    </Link>
-                  );
-                })}
-              </div>
-            )}
+              {isAboutActive && (
+                <span className="rounded bg-white/20 px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-wider text-white">
+                  Active
+                </span>
+              )}
+            </Link>
+
+            {/* 5. Blogs */}
+            <Link
+              href="/blog"
+              onClick={closeAll}
+              className={`flex items-center justify-between rounded-lg px-4 py-2.5 text-sm font-semibold transition-colors ${isBlogActive
+                ? "bg-accent text-white font-bold shadow-xs"
+                : "text-white/90 hover:bg-white/10 hover:text-white"
+                }`}
+            >
+              <span>Blogs</span>
+              {isBlogActive && (
+                <span className="rounded bg-white/20 px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-wider text-white">
+                  Active
+                </span>
+              )}
+            </Link>
 
             {/* 6. Contact Us */}
             <Link
               href="/contact-us"
               onClick={closeAll}
               className={`flex items-center justify-between rounded-lg px-4 py-2.5 text-sm font-semibold transition-colors ${isContactActive
-                ? "bg-primary text-white font-bold border-l-4 border-accent shadow-xs"
-                : "text-foreground hover:bg-surface-muted"
+                ? "bg-accent text-white font-bold shadow-xs"
+                : "text-white/90 hover:bg-white/10 hover:text-white"
                 }`}
             >
               <span>Contact Us</span>
               {isContactActive && (
-                <span className="rounded bg-accent px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-wider text-primary-dark">
+                <span className="rounded bg-white/20 px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-wider text-white">
                   Active
                 </span>
               )}
@@ -788,7 +696,7 @@ export default function Header({ itServices = [] }: HeaderProps) {
             {/* Direct Call action */}
             <a
               href={BUSINESS.phoneHref}
-              className="mt-3 inline-flex items-center justify-center gap-2 rounded-full bg-primary px-5 py-3 text-sm font-bold text-on-primary"
+              className="mt-3 inline-flex items-center justify-center gap-2 rounded-full bg-accent px-5 py-3 text-sm font-bold text-white hover:bg-accent-light shadow-xs transition-colors"
             >
               <Phone className="h-4 w-4" aria-hidden="true" />
               Call {BUSINESS.phone}

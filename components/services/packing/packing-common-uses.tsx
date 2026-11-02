@@ -83,7 +83,7 @@ export default function PackingCommonUses() {
                 {/* Category Header */}
                 <div className="flex items-center justify-between gap-3 border-b border-border/70 pb-5">
                   <div className="flex items-center gap-3.5">
-                    <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-primary text-white shadow-2xs group-hover:bg-accent group-hover:text-primary-dark transition-colors duration-200">
+                    <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-primary text-white shadow-2xs group-hover:bg-accent group-hover:text-white transition-colors duration-200">
                       <GroupIcon className="h-6 w-6 stroke-[2]" aria-hidden="true" />
                     </span>
                     <div>

@@ -71,7 +71,7 @@ export default function SampleProcessWorkflow({
             >
               <div>
                 <div className="flex items-center justify-between">
-                  <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-xs font-black text-white shadow-2xs group-hover:bg-accent group-hover:text-primary-dark transition-colors">
+                  <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-xs font-black text-white shadow-2xs group-hover:bg-accent group-hover:text-white transition-colors">
                     {st.step}
                   </span>
                   {i < steps.length - 1 && (

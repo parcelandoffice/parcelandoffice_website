@@ -28,9 +28,75 @@ export type ResolvedCoreValueItem = {
   iconUrl?: string;
 };
 
+export type AboutStatItem = {
+  value: string | number;
+  suffix?: string;
+  label: string;
+  subtext?: string;
+};
+
+export type AboutTeamMember = {
+  name: string;
+  role: string;
+  image?: SanityImageSource & { alt?: string };
+  imageUrl?: string;
+  quote?: string;
+};
+
 export type AboutPageData = {
-  _id: string;
+  _id?: string;
   title?: string;
+  // 1. Hero
+  heroTitle?: string;
+  heroImage?: SanityImageSource & { alt?: string };
+  heroImageUrl?: string;
+  heroCardBadge?: string;
+  heroCardTitle?: string;
+  heroCardDescription?: string;
+  heroCardPrimaryCtaLabel?: string;
+  heroCardPrimaryCtaUrl?: string;
+
+  // 2. Brand Story
+  storyImage?: SanityImageSource & { alt?: string };
+  storyImageUrl?: string;
+  storyBadgeIcon?: SanityImageSource & { alt?: string };
+  storyBadgeIconUrl?: string;
+  storyBadgeTitle?: string;
+  storyBadgeSubtitle?: string;
+  storyTitle?: string;
+  storyContent?: string;
+  storyCtaLabel?: string;
+  storyCtaUrl?: string;
+  storyTrustText?: string;
+
+  // 3. Statistics
+  statsBackgroundImage?: SanityImageSource & { alt?: string };
+  statsBackgroundImageUrl?: string;
+  statsList?: AboutStatItem[];
+  statsCtaLabel?: string;
+  statsCtaUrl?: string;
+
+  // 4. Mission & Vision
+  missionVisionEyebrow?: string;
+  missionVisionTitle?: string;
+  missionVisionSubtitle?: string;
+  missionIcon?: SanityImageSource & { alt?: string };
+  missionIconUrl?: string;
+  missionTitle?: string;
+  missionDescription?: string;
+  missionPoints?: string[];
+  visionIcon?: SanityImageSource & { alt?: string };
+  visionIconUrl?: string;
+  visionTitle?: string;
+  visionDescription?: string;
+  visionPoints?: string[];
+
+  // 5. Team
+  teamEyebrow?: string;
+  teamTitle?: string;
+  teamTitleHighlight?: string;
+  teamMembers?: AboutTeamMember[];
+  // Legacy compatibility fields
   titleHighlight?: string;
   subtitle?: string;
   featuredImage?: SanityImageSource & { alt?: string };
@@ -39,9 +105,7 @@ export type AboutPageData = {
   aboutFirmQuote?: string;
   aboutFirmParagraphs?: string[];
   missionText?: string;
-  missionIcon?: SanityImageSource & { alt?: string };
   visionText?: string;
-  visionIcon?: SanityImageSource & { alt?: string };
   ctaButtonText?: string;
   founderTag?: string;
   founderAuthor?: PostAuthor;

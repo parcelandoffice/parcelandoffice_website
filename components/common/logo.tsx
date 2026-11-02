@@ -1,82 +1,33 @@
 import Image from "next/image";
 import Link from "next/link";
 import { SITE_NAME } from "@/lib/site-data";
-import { urlFor } from "@/lib/sanity-image-builder";
-import type { SanityImageSource } from "@sanity/image-url";
+import type { ResolvedLogo } from "@/lib/logo";
 
 export interface LogoProps {
+  /** Logo resolved on the server via `resolveLogo()` (Sanity Site Settings) */
+  logo?: ResolvedLogo | null;
+  /** Extra classes for the link wrapper */
   className?: string;
-  imageClassName?: string;
-  /** "dark" = for light backgrounds (default), "light" = for dark backgrounds (e.g. footer) */
-  variant?: "dark" | "light";
-  logoSrc?: string | SanityImageSource | null;
-  logoInvertedSrc?: string | SanityImageSource | null;
-  logo?: (SanityImageSource & { alt?: string }) | null;
-  logoInverted?: (SanityImageSource & { alt?: string }) | null;
+  /**
+   * Size classes for the logo box. Set a height (width follows the logo's
+   * aspect ratio) and optionally a max-width.
+   */
+  sizeClassName?: string;
   alt?: string;
-  width?: number;
-  height?: number;
   priority?: boolean;
   onNavigate?: () => void;
 }
 
-function resolveLogoUrl(
-  source?: string | SanityImageSource | { asset?: { url?: string }; url?: string } | null,
-): string | null {
-  if (!source) return null;
-  if (typeof source === "string") {
-    return source.trim() ? source : null;
-  }
-  if (typeof source === "object") {
-    // If the object already has a pre-resolved url or asset.url
-    if ("url" in source && typeof source.url === "string" && source.url) {
-      return source.url;
-    }
-    if (
-      "asset" in source &&
-      source.asset &&
-      typeof source.asset === "object" &&
-      "url" in source.asset &&
-      typeof source.asset.url === "string" &&
-      source.asset.url
-    ) {
-      return source.asset.url;
-    }
-    try {
-      return urlFor(source as SanityImageSource).auto("format").fit("max").url();
-    } catch {
-      return null;
-    }
-  }
-  return null;
-}
+const DEFAULT_SIZE = "h-10 sm:h-11 lg:h-12";
 
 export function Logo({
-  className = "",
-  imageClassName = "",
-  variant = "dark",
-  logoSrc,
-  logoInvertedSrc,
   logo,
-  logoInverted,
+  className = "",
+  sizeClassName = DEFAULT_SIZE,
   alt,
-  width = 240,
-  height = 56,
   priority = true,
   onNavigate,
 }: LogoProps) {
-  const isLight = variant === "light";
-
-  // Pick appropriate logo source based on light/dark variant and provided props
-  const primarySource = logo ?? logoSrc;
-  const invertedSource = logoInverted ?? logoInvertedSrc;
-
-  const chosenSource =
-    isLight && invertedSource
-      ? invertedSource
-      : primarySource || "/images/logo.png";
-
-  const resolvedUrl = resolveLogoUrl(chosenSource) || "/images/logo.png";
   const altText = alt || `${SITE_NAME} logo`;
 
   return (
@@ -84,24 +35,43 @@ export function Logo({
       href="/"
       onClick={onNavigate}
       aria-label={`${SITE_NAME} — home`}
-      className={`group inline-flex shrink-0 items-center justify-start transition-opacity duration-200 hover:opacity-95 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-primary rounded-md ${className}`}
+      className={`group inline-flex shrink-0 items-center justify-start rounded-md transition-opacity duration-200 hover:opacity-95 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-primary ${className}`}
     >
-      <div
-        className={`relative flex items-center justify-start ${
-          isLight && !invertedSource
-            ? "rounded-lg bg-white/95 px-2 py-1 shadow-2xs"
-            : ""
-        }`}
-      >
+      {logo ? (
+        // Crop window sized to the visible artwork; the full image is scaled
+        // and offset inside it so empty canvas padding is hidden.
+        <span
+          className={`relative block shrink-0 overflow-hidden transition-transform duration-200 group-hover:scale-[1.02] ${sizeClassName}`}
+          style={{ aspectRatio: `${logo.aspectRatio}` }}
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={logo.src}
+            alt={altText}
+            decoding="async"
+            fetchPriority={priority ? "high" : "auto"}
+            loading={priority ? "eager" : "lazy"}
+            className="absolute select-none"
+            draggable={false}
+            style={{
+              maxWidth: "none",
+              width: `${100 / logo.crop.w}%`,
+              height: `${100 / logo.crop.h}%`,
+              left: `${(-logo.crop.x / logo.crop.w) * 100}%`,
+              top: `${(-logo.crop.y / logo.crop.h) * 100}%`,
+            }}
+          />
+        </span>
+      ) : (
         <Image
-          src={resolvedUrl}
+          src="/images/logo.png"
           alt={altText}
-          width={width}
-          height={height}
+          width={240}
+          height={56}
           priority={priority}
-          className={`h-9 w-auto max-h-10 sm:h-11 sm:max-h-12 md:h-12 max-w-[190px] sm:max-w-[240px] md:max-w-[280px] object-contain object-left transition-transform duration-200 group-hover:scale-[1.02] ${imageClassName}`}
+          className={`w-auto object-contain object-left ${sizeClassName}`}
         />
-      </div>
+      )}
     </Link>
   );
 }

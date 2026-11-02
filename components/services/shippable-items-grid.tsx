@@ -73,15 +73,22 @@ export default function ShippableItemsGrid({ service }: { service: ServiceDetail
             >
               <div className="flex items-center justify-between gap-3 border-b border-border/80 pb-3.5">
                 <div className="flex items-center gap-3">
-                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary-soft text-primary transition-colors duration-200 group-hover:bg-accent group-hover:text-primary-dark shadow-2xs">
-                    <Icon className="h-5 w-5 stroke-[2.2]" aria-hidden="true" />
-                  </span>
+                  {cat.iconUrl ? (
+                    <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary-soft text-primary transition-colors duration-200 group-hover:bg-accent group-hover:text-white shadow-2xs p-2 overflow-hidden">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={cat.iconUrl} alt={cat.categoryName} className="h-full w-full object-contain" />
+                    </span>
+                  ) : (
+                    <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary-soft text-primary transition-colors duration-200 group-hover:bg-accent group-hover:text-white shadow-2xs">
+                      <Icon className="h-5 w-5 stroke-[2.2]" aria-hidden="true" />
+                    </span>
+                  )}
                   <h3 className="font-display text-base font-extrabold text-primary-dark">
                     {cat.categoryName}
                   </h3>
                 </div>
                 <span className="rounded-full bg-surface-muted px-2.5 py-0.5 text-[10px] font-black uppercase tracking-wider text-muted-light border border-border/60">
-                  Eligible
+                  {cat.badge || "Eligible"}
                 </span>
               </div>
 
@@ -103,13 +110,10 @@ export default function ShippableItemsGrid({ service }: { service: ServiceDetail
       {/* Important Regulatory & Restrictions Notice Callout */}
       {importantNotice && (
         <div className="mt-8 flex items-start gap-3.5 rounded-2xl border border-amber-500/30 bg-amber-500/5 p-4.5 sm:p-5 shadow-2xs">
-          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-amber-500/20 text-amber-700 mt-0.5">
-            <AlertTriangle className="h-5 w-5" />
-          </span>
-          <div className="text-xs sm:text-[13px] leading-relaxed text-secondary/90">
-            <span className="font-extrabold text-primary-dark">Important Information: </span>
-            <span>{importantNotice.replace(/^Important:\s*/i, "")}</span>
-          </div>
+          <AlertTriangle className="h-5 w-5 shrink-0 text-amber-600 mt-0.5" />
+          <p className="text-xs sm:text-[13px] leading-relaxed text-secondary font-medium">
+            {importantNotice}
+          </p>
         </div>
       )}
     </section>

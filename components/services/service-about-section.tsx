@@ -31,7 +31,7 @@ import type { ServiceDetail } from "@/lib/service-details";
 import { BUSINESS } from "@/lib/site-data";
 
 function getFeatureIcon(iconName: string): LucideIcon {
-  const norm = iconName.toLowerCase();
+  const norm = (iconName || "").toLowerCase();
   if (norm.includes("truck")) return Truck;
   if (norm.includes("globe")) return Globe;
   if (norm.includes("plane")) return Plane;
@@ -65,6 +65,10 @@ export default function ServiceAboutSection({
     service.aboutTitle ||
     `Fast, Reliable ${service.shortTitle || service.title.split(" in ")[0]} at Competitive Rates`;
 
+  const paragraphs = service.aboutDescription
+    ? service.aboutDescription.split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean)
+    : service.introParagraphs;
+
   return (
     <section
       aria-labelledby="about-service-heading"
@@ -95,50 +99,63 @@ export default function ServiceAboutSection({
         </div>
 
         {/* Intro Story Paragraphs */}
-        <div className="mt-5 space-y-3.5 text-sm sm:text-base leading-relaxed text-muted font-normal max-w-4xl mx-auto text-center">
-          {service.introParagraphs.map((para, i) => (
-            <p key={i}>{para}</p>
-          ))}
-        </div>
+        {paragraphs && paragraphs.length > 0 && (
+          <div className="mt-5 space-y-3.5 text-sm sm:text-base leading-relaxed text-muted font-normal max-w-4xl mx-auto text-center">
+            {paragraphs.map((para, i) => (
+              <p key={i}>{para}</p>
+            ))}
+          </div>
+        )}
 
         {/* 4 Feature Cards Grid */}
-        <div className="mt-8 grid gap-4 sm:grid-cols-2">
-          {service.keyHighlights.map((hl) => {
-            const IconComponent = getFeatureIcon(hl.icon);
-            return (
-              <div
-                key={hl.title}
-                className="group relative flex flex-col justify-between rounded-2xl border border-border/80 bg-gradient-to-b from-surface via-surface to-surface-muted/40 p-5 sm:p-5.5 transition-all duration-300 hover:border-accent/40 hover:bg-surface hover:shadow-md hover:-translate-y-0.5"
-              >
-                <div>
-                  <div className="flex items-center justify-between gap-2">
-                    <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary-soft text-primary transition-colors duration-200 group-hover:bg-accent group-hover:text-primary-dark shadow-2xs">
-                      <IconComponent className="h-5 w-5 stroke-[2.2]" />
-                    </span>
-                    {hl.badge && (
-                      <span className="rounded-full border border-border/70 bg-surface-muted px-2.5 py-0.5 text-[10px] font-black uppercase tracking-wider text-muted-light group-hover:border-accent/30 group-hover:text-accent-dark transition-colors">
-                        {hl.badge}
-                      </span>
-                    )}
+        {service.keyHighlights && service.keyHighlights.length > 0 && (
+          <div className="mt-8 grid gap-4 sm:grid-cols-2">
+            {service.keyHighlights.map((hl) => {
+              const IconComponent = getFeatureIcon(hl.icon || "");
+              return (
+                <div
+                  key={hl.title}
+                  className="group relative flex flex-col justify-between rounded-2xl border border-border/80 bg-gradient-to-b from-surface via-surface to-surface-muted/40 p-5 sm:p-5.5 transition-all duration-300 hover:border-accent/40 hover:bg-surface hover:shadow-md hover:-translate-y-0.5"
+                >
+                  <div>
+                    <div className="flex items-center justify-between gap-2">
+                      {hl.iconUrl ? (
+                        <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary-soft text-primary transition-colors duration-200 group-hover:bg-accent group-hover:text-white shadow-2xs p-2 overflow-hidden">
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img
+                            src={hl.iconUrl}
+                            alt={hl.title}
+                            className="h-full w-full object-contain"
+                          />
+                        </span>
+                      ) : (
+                        <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary-soft text-primary transition-colors duration-200 group-hover:bg-accent group-hover:text-white shadow-2xs">
+                          <IconComponent className="h-5 w-5 stroke-[2.2]" />
+                        </span>
+                      )}
+                      {hl.badge && (
+                        <span className="rounded-full border border-border/70 bg-surface-muted px-2.5 py-0.5 text-[10px] font-black uppercase tracking-wider text-muted-light group-hover:border-accent/30 group-hover:text-accent-dark transition-colors">
+                          {hl.badge}
+                        </span>
+                      )}
+                    </div>
+
+                    <h3 className="font-display mt-3.5 text-base font-extrabold text-primary-dark transition-colors group-hover:text-primary">
+                      {hl.title}
+                    </h3>
+                    <p className="mt-1.5 text-xs sm:text-[13px] leading-relaxed text-muted font-medium">
+                      {hl.description}
+                    </p>
                   </div>
 
-                  <h3 className="font-display mt-3.5 text-base font-extrabold text-primary-dark transition-colors group-hover:text-primary">
-                    {hl.title}
-                  </h3>
-                  <p className="mt-1.5 text-xs sm:text-[13px] leading-relaxed text-muted font-medium">
-                    {hl.description}
-                  </p>
+                  <div className="mt-4 pt-3 border-t border-border/60 flex items-center justify-between text-[11px] font-bold text-primary group-hover:text-accent transition-colors">
+                    <span>{hl.footerText || "Available In-Store"}</span>
+                  </div>
                 </div>
-
-                <div className="mt-4 pt-3 border-t border-border/60 flex items-center justify-between text-[11px] font-bold text-primary group-hover:text-accent transition-colors">
-                  <span>Available In-Store</span>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-
-
+              );
+            })}
+          </div>
+        )}
       </div>
     </section>
   );

@@ -31,15 +31,15 @@
   --secondary-dark: #061326;
   --secondary-light: #153866;
 
-  /* Eye-Catchy Highlight / Accent — Vibrant Amber Gold for high visual attraction */
-  --accent: #ff8c00;
-  --accent-light: #ffa733;
-  --accent-soft: #fff4e5;
-  --accent-dark: #e67600;
+  /* Eye-Catchy Highlight / Accent — Brand Orange (#f24d02) */
+  --accent: #f24d02;
+  --accent-light: #ff6b29;
+  --accent-soft: #fef3ed;
+  --accent-dark: #c94002;
 
   /* Highlight Aliases */
-  --highlight: #ff8c00;
-  --highlight-soft: #fff4e5;
+  --highlight: #f24d02;
+  --highlight-soft: #fef3ed;
 
   /* Authorized Carriers */
   --carrier-fedex: #4d148c;
@@ -93,7 +93,7 @@
   /* Shadows */
   --shadow-card: 0 4px 20px -4px rgba(15, 45, 89, 0.08);
   --shadow-card-hover: 0 12px 32px -8px rgba(15, 45, 89, 0.16);
-  --shadow-glow: 0 0 0 4px rgba(255, 140, 0, 0.25);
+  --shadow-glow: 0 0 0 4px rgba(242, 77, 2, 0.25);
   --shadow-float: 0 16px 36px -10px rgba(15, 45, 89, 0.18);
 }
 

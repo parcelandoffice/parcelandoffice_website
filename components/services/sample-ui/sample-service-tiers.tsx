@@ -65,7 +65,7 @@ export default function SampleServiceTiers({
               >
                 {/* Featured Ribbon Badge */}
                 {isFeatured && (
-                  <div className="absolute -top-3 right-6 rounded-full bg-accent px-3 py-0.5 text-[10px] font-black uppercase tracking-wider text-primary-dark shadow-xs">
+                  <div className="absolute -top-3 right-6 rounded-full bg-accent px-3 py-0.5 text-[10px] font-black uppercase tracking-wider text-white shadow-xs">
                     Popular Choice
                   </div>
                 )}
