@@ -50,7 +50,7 @@ export default function BlogArticleCta() {
         <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
           <Link
             href="/contact-us"
-            className="inline-flex items-center gap-2 rounded-xl bg-accent px-8 py-4 text-sm font-bold tracking-wide text-white shadow-[0_0_28px_rgba(255,140,0,0.35)] transition-all hover:bg-accent-dark hover:scale-105 active:scale-95"
+            className="inline-flex items-center gap-2 rounded-xl bg-accent px-8 py-4 text-sm font-bold tracking-wide text-white shadow-[0_0_28px_rgba(242,77,2,0.35)] transition-all hover:bg-accent-dark hover:scale-105 active:scale-95"
           >
             <span>Get In Touch</span>
             <ArrowRight className="h-4 w-4" aria-hidden="true" />

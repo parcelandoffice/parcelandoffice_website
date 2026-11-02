@@ -48,7 +48,7 @@ export default function NotaryCustomerAssistance() {
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3.5">
             <a
               href="tel:410-519-3131"
-              className="inline-flex w-full sm:w-auto items-center justify-center gap-2.5 rounded-full bg-accent px-7 py-3.5 text-xs sm:text-sm font-black uppercase tracking-wider text-primary-dark shadow-glow transition-all duration-200 hover:bg-accent-light hover:scale-[1.02] active:scale-[0.98]"
+              className="inline-flex w-full sm:w-auto items-center justify-center gap-2.5 rounded-full bg-accent px-7 py-3.5 text-xs sm:text-sm font-black uppercase tracking-wider text-white shadow-glow transition-all duration-200 hover:bg-accent-light hover:scale-[1.02] active:scale-[0.98]"
             >
               <Phone className="h-4 w-4" aria-hidden="true" />
               <span>Call Our Store</span>

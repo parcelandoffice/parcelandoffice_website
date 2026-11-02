@@ -12,7 +12,7 @@ import DigitalOverview from "@components/digital-marketing/digital-overview";
 import DigitalPlatforms from "@components/digital-marketing/digital-platforms";
 import DigitalProcess from "@components/digital-marketing/digital-process";
 import DigitalServicesList from "@components/digital-marketing/digital-services-list";
-import DigitalTestimonials from "@components/digital-marketing/digital-testimonials";
+import Testimonials from "@components/home/testimonials";
 import DigitalWhyChoose from "@components/digital-marketing/digital-why-choose";
 import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
@@ -149,19 +149,45 @@ export default async function DigitalMarketingServiceUsaPage({ params }: Props) 
         {/* Section 8: Why Choose Us */}
         {service.showWhyChooseUs !== false && <DigitalWhyChoose service={service} />}
 
-        {/* Client Testimonials (after Why Choose Us) */}
-        {service.showTestimonials !== false &&
-          service.testimonials &&
-          service.testimonials.items &&
-          service.testimonials.items.length > 0 && (
-            <DigitalTestimonials service={service} />
-          )}
+        {/* Client Testimonials (after Why Choose Us) - using home page Testimonials section */}
+        {service.showTestimonials !== false && (
+          <Testimonials
+            testimonialTag={service.testimonials?.eyebrow || "CLIENT TESTIMONIALS"}
+            testimonialTitle={service.testimonials?.heading || "What Our Clients Say"}
+            testimonialDescription={service.testimonials?.description}
+            testimonials={
+              service.testimonials?.items && service.testimonials.items.length > 0
+                ? service.testimonials.items.map((item, idx) => ({
+                  _id: item.clientName || `test-${idx}`,
+                  name: item.clientName,
+                  role: item.role
+                    ? item.company
+                      ? `${item.role}, ${item.company}`
+                      : item.role
+                    : item.company,
+                  description: item.quote,
+                  star: item.rating || 5,
+                }))
+                : undefined
+            }
+          />
+        )}
 
         {/* Section 9: Frequently Asked Questions */}
         {service.showFaqs !== false && <DigitalFaq service={service} />}
 
-        {/* Section 10: Final Call to Action (Common as in dhl-shipping) */}
-        {service.showFinalCta !== false && <FinalCta />}
+        {/* Section 10: Final Call to Action */}
+        {service.showFinalCta !== false && (
+          <FinalCta
+            eyebrow={service.finalCta?.eyebrow}
+            title={service.finalCta?.heading}
+            description={service.finalCta?.description}
+            primaryText={service.finalCta?.ctaText}
+            primaryHref={service.finalCta?.ctaHref}
+            secondaryText={service.finalCta?.secondaryCtaText}
+            secondaryHref={service.finalCta?.secondaryCtaHref}
+          />
+        )}
       </main>
     </>
   );

@@ -65,7 +65,7 @@ const MissionVision = ({
 
               <div>
                 {/* Icon */}
-                <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-accent/20 text-accent transition-transform duration-300 group-hover:scale-110 group-hover:bg-accent group-hover:text-primary-dark">
+                <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-accent/20 text-accent transition-transform duration-300 group-hover:scale-110 group-hover:bg-accent group-hover:text-white">
                   {missionIconUrl ? (
                     <Image
                       src={missionIconUrl}
@@ -119,7 +119,7 @@ const MissionVision = ({
 
               <div>
                 {/* Icon */}
-                <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-accent-light/20 text-accent-light transition-transform duration-300 group-hover:scale-110 group-hover:bg-accent-light group-hover:text-primary-dark">
+                <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-accent-light/20 text-accent-light transition-transform duration-300 group-hover:scale-110 group-hover:bg-accent-light group-hover:text-white">
                   {visionIconUrl ? (
                     <Image
                       src={visionIconUrl}

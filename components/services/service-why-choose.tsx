@@ -51,7 +51,12 @@ export default function ServiceWhyChoose({ service }: { service: ServiceDetail }
       ? "Why Choose Parcel & Office Solutions for DHL Shipping?"
       : "Convenient shipping, verified tracking, and neighborhood customer care right here in Anne Arundel County.");
 
-  const defaultItems = [
+  const defaultItems: {
+    title: string;
+    description: string;
+    icon?: string;
+    iconUrl?: string;
+  }[] = [
     {
       title: "In-Store Assistance",
       description: "Get help understanding the shipping process.",
@@ -116,11 +121,16 @@ export default function ServiceWhyChoose({ service }: { service: ServiceDetail }
           >
             {/* Left Check Indicator & Highlight Label Badge */}
             <div className="flex items-center gap-2.5 sm:gap-3 shrink-0">
-              <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-accent/20 text-accent-dark">
-                <Check className="h-4 w-4 stroke-[3]" />
+              <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-accent/20 text-accent-dark overflow-hidden p-1">
+                {item.iconUrl ? (
+                  /* eslint-disable-next-line @next/next/no-img-element */
+                  <img src={item.iconUrl} alt={item.title} className="h-full w-full object-contain" />
+                ) : (
+                  <Check className="h-4 w-4 stroke-[3]" />
+                )}
               </span>
 
-              <span className="inline-flex items-center rounded-full bg-primary-soft border border-primary/10 px-3.5 py-1 text-xs font-black uppercase tracking-wider text-primary group-hover:bg-accent group-hover:text-primary-dark group-hover:border-accent/40 transition-colors">
+              <span className="inline-flex items-center rounded-full bg-primary-soft border border-primary/10 px-3.5 py-1 text-xs font-black uppercase tracking-wider text-primary group-hover:bg-accent group-hover:text-white group-hover:border-accent/40 transition-colors">
                 {item.title}
               </span>
             </div>
@@ -132,7 +142,6 @@ export default function ServiceWhyChoose({ service }: { service: ServiceDetail }
           </div>
         ))}
       </div>
-
     </section>
   );
 }

@@ -20,8 +20,8 @@ export default function SampleRequirementsGuide({
     service.checklistItems ||
     (service.requirementsItems
       ? service.requirementsItems.map((r) => ({
-          title: r.title,
-          description: r.description,
+          title: typeof r === "string" ? r : r.title,
+          description: typeof r === "string" ? "" : r.description,
           required: true,
         }))
       : null);
@@ -58,7 +58,7 @@ export default function SampleRequirementsGuide({
               key={idx}
               className="flex items-start gap-3.5 rounded-2xl border border-white/15 bg-white/10 p-4 sm:p-5 backdrop-blur-md transition-all hover:bg-white/15"
             >
-              <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-accent text-primary-dark font-black text-xs">
+              <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-accent text-white font-black text-xs">
                 {idx + 1}
               </span>
 

@@ -8,7 +8,6 @@ import {
   PackageCheck,
   Award,
   Phone,
-  MapPin,
   ArrowRight,
   Sparkles,
 } from "lucide-react";
@@ -44,9 +43,7 @@ export default function ServiceHero({ service }: { service: ServiceDetail }) {
             ? "Get a Shipping Quote"
             : `Get a Quote`);
 
-  const storeLabel = service.ctaStoreLabel || "Visit Our Store";
   const quoteHref = service.ctaQuoteHref || BUSINESS.phoneHref;
-  const storeHref = service.ctaStoreHref || "/contact-us";
 
   return (
     <section className="relative overflow-hidden border-b border-border bg-gradient-to-b from-surface-muted/70 via-surface to-surface py-7 sm:py-9 lg:py-12">
@@ -210,7 +207,7 @@ export default function ServiceHero({ service }: { service: ServiceDetail }) {
               )}
             </div>
 
-            {/* CTA Buttons */}
+            {/* CTA Button */}
             <div className="mt-6 flex flex-wrap items-center gap-3.5 sm:gap-4">
               <a
                 href={quoteHref}
@@ -220,15 +217,6 @@ export default function ServiceHero({ service }: { service: ServiceDetail }) {
                 <span>{quoteLabel}</span>
                 <ArrowRight className="h-4 w-4 stroke-[2.5] transition-transform duration-200 group-hover:translate-x-0.5" />
               </a>
-
-              <Link
-                href={storeHref}
-                id="hero-secondary-cta"
-                className="group inline-flex items-center justify-center gap-2 rounded-full border border-border bg-surface px-6 py-3 text-xs sm:text-sm font-bold text-secondary transition-all duration-200 hover:bg-surface-muted hover:border-primary/40 hover:shadow-xs active:translate-y-0 cursor-pointer"
-              >
-                <MapPin className="h-4 w-4 text-accent group-hover:scale-110 transition-transform" />
-                <span>{storeLabel}</span>
-              </Link>
             </div>
           </div>
 

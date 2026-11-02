@@ -127,7 +127,7 @@ export default function StoreHoursModal({ isOpen, onClose }: StoreHoursModalProp
                 return (
                   <div key={day.shortDay} className="flex flex-col">
                     {/* Active Accent pill badge on top for Today */}
-                    <div className="rounded-t-md bg-accent py-1 text-center text-[11px] sm:text-xs font-black uppercase tracking-wider text-primary-dark shadow-xs">
+                    <div className="rounded-t-md bg-accent py-1 text-center text-[11px] sm:text-xs font-black uppercase tracking-wider text-white shadow-xs">
                       Today
                     </div>
                     {/* Primary Brand Navy active card */}

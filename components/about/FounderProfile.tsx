@@ -75,7 +75,7 @@ const FounderProfile = async ({ aboutPageData }: FounderProfileProps) => {
 
                   {/* Corner Accent Badge */}
                   <div className="absolute -bottom-4 -right-4 flex items-center gap-2 rounded-2xl border border-accent/30 bg-surface px-4 py-2.5 shadow-lg sm:-bottom-5 sm:-right-5">
-                    <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent text-primary-dark font-bold">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent text-white font-bold">
                       <Award className="h-4 w-4" />
                     </div>
                     <div className="text-left">

@@ -90,7 +90,7 @@ export default function SampleFeaturesGrid({
               >
                 {/* Header */}
                 <div className="flex items-center gap-3 border-b border-border/60 pb-3.5">
-                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary-soft text-primary transition-colors group-hover:bg-accent group-hover:text-primary-dark shadow-2xs">
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary-soft text-primary transition-colors group-hover:bg-accent group-hover:text-white shadow-2xs">
                     <Icon className="h-5 w-5 stroke-[2.2]" />
                   </span>
                   <h3 className="font-display text-base sm:text-lg font-bold text-primary-dark group-hover:text-primary transition-colors">
