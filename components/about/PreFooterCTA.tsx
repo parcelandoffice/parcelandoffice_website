@@ -43,7 +43,7 @@ function PreFooterCTA() {
                         <div className="transition-transform duration-200 hover:scale-105 active:scale-[0.97]">
                             <Link
                                 href="/contact-us"
-                                className="inline-flex items-center gap-2 rounded-full bg-accent px-9 py-4 text-sm font-bold tracking-wide text-primary-dark transition-[filter] hover:brightness-110"
+                                className="inline-flex items-center gap-2 rounded-full bg-accent px-9 py-4 text-sm font-bold tracking-wide text-white transition-[filter] hover:brightness-110"
                             >
                                 Schedule a Consultation <ArrowRight size={16} />
                             </Link>

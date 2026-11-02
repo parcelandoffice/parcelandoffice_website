@@ -63,7 +63,7 @@ export default function NotaryProcess() {
               <div>
                 {/* Step Header */}
                 <div className="flex items-center justify-between gap-2 border-b border-border/70 pb-4">
-                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-primary text-white font-display text-base font-black shadow-2xs group-hover:bg-accent group-hover:text-primary-dark transition-colors duration-200">
+                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-primary text-white font-display text-base font-black shadow-2xs group-hover:bg-accent group-hover:text-white transition-colors duration-200">
                     {item.step}
                   </span>
                   <span className="rounded-full bg-primary-soft px-2.5 py-0.5 text-[10px] font-black uppercase tracking-wider text-primary">

@@ -196,7 +196,7 @@ export default function BlogListing({
           <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
             <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-primary">
               <Layers className="h-4 w-4 text-accent" aria-hidden="true" />
-              <span>Filter By Topic</span>
+              <span>Filter By Categories</span>
             </div>
 
             <div className="flex items-center gap-2 text-xs font-medium text-muted">
@@ -230,15 +230,15 @@ export default function BlogListing({
                   aria-selected={isSelected}
                   onClick={() => handleCategorySelect(cat.title)}
                   className={`group inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-bold transition-all duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary/20 ${isSelected
-                      ? "bg-primary text-white shadow-sm ring-1 ring-primary"
-                      : "border border-border bg-surface text-muted hover:border-primary/40 hover:bg-surface-muted hover:text-foreground"
+                    ? "bg-primary text-white shadow-sm ring-1 ring-primary"
+                    : "border border-border bg-surface text-muted hover:border-primary/40 hover:bg-surface-muted hover:text-foreground"
                     }`}
                 >
                   <span>{cat.title}</span>
                   <span
                     className={`inline-flex h-5 min-w-5 items-center justify-center rounded-full px-1.5 text-[11px] font-bold ${isSelected
-                        ? "bg-accent text-primary-dark"
-                        : "bg-surface-subtle text-muted group-hover:text-foreground"
+                      ? "bg-accent text-white"
+                      : "bg-surface-subtle text-muted group-hover:text-foreground"
                       }`}
                   >
                     {cat.count}

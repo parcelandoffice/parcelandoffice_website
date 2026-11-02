@@ -3,7 +3,8 @@ import { SITE_NAME } from "@/lib/site-data";
 import WhatsAppFloat from "@components/common/whatsapp-float";
 import Footer from "@components/layout/footer";
 import Header from "@components/layout/header";
-import { getItServices } from "@/lib/apis";
+import { getItServices, getSiteSettings } from "@/lib/apis";
+import { resolveLogo } from "@/lib/logo";
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Outfit } from "next/font/google";
 import "./globals.css";
@@ -47,7 +48,13 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const itServices = await getItServices();
+  const [itServices, siteSettings] = await Promise.all([
+    getItServices(),
+    getSiteSettings().catch(() => null),
+  ]);
+  const brandLogo = await resolveLogo(
+    siteSettings?.logoInverted || siteSettings?.logo,
+  );
 
   return (
     <html
@@ -82,9 +89,9 @@ export default async function RootLayout({
             style={{ display: "none", visibility: "hidden" }}
           ></iframe>
         </noscript>
-        <Header itServices={itServices} />
+        <Header itServices={itServices} logo={brandLogo} />
         <main className="flex-1 overflow-x-clip">{children}</main>
-        <Footer />
+        <Footer logo={brandLogo} />
         {/* <WhatsAppFloat /> */}
       </body>
     </html>

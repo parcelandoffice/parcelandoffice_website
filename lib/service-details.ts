@@ -12,8 +12,14 @@ export type ServiceDetail = {
   eyebrow: string;
   heroImage: string;
   heroBadge: string;
+  showHero?: boolean;
+  heroCardBadge?: string;
+  heroCardTitle?: string;
+  heroCardDescription?: string;
   aboutLabel?: string;
   aboutTitle?: string;
+  aboutDescription?: string;
+  showAbout?: boolean;
   ctaQuoteLabel?: string;
   ctaQuoteHref?: string;
   ctaStoreLabel?: string;
@@ -24,11 +30,15 @@ export type ServiceDetail = {
     title: string;
     description: string;
     icon: string;
+    iconUrl?: string;
     badge?: string;
+    footerText?: string;
   }[];
+  showServicesOffered?: boolean;
   servicesOfferedLabel?: string;
   servicesOfferedTitle: string;
   servicesOfferedSubtitle: string;
+  servicesCtaText?: string;
   servicesCtaLabel?: string;
   servicesCtaHref?: string;
   servicesList: {
@@ -39,28 +49,49 @@ export type ServiceDetail = {
     featured?: boolean;
     price?: string;
   }[];
+  showShippableItems?: boolean;
   shippableItemsLabel?: string;
   shippableItemsTitle: string;
   shippableItemsSubtitle: string;
   shippableImportantNotice?: string;
   shippableCategories: {
     categoryName: string;
+    badge?: string;
     icon: string;
+    iconUrl?: string;
     items: string[];
   }[];
+  showDestinations?: boolean;
   destinationsLabel?: string;
   destinationsTitle?: string;
   destinationsSubtitle?: string;
   destinationsCtaLabel?: string;
+  destinationsCtaHref?: string;
+  destinationsList?: {
+    name?: string;
+    region?: string;
+    subtitle?: string;
+    speed?: string;
+    description?: string;
+    image?: string;
+    imageUrl?: string;
+    badge?: string;
+    popularDestinations?: string[];
+  }[];
+  showRequirements?: boolean;
   requirementsLabel?: string;
   requirementsTitle?: string;
   requirementsSubtitle?: string;
   requirementsNotice?: string;
-  requirementsItems?: {
-    title: string;
-    description: string;
-    icon?: string;
-  }[];
+  requirementsItems?: (
+    | string
+    | {
+        title: string;
+        description: string;
+        icon?: string;
+      }
+  )[];
+  showProcess?: boolean;
   processLabel?: string;
   processTitle?: string;
   processSubtitle?: string;
@@ -68,6 +99,9 @@ export type ServiceDetail = {
     step: string;
     title: string;
     description: string;
+    badge?: string;
+    icon?: string;
+    iconUrl?: string;
   }[];
   checklistTitle?: string;
   checklistSubtitle?: string;
@@ -76,11 +110,23 @@ export type ServiceDetail = {
     description: string;
     required?: boolean;
   }[];
+  showCutoffTracking?: boolean;
   cutoffTrackingLabel?: string;
   cutoffTrackingTitle?: string;
   cutoffTrackingSubtitle?: string;
   cutoffTrackingCtaLabel?: string;
   cutoffTrackingCtaHref?: string;
+  trackingPlaceholder?: string;
+  cutoffCards?: {
+    icon?: string;
+    iconUrl?: string;
+    title: string;
+    badge?: string;
+    highlight?: string;
+    description?: string;
+    footerText?: string;
+  }[];
+  showWhyChoose?: boolean;
   whyChooseLabel?: string;
   whyChooseTitle?: string;
   whyChooseSubtitle?: string;
@@ -89,10 +135,12 @@ export type ServiceDetail = {
     title: string;
     description: string;
     icon?: string;
+    iconUrl?: string;
   }[];
   customerAssistanceLabel?: string;
   customerAssistanceTitle?: string;
   customerAssistanceSubtitle?: string;
+  showFaqs?: boolean;
   faqEyebrow?: string;
   faqHeading?: string;
   faqDescription?: string;
@@ -111,6 +159,12 @@ export type ServiceDetail = {
     question: string;
     answer: string;
   }[];
+  showFinalCta?: boolean;
+  finalCtaTag?: string;
+  finalCtaTitle?: string;
+  finalCtaDescription?: string;
+  finalCtaButtonLabel?: string;
+  finalCtaButtonHref?: string;
 };
 
 export const SERVICES_DETAILS: Record<string, ServiceDetail> = {

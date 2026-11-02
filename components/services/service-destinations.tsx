@@ -67,7 +67,18 @@ export default function ServiceDestinationsSection({
     `${service.title || "International shipping"} connects shippers with global destinations through worldwide delivery networks. Whether you're sending business paperwork, personal documents, or eligible parcels, destination availability and transit times depend on the selected service.`;
   const ctaLabel =
     service.destinationsCtaLabel || "Get an International Shipping Quote";
-  const ctaHref = service.ctaQuoteHref || BUSINESS.phoneHref;
+  const ctaHref = service.destinationsCtaHref || service.ctaQuoteHref || BUSINESS.phoneHref;
+
+  const regionsToDisplay =
+    service.destinationsList && service.destinationsList.length > 0
+      ? service.destinationsList.map((d, i) => ({
+          name: d.region || d.name || `Region ${i + 1}`,
+          image: d.imageUrl || d.image || "/images/world_map.jpg",
+          badge: d.speed || d.badge || "Express",
+          popularDestinations: d.popularDestinations || (d.subtitle ? [d.subtitle] : []),
+          description: d.description || "",
+        }))
+      : DESTINATION_REGIONS;
 
   return (
     <section
@@ -95,7 +106,7 @@ export default function ServiceDestinationsSection({
 
       {/* 4 Continent / Region Cards */}
       <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 sm:gap-5">
-        {DESTINATION_REGIONS.map((region) => (
+        {regionsToDisplay.map((region) => (
           <div
             key={region.name}
             className="group flex flex-col rounded-2xl border border-border/80 bg-surface shadow-2xs transition-all duration-300 hover:-translate-y-1 hover:border-accent/60 hover:shadow-lg overflow-hidden"
@@ -122,10 +133,16 @@ export default function ServiceDestinationsSection({
               <h3 className="font-display text-base font-bold text-primary-dark group-hover:text-primary transition-colors">
                 {region.name}
               </h3>
-              <p className="mt-1.5 text-xs text-muted leading-relaxed flex-1">
-                {region.description}
-              </p>
-
+              {region.popularDestinations && region.popularDestinations.length > 0 && (
+                <span className="text-[11px] font-bold text-accent uppercase tracking-wider mt-0.5 block">
+                  {region.popularDestinations.join(", ")}
+                </span>
+              )}
+              {region.description && (
+                <p className="mt-1.5 text-xs text-muted leading-relaxed flex-1 font-medium">
+                  {region.description}
+                </p>
+              )}
             </div>
           </div>
         ))}

@@ -1,5 +1,5 @@
 import React from "react";
-import { Zap, CheckCircle2, ArrowRight, ShieldCheck } from "lucide-react";
+import { Zap, CheckCircle2, ArrowRight } from "lucide-react";
 import type { ServiceDetail } from "@/lib/service-details";
 import { BUSINESS } from "@/lib/site-data";
 
@@ -7,7 +7,7 @@ export default function ServiceTiersGrid({ service }: { service: ServiceDetail }
   const isDHL = service.carrierType === "dhl" || service.slug.includes("dhl");
   const sectionLabel = service.servicesOfferedLabel || "COMPREHENSIVE CARRIER SOLUTIONS";
   const ctaLabel = service.servicesCtaLabel || (isDHL ? "Explore DHL Shipping Options" : "Explore Shipping Options");
-  const ctaHref = service.servicesCtaHref || BUSINESS.phoneHref;
+  const ctaHref = service.ctaQuoteHref || BUSINESS.phoneHref;
 
   return (
     <section
@@ -45,7 +45,7 @@ export default function ServiceTiersGrid({ service }: { service: ServiceDetail }
               <div className="flex items-center">
                 <span
                   className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-[10px] font-normal uppercase tracking-wider ${tier.featured
-                    ? "bg-accent text-primary-dark shadow-2xs"
+                    ? "bg-accent text-white shadow-2xs"
                     : "bg-primary-soft text-primary border border-primary/10"
                     }`}
                 >
@@ -84,25 +84,11 @@ export default function ServiceTiersGrid({ service }: { service: ServiceDetail }
         ))}
       </div>
 
-      {/* Section CTA Action Bar */}
-      <div className="mt-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-2xl border border-border/80 bg-surface-muted/50 p-4 sm:p-5">
-        <div className="flex items-start gap-3">
-          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-accent-soft text-accent-dark mt-0.5">
-            <ShieldCheck className="h-5 w-5" />
-          </span>
-          <div>
-            <p className="text-xs sm:text-sm font-bold text-primary-dark">
-              Need rate estimates or customs assistance for your international destination?
-            </p>
-            <p className="text-xs text-muted mt-0.5">
-              Call our Odenton counter or visit us in-store to compare delivery options and pricing.
-            </p>
-          </div>
-        </div>
-
+      {/* Centered Section CTA Button */}
+      <div className="mt-8 sm:mt-10 flex justify-center">
         <a
           href={ctaHref}
-          className="group inline-flex shrink-0 items-center justify-center gap-2 rounded-full bg-primary px-6 py-2.5 text-xs sm:text-sm font-bold uppercase tracking-wider text-white shadow-xs transition-all duration-200 hover:bg-primary-dark hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
+          className="group inline-flex items-center justify-center gap-2.5 rounded-full bg-primary px-8 py-3 text-xs sm:text-sm font-extrabold uppercase tracking-wider text-white shadow-xs transition-all duration-200 hover:bg-primary-dark hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
         >
           <span>{ctaLabel}</span>
           <ArrowRight className="h-4 w-4 stroke-[2.5] transition-transform duration-200 group-hover:translate-x-0.5" />

@@ -1,10 +1,11 @@
-import { Mail, MapPin, Phone, Printer } from "lucide-react";
+import { Mail, MapPin, Phone } from "lucide-react";
 import Link from "next/link";
 import { Logo } from "@components/common/logo";
 import FooterQuickLinks from "@components/navigation/footer-quick-links";
 import { BUSINESS, SITE_NAME } from "@/lib/site-data";
+import type { ResolvedLogo } from "@/lib/logo";
 
-export default function Footer() {
+export default function Footer({ logo }: { logo?: ResolvedLogo | null }) {
   return (
     <footer className="relative overflow-hidden bg-secondary-dark text-on-dark">
       <div
@@ -14,7 +15,11 @@ export default function Footer() {
       <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
           <div>
-            <Logo variant="light" />
+            <Logo
+              logo={logo}
+              priority={false}
+              sizeClassName="w-[230px] sm:w-[250px] lg:w-full xl:w-[270px] max-w-full"
+            />
             <p className="mt-5 max-w-xs text-sm leading-relaxed text-on-dark/70">
               Your one-stop shop for packing, shipping, printing and business
               services in Odenton, MD. It&apos;s handled!

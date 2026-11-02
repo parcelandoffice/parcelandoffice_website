@@ -6,5 +6,13 @@ export default function ServiceCustomerAssistance({
 }: {
   service?: ServiceDetail;
 }) {
-  return <FinalCta />;
+  return (
+    <FinalCta
+      eyebrow={service?.finalCtaTag}
+      title={service?.finalCtaTitle}
+      description={service?.finalCtaDescription}
+      primaryText={service?.finalCtaButtonLabel}
+      primaryHref={service?.finalCtaButtonHref}
+    />
+  );
 }

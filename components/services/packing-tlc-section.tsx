@@ -31,7 +31,7 @@ export default function PackingTlcSection({ service }: { service: ServiceDetail 
           <div className="mt-6 grid gap-2.5 sm:grid-cols-2">
             {packingCommitment.features.map((feat) => (
               <div key={feat} className="flex items-center gap-2 text-xs font-semibold text-white/90">
-                <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-accent text-primary-dark">
+                <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-accent text-white">
                   <ShieldCheck className="h-3.5 w-3.5 stroke-[2.5]" />
                 </span>
                 <span>{feat}</span>
@@ -42,7 +42,7 @@ export default function PackingTlcSection({ service }: { service: ServiceDetail 
 
         {/* Action / Boxes Highlight Card */}
         <div className="lg:col-span-4 flex flex-col items-center justify-center rounded-2xl border border-white/20 bg-white/10 p-6 text-center backdrop-blur-md">
-          <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-accent text-primary-dark shadow-md">
+          <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-accent text-white shadow-md">
             <Box className="h-7 w-7" />
           </div>
 
@@ -55,7 +55,7 @@ export default function PackingTlcSection({ service }: { service: ServiceDetail 
 
           <Link
             href="/services/packaging-supplies"
-            className="mt-4 inline-flex items-center gap-1.5 rounded-xl bg-accent px-4 py-2.5 text-xs font-bold text-primary-dark transition-all hover:bg-accent-light shadow-xs"
+            className="mt-4 inline-flex items-center gap-1.5 rounded-xl bg-accent px-4 py-2.5 text-xs font-bold text-white transition-all hover:bg-accent-light shadow-xs"
           >
             <span>Explore Packaging Supplies</span>
             <ArrowRight className="h-3.5 w-3.5" />

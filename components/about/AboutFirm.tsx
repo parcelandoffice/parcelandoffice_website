@@ -70,7 +70,7 @@ const AboutFirm = ({
                   {/* Inside-image badge */}
                   <div className="absolute bottom-5 left-5 right-5 rounded-2xl border border-white/20 bg-primary-dark/85 p-4 text-white backdrop-blur-md">
                     <div className="flex items-center gap-3">
-                      <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-accent text-primary-dark shadow-md">
+                      <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-accent text-white shadow-md">
                         <PackageCheck className="h-6 w-6" />
                       </div>
                       <div>

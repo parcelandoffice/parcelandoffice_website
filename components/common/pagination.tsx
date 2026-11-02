@@ -37,7 +37,7 @@ export default function Pagination({
                 type="button"
                 disabled={currentPage <= 1}
                 onClick={() => onPageChange(currentPage - 1)}
-                className="cursor-pointer rounded-lg border border-border bg-surface px-4 py-2 text-sm font-medium transition-all hover:bg-accent hover:text-primary-dark disabled:pointer-events-none disabled:opacity-50"
+                className="cursor-pointer rounded-lg border border-border bg-surface px-4 py-2 text-sm font-medium transition-all hover:bg-accent hover:text-white disabled:pointer-events-none disabled:opacity-50"
                 aria-label="Previous page"
             >
                 Previous
@@ -67,7 +67,7 @@ export default function Pagination({
                         className={`h-10 w-10 cursor-pointer rounded-lg text-sm font-medium transition-all ${
                             isActive
                                 ? "bg-primary text-white shadow-sm"
-                                : "border border-border bg-surface hover:bg-accent hover:text-primary-dark"
+                                : "border border-border bg-surface hover:bg-accent hover:text-white"
                         }`}
                     >
                         {page}
@@ -79,7 +79,7 @@ export default function Pagination({
                 type="button"
                 disabled={currentPage >= totalPages}
                 onClick={() => onPageChange(currentPage + 1)}
-                className="cursor-pointer rounded-lg border border-border bg-surface px-4 py-2 text-sm font-medium transition-all hover:bg-accent hover:text-primary-dark disabled:pointer-events-none disabled:opacity-50"
+                className="cursor-pointer rounded-lg border border-border bg-surface px-4 py-2 text-sm font-medium transition-all hover:bg-accent hover:text-white disabled:pointer-events-none disabled:opacity-50"
                 aria-label="Next page"
             >
                 Next

@@ -2,39 +2,47 @@ import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import RevealCss from "@components/ui/reveal-css";
+import type { AboutPageData } from "@/lib/types";
 
 type HeroStatementProps = {
+  data?: AboutPageData | null;
   title?: string;
   badge?: string;
   cardTitle?: string;
   cardDescription?: string;
 };
 
-export default function HeroStatement({
-  title = "Moving our world forward by delivering what matters.",
-  badge = "CUSTOMER FIRST",
-  cardTitle = "How Parcel & Office Solutions delivers confidence with every package.",
-  cardDescription = "From urgent business deliveries and fragile family heirlooms to everyday office essentials, our Odenton store brings the power of FedEx, UPS, DHL, and USPS under one roof with personalized care.",
-}: HeroStatementProps) {
+export default function HeroStatement({ data, title, badge, cardTitle, cardDescription }: HeroStatementProps) {
+  const displayTitle = data?.heroTitle || title || "Moving our world forward by delivering what matters.";
+  const displayBadge = data?.heroCardBadge || badge || "CUSTOMER FIRST";
+  const displayCardTitle =
+    data?.heroCardTitle || cardTitle || "How Parcel & Office Solutions delivers confidence with every package.";
+  const displayCardDescription =
+    data?.heroCardDescription ||
+    cardDescription ||
+    "From urgent business deliveries and fragile family heirlooms to everyday office essentials, our Odenton store brings the power of FedEx, UPS, DHL, and USPS under one roof with personalized care.";
+  const primaryCtaLabel = data?.heroCardPrimaryCtaLabel || "Explore Services";
+  const primaryCtaUrl = data?.heroCardPrimaryCtaUrl || "/#services";
+  const heroImageSrc = data?.heroImageUrl || "/images/courier-associate-packing.jpg";
+
   return (
     <section className="bg-surface pt-10 pb-16 sm:pt-14 sm:pb-20">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        {/* Top Centered Statement with Yellow/Amber Underline - Reference Image 1 */}
+        {/* Top Centered Statement with Accent Underline */}
         <RevealCss className="mx-auto max-w-4xl text-center">
           <h1 className="font-display text-3xl font-extrabold tracking-tight text-secondary sm:text-5xl lg:text-6xl lg:leading-[1.15]">
-            {title}
+            {displayTitle}
           </h1>
-          {/* Yellow/Amber Accent Horizontal Bar */}
           <div className="mx-auto mt-5 h-1.5 w-16 rounded-full bg-accent" />
         </RevealCss>
 
-        {/* Hero Visual Banner with Overlapping Floating Card - Reference Image 1 */}
+        {/* Hero Visual Banner with Overlapping Floating Card */}
         <div className="relative mt-12 sm:mt-16">
           <RevealCss>
             <div className="relative aspect-[16/9] min-h-[420px] w-full overflow-hidden rounded-3xl border border-border shadow-2xl sm:min-h-[520px] lg:min-h-[580px]">
               <Image
-                src="/images/courier-associate-packing.jpg"
-                alt="Parcel & Office Solutions specialist assisting customer"
+                src={heroImageSrc}
+                alt={displayCardTitle}
                 fill
                 priority
                 className="object-cover object-center"
@@ -52,31 +60,24 @@ export default function HeroStatement({
                 <div className="flex items-center gap-2">
                   <span className="h-1 w-6 rounded-full bg-accent" />
                   <span className="text-xs font-extrabold tracking-widest text-secondary uppercase">
-                    {badge}
+                    {displayBadge}
                   </span>
                 </div>
 
                 <h2 className="mt-3 font-display text-xl font-bold leading-snug text-secondary sm:text-2xl">
-                  {cardTitle}
+                  {displayCardTitle}
                 </h2>
 
                 <p className="mt-3 text-sm leading-relaxed text-muted sm:text-base">
-                  {cardDescription}
+                  {displayCardDescription}
                 </p>
 
                 <div className="mt-6 flex items-center gap-4">
                   <Link
-                    href="/#services"
-                    className="inline-flex items-center gap-2 rounded-full bg-accent px-6 py-3 text-xs font-bold tracking-wider text-primary-dark uppercase shadow-md transition-all duration-200 hover:brightness-110 active:scale-95"
+                    href={primaryCtaUrl}
+                    className="inline-flex items-center gap-2 rounded-full bg-accent px-6 py-3 text-xs font-bold tracking-wider text-white uppercase shadow-md transition-all duration-200 hover:brightness-110 active:scale-95"
                   >
-                    Explore Services <ArrowRight size={15} />
-                  </Link>
-
-                  <Link
-                    href="/contact-us"
-                    className="text-xs font-bold text-primary transition-colors hover:text-accent"
-                  >
-                    Visit Odenton Store &rarr;
+                    {primaryCtaLabel} <ArrowRight size={15} />
                   </Link>
                 </div>
               </div>

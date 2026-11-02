@@ -1,5 +1,9 @@
 import { getServiceDetail } from "@/lib/service-details";
-import { getDigitalMarketingServiceBySlug } from "@/lib/apis";
+import {
+  getDigitalMarketingServiceBySlug,
+  getShippingMailingServiceBySlug,
+  getAllShippingMailingSlugs,
+} from "@/lib/apis";
 import { BUSINESS, SERVICES, SERVICES_MENU_CATEGORIES, SITE_NAME } from "@/lib/site-data";
 import { ServiceTemplateDispatcher } from "@components/services/templates";
 import type { Metadata } from "next";
@@ -15,6 +19,14 @@ export async function generateStaticParams() {
   SERVICES_MENU_CATEGORIES.forEach((cat) =>
     cat.items.forEach((item) => slugs.add(item.slug))
   );
+
+  try {
+    const sanitySlugs = await getAllShippingMailingSlugs();
+    sanitySlugs.forEach((s) => slugs.add(s));
+  } catch {
+    // Non-blocking fallback
+  }
+
   return Array.from(slugs).map((slug) => ({
     slug,
   }));
@@ -22,7 +34,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const service = getServiceDetail(slug);
+  const service = (await getShippingMailingServiceBySlug(slug)) || getServiceDetail(slug);
 
   if (!service) {
     const itService = await getDigitalMarketingServiceBySlug(slug);
@@ -60,7 +72,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ServiceDetailPage({ params }: Props) {
   const { slug } = await params;
-  const service = getServiceDetail(slug);
+  const service = (await getShippingMailingServiceBySlug(slug)) || getServiceDetail(slug);
 
   if (!service) {
     const itService = await getDigitalMarketingServiceBySlug(slug);
@@ -100,10 +112,7 @@ export default async function ServiceDetailPage({ params }: Props) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-
-      {/* Dynamic Service Template (Dispatched by service type/category) */}
       <ServiceTemplateDispatcher service={service} />
     </>
   );
 }
-

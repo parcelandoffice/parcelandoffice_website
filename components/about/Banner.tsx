@@ -84,7 +84,7 @@ const Banner = ({ aboutPageData, featuredImageUrl, featuredImageAlt }: BannerPro
           <div className="mt-9 flex flex-wrap items-center gap-4">
             <Link
               href="/#services"
-              className="inline-flex items-center gap-2 rounded-full bg-accent px-7 py-3.5 text-sm font-bold tracking-wide text-primary-dark shadow-[0_4px_20px_rgba(255,140,0,0.35)] transition-all duration-200 hover:brightness-110 hover:shadow-[0_6px_25px_rgba(255,140,0,0.5)] active:scale-95"
+              className="inline-flex items-center gap-2 rounded-full bg-accent px-7 py-3.5 text-sm font-bold tracking-wide text-white shadow-[0_4px_20px_rgba(242,77,2,0.35)] transition-all duration-200 hover:brightness-110 hover:shadow-[0_6px_25px_rgba(242,77,2,0.5)] active:scale-95"
             >
               {ctaButtonText} <ArrowRight size={17} />
             </Link>

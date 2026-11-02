@@ -1,3 +1,4 @@
+import { getServiceDetail, type ServiceDetail } from "./service-details";
 import { DEFAULT_LIMIT, DEFAULT_OFFSET, PLACEHOLDER_IMAGE } from "./constants";
 import type { FilteredResponseQueryOptions, QueryParams } from "@sanity/client";
 import { sanityClient } from "./sanity-client";
@@ -491,29 +492,59 @@ export async function getAboutPageData(): Promise<AboutPageData | null> {
     *[_type == "aboutPage"][0]{
       _id,
       title,
-      titleHighlight,
-      subtitle,
-      featuredImage,
-      aboutUsImage,
-      aboutFirmTag,
-      aboutFirmQuote,
-      aboutFirmParagraphs,
-      missionText,
-      missionIcon,
-      visionText,
-      visionIcon,
-      ctaButtonText,
-      founderTag,
-      founderAuthor->{
-        ${authorFields}
+      heroTitle,
+      heroImage,
+      "heroImageUrl": heroImage.asset->url,
+      heroCardBadge,
+      heroCardTitle,
+      heroCardDescription,
+      heroCardPrimaryCtaLabel,
+      heroCardPrimaryCtaUrl,
+
+      storyImage,
+      "storyImageUrl": storyImage.asset->url,
+      storyBadgeIcon,
+      "storyBadgeIconUrl": storyBadgeIcon.asset->url,
+      storyBadgeTitle,
+      storyBadgeSubtitle,
+      storyTitle,
+      storyContent,
+      storyCtaLabel,
+      storyTrustText,
+
+      statsBackgroundImage,
+      "statsBackgroundImageUrl": statsBackgroundImage.asset->url,
+      statsList[]{
+        value,
+        label,
+        subtext
       },
-      coreValuesTag,
-      coreValuesTitle,
-      coreValuesDescription,
-      coreValuesItems[]{
-        title,
-        description,
-        icon
+      statsCtaLabel,
+      statsCtaUrl,
+
+      missionVisionEyebrow,
+      missionVisionTitle,
+      missionVisionSubtitle,
+      missionIcon,
+      "missionIconUrl": missionIcon.asset->url,
+      missionTitle,
+      missionDescription,
+      missionPoints,
+      visionIcon,
+      "visionIconUrl": visionIcon.asset->url,
+      visionTitle,
+      visionDescription,
+      visionPoints,
+
+      teamEyebrow,
+      teamTitle,
+      teamTitleHighlight,
+      teamMembers[]{
+        name,
+        role,
+        image,
+        "imageUrl": image.asset->url,
+        quote
       }
     }
   `);
@@ -1346,8 +1377,14 @@ export async function getSiteSettings(): Promise<any | null> {
       _id,
       siteName,
       siteTagline,
-      logo,
-      logoInverted,
+      logo{
+        ...,
+        asset->
+      },
+      logoInverted{
+        ...,
+        asset->
+      },
       phone,
       fax,
       email,
@@ -1442,4 +1479,255 @@ export async function getTestimonials(): Promise<SanityTestimonial[]> {
     console.error("Error fetching testimonials from Sanity:", error);
     return [];
   }
-}
+}
+
+function resolveSanityUrl(source: any): string | undefined {
+  if (!source) return undefined;
+  if (typeof source === "string") return source.trim() || undefined;
+  if (source?.asset?.url) return source.asset.url;
+  try {
+    return urlFor(source).url() || undefined;
+  } catch {
+    return undefined;
+  }
+}
+
+export async function getAllShippingMailingSlugs(): Promise<string[]> {
+  try {
+    const slugs = await fetchFromSanity<string[]>(`
+      *[_type == "shippingMailingService" && defined(slug.current)][].slug.current
+    `);
+    return Array.isArray(slugs) ? slugs : [];
+  } catch (error) {
+    console.error("Error fetching shipping mailing slugs:", error);
+    return [];
+  }
+}
+
+export async function getShippingMailingServiceBySlug(
+  slug: string
+): Promise<ServiceDetail | null> {
+  const cleanSlug = slug.toLowerCase().trim();
+  const fallback = getServiceDetail(cleanSlug);
+
+  try {
+    const doc = await fetchFromSanity<any>(
+      `*[_type == "shippingMailingService" && (slug.current == $cleanSlug || slug.current == $slug)][0]{
+        ...,
+        customIcon{asset->{url}},
+        heroImage{asset->{url}},
+        cutoffCards[]{
+          ...,
+          iconImage{asset->{url}}
+        },
+        keyHighlights[]{
+          ...,
+          iconImage{asset->{url}}
+        },
+        shippableCategories[]{
+          ...,
+          iconImage{asset->{url}}
+        },
+        destinationsList[]{
+          ...,
+          image{asset->{url}}
+        },
+        processSteps[]{
+          ...,
+          iconImage{asset->{url}}
+        },
+        whyChooseItems
+      }`,
+      { cleanSlug, slug }
+    );
+
+    if (!doc) {
+      return fallback || null;
+    }
+
+    return mapSanityToShippingMailingService(doc, fallback);
+  } catch (error) {
+    console.error(`Error fetching shippingMailingService for "${slug}":`, error);
+    return fallback || null;
+  }
+}
+
+function mapSanityToShippingMailingService(
+  doc: any,
+  baseFallback?: ServiceDetail
+): ServiceDetail {
+  const cleanSlug = doc.slug?.current || baseFallback?.slug || "";
+
+  // Paragraphs
+  const introParagraphs = doc.aboutDescription
+    ? doc.aboutDescription.split(/\n\s*\n/).map((p: string) => p.trim()).filter(Boolean)
+    : (doc.introParagraphs && doc.introParagraphs.length > 0 ? doc.introParagraphs : (baseFallback?.introParagraphs || []));
+
+  // Highlights
+  const keyHighlights = doc.keyHighlights && doc.keyHighlights.length > 0
+    ? doc.keyHighlights.map((hl: any, idx: number) => ({
+        title: hl.title || baseFallback?.keyHighlights?.[idx]?.title || "",
+        description: hl.description || baseFallback?.keyHighlights?.[idx]?.description || "",
+        icon: baseFallback?.keyHighlights?.[idx]?.icon || "check",
+        iconUrl: resolveSanityUrl(hl.iconImage),
+        badge: hl.badge || baseFallback?.keyHighlights?.[idx]?.badge,
+        footerText: hl.footerText || baseFallback?.keyHighlights?.[idx]?.footerText,
+      }))
+    : (baseFallback?.keyHighlights || []);
+
+  // Services list
+  const servicesList = doc.servicesList && doc.servicesList.length > 0
+    ? doc.servicesList.map((tier: any, idx: number) => ({
+        name: tier.name || baseFallback?.servicesList?.[idx]?.name || "",
+        badge: tier.badge || baseFallback?.servicesList?.[idx]?.badge || "Option",
+        description: tier.description || baseFallback?.servicesList?.[idx]?.description || "",
+        speed: tier.speed || baseFallback?.servicesList?.[idx]?.speed || "Fast Delivery",
+        featured: tier.featured ?? baseFallback?.servicesList?.[idx]?.featured ?? false,
+        price: tier.price || baseFallback?.servicesList?.[idx]?.price,
+      }))
+    : (baseFallback?.servicesList || []);
+
+  // Shippable categories
+  const shippableCategories = doc.shippableCategories && doc.shippableCategories.length > 0
+    ? doc.shippableCategories.map((cat: any, idx: number) => ({
+        categoryName: cat.categoryName || baseFallback?.shippableCategories?.[idx]?.categoryName || "",
+        badge: cat.badge || baseFallback?.shippableCategories?.[idx]?.badge,
+        icon: baseFallback?.shippableCategories?.[idx]?.icon || "package",
+        iconUrl: resolveSanityUrl(cat.iconImage),
+        items: Array.isArray(cat.items) && cat.items.length > 0
+          ? cat.items
+          : (baseFallback?.shippableCategories?.[idx]?.items || []),
+      }))
+    : (baseFallback?.shippableCategories || []);
+
+  // Destinations list
+  const destinationsList = doc.destinationsList && doc.destinationsList.length > 0
+    ? doc.destinationsList.map((d: any, idx: number) => ({
+        name: d.region || d.name || `Destination ${idx + 1}`,
+        region: d.region || d.name,
+        subtitle: d.subtitle,
+        speed: d.speed,
+        description: d.description || "",
+        image: resolveSanityUrl(d.image) || "/images/world_map.jpg",
+        imageUrl: resolveSanityUrl(d.image),
+        badge: d.speed || d.badge || "Express",
+        popularDestinations: d.popularDestinations || [],
+      }))
+    : (baseFallback?.destinationsList || undefined);
+
+  // Cutoff Cards
+  const cutoffCards = doc.cutoffCards && doc.cutoffCards.length > 0
+    ? doc.cutoffCards.map((c: any) => ({
+        title: c.title || "",
+        badge: c.badge,
+        highlight: c.highlight,
+        description: c.description,
+        footerText: c.footerText,
+        iconUrl: resolveSanityUrl(c.iconImage),
+      }))
+    : (baseFallback?.cutoffCards || undefined);
+
+  // Process steps
+  const processSteps = doc.processSteps && doc.processSteps.length > 0
+    ? doc.processSteps.map((step: any, idx: number) => ({
+        step: step.step || `0${idx + 1}`,
+        title: step.title || "",
+        description: step.description || "",
+        badge: step.badge || baseFallback?.processSteps?.[idx]?.badge,
+        iconUrl: resolveSanityUrl(step.iconImage),
+      }))
+    : (baseFallback?.processSteps || undefined);
+
+  // Why choose items
+  const whyChooseItems = doc.whyChooseItems && doc.whyChooseItems.length > 0
+    ? doc.whyChooseItems.map((item: any) => ({
+        title: item.title || "",
+        description: item.description || "",
+      }))
+    : (baseFallback?.whyChooseItems || undefined);
+
+  // FAQs
+  const faqs = doc.faqs && doc.faqs.length > 0
+    ? doc.faqs
+    : (baseFallback?.faqs || []);
+
+  return {
+    slug: cleanSlug,
+    carrierType: (doc.carrierType || baseFallback?.carrierType || "dhl") as ServiceDetail["carrierType"],
+    category: "Shipping & Mailing",
+    title: doc.title || baseFallback?.title || "Shipping & Mailing Service",
+    shortTitle: doc.title?.split(" in ")[0] || baseFallback?.shortTitle || "Shipping",
+    breadcrumbTitle: doc.title?.split(" in ")[0] || baseFallback?.breadcrumbTitle || "Shipping",
+    headline: doc.headline || baseFallback?.headline || doc.title || "",
+    subheadline: doc.subheadline || baseFallback?.subheadline || "",
+    eyebrow: doc.eyebrow || baseFallback?.eyebrow || "Authorized Shipping Center",
+    heroImage: resolveSanityUrl(doc.heroImage) || baseFallback?.heroImage || "/images/slider3.jpg",
+    heroBadge: doc.heroBadge || doc.eyebrow || baseFallback?.heroBadge || "",
+    quickPerks: doc.quickPerks?.length ? doc.quickPerks : baseFallback?.quickPerks,
+    ctaQuoteLabel: doc.ctaQuoteLabel || baseFallback?.ctaQuoteLabel,
+    heroCardBadge: doc.heroCardBadge || baseFallback?.heroCardBadge,
+    heroCardTitle: doc.heroCardTitle || baseFallback?.heroCardTitle,
+    heroCardDescription: doc.heroCardDescription || baseFallback?.heroCardDescription,
+    showHero: doc.showHero ?? baseFallback?.showHero ?? true,
+    showAbout: doc.showAbout ?? baseFallback?.showAbout ?? true,
+    aboutLabel: doc.aboutLabel || baseFallback?.aboutLabel,
+    aboutTitle: doc.aboutTitle || baseFallback?.aboutTitle,
+    aboutDescription: doc.aboutDescription,
+    introParagraphs,
+    keyHighlights,
+    showServicesOffered: doc.showServicesOffered ?? baseFallback?.showServicesOffered ?? true,
+    servicesOfferedLabel: doc.servicesOfferedLabel || baseFallback?.servicesOfferedLabel,
+    servicesOfferedTitle: doc.servicesOfferedTitle || baseFallback?.servicesOfferedTitle || "Carrier Services Offered",
+    servicesOfferedSubtitle: doc.servicesOfferedSubtitle || baseFallback?.servicesOfferedSubtitle || "",
+    servicesList,
+    servicesCtaLabel: doc.servicesCtaLabel || baseFallback?.servicesCtaLabel,
+    showShippableItems: doc.showShippableItems ?? baseFallback?.showShippableItems ?? true,
+    shippableItemsLabel: doc.shippableItemsLabel || baseFallback?.shippableItemsLabel,
+    shippableItemsTitle: doc.shippableItemsTitle || baseFallback?.shippableItemsTitle || "What We Ship",
+    shippableItemsSubtitle: doc.shippableItemsSubtitle || baseFallback?.shippableItemsSubtitle || "",
+    shippableCategories,
+    shippableImportantNotice: doc.shippableImportantNotice || baseFallback?.shippableImportantNotice,
+    showDestinations: doc.showDestinations ?? baseFallback?.showDestinations ?? true,
+    destinationsLabel: doc.destinationsLabel || baseFallback?.destinationsLabel,
+    destinationsTitle: doc.destinationsTitle || baseFallback?.destinationsTitle,
+    destinationsSubtitle: doc.destinationsSubtitle || baseFallback?.destinationsSubtitle,
+    destinationsCtaLabel: doc.destinationsCtaLabel || baseFallback?.destinationsCtaLabel,
+    destinationsList,
+    showRequirements: doc.showRequirements ?? baseFallback?.showRequirements ?? true,
+    requirementsLabel: doc.requirementsLabel || baseFallback?.requirementsLabel,
+    requirementsTitle: doc.requirementsTitle || baseFallback?.requirementsTitle,
+    requirementsSubtitle: doc.requirementsSubtitle || baseFallback?.requirementsSubtitle,
+    requirementsItems: doc.requirementsItems?.length ? doc.requirementsItems : baseFallback?.requirementsItems,
+    requirementsNotice: doc.requirementsNotice || baseFallback?.requirementsNotice,
+    showProcess: doc.showProcess ?? baseFallback?.showProcess ?? true,
+    processLabel: doc.processLabel || baseFallback?.processLabel,
+    processTitle: doc.processTitle || baseFallback?.processTitle,
+    processSubtitle: doc.processSubtitle || baseFallback?.processSubtitle,
+    processSteps,
+    showCutoffTracking: doc.showCutoffTracking ?? baseFallback?.showCutoffTracking ?? true,
+    cutoffTrackingLabel: doc.cutoffTrackingLabel || baseFallback?.cutoffTrackingLabel,
+    cutoffTrackingTitle: doc.cutoffTrackingTitle || baseFallback?.cutoffTrackingTitle,
+    cutoffTrackingSubtitle: doc.cutoffTrackingSubtitle || baseFallback?.cutoffTrackingSubtitle,
+    cutoffTrackingCtaLabel: doc.cutoffTrackingCtaLabel || baseFallback?.cutoffTrackingCtaLabel,
+    cutoffTrackingCtaHref: doc.cutoffTrackingCtaHref || baseFallback?.cutoffTrackingCtaHref,
+    trackingPlaceholder: doc.trackingPlaceholder || baseFallback?.trackingPlaceholder,
+    cutoffCards,
+    showWhyChoose: doc.showWhyChoose ?? baseFallback?.showWhyChoose ?? true,
+    whyChooseLabel: doc.whyChooseLabel || baseFallback?.whyChooseLabel,
+    whyChooseTitle: doc.whyChooseTitle || baseFallback?.whyChooseTitle,
+    whyChooseSubtitle: doc.whyChooseSubtitle || baseFallback?.whyChooseSubtitle,
+    whyChooseItems,
+    showFaqs: doc.showFaqs ?? baseFallback?.showFaqs ?? true,
+    faqEyebrow: doc.faqEyebrow || baseFallback?.faqEyebrow,
+    faqHeading: doc.faqHeading || baseFallback?.faqHeading,
+    faqDescription: doc.faqDescription || baseFallback?.faqDescription,
+    faqs,
+    showFinalCta: doc.showFinalCta ?? baseFallback?.showFinalCta ?? true,
+    finalCtaTag: doc.finalCtaTag || baseFallback?.finalCtaTag,
+    finalCtaTitle: doc.finalCtaTitle || baseFallback?.finalCtaTitle,
+    finalCtaDescription: doc.finalCtaDescription || baseFallback?.finalCtaDescription,
+    finalCtaButtonLabel: doc.finalCtaButtonLabel || baseFallback?.finalCtaButtonLabel,
+    finalCtaButtonHref: baseFallback?.finalCtaButtonHref || "/#services",
+    todayCutoff: baseFallback?.todayCutoff,
+  };
+}
