@@ -57,32 +57,32 @@ export default function ServiceWhyChoose({ service }: { service: ServiceDetail }
     icon?: string;
     iconUrl?: string;
   }[] = [
-    {
-      title: "In-Store Assistance",
-      description: "Get help understanding the shipping process.",
-      icon: "users",
-    },
-    {
-      title: "Multiple Shipping Needs",
-      description: "Explore options for eligible documents and packages.",
-      icon: "package",
-    },
-    {
-      title: "Customs Paperwork Guidance",
-      description: "Understand common international shipping documentation requirements.",
-      icon: "file-text",
-    },
-    {
-      title: "Convenient Drop-Off",
-      description: "Visit one location to prepare and submit your shipment.",
-      icon: "map-pin",
-    },
-    {
-      title: "Tracking Information",
-      description: "Keep the shipment details needed to monitor delivery.",
-      icon: "barcode",
-    },
-  ];
+      {
+        title: "In-Store Assistance",
+        description: "Get help understanding the shipping process.",
+        icon: "users",
+      },
+      {
+        title: "Multiple Shipping Needs",
+        description: "Explore options for eligible documents and packages.",
+        icon: "package",
+      },
+      {
+        title: "Customs Paperwork Guidance",
+        description: "Understand common international shipping documentation requirements.",
+        icon: "file-text",
+      },
+      {
+        title: "Convenient Drop-Off",
+        description: "Visit one location to prepare and submit your shipment.",
+        icon: "map-pin",
+      },
+      {
+        title: "Tracking Information",
+        description: "Keep the shipment details needed to monitor delivery.",
+        icon: "barcode",
+      },
+    ];
 
   const items = service.whyChooseItems || defaultItems;
 

@@ -46,24 +46,57 @@ export default function ServiceRequirementsSection({
   service: ServiceDetail;
 }) {
   const isDHL = service.carrierType === "dhl" || service.slug.includes("dhl");
-  const sectionLabel = service.requirementsLabel || "SHIPMENT PREPARATION";
+  const sectionLabel =
+    service.requirementsLabel ||
+    (service.category === "Packing"
+      ? "PACKING PREPARATION"
+      : service.category === "Printing & Document Services"
+        ? "FILE PREPARATION"
+        : service.category === "Business & Personal Services"
+          ? "WHAT TO BRING"
+          : "SHIPMENT PREPARATION");
   const sectionTitle =
     service.requirementsTitle ||
-    (isDHL ? "What You Need Before Shipping With DHL" : "What You Need Before Shipping");
+    (isDHL
+      ? "What You Need Before Shipping With DHL"
+      : service.category === "Packing"
+        ? "What You Need Before Packing & Shipping"
+        : service.category === "Printing & Document Services"
+          ? "Printing Options, File Preparation & Requirements"
+          : service.category === "Business & Personal Services"
+            ? "What You Need Before Your Visit"
+            : "What You Need Before Your Visit");
   const sectionSubtitle =
     service.requirementsSubtitle ||
-    "Prepare the essential shipment details before visiting the store.";
+    (service.category === "Packing"
+      ? "Helpful guidelines to make your packing and shipping visit as smooth as possible."
+      : service.category === "Printing & Document Services"
+        ? "Essential preparation details to ensure crisp, accurate print and document output."
+        : service.category === "Business & Personal Services"
+          ? "Essential checklist to ensure your documents can be signed and processed without delay."
+          : "Prepare the essential shipment details before visiting the store.");
   const noticeText =
     service.requirementsNotice ||
-    "Our team can help you understand the shipping information and documentation needed for your shipment. Final acceptance and customs requirements are determined by the carrier and the destination country.";
+    (service.category === "Packing"
+      ? "Have fragile, delicate, or high-value items? Let our associates know upon arrival so we can select appropriate high-TLC cushioning."
+      : service.category === "Printing & Document Services"
+        ? "We accept PDF, DOCX, JPEG, and PNG files. For crisp results, high-resolution 300 DPI PDF files are recommended."
+        : service.category === "Business & Personal Services"
+          ? "Notaries are commissioned state officials and cannot give legal advice. Please bring valid government-issued photo identification."
+          : "Our team can help you understand the shipping information and documentation needed for your shipment. Final acceptance and customs requirements are determined by the carrier and the destination country.");
 
   const items =
     service.requirementsItems && service.requirementsItems.length > 0
       ? service.requirementsItems.map((item, idx) => ({
-          text: typeof item === "string" ? item : item.title || item.description,
+          text: typeof item === "string" ? item : item.title || item.description || "",
           icon: REQUIREMENTS_POINTS[idx % REQUIREMENTS_POINTS.length].icon,
+          iconUrl: typeof item === "object" ? item.iconUrl : undefined,
         }))
-      : REQUIREMENTS_POINTS;
+      : REQUIREMENTS_POINTS.map((pt) => ({
+          text: pt.text,
+          icon: pt.icon,
+          iconUrl: undefined,
+        }));
 
   return (
     <section
@@ -90,18 +123,27 @@ export default function ServiceRequirementsSection({
       </div>
 
       {/* Attractive Bullet Points List (No Cards) */}
-      <ul className="mt-6 grid sm:grid-cols-2 gap-x-8 gap-y-3.5">
+      <ul className="mt-7 grid sm:grid-cols-2 gap-x-8 gap-y-4">
         {items.map((item, idx) => {
           const Icon = item.icon || ClipboardCheck;
           return (
             <li
               key={idx}
-              className="group flex items-center gap-3 py-1 transition-colors"
+              className="group flex items-center gap-3.5 py-1.5 cursor-pointer transition-all duration-200"
             >
-              <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-accent-soft text-accent-dark transition-all duration-200 group-hover:bg-accent group-hover:text-white shadow-2xs">
-                <Icon className="h-3.5 w-3.5 stroke-[2.4]" aria-hidden="true" />
+              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-accent/10 text-accent transition-all duration-200 group-hover:bg-accent group-hover:text-white group-hover:scale-105 group-hover:shadow-sm overflow-hidden p-2">
+                {item.iconUrl ? (
+                  /* eslint-disable-next-line @next/next/no-img-element */
+                  <img
+                    src={item.iconUrl}
+                    alt=""
+                    className="h-3.5 w-3.5 object-contain transition-all duration-200 group-hover:brightness-0 group-hover:invert"
+                  />
+                ) : (
+                  <Icon className="h-3.5 w-3.5 stroke-[2.2] transition-colors duration-200 group-hover:text-white" aria-hidden="true" />
+                )}
               </span>
-              <span className="text-sm sm:text-[14px] font-bold text-primary-dark leading-snug group-hover:text-primary transition-colors">
+              <span className="text-sm sm:text-[14.5px] font-bold text-primary-dark leading-snug group-hover:text-primary transition-colors">
                 {item.text}
               </span>
             </li>

@@ -48,6 +48,7 @@ export type ServiceDetail = {
     speed: string;
     featured?: boolean;
     price?: string;
+    ctaLabel?: string;
   }[];
   showShippableItems?: boolean;
   shippableItemsLabel?: string;
@@ -87,8 +88,9 @@ export type ServiceDetail = {
     | string
     | {
         title: string;
-        description: string;
+        description?: string;
         icon?: string;
+        iconUrl?: string;
       }
   )[];
   showProcess?: boolean;
