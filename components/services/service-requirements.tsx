@@ -40,6 +40,25 @@ const REQUIREMENTS_POINTS = [
   },
 ];
 
+const BUSINESS_PERSONAL_REQUIREMENTS = [
+  {
+    text: "Valid, unexpired government-issued photo ID (Driver's License, State ID, or Passport)",
+    icon: UserCheck,
+  },
+  {
+    text: "All original, complete documents requiring notarization or official processing",
+    icon: FileText,
+  },
+  {
+    text: "All required signers present in person with valid identification",
+    icon: UserCheck,
+  },
+  {
+    text: "Any special instructions or reference documents provided by the receiving organization",
+    icon: ClipboardCheck,
+  },
+];
+
 export default function ServiceRequirementsSection({
   service,
 }: {
@@ -85,14 +104,21 @@ export default function ServiceRequirementsSection({
           ? "Notaries are commissioned state officials and cannot give legal advice. Please bring valid government-issued photo identification."
           : "Our team can help you understand the shipping information and documentation needed for your shipment. Final acceptance and customs requirements are determined by the carrier and the destination country.");
 
+  const defaultPoints =
+    service.category === "Business & Personal Services"
+      ? BUSINESS_PERSONAL_REQUIREMENTS
+      : REQUIREMENTS_POINTS;
+
   const items =
     service.requirementsItems && service.requirementsItems.length > 0
-      ? service.requirementsItems.map((item, idx) => ({
-          text: typeof item === "string" ? item : item.title || item.description || "",
-          icon: REQUIREMENTS_POINTS[idx % REQUIREMENTS_POINTS.length].icon,
-          iconUrl: typeof item === "object" ? item.iconUrl : undefined,
-        }))
-      : REQUIREMENTS_POINTS.map((pt) => ({
+      ? service.requirementsItems
+          .filter((item) => Boolean(item))
+          .map((item, idx) => ({
+            text: typeof item === "string" ? item : item?.title || (item as any)?.description || "",
+            icon: defaultPoints[idx % defaultPoints.length].icon,
+            iconUrl: typeof item === "object" ? item?.iconUrl : undefined,
+          }))
+      : defaultPoints.map((pt) => ({
           text: pt.text,
           icon: pt.icon,
           iconUrl: undefined,

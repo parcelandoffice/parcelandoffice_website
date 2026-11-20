@@ -1583,85 +1583,99 @@ function mapSanityToShippingMailingService(
 
   // Services list
   const servicesList = doc.servicesList && doc.servicesList.length > 0
-    ? doc.servicesList.map((tier: any, idx: number) => ({
-        name: tier.name || baseFallback?.servicesList?.[idx]?.name || "",
-        badge: tier.badge || baseFallback?.servicesList?.[idx]?.badge || "Option",
-        description: tier.description || baseFallback?.servicesList?.[idx]?.description || "",
-        speed: tier.speed || baseFallback?.servicesList?.[idx]?.speed || "Fast Delivery",
-        featured: tier.featured ?? baseFallback?.servicesList?.[idx]?.featured ?? false,
-        price: tier.price || baseFallback?.servicesList?.[idx]?.price,
-        ctaLabel: tier.ctaLabel || baseFallback?.servicesList?.[idx]?.ctaLabel,
-      }))
+    ? doc.servicesList
+        .filter((tier: any) => tier != null)
+        .map((tier: any, idx: number) => ({
+          name: tier?.name || baseFallback?.servicesList?.[idx]?.name || "",
+          badge: tier?.badge || baseFallback?.servicesList?.[idx]?.badge || "Option",
+          description: tier?.description || baseFallback?.servicesList?.[idx]?.description || "",
+          speed: tier?.speed || baseFallback?.servicesList?.[idx]?.speed || "Fast Delivery",
+          featured: tier?.featured ?? baseFallback?.servicesList?.[idx]?.featured ?? false,
+          price: tier?.price || baseFallback?.servicesList?.[idx]?.price,
+          ctaLabel: tier?.ctaLabel || baseFallback?.servicesList?.[idx]?.ctaLabel,
+        }))
     : (baseFallback?.servicesList || []);
 
   // Shippable categories
   const shippableCategories = doc.shippableCategories && doc.shippableCategories.length > 0
-    ? doc.shippableCategories.map((cat: any, idx: number) => ({
-        categoryName: cat.categoryName || baseFallback?.shippableCategories?.[idx]?.categoryName || "",
-        badge: cat.badge || baseFallback?.shippableCategories?.[idx]?.badge,
-        icon: baseFallback?.shippableCategories?.[idx]?.icon || "package",
-        iconUrl: resolveSanityUrl(cat.iconImage),
-        items: Array.isArray(cat.items) && cat.items.length > 0
-          ? cat.items
-          : (baseFallback?.shippableCategories?.[idx]?.items || []),
-      }))
+    ? doc.shippableCategories
+        .filter((cat: any) => cat != null)
+        .map((cat: any, idx: number) => ({
+          categoryName: cat?.categoryName || baseFallback?.shippableCategories?.[idx]?.categoryName || "",
+          badge: cat?.badge || baseFallback?.shippableCategories?.[idx]?.badge,
+          icon: baseFallback?.shippableCategories?.[idx]?.icon || "package",
+          iconUrl: resolveSanityUrl(cat?.iconImage),
+          items: Array.isArray(cat?.items) && cat.items.length > 0
+            ? cat.items
+            : (baseFallback?.shippableCategories?.[idx]?.items || []),
+        }))
     : (baseFallback?.shippableCategories || []);
 
   // Destinations list
   const destinationsList = doc.destinationsList && doc.destinationsList.length > 0
-    ? doc.destinationsList.map((d: any, idx: number) => ({
-        name: d.region || d.name || `Destination ${idx + 1}`,
-        region: d.region || d.name,
-        subtitle: d.subtitle,
-        speed: d.speed,
-        description: d.description || "",
-        image: resolveSanityUrl(d.image) || "/images/world_map.jpg",
-        imageUrl: resolveSanityUrl(d.image),
-        badge: d.speed || d.badge || "Express",
-        popularDestinations: d.popularDestinations || [],
-      }))
+    ? doc.destinationsList
+        .filter((d: any) => d != null)
+        .map((d: any, idx: number) => ({
+          name: d?.region || d?.name || `Destination ${idx + 1}`,
+          region: d?.region || d?.name,
+          subtitle: d?.subtitle,
+          speed: d?.speed,
+          description: d?.description || "",
+          image: resolveSanityUrl(d?.image) || "/images/world_map.jpg",
+          imageUrl: resolveSanityUrl(d?.image),
+          badge: d?.speed || d?.badge || "Express",
+          popularDestinations: d?.popularDestinations || [],
+        }))
     : (baseFallback?.destinationsList || undefined);
 
   // Cutoff Cards
   const cutoffCards = doc.cutoffCards && doc.cutoffCards.length > 0
-    ? doc.cutoffCards.map((c: any) => ({
-        title: c.title || "",
-        badge: c.badge,
-        highlight: c.highlight,
-        description: c.description,
-        footerText: c.footerText,
-        iconUrl: resolveSanityUrl(c.iconImage),
-      }))
+    ? doc.cutoffCards
+        .filter((c: any) => c != null)
+        .map((c: any) => ({
+          title: c?.title || "",
+          badge: c?.badge,
+          highlight: c?.highlight,
+          description: c?.description,
+          footerText: c?.footerText,
+          iconUrl: resolveSanityUrl(c?.iconImage),
+        }))
     : (baseFallback?.cutoffCards || undefined);
 
   // Process steps
   const processSteps = doc.processSteps && doc.processSteps.length > 0
-    ? doc.processSteps.map((step: any, idx: number) => ({
-        step: step.step || `0${idx + 1}`,
-        title: step.title || "",
-        description: step.description || "",
-        badge: step.badge || baseFallback?.processSteps?.[idx]?.badge,
-        iconUrl: resolveSanityUrl(step.iconImage),
-      }))
+    ? doc.processSteps
+        .filter((step: any) => step != null)
+        .map((step: any, idx: number) => ({
+          step: step?.step || `0${idx + 1}`,
+          title: step?.title || "",
+          description: step?.description || "",
+          badge: step?.badge || baseFallback?.processSteps?.[idx]?.badge,
+          iconUrl: resolveSanityUrl(step?.iconImage),
+        }))
     : (baseFallback?.processSteps || undefined);
 
   // Requirements items
   const requirementsItems = doc.requirementsItems && doc.requirementsItems.length > 0
-    ? doc.requirementsItems.map((item: any) => {
-        if (typeof item === "string") return item;
-        return {
-          title: item.title || item.text || "",
-          iconUrl: resolveSanityUrl(item.iconImage) || item.iconUrl,
-        };
-      })
+    ? doc.requirementsItems
+        .filter((item: any) => item != null)
+        .map((item: any) => {
+          if (typeof item === "string") return item;
+          return {
+            title: item?.title || item?.text || "",
+            iconUrl: resolveSanityUrl(item?.iconImage) || item?.iconUrl,
+          };
+        })
     : (baseFallback?.requirementsItems || undefined);
 
   // Why choose items
   const whyChooseItems = doc.whyChooseItems && doc.whyChooseItems.length > 0
-    ? doc.whyChooseItems.map((item: any) => ({
-        title: item.title || "",
-        description: item.description || "",
-      }))
+    ? doc.whyChooseItems
+        .filter((item: any) => item != null)
+        .map((item: any) => ({
+          title: item?.title || "",
+          description: item?.description || "",
+        }))
     : (baseFallback?.whyChooseItems || undefined);
 
   // FAQs
