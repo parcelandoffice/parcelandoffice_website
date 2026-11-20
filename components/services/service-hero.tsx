@@ -50,12 +50,12 @@ export default function ServiceHero({ service }: { service: ServiceDetail }) {
       {/* Subtle Carrier-Themed Ambient Lighting Glow */}
       <div
         className={`pointer-events-none absolute -top-32 -left-32 h-96 w-96 rounded-full blur-3xl opacity-35 ${isDHL
-            ? "bg-[#FFCC00]/40"
-            : isFedEx
-              ? "bg-[#4D148C]/25"
-              : isUPS
-                ? "bg-[#FFB500]/30"
-                : "bg-accent/20"
+          ? "bg-[#FFCC00]/40"
+          : isFedEx
+            ? "bg-[#4D148C]/25"
+            : isUPS
+              ? "bg-[#FFB500]/30"
+              : "bg-accent/20"
           }`}
         aria-hidden="true"
       />
@@ -281,30 +281,6 @@ export default function ServiceHero({ service }: { service: ServiceDetail }) {
                         {service.heroBadge}
                       </span>
                     )}
-                  </div>
-                </div>
-
-                {/* Bottom Overlay Card with Store Address & Route Tagline */}
-                <div className="absolute bottom-4 left-4 right-4 z-10 sm:bottom-5 sm:left-5 sm:right-5">
-                  <div className="rounded-2xl border border-white/20 bg-primary-dark/85 p-3.5 sm:p-4 text-white shadow-md backdrop-blur-md">
-                    <div className="flex items-center justify-between gap-2">
-                      <span className="text-[11px] font-black uppercase tracking-wider text-accent">
-                        {isCarrier ? "Scheduled Daily Pickups" : "Walk-Ins Always Welcome"}
-                      </span>
-                      <span className="inline-flex items-center gap-1 text-[10px] font-bold text-white/90">
-                        <Clock className="h-3 w-3 text-accent" />
-                        <span>{isCarrier ? "Departs Tonight" : "Open 6 Days / Week"}</span>
-                      </span>
-                    </div>
-                    <p className="mt-1 text-xs sm:text-[13px] font-bold text-white leading-snug">
-                      {isCarrier
-                        ? "Fast, reliable courier delivery directly from Odenton, MD."
-                        : `Fast, friendly ${service.shortTitle || "in-store"} support right here in Odenton, MD.`}
-                    </p>
-                    <div className="mt-2 pt-2 border-t border-white/15 flex items-center justify-between text-[10.5px] text-white/80">
-                      <span>8777 Piney Orchard Pkwy Ste B</span>
-                      <span className="font-semibold text-accent-light">Beside Food Lion</span>
-                    </div>
                   </div>
                 </div>
               </div>

@@ -5,9 +5,27 @@ import { BUSINESS } from "@/lib/site-data";
 
 export default function ServiceTiersGrid({ service }: { service: ServiceDetail }) {
   const isDHL = service.carrierType === "dhl" || service.slug.includes("dhl");
-  const sectionLabel = service.servicesOfferedLabel || "COMPREHENSIVE CARRIER SOLUTIONS";
-  const ctaLabel = service.servicesCtaLabel || (isDHL ? "Explore DHL Shipping Options" : "Explore Shipping Options");
-  const ctaHref = service.ctaQuoteHref || BUSINESS.phoneHref;
+  const sectionLabel =
+    service.servicesOfferedLabel ||
+    (service.category === "Shipping & Mailing"
+      ? "COMPREHENSIVE CARRIER SOLUTIONS"
+      : service.category === "Packing"
+        ? "COMPREHENSIVE PACKING SOLUTIONS"
+        : service.category === "Printing & Document Services"
+          ? "PRINTING CAPABILITIES"
+          : "COMPREHENSIVE SERVICES");
+  const ctaLabel =
+    service.servicesCtaLabel ||
+    (isDHL
+      ? "Explore DHL Shipping Options"
+      : service.category === "Packing"
+        ? "Explore Packing Options"
+        : service.category === "Printing & Document Services"
+          ? "Explore Printing Options"
+          : service.category === "Business & Personal Services"
+            ? "Explore All Options"
+            : "Explore Options");
+  const ctaHref = `/contact-us?service=${service.slug}`;
 
   return (
     <section
@@ -76,7 +94,7 @@ export default function ServiceTiersGrid({ service }: { service: ServiceDetail }
                 className="inline-flex items-center gap-1 text-[11px] font-black text-primary group-hover:text-accent transition-colors"
                 title="Call for specific rate quote"
               >
-                <span>Get Rate</span>
+                <span>{tier.ctaLabel || (service.category === "Shipping & Mailing" ? "Get Rate" : "Get Quote")}</span>
                 <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5" />
               </a>
             </div>

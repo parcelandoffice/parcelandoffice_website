@@ -1,12 +1,12 @@
 import React from "react";
 import type { ServiceDetail } from "@/lib/service-details";
 import ServiceHero from "@components/services/service-hero";
-import PackingAbout from "@components/services/packing/packing-about";
-import PackingCapabilities from "@components/services/packing/packing-capabilities";
-import PackingCommonUses from "@components/services/packing/packing-common-uses";
-import PackingSupplies from "@components/services/packing/packing-supplies";
-import PackingProcess from "@components/services/packing/packing-process";
-import PackingWhyChoose from "@components/services/packing/packing-why-choose";
+import ServiceAboutSection from "@components/services/service-about-section";
+import ServiceTiersGrid from "@components/services/service-tiers-grid";
+import ShippableItemsGrid from "@components/services/shippable-items-grid";
+import ServiceRequirementsSection from "@components/services/service-requirements";
+import ServiceProcessSteps from "@components/services/service-process-steps";
+import ServiceWhyChoose from "@components/services/service-why-choose";
 import ServiceFaq from "@components/services/service-faq";
 import ServiceCustomerAssistance from "@components/services/service-customer-assistance";
 
@@ -17,39 +17,53 @@ export default function PackingTemplate({
 }) {
   return (
     <>
-      {/* 1. Hero Showcase Section (Common) */}
-      <ServiceHero service={service} />
+      {/* 1. Hero Showcase Section */}
+      {service.showHero !== false && <ServiceHero service={service} />}
 
       {/* 2. Main Full-Width Content Container */}
       <div className="bg-surface py-10 sm:py-14 lg:py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <main className="w-full min-w-0 space-y-14 sm:space-y-18 lg:space-y-20">
+          <main className="w-full min-w-0">
             {/* 2. About Our Service Section */}
-            <PackingAbout />
+            {service.showAbout !== false && (
+              <ServiceAboutSection service={service} />
+            )}
 
-            {/* 3. Professional Packing Capabilities */}
-            <PackingCapabilities />
+            {/* 3. Professional Packing Capabilities / Services Offered */}
+            {service.showServicesOffered !== false && service.servicesList && service.servicesList.length > 0 && (
+              <ServiceTiersGrid service={service} />
+            )}
 
-            {/* 4. Common Uses for Professional Packing */}
-            <PackingCommonUses />
+            {/* 4. Common Uses / What We Pack */}
+            {service.showShippableItems !== false && service.shippableCategories && service.shippableCategories.length > 0 && (
+              <ShippableItemsGrid service={service} />
+            )}
 
-            {/* 5. Packing Materials and Supplies */}
-            <PackingSupplies />
+            {/* 5. Guidelines & Packing Preparation */}
+            {service.showRequirements !== false && (
+              <ServiceRequirementsSection service={service} />
+            )}
 
             {/* 6. How Our Professional Packing Process Works */}
-            <PackingProcess />
+            {service.showProcess !== false && (
+              <ServiceProcessSteps service={service} />
+            )}
 
-            {/* 7. Why Choose Parcel & Office Solutions? */}
-            <PackingWhyChoose />
+            {/* 7. Why Choose Parcel & Office Solutions */}
+            {service.showWhyChoose !== false && (
+              <ServiceWhyChoose service={service} />
+            )}
 
-            {/* 8. Frequently Asked Questions (Common as in dhl-shipping) */}
-            <ServiceFaq service={service} />
+            {/* 8. Frequently Asked Questions */}
+            {service.showFaqs !== false && <ServiceFaq service={service} />}
           </main>
         </div>
       </div>
 
-      {/* 9. Customer Assistance and Final CTA (Common as in dhl-shipping) */}
-      <ServiceCustomerAssistance service={service} />
+      {/* 9. Customer Assistance and Final CTA */}
+      {service.showFinalCta !== false && (
+        <ServiceCustomerAssistance service={service} />
+      )}
     </>
   );
 }

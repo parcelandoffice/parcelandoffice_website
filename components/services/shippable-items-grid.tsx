@@ -26,12 +26,26 @@ const ICON_MAP: Record<string, LucideIcon> = {
 };
 
 export default function ShippableItemsGrid({ service }: { service: ServiceDetail }) {
-  const sectionLabel = service.shippableItemsLabel || "WHAT WE SHIP";
+  const sectionLabel =
+    service.shippableItemsLabel ||
+    (service.category === "Packing"
+      ? "WHAT WE PACK"
+      : service.category === "Printing & Document Services"
+        ? "WHAT WE PRINT"
+        : service.category === "Business & Personal Services"
+          ? "COMMON USES"
+          : "WHAT WE SHIP");
   const importantNotice =
     service.shippableImportantNotice ||
     (service.carrierType === "dhl" || service.slug.includes("dhl")
       ? "Important: Restricted items, dangerous goods, food, medicines, and certain electronic products may require special approval or may not be accepted. Confirm eligibility before shipping."
-      : "Important: Certain high-value, hazardous, or restricted items may require special declared value protection or packaging compliance. Please confirm with our staff before shipping.");
+      : service.category === "Packing"
+        ? "Important: Our specialists can inspect your items in-store and recommend optimal protection and custom packing materials."
+        : service.category === "Printing & Document Services"
+          ? "Important: We accept digital files via email or in-store USB drive. For best print fidelity, 300 DPI PDF files are recommended."
+          : service.category === "Business & Personal Services"
+            ? "Important: Valid government-issued photo ID is required for notary and identity services. Please do not sign legal documents ahead of time."
+            : "Important: Certain high-value, hazardous, or restricted items may require special declared value protection or packaging compliance. Please confirm with our staff before shipping.");
 
   const gridColsClass =
     service.shippableCategories.length === 2
