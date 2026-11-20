@@ -120,17 +120,17 @@ export default function ServiceAboutSection({
                   <div>
                     <div className="flex items-center justify-between gap-2">
                       {hl.iconUrl ? (
-                        <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary-soft text-primary transition-colors duration-200 group-hover:bg-accent group-hover:text-white shadow-2xs p-2 overflow-hidden">
+                        <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary-soft text-primary transition-colors duration-200 group-hover:bg-accent group-hover:text-white hover:bg-accent hover:text-white shadow-2xs p-2 overflow-hidden">
                           {/* eslint-disable-next-line @next/next/no-img-element */}
                           <img
                             src={hl.iconUrl}
                             alt={hl.title}
-                            className="h-full w-full object-contain"
+                            className="h-full w-full object-contain transition-all duration-200 group-hover:brightness-0 group-hover:invert hover:brightness-0 hover:invert"
                           />
                         </span>
                       ) : (
-                        <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary-soft text-primary transition-colors duration-200 group-hover:bg-accent group-hover:text-white shadow-2xs">
-                          <IconComponent className="h-5 w-5 stroke-[2.2]" />
+                        <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary-soft text-primary transition-colors duration-200 group-hover:bg-accent group-hover:text-white hover:bg-accent hover:text-white shadow-2xs">
+                          <IconComponent className="h-5 w-5 stroke-[2.2] transition-colors duration-200 text-current group-hover:text-white hover:text-white" />
                         </span>
                       )}
                       {hl.badge && (

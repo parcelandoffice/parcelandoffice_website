@@ -50,9 +50,9 @@ export default function FinalCta({
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <RevealCss className="mx-auto max-w-4xl text-center">
           {/* Eyebrow Pill */}
-          <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-1.5 text-xs font-black uppercase tracking-wider backdrop-blur-md">
-            <Sparkles className="h-3.5 w-3.5 text-accent" aria-hidden="true" />
-            <span className="text-accent font-extrabold tracking-wider">
+          <div className="inline-flex items-center gap-2 rounded-xl bg-accent px-4 py-1.5 text-xs font-extrabold uppercase tracking-wider text-white shadow-[0_4px_14px_rgba(242,77,2,0.35)]">
+            <Sparkles className="h-3.5 w-3.5 text-white" aria-hidden="true" />
+            <span className="font-extrabold tracking-wider">
               {eyebrow}
             </span>
           </div>

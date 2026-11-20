@@ -87,8 +87,8 @@ export default function PrintingAbout() {
 
                 <div>
                   {/* Icon */}
-                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary-soft text-primary transition-colors duration-200 group-hover:bg-primary group-hover:text-white shadow-2xs">
-                    <Icon className="h-5 w-5 stroke-[2.2]" aria-hidden="true" />
+                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary-soft text-primary transition-colors duration-200 group-hover:bg-accent group-hover:text-white hover:bg-accent hover:text-white shadow-2xs">
+                    <Icon className="h-5 w-5 stroke-[2.2] transition-colors duration-200 text-current group-hover:text-white hover:text-white" aria-hidden="true" />
                   </span>
 
                   {/* Title and Description */}

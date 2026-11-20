@@ -1,5 +1,5 @@
 import React from "react";
-import { Zap, CheckCircle2, ArrowRight } from "lucide-react";
+import { Zap, CheckCircle2, ArrowRight, Printer, Layers, FileText } from "lucide-react";
 import type { ServiceDetail } from "@/lib/service-details";
 import { BUSINESS } from "@/lib/site-data";
 
@@ -53,14 +53,14 @@ export default function ServiceTiersGrid({ service }: { service: ServiceDetail }
 
       {/* Grid of Service Tiers */}
       <div className="mt-7 grid gap-4.5 sm:grid-cols-2 lg:grid-cols-3">
-        {service.servicesList.map((tier) => (
+        {service.servicesList.map((tier, idx) => (
           <div
             key={tier.name}
             className="group relative flex flex-col justify-between rounded-2xl border border-accent/40 bg-gradient-to-b from-accent-soft/30 via-surface to-surface p-5 sm:p-5.5 shadow-[var(--shadow-card)] transition-all duration-300 hover:border-accent hover:-translate-y-1 hover:shadow-[var(--shadow-card-hover)]"
           >
             <div>
-              {/* Header Badges */}
-              <div className="flex items-center">
+              {/* Header Badges & Icon */}
+              <div className="flex items-center justify-between gap-2">
                 <span
                   className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-[10px] font-normal uppercase tracking-wider ${tier.featured
                     ? "bg-accent text-white shadow-2xs"
@@ -69,6 +69,18 @@ export default function ServiceTiersGrid({ service }: { service: ServiceDetail }
                 >
                   {tier.badge}
                 </span>
+
+                {service.category === "Printing & Document Services" && (
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary-soft text-primary transition-colors duration-200 group-hover:bg-accent group-hover:text-white hover:bg-accent hover:text-white shadow-2xs">
+                    {idx === 0 ? (
+                      <Printer className="h-5 w-5 stroke-[2] transition-colors duration-200 text-current group-hover:text-white hover:text-white" />
+                    ) : idx === 1 ? (
+                      <Layers className="h-5 w-5 stroke-[2] transition-colors duration-200 text-current group-hover:text-white hover:text-white" />
+                    ) : (
+                      <FileText className="h-5 w-5 stroke-[2] transition-colors duration-200 text-current group-hover:text-white hover:text-white" />
+                    )}
+                  </span>
+                )}
               </div>
 
               {/* Service Title */}
@@ -88,15 +100,6 @@ export default function ServiceTiersGrid({ service }: { service: ServiceDetail }
                 <CheckCircle2 className="h-3.5 w-3.5 text-success shrink-0" />
                 <span className="text-[11.5px] font-extrabold text-primary-dark">{tier.speed}</span>
               </span>
-
-              <a
-                href={BUSINESS.phoneHref}
-                className="inline-flex items-center gap-1 text-[11px] font-black text-primary group-hover:text-accent transition-colors"
-                title="Call for specific rate quote"
-              >
-                <span>{tier.ctaLabel || (service.category === "Shipping & Mailing" ? "Get Rate" : "Get Quote")}</span>
-                <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5" />
-              </a>
             </div>
           </div>
         ))}

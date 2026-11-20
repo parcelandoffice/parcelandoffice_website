@@ -234,55 +234,7 @@ export default function ServiceHero({ service }: { service: ServiceDetail }) {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-primary-dark/85 via-primary-dark/25 to-transparent" />
 
-                {/* Official Carrier Floating Badge */}
-                <div className="absolute top-4 left-4 z-10 sm:top-5 sm:left-5">
-                  <div className="flex items-center gap-3 rounded-2xl border border-white/50 bg-surface/95 px-4 py-2 shadow-lg backdrop-blur-md">
-                    {isDHL ? (
-                      <div className="flex items-center gap-2.5">
-                        <CarrierLogo carrier="dhl" className="h-5 w-auto object-contain" />
-                        <div className="h-5 w-px bg-border" />
-                        <div>
-                          <span className="block text-[11px] font-black uppercase tracking-wider text-[#D40511]">
-                            Authorized ServicePoint
-                          </span>
-                          <span className="block text-[9.5px] font-semibold text-muted">
-                            Official Express Partner
-                          </span>
-                        </div>
-                      </div>
-                    ) : isFedEx ? (
-                      <div className="flex items-center gap-2.5">
-                        <CarrierLogo carrier="fedex" className="h-5 w-auto object-contain" />
-                        <div className="h-5 w-px bg-border" />
-                        <div>
-                          <span className="block text-[11px] font-black uppercase tracking-wider text-[#4d148c]">
-                            Authorized ShipCenter®
-                          </span>
-                          <span className="block text-[9.5px] font-semibold text-muted">
-                            Official Store Partner
-                          </span>
-                        </div>
-                      </div>
-                    ) : isUPS ? (
-                      <div className="flex items-center gap-2.5">
-                        <CarrierLogo carrier="ups" className="h-5 w-auto object-contain" />
-                        <div className="h-5 w-px bg-border" />
-                        <div>
-                          <span className="block text-[11px] font-black uppercase tracking-wider text-[#351c15]">
-                            Authorized Outlet
-                          </span>
-                          <span className="block text-[9.5px] font-semibold text-muted">
-                            Official Store Partner
-                          </span>
-                        </div>
-                      </div>
-                    ) : (
-                      <span className="text-xs font-black uppercase tracking-wider text-primary">
-                        {service.heroBadge}
-                      </span>
-                    )}
-                  </div>
-                </div>
+
               </div>
             </div>
           </div>
