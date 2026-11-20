@@ -1495,14 +1495,15 @@ function resolveSanityUrl(source: any): string | undefined {
 export async function getAllShippingMailingSlugs(): Promise<string[]> {
   try {
     const slugs = await fetchFromSanity<string[]>(`
-      *[_type == "shippingMailingService" && defined(slug.current)][].slug.current
+      *[_type in ["shippingMailingService", "packingService", "printingDocumentService", "businessPersonalService"] && defined(slug.current)][].slug.current
     `);
     return Array.isArray(slugs) ? slugs : [];
   } catch (error) {
-    console.error("Error fetching shipping mailing slugs:", error);
+    console.error("Error fetching service slugs:", error);
     return [];
   }
 }
+export const getAllServiceDetailSlugs = getAllShippingMailingSlugs;
 
 export async function getShippingMailingServiceBySlug(
   slug: string
@@ -1512,7 +1513,7 @@ export async function getShippingMailingServiceBySlug(
 
   try {
     const doc = await fetchFromSanity<any>(
-      `*[_type == "shippingMailingService" && (slug.current == $cleanSlug || slug.current == $slug)][0]{
+      `*[_type in ["shippingMailingService", "packingService", "printingDocumentService", "businessPersonalService"] && (slug.current == $cleanSlug || slug.current == $slug)][0]{
         ...,
         customIcon{asset->{url}},
         heroImage{asset->{url}},
@@ -1536,6 +1537,10 @@ export async function getShippingMailingServiceBySlug(
           ...,
           iconImage{asset->{url}}
         },
+        requirementsItems[]{
+          ...,
+          iconImage{asset->{url}}
+        },
         whyChooseItems
       }`,
       { cleanSlug, slug }
@@ -1547,10 +1552,11 @@ export async function getShippingMailingServiceBySlug(
 
     return mapSanityToShippingMailingService(doc, fallback);
   } catch (error) {
-    console.error(`Error fetching shippingMailingService for "${slug}":`, error);
+    console.error(`Error fetching service for "${slug}":`, error);
     return fallback || null;
   }
 }
+export const getServiceBySlug = getShippingMailingServiceBySlug;
 
 function mapSanityToShippingMailingService(
   doc: any,
@@ -1584,6 +1590,7 @@ function mapSanityToShippingMailingService(
         speed: tier.speed || baseFallback?.servicesList?.[idx]?.speed || "Fast Delivery",
         featured: tier.featured ?? baseFallback?.servicesList?.[idx]?.featured ?? false,
         price: tier.price || baseFallback?.servicesList?.[idx]?.price,
+        ctaLabel: tier.ctaLabel || baseFallback?.servicesList?.[idx]?.ctaLabel,
       }))
     : (baseFallback?.servicesList || []);
 
@@ -1638,6 +1645,17 @@ function mapSanityToShippingMailingService(
       }))
     : (baseFallback?.processSteps || undefined);
 
+  // Requirements items
+  const requirementsItems = doc.requirementsItems && doc.requirementsItems.length > 0
+    ? doc.requirementsItems.map((item: any) => {
+        if (typeof item === "string") return item;
+        return {
+          title: item.title || item.text || "",
+          iconUrl: resolveSanityUrl(item.iconImage) || item.iconUrl,
+        };
+      })
+    : (baseFallback?.requirementsItems || undefined);
+
   // Why choose items
   const whyChooseItems = doc.whyChooseItems && doc.whyChooseItems.length > 0
     ? doc.whyChooseItems.map((item: any) => ({
@@ -1651,10 +1669,21 @@ function mapSanityToShippingMailingService(
     ? doc.faqs
     : (baseFallback?.faqs || []);
 
+  const category =
+    doc._type === "packingService"
+      ? "Packing"
+      : doc._type === "printingDocumentService"
+        ? "Printing & Document Services"
+        : doc._type === "businessPersonalService"
+          ? "Business & Personal Services"
+          : (baseFallback?.category || "Shipping & Mailing");
+
+  const carrierType = (doc.carrierType || baseFallback?.carrierType || (category === "Shipping & Mailing" ? "dhl" : "office")) as ServiceDetail["carrierType"];
+
   return {
     slug: cleanSlug,
-    carrierType: (doc.carrierType || baseFallback?.carrierType || "dhl") as ServiceDetail["carrierType"],
-    category: "Shipping & Mailing",
+    carrierType,
+    category,
     title: doc.title || baseFallback?.title || "Shipping & Mailing Service",
     shortTitle: doc.title?.split(" in ")[0] || baseFallback?.shortTitle || "Shipping",
     breadcrumbTitle: doc.title?.split(" in ")[0] || baseFallback?.breadcrumbTitle || "Shipping",
@@ -1665,9 +1694,6 @@ function mapSanityToShippingMailingService(
     heroBadge: doc.heroBadge || doc.eyebrow || baseFallback?.heroBadge || "",
     quickPerks: doc.quickPerks?.length ? doc.quickPerks : baseFallback?.quickPerks,
     ctaQuoteLabel: doc.ctaQuoteLabel || baseFallback?.ctaQuoteLabel,
-    heroCardBadge: doc.heroCardBadge || baseFallback?.heroCardBadge,
-    heroCardTitle: doc.heroCardTitle || baseFallback?.heroCardTitle,
-    heroCardDescription: doc.heroCardDescription || baseFallback?.heroCardDescription,
     showHero: doc.showHero ?? baseFallback?.showHero ?? true,
     showAbout: doc.showAbout ?? baseFallback?.showAbout ?? true,
     aboutLabel: doc.aboutLabel || baseFallback?.aboutLabel,
@@ -1687,7 +1713,7 @@ function mapSanityToShippingMailingService(
     shippableItemsSubtitle: doc.shippableItemsSubtitle || baseFallback?.shippableItemsSubtitle || "",
     shippableCategories,
     shippableImportantNotice: doc.shippableImportantNotice || baseFallback?.shippableImportantNotice,
-    showDestinations: doc.showDestinations ?? baseFallback?.showDestinations ?? true,
+    showDestinations: doc.showDestinations ?? (category === "Shipping & Mailing" ? (baseFallback?.showDestinations ?? true) : false),
     destinationsLabel: doc.destinationsLabel || baseFallback?.destinationsLabel,
     destinationsTitle: doc.destinationsTitle || baseFallback?.destinationsTitle,
     destinationsSubtitle: doc.destinationsSubtitle || baseFallback?.destinationsSubtitle,
@@ -1697,14 +1723,14 @@ function mapSanityToShippingMailingService(
     requirementsLabel: doc.requirementsLabel || baseFallback?.requirementsLabel,
     requirementsTitle: doc.requirementsTitle || baseFallback?.requirementsTitle,
     requirementsSubtitle: doc.requirementsSubtitle || baseFallback?.requirementsSubtitle,
-    requirementsItems: doc.requirementsItems?.length ? doc.requirementsItems : baseFallback?.requirementsItems,
+    requirementsItems,
     requirementsNotice: doc.requirementsNotice || baseFallback?.requirementsNotice,
     showProcess: doc.showProcess ?? baseFallback?.showProcess ?? true,
     processLabel: doc.processLabel || baseFallback?.processLabel,
     processTitle: doc.processTitle || baseFallback?.processTitle,
     processSubtitle: doc.processSubtitle || baseFallback?.processSubtitle,
     processSteps,
-    showCutoffTracking: doc.showCutoffTracking ?? baseFallback?.showCutoffTracking ?? true,
+    showCutoffTracking: doc.showCutoffTracking ?? (category === "Shipping & Mailing" ? (baseFallback?.showCutoffTracking ?? true) : false),
     cutoffTrackingLabel: doc.cutoffTrackingLabel || baseFallback?.cutoffTrackingLabel,
     cutoffTrackingTitle: doc.cutoffTrackingTitle || baseFallback?.cutoffTrackingTitle,
     cutoffTrackingSubtitle: doc.cutoffTrackingSubtitle || baseFallback?.cutoffTrackingSubtitle,
