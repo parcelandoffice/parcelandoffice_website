@@ -104,13 +104,13 @@ export default function PrintingCapabilities() {
                     {/* Header: Icon */}
                     <div className="flex items-center justify-between gap-3">
                       <span
-                        className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl transition-colors duration-200 ${
+                        className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl transition-colors duration-200 group-hover:bg-accent group-hover:text-white hover:bg-accent hover:text-white ${
                           isFeatured
-                            ? "bg-primary text-white group-hover:bg-accent group-hover:text-white"
-                            : "bg-primary-soft text-primary group-hover:bg-primary group-hover:text-white"
+                            ? "bg-primary text-white"
+                            : "bg-primary-soft text-primary"
                         }`}
                       >
-                        <Icon className="h-6 w-6 stroke-[2]" aria-hidden="true" />
+                        <Icon className="h-6 w-6 stroke-[2] transition-colors duration-200 text-current group-hover:text-white hover:text-white" aria-hidden="true" />
                       </span>
                     </div>
 

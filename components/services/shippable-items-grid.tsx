@@ -88,13 +88,17 @@ export default function ShippableItemsGrid({ service }: { service: ServiceDetail
               <div className="flex items-center justify-between gap-3 border-b border-border/80 pb-3.5">
                 <div className="flex items-center gap-3">
                   {cat.iconUrl ? (
-                    <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary-soft text-primary transition-colors duration-200 group-hover:bg-accent group-hover:text-white shadow-2xs p-2 overflow-hidden">
+                    <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary-soft text-primary transition-all duration-200 group-hover:bg-accent group-hover:text-white hover:bg-accent hover:text-white shadow-2xs p-2 overflow-hidden">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={cat.iconUrl} alt={cat.categoryName} className="h-full w-full object-contain" />
+                      <img
+                        src={cat.iconUrl}
+                        alt={cat.categoryName}
+                        className="h-full w-full object-contain transition-all duration-200 group-hover:brightness-0 group-hover:invert hover:brightness-0 hover:invert"
+                      />
                     </span>
                   ) : (
-                    <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary-soft text-primary transition-colors duration-200 group-hover:bg-accent group-hover:text-white shadow-2xs">
-                      <Icon className="h-5 w-5 stroke-[2.2]" aria-hidden="true" />
+                    <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary-soft text-primary transition-all duration-200 group-hover:bg-accent group-hover:text-white hover:bg-accent hover:text-white shadow-2xs">
+                      <Icon className="h-5 w-5 stroke-[2.2] transition-all duration-200 text-current group-hover:text-white hover:text-white group-hover:brightness-0 group-hover:invert hover:brightness-0 hover:invert" aria-hidden="true" />
                     </span>
                   )}
                   <h3 className="font-display text-base font-extrabold text-primary-dark">
