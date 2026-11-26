@@ -606,11 +606,19 @@ export async function getHomePageData(): Promise<HomePageData | null> {
       servicesCtaUrl,
       featuredServicesList[]->{
         _id,
+        _type,
         title,
         slug,
+        serviceType,
         shortDescription,
         iconName,
-        customIcon,
+        customIcon{
+          ...,
+          asset->{
+            _id,
+            url
+          }
+        },
         category,
         orderRank,
         isFeatured,
@@ -710,12 +718,19 @@ export async function getServices(): Promise<any[]> {
   return fetchFromSanity(`
     *[_type in ["itService", "shippingMailingService", "packingService", "printingDocumentService", "businessPersonalService", "service"] && (isFeatured == true || !defined(isFeatured))] | order(orderRank asc, _createdAt asc) {
       _id,
+      _type,
       title,
       slug,
       serviceType,
       shortDescription,
       iconName,
-      customIcon,
+      customIcon{
+        ...,
+        asset->{
+          _id,
+          url
+        }
+      },
       category,
       orderRank,
       isFeatured,

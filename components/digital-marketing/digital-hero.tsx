@@ -131,18 +131,11 @@ export default function DigitalHero({ service }: DigitalHeroProps) {
             {/* CTAs */}
             <div className="mt-8 flex flex-wrap items-center gap-3.5 sm:gap-4">
               <Link
-                href={hero.ctaHref}
+                href="/contact-us"
                 className="group inline-flex items-center justify-center gap-2.5 rounded-full bg-primary px-7 py-3.5 text-xs sm:text-sm font-extrabold uppercase tracking-wider text-white shadow-xs transition-all duration-200 hover:bg-primary-dark hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
               >
                 <span>{hero.ctaText}</span>
                 <ArrowRight className="h-4 w-4 text-accent transition-transform duration-200 group-hover:translate-x-1" aria-hidden="true" />
-              </Link>
-
-              <Link
-                href={hero.secondaryCtaHref}
-                className="inline-flex items-center justify-center gap-2 rounded-full border border-border bg-surface px-6 py-3.5 text-xs sm:text-sm font-extrabold uppercase tracking-wider text-primary-dark shadow-2xs transition-all duration-200 hover:border-primary hover:bg-surface-muted active:translate-y-0 cursor-pointer"
-              >
-                <span>{hero.secondaryCtaText}</span>
               </Link>
             </div>
           </div>
