@@ -1,5 +1,5 @@
 import React from "react";
-import Link from "next/link";
+import ScrollLink from "@components/ui/scroll-link";
 import { ArrowRight, Sparkles } from "lucide-react";
 import RevealCss from "@components/ui/reveal-css";
 import type { HomePageData } from "@/lib/types";
@@ -69,21 +69,21 @@ export default function FinalCta({
 
           {/* Action CTA Buttons */}
           <div className="mt-8 sm:mt-10 flex flex-wrap items-center justify-center gap-4">
-            <Link
+            <ScrollLink
               href={primaryHref}
               className="inline-flex items-center justify-center gap-2 rounded-xl bg-accent hover:bg-accent-dark px-7 py-3.5 sm:px-8 sm:py-4 text-sm sm:text-base font-extrabold text-white shadow-[0_6px_20px_rgba(242,77,2,0.35)] transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
             >
               <span>{primaryText}</span>
               <ArrowRight className="h-4 w-4 stroke-[2.5]" />
-            </Link>
+            </ScrollLink>
 
             {secondaryText && secondaryHref && (
-              <Link
+              <ScrollLink
                 href={secondaryHref}
                 className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/20 bg-white/10 hover:bg-white/15 px-7 py-3.5 sm:px-8 sm:py-4 text-sm sm:text-base font-bold text-white transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
               >
                 <span>{secondaryText}</span>
-              </Link>
+              </ScrollLink>
             )}
           </div>
         </RevealCss>

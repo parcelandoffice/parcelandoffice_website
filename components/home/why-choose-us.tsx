@@ -1,23 +1,18 @@
-import React from "react";
-import Link from "next/link";
-import Image from "next/image";
+import { getImageUrl } from "@/lib/helpers";
+import type { HomePageData } from "@/lib/types";
+import RevealCss from "@components/ui/reveal-css";
+import ScrollLink from "@components/ui/scroll-link";
 import {
   ArrowRight,
   Boxes,
-  Truck,
-  PackageCheck,
   Briefcase,
   MapPin,
-  CheckCircle2,
+  PackageCheck,
   Sparkles,
-  ShieldCheck,
-  Clock,
-  type LucideIcon,
+  Truck,
+  type LucideIcon
 } from "lucide-react";
-import type { HomePageData } from "@/lib/types";
-import RevealCss from "@components/ui/reveal-css";
-import { BUSINESS } from "@/lib/site-data";
-import { getImageUrl } from "@/lib/helpers";
+import Image from "next/image";
 
 interface WhyChooseItem {
   title: string;
@@ -89,21 +84,21 @@ export default function WhyChooseUs({
   const items: WhyChooseItem[] =
     activeData?.whyChooseUsItems && activeData.whyChooseUsItems.length > 0
       ? activeData.whyChooseUsItems.map((item, index) => {
-          let customIconUrl: string | null = null;
-          if (item.icon && typeof item.icon === "object") {
-            customIconUrl = getImageUrl(item.icon);
-          } else if (typeof item.icon === "string" && (item.icon.startsWith("http") || item.icon.startsWith("/"))) {
-            customIconUrl = item.icon;
-          }
+        let customIconUrl: string | null = null;
+        if (item.icon && typeof item.icon === "object") {
+          customIconUrl = getImageUrl(item.icon);
+        } else if (typeof item.icon === "string" && (item.icon.startsWith("http") || item.icon.startsWith("/"))) {
+          customIconUrl = item.icon;
+        }
 
-          return {
-            title: item.title,
-            subtitle: item.subtitle,
-            icon: DEFAULT_ITEMS[index % DEFAULT_ITEMS.length].icon,
-            customIconUrl,
-            badge: item.badge || `0${index + 1}`,
-          };
-        })
+        return {
+          title: item.title,
+          subtitle: item.subtitle,
+          icon: DEFAULT_ITEMS[index % DEFAULT_ITEMS.length].icon,
+          customIconUrl,
+          badge: item.badge || `0${index + 1}`,
+        };
+      })
       : DEFAULT_ITEMS;
 
   return (
@@ -134,20 +129,13 @@ export default function WhyChooseUs({
 
               {/* Action CTA Button */}
               <div className="mt-8 flex flex-wrap items-center gap-4">
-                <Link
+                <ScrollLink
                   href="/#services"
                   className="group inline-flex items-center justify-center gap-2.5 rounded-full bg-primary px-7 py-3.5 text-xs sm:text-sm font-extrabold uppercase tracking-wider text-white shadow-xs transition-all duration-200 hover:bg-primary-dark hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
                 >
                   <span>Explore Our Services</span>
                   <ArrowRight className="h-4 w-4 text-accent transition-transform duration-200 group-hover:translate-x-1" />
-                </Link>
-
-                <a
-                  href={BUSINESS.phoneHref}
-                  className="inline-flex items-center justify-center gap-2 rounded-full border border-border bg-surface px-5 py-3 text-xs sm:text-sm font-bold text-foreground transition-all duration-200 hover:border-primary hover:text-primary"
-                >
-                  <span>Call Store</span>
-                </a>
+                </ScrollLink>
               </div>
 
             </RevealCss>
@@ -165,25 +153,25 @@ export default function WhyChooseUs({
                   return (
                     <div
                       key={item.title}
-                      className={`group flex items-start gap-3.5 rounded-2xl border border-border/80 bg-surface-muted/40 p-5 transition-all duration-300 hover:border-accent hover:bg-surface hover:shadow-[var(--shadow-card)] hover:-translate-y-0.5 ${isLastOdd ? "sm:col-span-2" : ""
+                      className={`group flex items-start gap-3.5 rounded-2xl border border-border bg-surface p-5 transition-all duration-200 hover:border-accent/50 hover:shadow-[var(--shadow-card-hover)] ${isLastOdd ? "sm:col-span-2" : ""
                         }`}
                     >
                       {/* Icon & Number Badge */}
                       <div className="relative shrink-0">
-                        <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary-soft text-primary transition-all duration-300 group-hover:bg-primary group-hover:text-accent shadow-2xs overflow-hidden">
+                        <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary-soft text-primary transition-colors duration-200 group-hover:bg-accent group-hover:text-white shadow-2xs overflow-hidden">
                           {item.customIconUrl ? (
                             <Image
                               src={item.customIconUrl}
                               alt={item.title}
                               width={24}
                               height={24}
-                              className="h-5 w-5 object-contain"
+                              className="h-5 w-5 object-contain transition-all duration-200 group-hover:scale-105 group-hover:brightness-0 group-hover:invert"
                             />
                           ) : (
-                            <Icon className="h-5 w-5" aria-hidden="true" />
+                            <Icon className="h-5 w-5 transition-transform duration-200 group-hover:scale-105" aria-hidden="true" />
                           )}
                         </span>
-                        <span className="absolute -top-1.5 -right-1.5 flex h-4.5 w-4.5 items-center justify-center rounded-full bg-accent text-[10px] font-black text-on-dark shadow-2xs">
+                        <span className="absolute -top-1.5 -right-1.5 flex h-4.5 w-4.5 items-center justify-center rounded-full bg-accent text-[10px] font-black text-white ring-2 ring-surface transition-colors duration-200 group-hover:bg-primary shadow-2xs">
                           {item.badge}
                         </span>
                       </div>

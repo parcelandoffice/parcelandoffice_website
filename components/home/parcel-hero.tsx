@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
+import ScrollLink from "@components/ui/scroll-link";
 
 import { getImageUrl } from "@/lib/helpers";
 
@@ -139,13 +139,13 @@ export default function ParcelHero({ slides }: { slides?: HeroSlide[] }) {
 
                       {slide.ctaLabel && slide.ctaUrl && (
                         <div className="mt-4 sm:mt-5">
-                          <Link
+                          <ScrollLink
                             href={slide.ctaUrl}
                             className="group inline-flex items-center gap-2 rounded-full bg-primary px-6 py-2.5 sm:px-7 sm:py-3 text-xs sm:text-sm font-bold uppercase tracking-wider text-white shadow-xs transition-all duration-200 hover:bg-accent hover:text-white hover:shadow-md"
                           >
                             <span>{slide.ctaLabel}</span>
                             <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden="true" />
-                          </Link>
+                          </ScrollLink>
                         </div>
                       )}
                     </div>

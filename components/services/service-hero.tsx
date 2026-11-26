@@ -43,7 +43,7 @@ export default function ServiceHero({ service }: { service: ServiceDetail }) {
             ? "Get a Shipping Quote"
             : `Get a Quote`);
 
-  const quoteHref = service.ctaQuoteHref || BUSINESS.phoneHref;
+  const quoteHref = "/contact-us";
 
   return (
     <section className="relative overflow-hidden border-b border-border bg-gradient-to-b from-surface-muted/70 via-surface to-surface py-7 sm:py-9 lg:py-12">
@@ -209,14 +209,14 @@ export default function ServiceHero({ service }: { service: ServiceDetail }) {
 
             {/* CTA Button */}
             <div className="mt-6 flex flex-wrap items-center gap-3.5 sm:gap-4">
-              <a
+              <Link
                 href={quoteHref}
                 id="hero-primary-cta"
                 className="group inline-flex items-center justify-center gap-2 rounded-full bg-primary px-7 py-3 text-xs sm:text-sm font-extrabold uppercase tracking-wider text-white shadow-xs transition-all duration-200 hover:bg-primary-dark hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
               >
                 <span>{quoteLabel}</span>
                 <ArrowRight className="h-4 w-4 stroke-[2.5] transition-transform duration-200 group-hover:translate-x-0.5" />
-              </a>
+              </Link>
             </div>
           </div>
 

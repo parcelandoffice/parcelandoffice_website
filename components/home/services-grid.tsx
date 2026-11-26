@@ -18,12 +18,27 @@ import {
   Camera,
   Stamp,
   Copy,
+  Share2,
+  Target,
+  Megaphone,
+  Search,
+  Code2,
+  Globe,
+  TrendingUp,
+  CreditCard,
+  Gift,
+  Heart,
   type LucideIcon,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import RevealCss from "@components/ui/reveal-css";
-import { SERVICES, getServiceHref } from "@/lib/site-data";
+import {
+  SERVICES,
+  SERVICES_MENU_CATEGORIES,
+  getServiceHref,
+  getDigitalMarketingHref,
+} from "@/lib/site-data";
 import { getImageUrl } from "@/lib/helpers";
 import type { HomePageData, SanityService } from "@/lib/types";
 
@@ -45,7 +60,48 @@ const SERVICE_ICON_MAP: Record<string, LucideIcon> = {
   camera: Camera,
   stamp: Stamp,
   copy: Copy,
+  "share-2": Share2,
+  target: Target,
+  megaphone: Megaphone,
+  search: Search,
+  code: Code2,
+  globe: Globe,
+  "trending-up": TrendingUp,
+  "credit-card": CreditCard,
+  gift: Gift,
+  heart: Heart,
 };
+
+const SLUG_ICON_MAP: Record<string, LucideIcon> = (() => {
+  const map: Record<string, LucideIcon> = {};
+  for (const s of SERVICES) {
+    map[s.slug] = s.icon;
+  }
+  for (const cat of SERVICES_MENU_CATEGORIES) {
+    for (const item of cat.items) {
+      map[item.slug] = item.icon;
+    }
+  }
+  return map;
+})();
+
+function getIconForService(slug: string, iconName?: string): LucideIcon {
+  if (iconName && SERVICE_ICON_MAP[iconName]) {
+    return SERVICE_ICON_MAP[iconName];
+  }
+  const clean = slug.replace(/-usa$/, "");
+  if (SLUG_ICON_MAP[slug]) return SLUG_ICON_MAP[slug];
+  if (SLUG_ICON_MAP[clean]) return SLUG_ICON_MAP[clean];
+
+  if (clean.includes("social-media")) return Share2;
+  if (clean.includes("lead-generation")) return Target;
+  if (clean.includes("google-ads") || clean.includes("ppc")) return Megaphone;
+  if (clean.includes("seo") || clean.includes("aeo") || clean.includes("geo")) return Search;
+  if (clean.includes("web-development") || clean.includes("website")) return Code2;
+  if (clean.includes("digital") || clean.includes("marketing")) return TrendingUp;
+
+  return Package;
+}
 
 type ServicesGridProps = {
   data?: HomePageData | null;
@@ -53,34 +109,59 @@ type ServicesGridProps = {
 };
 
 export default function ServicesGrid({ data, servicesList }: ServicesGridProps) {
-  const title = data?.servicesTitle || "Featured Products & Services";
+  const title = data?.servicesTitle || "Our Services";
   const ctaText = data?.servicesCtaText || "Inquire About Custom Services";
   const ctaUrl = data?.servicesCtaUrl || "/contact-us";
 
   const rawServices =
-    (data?.featuredServicesList && data.featuredServicesList.length > 0)
+    data?.featuredServicesList && data.featuredServicesList.length > 0
       ? data.featuredServicesList
-      : (servicesList && servicesList.length > 0)
+      : servicesList && servicesList.length > 0
       ? servicesList
       : null;
 
-  const displayServices = rawServices
-    ? rawServices.map((s) => ({
-        slug: typeof s.slug === "string" ? s.slug : s.slug?.current || "service",
-        label: s.title,
-        description: s.shortDescription || "",
-        icon: (s.iconName && SERVICE_ICON_MAP[s.iconName]) || Package,
-        customIconUrl: s.customIcon ? getImageUrl(s.customIcon) : null,
-        href: s.customUrl || getServiceHref(typeof s.slug === "string" ? s.slug : s.slug?.current || "service"),
-      }))
-    : SERVICES.map((s) => ({
-        slug: s.slug,
-        label: s.label,
-        description: s.description,
-        icon: s.icon,
-        customIconUrl: null,
-        href: getServiceHref(s.slug),
-      }));
+  const validRawServices = rawServices
+    ? rawServices.filter((s) => Boolean(s && s.title))
+    : null;
+
+  const displayServices =
+    validRawServices && validRawServices.length > 0
+      ? validRawServices.map((s) => {
+          const slug =
+            typeof s.slug === "string"
+              ? s.slug
+              : s.slug?.current || "service";
+          const isItService =
+            s._type === "itService" || s.serviceType === "digital-marketing";
+          const customIconObj = s.customIcon as any;
+          const customIconUrl = customIconObj?.asset?.url
+            ? customIconObj.asset.url
+            : customIconObj?.asset
+            ? getImageUrl(s.customIcon!)
+            : null;
+          const href =
+            s.customUrl ||
+            (isItService
+              ? getDigitalMarketingHref(slug)
+              : getServiceHref(slug));
+
+          return {
+            slug,
+            label: s.title,
+            description: s.shortDescription || "",
+            icon: getIconForService(slug, s.iconName),
+            customIconUrl,
+            href,
+          };
+        })
+      : SERVICES.map((s) => ({
+          slug: s.slug,
+          label: s.label,
+          description: s.description,
+          icon: s.icon,
+          customIconUrl: null,
+          href: getServiceHref(s.slug),
+        }));
   return (
     <section
       id="services"
@@ -136,7 +217,7 @@ export default function ServicesGrid({ data, servicesList }: ServicesGridProps) 
                         alt={service.label}
                         width={32}
                         height={32}
-                        className="h-8 w-8 object-contain transition-transform duration-200 group-hover:scale-105"
+                        className="h-8 w-8 object-contain transition-all duration-200 group-hover:scale-105 group-hover:brightness-0 group-hover:invert"
                       />
                     ) : (
                       <Icon
