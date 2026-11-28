@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic";
 import { useMemo, useState, type ChangeEvent, type FormEvent } from "react";
-import type { ContactCtaData } from "@/lib/types";
+import type { ContactCtaData, ContactPageData } from "@/lib/types";
 import RevealCss from "../ui/reveal-css";
 import {
   Mail,
@@ -21,6 +21,7 @@ import {
   Navigation,
 } from "lucide-react";
 import { BUSINESS, SITE_NAME, STORE_HOURS } from "@/lib/site-data";
+import { getImageUrl } from "@/lib/helpers";
 import Link from "next/link";
 
 const ReCAPTCHAWidget = dynamic(() => import("react-google-recaptcha"), {
@@ -39,11 +40,13 @@ const DEFAULT_DESCRIPTION =
 
 type ContactCtaProps = {
   contactCtaData?: ContactCtaData | null;
+  contactPageData?: ContactPageData | null;
   isContactPage?: boolean;
 };
 
 export default function ContactCta({
   contactCtaData,
+  contactPageData,
   isContactPage = false,
 }: ContactCtaProps) {
   const [shouldLoadRecaptcha, setShouldLoadRecaptcha] = useState(false);
@@ -54,10 +57,140 @@ export default function ContactCta({
   const [error, setError] = useState<string | null>(null);
   const [emailCopied, setEmailCopied] = useState(false);
 
-  const phoneHref = BUSINESS.phoneHref;
+  const displayPhone = contactCtaData?.phone || BUSINESS.phone;
+  const phoneHref = contactCtaData?.phone
+    ? `tel:${contactCtaData.phone.replace(/[^+\d]/g, "")}`
+    : BUSINESS.phoneHref;
+  const displayEmail = contactCtaData?.email || BUSINESS.email;
+  const emailHref = `mailto:${displayEmail}`;
+  const displayAddress =
+    contactCtaData?.address ||
+    `${BUSINESS.addressLines[0]}, ${BUSINESS.addressLines[2]}`;
+  const mapHref = contactCtaData?.address
+    ? `https://maps.google.com/?q=${encodeURIComponent(contactCtaData.address)}`
+    : BUSINESS.mapHref;
+
   const tag = contactCtaData?.tag ?? DEFAULT_TAG;
   const title = contactCtaData?.title ?? DEFAULT_TITLE;
   const description = contactCtaData?.description ?? DEFAULT_DESCRIPTION;
+
+  const firstNameLabel =
+    contactPageData?.formFirstNameLabel ||
+    contactCtaData?.firstNameLabel ||
+    "First Name";
+  const firstNamePlaceholder =
+    contactPageData?.formFirstNamePlaceholder ||
+    contactCtaData?.firstNamePlaceholder ||
+    "John";
+  const lastNameLabel =
+    contactPageData?.formLastNameLabel ||
+    contactCtaData?.lastNameLabel ||
+    "Last Name";
+  const lastNamePlaceholder =
+    contactPageData?.formLastNamePlaceholder ||
+    contactCtaData?.lastNamePlaceholder ||
+    "Doe";
+  const emailLabel =
+    contactPageData?.formEmailLabel ||
+    contactCtaData?.emailLabel ||
+    "Email Address";
+  const emailPlaceholder =
+    contactPageData?.formEmailPlaceholder ||
+    contactCtaData?.emailPlaceholder ||
+    "john@example.com";
+  const phoneLabel =
+    contactPageData?.formPhoneLabel ||
+    contactCtaData?.phoneLabel ||
+    "Phone Number";
+  const phonePlaceholder =
+    contactPageData?.formPhonePlaceholder ||
+    contactCtaData?.phonePlaceholder ||
+    "410-555-0199";
+  const messageLabel =
+    contactPageData?.formMessageLabel ||
+    contactCtaData?.messageLabel ||
+    "How can we help?";
+  const messagePlaceholder =
+    contactPageData?.formMessagePlaceholder ||
+    contactCtaData?.messagePlaceholder ||
+    "Tell us about your shipping, packing, printing, or notary requirements...";
+  const submitButtonLabel =
+    contactPageData?.formSubmitText ||
+    contactCtaData?.submitText ||
+    "Send Message";
+  const successTitle =
+    contactPageData?.formSuccessTitle ||
+    contactCtaData?.successTitle ||
+    "Thank you for reaching out";
+  const successMessage =
+    contactPageData?.formSuccessMessage ||
+    contactCtaData?.successMessage ||
+    "We\u2019ve received your message and will respond shortly.";
+
+  // Contact Us Page specific dynamic fields
+  const pageHeroEyebrow = contactPageData?.heroEyebrow || "GET IN TOUCH";
+  const pageHeroTitle = contactPageData?.heroTitle || "Contact Us";
+  const pageAddressTag = contactPageData?.addressCardTag || "LOCATION";
+  const pageAddressIconUrl = contactPageData?.addressCardIcon?.asset?.url
+    ? contactPageData.addressCardIcon.asset.url
+    : contactPageData?.addressCardIcon?.asset
+    ? getImageUrl(contactPageData.addressCardIcon)
+    : null;
+  const pageAddressTitle = contactPageData?.addressCardTitle || "Store Address";
+  const pageAddressLine1 = contactPageData?.addressLine1 || BUSINESS.addressLines[0];
+  const pageAddressLine2 = contactPageData?.addressLine2 || BUSINESS.addressLines[1];
+  const pageAddressLine3 = contactPageData?.addressLine3 || BUSINESS.addressLines[2];
+  const pageAddressCta = contactPageData?.addressCtaLabel || "Get Directions";
+  const pageMapHref = contactPageData?.addressLine1
+    ? `https://maps.google.com/?q=${encodeURIComponent(
+        [pageAddressLine1, pageAddressLine3].filter(Boolean).join(", "),
+      )}`
+    : BUSINESS.mapHref;
+
+  const pagePhoneEmailTag = contactPageData?.phoneEmailCardTag || "PHONE & EMAIL";
+  const pagePhoneEmailIconUrl = contactPageData?.phoneEmailCardIcon?.asset?.url
+    ? contactPageData.phoneEmailCardIcon.asset.url
+    : contactPageData?.phoneEmailCardIcon?.asset
+    ? getImageUrl(contactPageData.phoneEmailCardIcon)
+    : null;
+  const pagePhoneEmailSubtitle = contactPageData?.phoneEmailCardSubtitle || "Call or Email";
+  const pagePhone = contactPageData?.phone || BUSINESS.phone;
+  const pagePhoneHref = contactPageData?.phone
+    ? `tel:${contactPageData.phone.replace(/[^+\d]/g, "")}`
+    : phoneHref;
+  const pageEmail = contactPageData?.email || BUSINESS.email;
+
+  const pageHoursTag = contactPageData?.hoursCardTag || "Store Hours";
+  const pageHoursIconUrl = contactPageData?.hoursCardIcon?.asset?.url
+    ? contactPageData.hoursCardIcon.asset.url
+    : contactPageData?.hoursCardIcon?.asset
+    ? getImageUrl(contactPageData.hoursCardIcon)
+    : null;
+  const pageOpenTodayLabel = contactPageData?.openTodayLabel || "Open Today";
+  const pageClosedTodayLabel = contactPageData?.closedTodayLabel || "Closed Today";
+  const pageScheduleRows =
+    contactPageData?.scheduleRows && contactPageData.scheduleRows.length > 0
+      ? contactPageData.scheduleRows
+      : [
+          { day: "Mon \u2013 Fri:", hours: "9:30 AM \u2013 6:30 PM" },
+          { day: "Saturday:", hours: "10:00 AM \u2013 3:30 PM" },
+          { day: "Sunday:", hours: "Closed" },
+        ];
+
+  const pageMapTag = contactPageData?.mapCardTag || "Store Location";
+  const pageMapCta = contactPageData?.mapCtaLabel || "Open in Google Maps";
+  const pageMapAddressBadge =
+    contactPageData?.mapAddressBadge ||
+    `${pageAddressLine1}, ${pageAddressLine3}`;
+  const pageMapEmbedUrl =
+    contactPageData?.mapEmbedUrl ||
+    "https://maps.google.com/maps?q=8777+Piney+Orchard+Pkwy+Ste+B,+Odenton,+MD+21113&t=&z=15&ie=UTF8&iwloc=&output=embed";
+
+  const pageFormEyebrow = contactPageData?.formEyebrow || "Direct Inquiry Form";
+  const pageFormHeading = contactPageData?.formHeading || "Send Us a Message";
+  const pageFormDescription =
+    contactPageData?.formDescription ||
+    `Have a question or need a quote? Complete the form below and our team at ${SITE_NAME} will get back to you as soon as possible.`;
 
   const activeRecaptchaSiteKey =
     shouldLoadRecaptcha && recaptchaSiteKey ? recaptchaSiteKey : null;
@@ -75,7 +208,7 @@ export default function ContactCta({
 
   const handleCopyEmail = () => {
     if (navigator?.clipboard?.writeText) {
-      navigator.clipboard.writeText(BUSINESS.email);
+      navigator.clipboard.writeText(pageEmail);
       setEmailCopied(true);
       setTimeout(() => setEmailCopied(false), 2000);
     }
@@ -107,25 +240,71 @@ export default function ContactCta({
   const contactDetails = useMemo(
     () => [
       {
-        label: "Call us directly",
-        value: BUSINESS.phone,
+        label: contactCtaData?.phoneCardLabel || "Call us directly",
+        value: displayPhone,
+        subtext: contactCtaData?.phoneSubtext,
         href: phoneHref,
-        icon: <PhoneCall className="h-5 w-5" strokeWidth={1.75} aria-hidden="true" />,
+        icon: contactCtaData?.phoneIconUrl ? (
+          /* eslint-disable-next-line @next/next/no-img-element */
+          <img
+            src={contactCtaData.phoneIconUrl}
+            alt=""
+            className="h-5 w-5 object-contain transition-all duration-200 group-hover:scale-105 group-hover:brightness-0 group-hover:invert"
+          />
+        ) : (
+          <PhoneCall className="h-5 w-5 transition-transform duration-200 group-hover:scale-105" strokeWidth={1.75} aria-hidden="true" />
+        ),
       },
       {
-        label: "Email our team",
-        value: BUSINESS.email,
-        href: `mailto:${BUSINESS.email}`,
-        icon: <Mail className="h-5 w-5" strokeWidth={1.75} aria-hidden="true" />,
+        label: contactCtaData?.emailCardLabel || "Email our team",
+        value: displayEmail,
+        subtext: contactCtaData?.emailSubtext,
+        href: emailHref,
+        icon: contactCtaData?.emailIconUrl ? (
+          /* eslint-disable-next-line @next/next/no-img-element */
+          <img
+            src={contactCtaData.emailIconUrl}
+            alt=""
+            className="h-5 w-5 object-contain transition-all duration-200 group-hover:scale-105 group-hover:brightness-0 group-hover:invert"
+          />
+        ) : (
+          <Mail className="h-5 w-5 transition-transform duration-200 group-hover:scale-105" strokeWidth={1.75} aria-hidden="true" />
+        ),
       },
       {
-        label: "Visit our store",
-        value: `${BUSINESS.addressLines[0]}, ${BUSINESS.addressLines[2]}`,
-        href: BUSINESS.mapHref,
-        icon: <MapPin className="h-5 w-5" strokeWidth={1.75} aria-hidden="true" />,
+        label: contactCtaData?.addressCardLabel || "Visit our store",
+        value: displayAddress,
+        subtext: contactCtaData?.addressSubtext,
+        href: mapHref,
+        icon: contactCtaData?.addressIconUrl ? (
+          /* eslint-disable-next-line @next/next/no-img-element */
+          <img
+            src={contactCtaData.addressIconUrl}
+            alt=""
+            className="h-5 w-5 object-contain transition-all duration-200 group-hover:scale-105 group-hover:brightness-0 group-hover:invert"
+          />
+        ) : (
+          <MapPin className="h-5 w-5 transition-transform duration-200 group-hover:scale-105" strokeWidth={1.75} aria-hidden="true" />
+        ),
       },
     ],
-    [phoneHref],
+    [
+      contactCtaData?.phoneCardLabel,
+      contactCtaData?.phoneIconUrl,
+      displayPhone,
+      contactCtaData?.phoneSubtext,
+      phoneHref,
+      contactCtaData?.emailCardLabel,
+      contactCtaData?.emailIconUrl,
+      displayEmail,
+      contactCtaData?.emailSubtext,
+      emailHref,
+      contactCtaData?.addressCardLabel,
+      contactCtaData?.addressIconUrl,
+      displayAddress,
+      contactCtaData?.addressSubtext,
+      mapHref,
+    ],
   );
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -194,10 +373,10 @@ export default function ContactCta({
             <Send className="h-7 w-7" aria-hidden="true" />
           </div>
           <h3 className="font-display mt-5 text-xl font-bold text-secondary">
-            Thank you for reaching out
+            {successTitle}
           </h3>
           <p className="mt-2 text-sm text-muted max-w-sm">
-            We&rsquo;ve received your message and will respond shortly.
+            {successMessage}
           </p>
         </div>
       ) : (
@@ -205,28 +384,28 @@ export default function ContactCta({
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
               <label htmlFor="firstName" className="block mb-1 text-xs font-bold text-secondary">
-                First Name
+                {firstNameLabel}
               </label>
               <input
                 id="firstName"
                 name="firstName"
                 type="text"
                 required
-                placeholder="John"
+                placeholder={firstNamePlaceholder}
                 className={fieldClass}
                 onFocus={activateRecaptcha}
               />
             </div>
             <div>
               <label htmlFor="lastName" className="block mb-1 text-xs font-bold text-secondary">
-                Last Name
+                {lastNameLabel}
               </label>
               <input
                 id="lastName"
                 name="lastName"
                 type="text"
                 required
-                placeholder="Doe"
+                placeholder={lastNamePlaceholder}
                 className={fieldClass}
                 onFocus={activateRecaptcha}
               />
@@ -236,21 +415,21 @@ export default function ContactCta({
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
               <label htmlFor="email" className="block mb-1 text-xs font-bold text-secondary">
-                Email Address
+                {emailLabel}
               </label>
               <input
                 id="email"
                 name="email"
                 type="email"
                 required
-                placeholder="john@example.com"
+                placeholder={emailPlaceholder}
                 className={fieldClass}
                 onFocus={activateRecaptcha}
               />
             </div>
             <div>
               <label htmlFor="phone" className="block mb-1 text-xs font-bold text-secondary">
-                Phone Number
+                {phoneLabel}
               </label>
               <input
                 id="phone"
@@ -259,7 +438,7 @@ export default function ContactCta({
                 inputMode="tel"
                 autoComplete="tel"
                 maxLength={10}
-                placeholder="410-555-0199"
+                placeholder={phonePlaceholder}
                 className={fieldClass}
                 onChange={handlePhoneChange}
                 onFocus={activateRecaptcha}
@@ -269,14 +448,14 @@ export default function ContactCta({
 
           <div>
             <label htmlFor="message" className="block mb-1 text-xs font-bold text-secondary">
-              How can we help?
+              {messageLabel}
             </label>
             <textarea
               id="message"
               name="message"
               required
               rows={4}
-              placeholder="Tell us about your shipping, packing, printing, or notary requirements..."
+              placeholder={messagePlaceholder}
               className={`${fieldClass} resize-none`}
               onFocus={activateRecaptcha}
             />
@@ -310,7 +489,7 @@ export default function ContactCta({
             disabled={isSubmitting}
             className="btn-shine bg-gradient-brand inline-flex w-full items-center justify-center rounded-xl px-6 py-3.5 text-sm font-bold text-on-primary shadow-[var(--shadow-card)] transition-transform duration-300 hover:scale-[1.01] active:scale-95 disabled:cursor-not-allowed disabled:opacity-70"
           >
-            {isSubmitting ? "Sending..." : "Send Message"}
+            {isSubmitting ? "Sending..." : submitButtonLabel}
           </button>
         </form>
       )}
@@ -347,13 +526,13 @@ export default function ContactCta({
               <div className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3 py-1 shadow-2xs">
                 <span className="h-2 w-2 rounded-full bg-accent animate-pulse" />
                 <span className="text-[11px] font-extrabold uppercase tracking-wider text-primary">
-                  {tag} • We&apos;re Here To Help
+                  {pageHeroEyebrow}
                 </span>
               </div>
 
               {/* Page Name & Company Name */}
               <h1 className="font-display mt-3 text-3xl font-extrabold tracking-tight text-secondary sm:text-4xl lg:text-5xl">
-                Contact Us
+                {pageHeroTitle}
               </h1>
 
               {/* <p className="mt-3 text-base sm:text-lg leading-relaxed text-muted">
@@ -388,33 +567,39 @@ export default function ContactCta({
             <div className="group rounded-2xl border border-border bg-surface p-5 shadow-[var(--shadow-card)] transition-all duration-300 hover:border-accent/40 hover:shadow-[var(--shadow-card-hover)] hover:-translate-y-0.5 flex flex-col justify-between">
               <div>
                 <div className="flex items-center justify-between mb-3">
-                  <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary-soft text-primary shadow-2xs transition-all duration-300 group-hover:bg-accent group-hover:text-white group-hover:scale-110 group-hover:shadow-[0_4px_12px_rgba(242,77,2,0.35)]">
-                    <MapPin className="h-5 w-5 transition-transform duration-300" />
+                  <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary-soft text-primary shadow-2xs transition-all duration-300 group-hover:bg-accent group-hover:text-white group-hover:scale-110 group-hover:shadow-[0_4px_12px_rgba(242,77,2,0.35)] overflow-hidden p-2">
+                    {pageAddressIconUrl ? (
+                      /* eslint-disable-next-line @next/next/no-img-element */
+                      <img
+                        src={pageAddressIconUrl}
+                        alt=""
+                        className="h-5 w-5 object-contain transition-all duration-300 group-hover:brightness-0 group-hover:invert"
+                      />
+                    ) : (
+                      <MapPin className="h-5 w-5 transition-transform duration-300" />
+                    )}
                   </span>
                   <span className="text-[11px] font-bold uppercase tracking-wider text-muted">
-                    Location
+                    {pageAddressTag}
                   </span>
                 </div>
-                <span className="block text-xs font-bold text-accent uppercase tracking-wider">
-                  {SITE_NAME}
-                </span>
                 <h3 className="mt-1 font-display text-base font-bold text-secondary">
-                  Store Address
+                  {pageAddressTitle}
                 </h3>
                 <address className="not-italic mt-2 text-xs text-muted leading-relaxed">
-                  <span className="block font-medium text-foreground">{BUSINESS.addressLines[0]}</span>
-                  <span className="block">{BUSINESS.addressLines[1]}</span>
-                  <span className="block">{BUSINESS.addressLines[2]}</span>
+                  <span className="block font-medium text-foreground">{pageAddressLine1}</span>
+                  <span className="block">{pageAddressLine2}</span>
+                  <span className="block">{pageAddressLine3}</span>
                 </address>
               </div>
 
               <a
-                href={BUSINESS.mapHref}
+                href={pageMapHref}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="mt-4 inline-flex items-center gap-1.5 text-xs font-bold text-primary group-hover:text-accent transition-colors"
               >
-                <span>Get Directions</span>
+                <span>{pageAddressCta}</span>
                 <ExternalLink className="h-3.5 w-3.5" />
               </a>
             </div>
@@ -423,58 +608,64 @@ export default function ContactCta({
             <div className="group rounded-2xl border border-border bg-surface p-5 shadow-[var(--shadow-card)] transition-all duration-300 hover:border-accent/40 hover:shadow-[var(--shadow-card-hover)] hover:-translate-y-0.5 flex flex-col justify-between">
               <div>
                 <div className="flex items-center justify-between mb-3">
-                  <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary-soft text-primary shadow-2xs transition-all duration-300 group-hover:bg-accent group-hover:text-white group-hover:scale-110 group-hover:shadow-[0_4px_12px_rgba(242,77,2,0.35)]">
-                    <PhoneCall className="h-5 w-5 transition-transform duration-300" />
+                  <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary-soft text-primary shadow-2xs transition-all duration-300 group-hover:bg-accent group-hover:text-white group-hover:scale-110 group-hover:shadow-[0_4px_12px_rgba(242,77,2,0.35)] overflow-hidden p-2">
+                    {pagePhoneEmailIconUrl ? (
+                      /* eslint-disable-next-line @next/next/no-img-element */
+                      <img
+                        src={pagePhoneEmailIconUrl}
+                        alt=""
+                        className="h-5 w-5 object-contain transition-all duration-300 group-hover:brightness-0 group-hover:invert"
+                      />
+                    ) : (
+                      <PhoneCall className="h-5 w-5 transition-transform duration-300" />
+                    )}
                   </span>
                   <span className="text-[11px] font-bold uppercase tracking-wider text-muted">
-                    Phone &amp; Email
+                    {pagePhoneEmailTag}
                   </span>
                 </div>
                 <span className="block text-xs font-bold text-muted uppercase tracking-wider">
-                  Call or Email
+                  {pagePhoneEmailSubtitle}
                 </span>
 
-                <div className="mt-2 space-y-2 text-xs">
+                <div className="mt-3 space-y-2.5 text-xs">
                   <div>
-                    <span className="text-[11px] font-semibold text-muted block">Phone Number:</span>
                     <a
-                      href={phoneHref}
-                      className="font-bold text-foreground hover:text-primary transition-colors text-sm"
+                      href={pagePhoneHref}
+                      className="font-bold text-foreground hover:text-primary transition-colors text-sm inline-flex items-center gap-1.5"
                     >
-                      {BUSINESS.phone}
+                      <PhoneCall className="h-3.5 w-3.5 text-muted shrink-0" aria-hidden="true" />
+                      <span>{pagePhone}</span>
                     </a>
                   </div>
 
-                  <div className="pt-2 border-t border-border/60">
-                    <div className="flex items-center justify-between mb-1">
-                      <span className="text-[11px] font-semibold text-muted">Email Address:</span>
-                      <button
-                        type="button"
-                        onClick={handleCopyEmail}
-                        aria-label="Copy Email Address"
-                        className="inline-flex items-center gap-1 rounded-lg border border-border bg-surface-muted px-2 py-0.5 text-[11px] font-semibold text-secondary hover:bg-surface-subtle transition-colors cursor-pointer shrink-0"
-                      >
-                        {emailCopied ? (
-                          <>
-                            <Check className="h-3 w-3 text-success" />
-                            <span className="text-success">Copied</span>
-                          </>
-                        ) : (
-                          <>
-                            <Copy className="h-3 w-3" />
-                            <span>Copy</span>
-                          </>
-                        )}
-                      </button>
-                    </div>
+                  <div className="pt-2.5 border-t border-border/60 flex items-center justify-between gap-2">
                     <a
-                      href={`mailto:${BUSINESS.email}`}
-                      className="font-bold text-foreground hover:text-primary transition-colors text-xs sm:text-sm flex items-center gap-1.5 break-all"
-                      title={BUSINESS.email}
+                      href={`mailto:${pageEmail}`}
+                      className="font-bold text-foreground hover:text-primary transition-colors text-xs sm:text-sm flex items-center gap-1.5 min-w-0 break-all"
+                      title={pageEmail}
                     >
                       <Mail className="h-3.5 w-3.5 text-muted shrink-0" />
-                      <span className="truncate">{BUSINESS.email}</span>
+                      <span className="truncate">{pageEmail}</span>
                     </a>
+                    <button
+                      type="button"
+                      onClick={handleCopyEmail}
+                      aria-label="Copy Email Address"
+                      className="inline-flex items-center gap-1 rounded-lg border border-border bg-surface-muted px-2 py-0.5 text-[11px] font-semibold text-secondary hover:bg-surface-subtle transition-colors cursor-pointer shrink-0"
+                    >
+                      {emailCopied ? (
+                        <>
+                          <Check className="h-3 w-3 text-success" />
+                          <span className="text-success">Copied</span>
+                        </>
+                      ) : (
+                        <>
+                          <Copy className="h-3 w-3" />
+                          <span>Copy</span>
+                        </>
+                      )}
+                    </button>
                   </div>
                 </div>
               </div>
@@ -526,33 +717,35 @@ export default function ContactCta({
             <div className="group rounded-2xl border border-border bg-surface p-5 shadow-[var(--shadow-card)] transition-all duration-300 hover:border-accent/40 hover:shadow-[var(--shadow-card-hover)] hover:-translate-y-0.5 flex flex-col justify-between">
               <div>
                 <div className="flex items-center justify-between mb-3">
-                  <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary-soft text-primary shadow-2xs transition-all duration-300 group-hover:bg-accent group-hover:text-white group-hover:scale-110 group-hover:shadow-[0_4px_12px_rgba(242,77,2,0.35)]">
-                    <Clock className="h-5 w-5 transition-transform duration-300" />
+                  <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary-soft text-primary shadow-2xs transition-all duration-300 group-hover:bg-accent group-hover:text-white group-hover:scale-110 group-hover:shadow-[0_4px_12px_rgba(242,77,2,0.35)] overflow-hidden p-2">
+                    {pageHoursIconUrl ? (
+                      /* eslint-disable-next-line @next/next/no-img-element */
+                      <img
+                        src={pageHoursIconUrl}
+                        alt=""
+                        className="h-5 w-5 object-contain transition-all duration-300 group-hover:brightness-0 group-hover:invert"
+                      />
+                    ) : (
+                      <Clock className="h-5 w-5 transition-transform duration-300" />
+                    )}
                   </span>
                   <span className="inline-flex items-center gap-1 rounded-full bg-success/15 px-2 py-0.5 text-[10px] font-bold text-success uppercase">
-                    {currentDaySchedule?.open ? "Open Today" : "Closed Today"}
+                    {currentDaySchedule?.open ? pageOpenTodayLabel : pageClosedTodayLabel}
                   </span>
                 </div>
                 <span className="block text-xs font-bold text-muted uppercase tracking-wider">
-                  Store Hours
+                  {pageHoursTag}
                 </span>
-                <h3 className="mt-1 font-display text-base font-bold text-secondary">
-                  Operating Schedule
-                </h3>
 
-                <div className="mt-2 space-y-1.5 text-xs">
-                  <div className="flex justify-between items-center text-foreground font-medium">
-                    <span className="text-muted">Mon – Fri:</span>
-                    <span className="font-bold">9:30 AM – 6:30 PM</span>
-                  </div>
-                  <div className="flex justify-between items-center text-foreground font-medium">
-                    <span className="text-muted">Saturday:</span>
-                    <span className="font-bold">10:00 AM – 3:30 PM</span>
-                  </div>
-                  <div className="flex justify-between items-center text-foreground font-medium">
-                    <span className="text-muted">Sunday:</span>
-                    <span className="font-bold text-muted-light">Closed</span>
-                  </div>
+                <div className="mt-3 space-y-1.5 text-xs">
+                  {pageScheduleRows.map((row, idx) => (
+                    <div key={idx} className="flex justify-between items-center text-foreground font-medium">
+                      <span className="text-muted">{row.day}</span>
+                      <span className={`font-bold ${row.hours?.toLowerCase() === "closed" ? "text-muted-light" : ""}`}>
+                        {row.hours}
+                      </span>
+                    </div>
+                  ))}
                 </div>
               </div>
 
@@ -577,33 +770,23 @@ export default function ContactCta({
                 <div>
                   <div className="flex items-center justify-between">
                     <span className="text-xs font-extrabold uppercase tracking-wider text-accent">
-                      Store Location
+                      {pageMapTag}
                     </span>
                     <a
-                      href={BUSINESS.mapHref}
+                      href={pageMapHref}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-1.5 text-xs font-bold text-primary hover:text-accent transition-colors"
                     >
-                      <span>Open in Google Maps</span>
+                      <span>{pageMapCta}</span>
                       <ExternalLink className="h-3.5 w-3.5" />
                     </a>
                   </div>
 
-                  {/* <h2 className="font-display mt-1 text-2xl font-black tracking-tight text-secondary sm:text-3xl">
-                    Visit Our Odenton Store
-                  </h2> */}
-
-                  {/* <p className="mt-2 text-sm leading-relaxed text-muted">
-                    Located conveniently inside Piney Orchard Marketplace right beside{" "}
-                    <strong className="text-foreground font-semibold">Food Lion Supermarket</strong>.
-                    Ample free storefront customer parking available directly out front.
-                  </p> */}
-
                   <div className="mt-4 flex flex-wrap items-center gap-2 text-xs">
                     <span className="inline-flex items-center gap-1.5 rounded-xl border border-border bg-surface-muted px-3 py-1.5 font-semibold text-foreground">
                       <MapPin className="h-3.5 w-3.5 text-primary" />
-                      <span>{BUSINESS.addressLines[0]}, {BUSINESS.addressLines[2]}</span>
+                      <span>{pageMapAddressBadge}</span>
                     </span>
                   </div>
                 </div>
@@ -612,7 +795,7 @@ export default function ContactCta({
                 <div className="mt-6 flex-1 min-h-[360px] sm:min-h-[420px] w-full overflow-hidden rounded-2xl border border-border shadow-xs">
                   <iframe
                     title="Parcel & Office Solutions Odenton Store Map"
-                    src="https://maps.google.com/maps?q=8777+Piney+Orchard+Pkwy+Ste+B,+Odenton,+MD+21113&t=&z=15&ie=UTF8&iwloc=&output=embed"
+                    src={pageMapEmbedUrl}
                     width="100%"
                     height="100%"
                     style={{ border: 0 }}
@@ -628,15 +811,13 @@ export default function ContactCta({
               <div className="flex h-full flex-col justify-between rounded-3xl border border-border bg-surface p-6 sm:p-8 lg:p-9 shadow-[var(--shadow-card)]">
                 <div>
                   <span className="text-xs font-extrabold uppercase tracking-wider text-accent">
-                    Direct Inquiry Form
+                    {pageFormEyebrow}
                   </span>
                   <h2 className="font-display mt-1 text-2xl font-black tracking-tight text-secondary sm:text-3xl">
-                    Send Us a Message
+                    {pageFormHeading}
                   </h2>
                   <p className="mt-2 text-sm leading-relaxed text-muted">
-                    Have a question or need a quote? Complete the form below and our team at{" "}
-                    <strong className="text-foreground font-semibold">{SITE_NAME}</strong> will get
-                    back to you as soon as possible.
+                    {pageFormDescription}
                   </p>
                 </div>
 
@@ -676,18 +857,23 @@ export default function ContactCta({
               <li key={detail.label}>
                 <a
                   href={detail.href}
-                  className="group flex items-center gap-4 rounded-2xl border border-border bg-surface p-4 transition-all duration-300 hover:border-primary/40 hover:shadow-[var(--shadow-card)]"
+                  className="group flex items-center gap-4 rounded-2xl border border-border bg-surface p-4 transition-all duration-200 hover:border-accent/50 hover:shadow-[var(--shadow-card-hover)]"
                 >
-                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary-soft text-primary transition-colors group-hover:bg-gradient-brand group-hover:text-on-primary">
+                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary-soft text-primary transition-colors duration-200 group-hover:bg-accent group-hover:text-white shadow-2xs">
                     {detail.icon}
                   </span>
                   <div>
                     <span className="block text-xs font-bold tracking-wide text-muted uppercase">
                       {detail.label}
                     </span>
-                    <span className="block font-semibold text-secondary">
+                    <span className="block font-semibold text-secondary group-hover:text-primary transition-colors">
                       {detail.value}
                     </span>
+                    {detail.subtext && (
+                      <span className="mt-0.5 block text-xs text-muted">
+                        {detail.subtext}
+                      </span>
+                    )}
                   </div>
                 </a>
               </li>

@@ -55,45 +55,65 @@ export default async function Home() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessJsonLd) }}
       />
       {/* 1. Container-width sliding banners below navigation */}
-      <ParcelHero slides={homeData?.heroSlides} />
+      {homeData?.showHero !== false && (
+        <ParcelHero slides={homeData?.heroSlides} />
+      )}
 
       {/* 2. Live multi-carrier tracking & Today's pickups with proper alignment */}
-      <TrackingAndPickup data={homeData} />
+      {homeData?.showTracking !== false && (
+        <TrackingAndPickup data={homeData} />
+      )}
 
       {/* 3. Welcome & Story */}
-      <WelcomeSection data={homeData} />
+      {homeData?.showWelcome !== false && (
+        <WelcomeSection data={homeData} />
+      )}
 
       {/* 4. Products & Services Directory */}
-      <ServicesGrid data={homeData} servicesList={services} />
+      {homeData?.showServices !== false && (
+        <ServicesGrid data={homeData} servicesList={services} />
+      )}
 
       {/* 5. 3-Step Process */}
-      <HowItWorks data={homeData} />
+      {homeData?.showProcess !== false && (
+        <HowItWorks data={homeData} />
+      )}
 
       {/* 6. Why Choose Us */}
-      <WhyChooseUs data={homeData} />
+      {homeData?.showWhyChooseUs !== false && (
+        <WhyChooseUs data={homeData} />
+      )}
 
       {/* 7. Client Testimonials */}
-      <Testimonials
-        testimonialTag={homeData?.testimonialTag || homeData?.testimonialBadge}
-        testimonialTitle={homeData?.testimonialTitle}
-        testimonialDescription={homeData?.testimonialDescription || homeData?.testimonialSubtitle}
-        testimonials={homeData?.testimonials}
-      />
+      {homeData?.showTestimonials !== false && (
+        <Testimonials
+          testimonialTag={homeData?.testimonialTag || homeData?.testimonialBadge}
+          testimonialTitle={homeData?.testimonialTitle}
+          testimonialDescription={homeData?.testimonialDescription || homeData?.testimonialSubtitle}
+          testimonials={homeData?.testimonials}
+        />
+      )}
 
       {/* 8. Frequently Asked Questions */}
-      <Faq
-        faqTag={homeData?.faqTag}
-        faqTitle={homeData?.faqTitle}
-        faqDescription={homeData?.faqDescription}
-        faqCtaButtonText={homeData?.faqCtaButtonText}
-        faqs={homeData?.faqs}
-      />
+      {homeData?.showFaq !== false && (
+        <Faq
+          faqTag={homeData?.faqTag}
+          faqTitle={homeData?.faqTitle}
+          faqDescription={homeData?.faqDescription}
+          faqCtaButtonText={homeData?.faqCtaButtonText}
+          faqs={homeData?.faqs}
+        />
+      )}
 
       {/* 9. Final Call to Action Banner */}
-      <FinalCta data={homeData} />
+      {homeData?.showFinalCta !== false && (
+        <FinalCta data={homeData} />
+      )}
 
       {/* 10. Contact & Inquiry Section */}
-      <ContactCtaSection homeData={homeData} />
+      {homeData?.showContact !== false && (
+        <ContactCtaSection homeData={homeData} />
+      )}
     </>
   );
 }

@@ -554,6 +554,16 @@ export async function getHomePageData(): Promise<HomePageData | null> {
   return fetchFromSanity(`
     *[_type == "homePage"][0]{
       _id,
+      showHero,
+      showTracking,
+      showWelcome,
+      showServices,
+      showProcess,
+      showWhyChooseUs,
+      showTestimonials,
+      showFaq,
+      showFinalCta,
+      showContact,
       heroSlides[]{
         _key,
         image,
@@ -642,17 +652,18 @@ export async function getHomePageData(): Promise<HomePageData | null> {
       contactTag,
       contactHeading,
       contactDescription,
+      contactPhoneIcon{ ..., asset->{ url } },
+      contactPhoneLabel,
       contactPhone,
-      contactPhoneHref,
       contactPhoneSubtext,
+      contactEmailIcon{ ..., asset->{ url } },
+      contactEmailLabel,
       contactEmail,
-      contactEmailHref,
       contactEmailSubtext,
+      contactAddressIcon{ ..., asset->{ url } },
+      contactAddressLabel,
       contactAddress,
       contactAddressSubtext,
-      contactAddressMapUrl,
-      contactFormSubmitText,
-      contactFormServices,
       metaTitle,
       metaDescription,
       ogImage,
@@ -1452,6 +1463,56 @@ export async function getContactCtaData(): Promise<ContactCtaData | null> {
       tag,
       title,
       description
+    }
+  `);
+}
+
+export async function getContactPageData(): Promise<import("./types").ContactPageData | null> {
+  return fetchFromSanity(`
+    *[_type == "contactPage"][0]{
+      _id,
+      heroEyebrow,
+      heroTitle,
+      addressCardIcon{ ..., asset->{ url } },
+      addressCardTag,
+      addressCardTitle,
+      addressLine1,
+      addressLine2,
+      addressLine3,
+      addressCtaLabel,
+      phoneEmailCardIcon{ ..., asset->{ url } },
+      phoneEmailCardTag,
+      phoneEmailCardSubtitle,
+      phone,
+      email,
+      hoursCardIcon{ ..., asset->{ url } },
+      hoursCardTag,
+      openTodayLabel,
+      closedTodayLabel,
+      scheduleRows[]{
+        day,
+        hours
+      },
+      mapCardTag,
+      mapCtaLabel,
+      mapAddressBadge,
+      mapEmbedUrl,
+      formEyebrow,
+      formHeading,
+      formDescription,
+      formFirstNameLabel,
+      formFirstNamePlaceholder,
+      formLastNameLabel,
+      formLastNamePlaceholder,
+      formEmailLabel,
+      formEmailPlaceholder,
+      formPhoneLabel,
+      formPhonePlaceholder,
+      formMessageLabel,
+      formMessagePlaceholder,
+      formSubmitText,
+      formSuccessTitle,
+      formSuccessMessage
     }
   `);
 }
