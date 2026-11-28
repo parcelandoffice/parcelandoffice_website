@@ -377,17 +377,18 @@ export type HomePageData = {
   contactTag?: string;
   contactHeading?: string;
   contactDescription?: string;
+  contactPhoneIcon?: SanityImageSource & { asset?: { url?: string } };
+  contactPhoneLabel?: string;
   contactPhone?: string;
-  contactPhoneHref?: string;
   contactPhoneSubtext?: string;
+  contactEmailIcon?: SanityImageSource & { asset?: { url?: string } };
+  contactEmailLabel?: string;
   contactEmail?: string;
-  contactEmailHref?: string;
   contactEmailSubtext?: string;
+  contactAddressIcon?: SanityImageSource & { asset?: { url?: string } };
+  contactAddressLabel?: string;
   contactAddress?: string;
   contactAddressSubtext?: string;
-  contactAddressMapUrl?: string;
-  contactFormSubmitText?: string;
-  contactFormServices?: string[];
 
   // SEO
   metaTitle?: string;
@@ -445,11 +446,88 @@ export type SiteMetadata = {
   footerSummary?: string;
 };
 
+export type ContactPageScheduleRow = {
+  day?: string;
+  hours?: string;
+};
+
+export type ContactPageData = {
+  _id?: string;
+  heroEyebrow?: string;
+  heroTitle?: string;
+  addressCardIcon?: SanityImageSource & { asset?: { url?: string } };
+  addressCardTag?: string;
+  addressCardBrand?: string;
+  addressCardTitle?: string;
+  addressLine1?: string;
+  addressLine2?: string;
+  addressLine3?: string;
+  addressCtaLabel?: string;
+  phoneEmailCardIcon?: SanityImageSource & { asset?: { url?: string } };
+  phoneEmailCardTag?: string;
+  phoneEmailCardSubtitle?: string;
+  phoneLabel?: string;
+  phone?: string;
+  emailLabel?: string;
+  email?: string;
+  hoursCardIcon?: SanityImageSource & { asset?: { url?: string } };
+  hoursCardTag?: string;
+  hoursCardTitle?: string;
+  openTodayLabel?: string;
+  closedTodayLabel?: string;
+  scheduleRows?: ContactPageScheduleRow[];
+  mapCardTag?: string;
+  mapCtaLabel?: string;
+  mapAddressBadge?: string;
+  mapEmbedUrl?: string;
+  formEyebrow?: string;
+  formHeading?: string;
+  formDescription?: string;
+  formFirstNameLabel?: string;
+  formFirstNamePlaceholder?: string;
+  formLastNameLabel?: string;
+  formLastNamePlaceholder?: string;
+  formEmailLabel?: string;
+  formEmailPlaceholder?: string;
+  formPhoneLabel?: string;
+  formPhonePlaceholder?: string;
+  formMessageLabel?: string;
+  formMessagePlaceholder?: string;
+  formSubmitText?: string;
+  formSuccessTitle?: string;
+  formSuccessMessage?: string;
+};
+
 export type ContactCtaData = {
   _id: string;
   tag?: string;
   title?: string;
   description?: string;
+  phoneIconUrl?: string | null;
+  phoneCardLabel?: string;
+  phone?: string;
+  phoneSubtext?: string;
+  emailIconUrl?: string | null;
+  emailCardLabel?: string;
+  email?: string;
+  emailSubtext?: string;
+  addressIconUrl?: string | null;
+  addressCardLabel?: string;
+  address?: string;
+  addressSubtext?: string;
+  firstNameLabel?: string;
+  firstNamePlaceholder?: string;
+  lastNameLabel?: string;
+  lastNamePlaceholder?: string;
+  emailLabel?: string;
+  emailPlaceholder?: string;
+  phoneLabel?: string;
+  phonePlaceholder?: string;
+  messageLabel?: string;
+  messagePlaceholder?: string;
+  submitText?: string;
+  successTitle?: string;
+  successMessage?: string;
 };
 
 export type SettingsData = {
