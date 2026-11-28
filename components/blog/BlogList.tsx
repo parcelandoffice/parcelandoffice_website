@@ -16,10 +16,12 @@ interface Props {
   totalPages: number;
   totalBlogs: number;
   activeCategory: string;
+  blogHeroEyebrow?: string;
   blogHeroTitle?: string;
   blogHeroDescription?: string;
 }
 
+const DEFAULT_BLOG_HERO_EYEBROW = "Resource Center & Guides";
 const DEFAULT_BLOG_HERO_TITLE = "Insights, Tips & Shipping Guides";
 const DEFAULT_BLOG_HERO_DESCRIPTION =
   "Expert advice on courier drop-offs, sustainable packaging, private mailbox rentals, and small business fulfillment.";
@@ -31,15 +33,17 @@ export default function BlogListing({
   totalPages = 1,
   totalBlogs = 0,
   activeCategory = "All",
+  blogHeroEyebrow,
   blogHeroTitle,
   blogHeroDescription,
 }: Props) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
-  const heroTitle = blogHeroTitle ?? DEFAULT_BLOG_HERO_TITLE;
+  const heroEyebrow = blogHeroEyebrow || DEFAULT_BLOG_HERO_EYEBROW;
+  const heroTitle = blogHeroTitle || DEFAULT_BLOG_HERO_TITLE;
   const heroDescription =
-    blogHeroDescription ?? DEFAULT_BLOG_HERO_DESCRIPTION;
+    blogHeroDescription || DEFAULT_BLOG_HERO_DESCRIPTION;
 
   const handleCategorySelect = (category: string) => {
     if (category.toLowerCase() === activeCategory.toLowerCase()) return;
@@ -163,7 +167,7 @@ export default function BlogListing({
             {/* Top Pill Badge */}
             <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-accent/30 bg-accent/15 px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-accent-light backdrop-blur-sm">
               <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
-              <span>Resource Center & Guides</span>
+              <span>{heroEyebrow}</span>
             </div>
 
             {/* Title */}

@@ -3,6 +3,7 @@ import {
   getBlogCategories,
   getMetadata,
   getPosts,
+  getSiteSettings,
   getTotalPostsCount,
 } from "@/lib/apis";
 import { BLOGS_PER_PAGE } from "@/lib/constants";
@@ -63,11 +64,12 @@ const BlogPage = async ({ searchParams }: BlogPageProps) => {
   const siteUrl = process.env.SITE_URL || "https://parcelandoffice-website.vercel.app";
 
   // Server-side parallel data fetching
-  const [categories, blogs, totalBlogs, metadata] = await Promise.all([
+  const [categories, blogs, totalBlogs, metadata, siteSettings] = await Promise.all([
     getBlogCategories(),
     getPosts({ limit, offset, category: activeCategory }),
     getTotalPostsCount(activeCategory),
     getMetadata().catch(() => null),
+    getSiteSettings().catch(() => null),
   ]);
 
   const totalPages = Math.max(1, Math.ceil(totalBlogs / limit));
@@ -115,8 +117,9 @@ const BlogPage = async ({ searchParams }: BlogPageProps) => {
         totalPages={totalPages}
         totalBlogs={totalBlogs}
         activeCategory={activeCategory}
-        blogHeroTitle={metadata?.blogHeroTitle}
-        blogHeroDescription={metadata?.blogHeroDescription}
+        blogHeroEyebrow={siteSettings?.blogHeroEyebrow}
+        blogHeroTitle={siteSettings?.blogHeroTitle || metadata?.blogHeroTitle}
+        blogHeroDescription={siteSettings?.blogHeroDescription || metadata?.blogHeroDescription}
       />
     </div>
   );

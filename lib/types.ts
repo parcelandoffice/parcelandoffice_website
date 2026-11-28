@@ -576,6 +576,11 @@ export type SanityPost = {
   mainImage?: SanityImageSource & { alt?: string };
   author?: PostAuthor;
   categories?: PostCategory[];
+  showFaqs?: boolean;
+  faqEyebrow?: string;
+  faqHeading?: string;
+  faqDescription?: string;
+  faqs?: { question: string; answer: string }[];
 };
 
 export type Blog = {

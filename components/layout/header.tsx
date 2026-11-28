@@ -58,12 +58,30 @@ function useTodayHours() {
   return label;
 }
 
+export interface HeaderNavLabels {
+  home?: string;
+  services?: string;
+  itServices?: string;
+  about?: string;
+  blogs?: string;
+  contact?: string;
+  trackParcel?: string;
+}
+
 interface HeaderProps {
   itServices?: ItServiceMenuItem[];
   logo?: ResolvedLogo | null;
+  navLabels?: HeaderNavLabels;
 }
 
-export default function Header({ itServices = [], logo }: HeaderProps) {
+export default function Header({ itServices = [], logo, navLabels }: HeaderProps) {
+  const homeLabel = navLabels?.home || "Home";
+  const servicesLabel = navLabels?.services || "Services";
+  const itServicesLabel = navLabels?.itServices || "IT Services";
+  const aboutLabel = navLabels?.about || "About Us";
+  const blogsLabel = navLabels?.blogs || "Blogs";
+  const contactLabel = navLabels?.contact || "Contact Us";
+  const trackParcelLabel = navLabels?.trackParcel || "Track Your Parcel";
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [queryModalOpen, setQueryModalOpen] = useState(false);
@@ -173,7 +191,7 @@ export default function Header({ itServices = [], logo }: HeaderProps) {
                     : "text-white/80 hover:bg-white/10 hover:text-white"
                     }`}
                 >
-                  <span>Home</span>
+                  <span>{homeLabel}</span>
                 </Link>
 
                 {/* 2. Services (4 Categories Mega Menu) */}
@@ -200,7 +218,7 @@ export default function Header({ itServices = [], logo }: HeaderProps) {
                         : "text-white/80 hover:bg-white/10 hover:text-white"
                       }`}
                   >
-                    <span>Services</span>
+                    <span>{servicesLabel}</span>
                     <ChevronDown
                       className={`h-4 w-4 transition-transform duration-200 ${servicesMenuOpen
                         ? "rotate-180 text-accent"
@@ -306,7 +324,7 @@ export default function Header({ itServices = [], logo }: HeaderProps) {
                         : "text-white/80 hover:bg-white/10 hover:text-white"
                       }`}
                   >
-                    <span>IT Services</span>
+                    <span>{itServicesLabel}</span>
                     <ChevronDown
                       className={`h-4 w-4 transition-transform duration-200 ${digitalMenuOpen
                         ? "rotate-180 text-accent"
@@ -408,7 +426,7 @@ export default function Header({ itServices = [], logo }: HeaderProps) {
                     : "text-white/80 hover:bg-white/10 hover:text-white"
                     }`}
                 >
-                  <span>About Us</span>
+                  <span>{aboutLabel}</span>
                 </Link>
 
                 {/* 5. Blogs */}
@@ -420,7 +438,7 @@ export default function Header({ itServices = [], logo }: HeaderProps) {
                     : "text-white/80 hover:bg-white/10 hover:text-white"
                     }`}
                 >
-                  <span>Blogs</span>
+                  <span>{blogsLabel}</span>
                 </Link>
 
                 {/* 6. Contact Us */}
@@ -432,7 +450,7 @@ export default function Header({ itServices = [], logo }: HeaderProps) {
                     : "text-white/80 hover:bg-white/10 hover:text-white"
                     }`}
                 >
-                  <span>Contact Us</span>
+                  <span>{contactLabel}</span>
                 </Link>
               </nav>
 
@@ -440,11 +458,11 @@ export default function Header({ itServices = [], logo }: HeaderProps) {
               <Link
                 href="/#tracking"
                 onClick={scrollToTracking}
-                aria-label="Track Your Parcel"
+                aria-label={trackParcelLabel}
                 className="inline-flex items-center gap-1.5 sm:gap-2 rounded-full border border-accent/25 bg-accent px-2.5 py-1.5 sm:px-4 sm:py-2 text-xs font-bold text-on-dark transition-all duration-200 hover:bg-accent-dark shadow-xs shrink-0"
               >
                 <Search className="h-3.5 w-3.5 text-white" aria-hidden="true" />
-                <span className="hidden sm:inline">Track Your Parcel</span>
+                <span className="hidden sm:inline">{trackParcelLabel}</span>
                 <span className="hidden min-[360px]:inline sm:hidden text-[11px]">Track</span>
               </Link>
 
@@ -502,7 +520,7 @@ export default function Header({ itServices = [], logo }: HeaderProps) {
                 className="flex items-center justify-center gap-2 rounded-full border border-accent/25 bg-accent px-4 py-2.5 text-xs font-bold text-white shadow-xs w-full"
               >
                 <Search className="h-3.5 w-3.5 text-white" aria-hidden="true" />
-                <span>Track Your Parcel</span>
+                <span>{trackParcelLabel}</span>
               </Link>
             </div>
 
@@ -515,7 +533,7 @@ export default function Header({ itServices = [], logo }: HeaderProps) {
                 : "text-white/90 hover:bg-white/10 hover:text-white"
                 }`}
             >
-              <span>Home</span>
+              <span>{homeLabel}</span>
               {isHomeActive && (
                 <span className="rounded bg-white/20 px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-wider text-white">
                   Active
@@ -534,7 +552,7 @@ export default function Header({ itServices = [], logo }: HeaderProps) {
                   : "text-white/90 hover:bg-white/10 hover:text-white"
                 }`}
             >
-              <span>Services (18)</span>
+              <span>{servicesLabel} (18)</span>
               <ChevronDown
                 className={`h-4 w-4 transition-transform duration-200 ${mobileServicesOpen ? "rotate-180 text-accent" : isServicesActive
                   ? "text-white"
@@ -591,7 +609,7 @@ export default function Header({ itServices = [], logo }: HeaderProps) {
                   : "text-white/90 hover:bg-white/10 hover:text-white"
                 }`}
             >
-              <span>IT Services</span>
+              <span>{itServicesLabel}</span>
               <ChevronDown
                 className={`h-4 w-4 transition-transform duration-200 ${mobileDigitalOpen ? "rotate-180 text-accent" : isDigitalActive
                   ? "text-white"
@@ -651,7 +669,7 @@ export default function Header({ itServices = [], logo }: HeaderProps) {
                 : "text-white/90 hover:bg-white/10 hover:text-white"
                 }`}
             >
-              <span>About Us</span>
+              <span>{aboutLabel}</span>
               {isAboutActive && (
                 <span className="rounded bg-white/20 px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-wider text-white">
                   Active
@@ -668,7 +686,7 @@ export default function Header({ itServices = [], logo }: HeaderProps) {
                 : "text-white/90 hover:bg-white/10 hover:text-white"
                 }`}
             >
-              <span>Blogs</span>
+              <span>{blogsLabel}</span>
               {isBlogActive && (
                 <span className="rounded bg-white/20 px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-wider text-white">
                   Active
@@ -685,7 +703,7 @@ export default function Header({ itServices = [], logo }: HeaderProps) {
                 : "text-white/90 hover:bg-white/10 hover:text-white"
                 }`}
             >
-              <span>Contact Us</span>
+              <span>{contactLabel}</span>
               {isContactActive && (
                 <span className="rounded bg-white/20 px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-wider text-white">
                   Active

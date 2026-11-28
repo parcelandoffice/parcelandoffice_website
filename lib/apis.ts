@@ -93,6 +93,14 @@ const postBySlugQuery = `
     metaDescription,
     body,
     mainImage,
+    showFaqs,
+    faqEyebrow,
+    faqHeading,
+    faqDescription,
+    faqs[]{
+      question,
+      answer
+    },
 
     author->{
       ${authorFields}
@@ -1421,6 +1429,16 @@ export async function getSiteSettings(): Promise<any | null> {
       announcementText,
       announcementButtonText,
       announcementButtonUrl,
+      navHomeLabel,
+      navServicesLabel,
+      navItServicesLabel,
+      navAboutLabel,
+      navBlogsLabel,
+      navContactLabel,
+      navTrackParcelLabel,
+      blogHeroEyebrow,
+      blogHeroTitle,
+      blogHeroDescription,
       footerDescription,
       copyrightText
     }

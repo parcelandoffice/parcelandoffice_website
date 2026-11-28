@@ -89,7 +89,19 @@ export default async function RootLayout({
             style={{ display: "none", visibility: "hidden" }}
           ></iframe>
         </noscript>
-        <Header itServices={itServices} logo={brandLogo} />
+        <Header
+          itServices={itServices}
+          logo={brandLogo}
+          navLabels={{
+            home: siteSettings?.navHomeLabel,
+            services: siteSettings?.navServicesLabel,
+            itServices: siteSettings?.navItServicesLabel,
+            about: siteSettings?.navAboutLabel,
+            blogs: siteSettings?.navBlogsLabel,
+            contact: siteSettings?.navContactLabel,
+            trackParcel: siteSettings?.navTrackParcelLabel,
+          }}
+        />
         <main className="flex-1 overflow-x-clip">{children}</main>
         <Footer logo={brandLogo} />
         {/* <WhatsAppFloat /> */}

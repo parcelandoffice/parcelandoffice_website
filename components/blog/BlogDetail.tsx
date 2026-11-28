@@ -5,9 +5,10 @@ import { Blog, SanityPost } from "@/lib/types";
 import { getStaticBlogBySlug } from "@/lib/static-blogs";
 import BlogArticleCta from "@components/blog/BlogArticleCta";
 import RelatedBlogs from "@components/blog/RelatedBlogs";
-import TableOfContents, { STATIC_TOC_ITEMS } from "@components/blog/TableOfContents";
+import TableOfContents from "@components/blog/TableOfContents";
 import ArticleBody from "@components/blog/ArticleBody";
 import AuthorInformation from "@components/blog/AuthorInformation";
+import Faq from "@components/home/faq";
 import { extractTocHeadings } from "@/lib/portable-text";
 import { SanityImageSource } from "@sanity/image-url";
 import {
@@ -116,7 +117,7 @@ export default function BlogDetail({
           {/* Article Header Grid: Balanced columns with prominent image and well-proportioned title */}
           <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-12 lg:gap-10 xl:gap-14">
             {/* Left Column: Text & Meta */}
-            <div className="lg:col-span-7 xl:col-span-6">
+            <div className="lg:col-span-6 xl:col-span-5">
               {/* Category Pill, Read Time & Published Date */}
               <div className="mb-4 flex flex-wrap items-center gap-3">
                 <Link
@@ -206,15 +207,15 @@ export default function BlogDetail({
             </div>
 
             {/* Right Column: Increased Height & Width Primary Image */}
-            <div className="lg:col-span-5 xl:col-span-6">
-              <div className="relative aspect-[16/10] sm:aspect-[16/10] lg:aspect-[4/3] xl:aspect-[16/10] w-full min-h-[260px] sm:min-h-[340px] lg:min-h-[380px] xl:min-h-[420px] overflow-hidden rounded-2xl sm:rounded-3xl border border-white/15 bg-white/5 shadow-2xl">
+            <div className="lg:col-span-6 xl:col-span-7">
+              <div className="relative aspect-[16/10] sm:aspect-[16/10] lg:aspect-[16/10] xl:aspect-[16/9] w-full min-h-[260px] sm:min-h-[340px] lg:min-h-[380px] xl:min-h-[420px] overflow-hidden rounded-2xl sm:rounded-3xl border border-white/15 bg-white/5 shadow-2xl">
                 <Image
                   src={headerImageUrl}
                   alt={blogDetail?.mainImage?.alt || blogDetail?.title || "Blog cover"}
                   fill
                   priority
                   className="object-cover object-center transition-transform duration-500 hover:scale-105"
-                  sizes="(max-width: 1024px) 100vw, 620px"
+                  sizes="(max-width: 1024px) 100vw, 760px"
                 />
               </div>
             </div>
@@ -227,7 +228,7 @@ export default function BlogDetail({
         {/* Large container matching home page (max-w-7xl) */}
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <TableOfContents
-            headings={STATIC_TOC_ITEMS}
+            headings={tocHeadings}
             readTime={readTime}
             articleTitle={blogDetail?.title}
           >
@@ -243,6 +244,18 @@ export default function BlogDetail({
           </TableOfContents>
         </div>
       </section>
+
+      {/* ===================== BLOG POST FAQS ===================== */}
+      {blogDetail?.showFaqs !== false &&
+        blogDetail?.faqs &&
+        blogDetail.faqs.length > 0 && (
+          <Faq
+            faqTag={blogDetail.faqEyebrow || "Help & Answers"}
+            faqTitle={blogDetail.faqHeading || "Frequently Asked Questions"}
+            faqDescription={blogDetail.faqDescription}
+            faqs={blogDetail.faqs}
+          />
+        )}
 
       {/* ===================== RELATED BLOGS ===================== */}
       <RelatedBlogs blogs={relatedBlogs} />

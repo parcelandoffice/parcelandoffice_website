@@ -5,11 +5,7 @@ import {
   ChevronUp,
   List,
   PhoneCall,
-  MapPin,
-  Clock,
   Sparkles,
-  Copy,
-  Check,
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import type { TocHeading } from "@/lib/portable-text";
@@ -21,7 +17,6 @@ export const STATIC_TOC_ITEMS: TocHeading[] = [
   { id: "step-by-step-guide", text: "Step-by-Step Practical Guide", level: 2 },
   { id: "carrier-solutions", text: "Carrier Options & Service Comparison", level: 2 },
   { id: "pro-tips-savings", text: "Pro Tips & Cost Optimization", level: 2 },
-  { id: "summary-conclusion", text: "Summary & Actionable Advice", level: 2 },
 ];
 
 // Matches header height + padding offset
@@ -36,18 +31,14 @@ interface TableOfContentsProps {
 }
 
 export default function TableOfContents({
-  headings = STATIC_TOC_ITEMS,
+  headings = [],
   children,
-  readTime = "5 min read",
-  articleTitle,
 }: TableOfContentsProps) {
-  const resolvedHeadings =
-    headings && headings.length > 0 ? headings : STATIC_TOC_ITEMS;
+  const resolvedHeadings = headings && headings.length > 0 ? headings : [];
   const hasHeadings = resolvedHeadings.length > 0;
 
   const [activeId, setActiveId] = useState(resolvedHeadings[0]?.id ?? "");
   const [isMobileOpen, setIsMobileOpen] = useState(false);
-  const [copied, setCopied] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
   const navigatingToRef = useRef<string | null>(null);
 
@@ -70,14 +61,6 @@ export default function TableOfContents({
     window.setTimeout(() => {
       navigatingToRef.current = null;
     }, 800);
-  };
-
-  const handleCopyLink = () => {
-    if (typeof window !== "undefined") {
-      navigator.clipboard.writeText(window.location.href);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    }
   };
 
   useEffect(() => {
@@ -267,35 +250,6 @@ export default function TableOfContents({
                     })}
                   </ul>
                 </nav>
-
-                {/* Card Footer: Quick Share & Read Time */}
-                <div className="border-t border-border/60 bg-surface-muted/40 px-4 py-3">
-                  <div className="flex items-center justify-between text-xs text-muted">
-                    <span className="inline-flex items-center gap-1.5 font-medium">
-                      <Clock className="h-3.5 w-3.5 text-accent" />
-                      {readTime}
-                    </span>
-
-                    <button
-                      type="button"
-                      onClick={handleCopyLink}
-                      className="inline-flex items-center gap-1.5 font-bold text-primary transition-colors hover:text-accent cursor-pointer"
-                      title="Copy article link"
-                    >
-                      {copied ? (
-                        <>
-                          <Check className="h-3.5 w-3.5 text-success" />
-                          <span className="text-success">Copied!</span>
-                        </>
-                      ) : (
-                        <>
-                          <Copy className="h-3.5 w-3.5" />
-                          <span>Copy Link</span>
-                        </>
-                      )}
-                    </button>
-                  </div>
-                </div>
               </div>
             )}
 
@@ -315,15 +269,6 @@ export default function TableOfContents({
                 >
                   <PhoneCall className="h-3 w-3" />
                   <span>{BUSINESS.phone}</span>
-                </a>
-                <a
-                  href={BUSINESS.mapHref}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-1.5 text-center text-[11px] font-semibold text-muted hover:text-primary transition-colors"
-                >
-                  <MapPin className="h-3 w-3 text-accent" />
-                  <span>8777 Piney Orchard Pkwy Ste B</span>
                 </a>
               </div>
             </div>
