@@ -554,6 +554,16 @@ export async function getHomePageData(): Promise<HomePageData | null> {
   return fetchFromSanity(`
     *[_type == "homePage"][0]{
       _id,
+      showHero,
+      showTracking,
+      showWelcome,
+      showServices,
+      showProcess,
+      showWhyChooseUs,
+      showTestimonials,
+      showFaq,
+      showFinalCta,
+      showContact,
       heroSlides[]{
         _key,
         image,
@@ -1465,7 +1475,6 @@ export async function getContactPageData(): Promise<import("./types").ContactPag
       heroTitle,
       addressCardIcon{ ..., asset->{ url } },
       addressCardTag,
-      addressCardBrand,
       addressCardTitle,
       addressLine1,
       addressLine2,
@@ -1474,13 +1483,10 @@ export async function getContactPageData(): Promise<import("./types").ContactPag
       phoneEmailCardIcon{ ..., asset->{ url } },
       phoneEmailCardTag,
       phoneEmailCardSubtitle,
-      phoneLabel,
       phone,
-      emailLabel,
       email,
       hoursCardIcon{ ..., asset->{ url } },
       hoursCardTag,
-      hoursCardTitle,
       openTodayLabel,
       closedTodayLabel,
       scheduleRows[]{

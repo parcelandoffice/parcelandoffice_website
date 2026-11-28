@@ -322,6 +322,18 @@ export type SanityService = {
 
 export type HomePageData = {
   _id?: string;
+  // Section Visibility Toggles
+  showHero?: boolean;
+  showTracking?: boolean;
+  showWelcome?: boolean;
+  showServices?: boolean;
+  showProcess?: boolean;
+  showWhyChooseUs?: boolean;
+  showTestimonials?: boolean;
+  showFaq?: boolean;
+  showFinalCta?: boolean;
+  showContact?: boolean;
+
   // Hero Slider
   heroSlides?: HeroSlideData[];
 
@@ -457,7 +469,6 @@ export type ContactPageData = {
   heroTitle?: string;
   addressCardIcon?: SanityImageSource & { asset?: { url?: string } };
   addressCardTag?: string;
-  addressCardBrand?: string;
   addressCardTitle?: string;
   addressLine1?: string;
   addressLine2?: string;
@@ -466,13 +477,10 @@ export type ContactPageData = {
   phoneEmailCardIcon?: SanityImageSource & { asset?: { url?: string } };
   phoneEmailCardTag?: string;
   phoneEmailCardSubtitle?: string;
-  phoneLabel?: string;
   phone?: string;
-  emailLabel?: string;
   email?: string;
   hoursCardIcon?: SanityImageSource & { asset?: { url?: string } };
   hoursCardTag?: string;
-  hoursCardTitle?: string;
   openTodayLabel?: string;
   closedTodayLabel?: string;
   scheduleRows?: ContactPageScheduleRow[];

@@ -128,8 +128,7 @@ export default function ContactCta({
     "We\u2019ve received your message and will respond shortly.";
 
   // Contact Us Page specific dynamic fields
-  const pageHeroEyebrow =
-    contactPageData?.heroEyebrow || "GET IN TOUCH \u2022 WE'RE HERE TO HELP";
+  const pageHeroEyebrow = contactPageData?.heroEyebrow || "GET IN TOUCH";
   const pageHeroTitle = contactPageData?.heroTitle || "Contact Us";
   const pageAddressTag = contactPageData?.addressCardTag || "LOCATION";
   const pageAddressIconUrl = contactPageData?.addressCardIcon?.asset?.url
@@ -137,7 +136,6 @@ export default function ContactCta({
     : contactPageData?.addressCardIcon?.asset
     ? getImageUrl(contactPageData.addressCardIcon)
     : null;
-  const pageAddressBrand = contactPageData?.addressCardBrand || SITE_NAME;
   const pageAddressTitle = contactPageData?.addressCardTitle || "Store Address";
   const pageAddressLine1 = contactPageData?.addressLine1 || BUSINESS.addressLines[0];
   const pageAddressLine2 = contactPageData?.addressLine2 || BUSINESS.addressLines[1];
@@ -156,12 +154,10 @@ export default function ContactCta({
     ? getImageUrl(contactPageData.phoneEmailCardIcon)
     : null;
   const pagePhoneEmailSubtitle = contactPageData?.phoneEmailCardSubtitle || "Call or Email";
-  const pagePhoneFieldLabel = contactPageData?.phoneLabel || "Phone Number:";
   const pagePhone = contactPageData?.phone || BUSINESS.phone;
   const pagePhoneHref = contactPageData?.phone
     ? `tel:${contactPageData.phone.replace(/[^+\d]/g, "")}`
     : phoneHref;
-  const pageEmailFieldLabel = contactPageData?.emailLabel || "Email Address:";
   const pageEmail = contactPageData?.email || BUSINESS.email;
 
   const pageHoursTag = contactPageData?.hoursCardTag || "Store Hours";
@@ -170,7 +166,6 @@ export default function ContactCta({
     : contactPageData?.hoursCardIcon?.asset
     ? getImageUrl(contactPageData.hoursCardIcon)
     : null;
-  const pageHoursTitle = contactPageData?.hoursCardTitle || "Operating Schedule";
   const pageOpenTodayLabel = contactPageData?.openTodayLabel || "Open Today";
   const pageClosedTodayLabel = contactPageData?.closedTodayLabel || "Closed Today";
   const pageScheduleRows =
@@ -588,9 +583,6 @@ export default function ContactCta({
                     {pageAddressTag}
                   </span>
                 </div>
-                <span className="block text-xs font-bold text-accent uppercase tracking-wider">
-                  {pageAddressBrand}
-                </span>
                 <h3 className="mt-1 font-display text-base font-bold text-secondary">
                   {pageAddressTitle}
                 </h3>
@@ -636,47 +628,44 @@ export default function ContactCta({
                   {pagePhoneEmailSubtitle}
                 </span>
 
-                <div className="mt-2 space-y-2 text-xs">
+                <div className="mt-3 space-y-2.5 text-xs">
                   <div>
-                    <span className="text-[11px] font-semibold text-muted block">{pagePhoneFieldLabel}</span>
                     <a
                       href={pagePhoneHref}
-                      className="font-bold text-foreground hover:text-primary transition-colors text-sm"
+                      className="font-bold text-foreground hover:text-primary transition-colors text-sm inline-flex items-center gap-1.5"
                     >
-                      {pagePhone}
+                      <PhoneCall className="h-3.5 w-3.5 text-muted shrink-0" aria-hidden="true" />
+                      <span>{pagePhone}</span>
                     </a>
                   </div>
 
-                  <div className="pt-2 border-t border-border/60">
-                    <div className="flex items-center justify-between mb-1">
-                      <span className="text-[11px] font-semibold text-muted">{pageEmailFieldLabel}</span>
-                      <button
-                        type="button"
-                        onClick={handleCopyEmail}
-                        aria-label="Copy Email Address"
-                        className="inline-flex items-center gap-1 rounded-lg border border-border bg-surface-muted px-2 py-0.5 text-[11px] font-semibold text-secondary hover:bg-surface-subtle transition-colors cursor-pointer shrink-0"
-                      >
-                        {emailCopied ? (
-                          <>
-                            <Check className="h-3 w-3 text-success" />
-                            <span className="text-success">Copied</span>
-                          </>
-                        ) : (
-                          <>
-                            <Copy className="h-3 w-3" />
-                            <span>Copy</span>
-                          </>
-                        )}
-                      </button>
-                    </div>
+                  <div className="pt-2.5 border-t border-border/60 flex items-center justify-between gap-2">
                     <a
                       href={`mailto:${pageEmail}`}
-                      className="font-bold text-foreground hover:text-primary transition-colors text-xs sm:text-sm flex items-center gap-1.5 break-all"
+                      className="font-bold text-foreground hover:text-primary transition-colors text-xs sm:text-sm flex items-center gap-1.5 min-w-0 break-all"
                       title={pageEmail}
                     >
                       <Mail className="h-3.5 w-3.5 text-muted shrink-0" />
                       <span className="truncate">{pageEmail}</span>
                     </a>
+                    <button
+                      type="button"
+                      onClick={handleCopyEmail}
+                      aria-label="Copy Email Address"
+                      className="inline-flex items-center gap-1 rounded-lg border border-border bg-surface-muted px-2 py-0.5 text-[11px] font-semibold text-secondary hover:bg-surface-subtle transition-colors cursor-pointer shrink-0"
+                    >
+                      {emailCopied ? (
+                        <>
+                          <Check className="h-3 w-3 text-success" />
+                          <span className="text-success">Copied</span>
+                        </>
+                      ) : (
+                        <>
+                          <Copy className="h-3 w-3" />
+                          <span>Copy</span>
+                        </>
+                      )}
+                    </button>
                   </div>
                 </div>
               </div>
@@ -747,11 +736,8 @@ export default function ContactCta({
                 <span className="block text-xs font-bold text-muted uppercase tracking-wider">
                   {pageHoursTag}
                 </span>
-                <h3 className="mt-1 font-display text-base font-bold text-secondary">
-                  {pageHoursTitle}
-                </h3>
 
-                <div className="mt-2 space-y-1.5 text-xs">
+                <div className="mt-3 space-y-1.5 text-xs">
                   {pageScheduleRows.map((row, idx) => (
                     <div key={idx} className="flex justify-between items-center text-foreground font-medium">
                       <span className="text-muted">{row.day}</span>
